@@ -59,7 +59,7 @@
 
 \section{Introduction}
 
-\pmnote{example}
+\pmnote{recall here the main idea of finding AI and rank of Reed Muller code, maybe re-read the explanation in "Extreme algebraic attacks"}
 
 \lbnote{example}
 
@@ -324,9 +324,49 @@ We recall the construction of WPB functions from Tang and Liu~\cite{CC:TangLiu19
 
 
 
-\section{main}\label{sec:general}
+\section{Computing the restricted AI from generator matrices of Reed-Muller punctured codes}\label{sec:RMapproach}
+\pmnote{mostly one algorithm, or in 2 parts but 1 page max, then proposition that justify it gives the lowest degree annihilator.}
+
+example Construction~\ref{cons:GA}
+
+\begin{constr}
+	\caption{Construction of 2-RotS WAPB Boolean function\label{cons:GA}}
+	\begin{algorithmic}
+		% \Require $ v=(0,0,\ldots,0) \in \F_2^{n+1}$
+		\Require $\pi \in Sn$ %, G = <\pi> , r_{k,i},g_{n,k}$ is given.
+		\Ensure A 2-RotS WAPB Boolean function $f_\pi \in \BN$
+		\State Initiate $\supp(f_\pi) = \phi$
+		\State $t = 0$
+		\For {$k \gets 0$ to $n$ }
+		\For {$i \gets 1$ to $g_{k,n}$}
+		\State $u = \nu_{k,n,i}$; $l= |O_\pi(u)|$
+		\If {$l$ is even}
+		\For {$j \gets 1$ to $\frac{l}{2}$}
+		\State $\supp(f_\pi)$.append($u$)
+		\State $ u \gets \pi \circ \pi(u)$
+		\EndFor
+		\Else
+		\State $u = \pi^{t}(u)$
+		\For {$j \gets 1$ to $\lceil\frac{l - t}{2}\rceil$}
+		\State $\supp(f_\pi)$.append($u$)
+		\State $ u \gets \pi \circ \pi(u)$ 
+		\EndFor 
+		%			\State Update $t \gets t \oplus 1$
+		\State Update $t \gets 1 - t$
+		\EndIf
+		\EndFor
+		\EndFor
+		\State \textbf{return} $f_\pi$
+	\end{algorithmic}
+	
+\end{constr}
+
+\section{Computing the restricted AI iteratively}\label{sec:IterativeApproach}
 
 
+\section{Applications to WAPB functions}
+
+\section{Conclusion and open questions}
 
 %\section{Acknowledgments}
 %Pierrick Méaux was supported by the ERC Advanced Grant no. 787390.
