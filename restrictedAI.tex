@@ -1,0 +1,357 @@
+
+%\def\anon{1} %% set to 1 for anonymous submissions, hides acknowledgements and author names
+\def\full{1} %% set to 0 for springer proceedings
+
+
+\ifnum\full=1
+\documentclass[11pt]{llncs}
+
+
+\addtolength{\parskip}{1pt}
+\else
+\documentclass[10pt, runningheads]{llncs}
+\usepackage{times}
+\fi
+
+
+\input{header.tex}
+
+\begin{document}
+	\title{Title}
+
+	
+	\titlerunning{title}
+	
+	
+%\if\anon=1	
+	\author{
+		\mbox{Luca Bonnamino, Pierrick M\'eaux}%\inst{1}
+	}
+	
+	\authorrunning{L. Bonnamino, P. M\'eaux}
+	
+	\institute{
+	Luxembourg university, Luxembourg\\
+		\email{pierrick.meaux@uni.lu}		
+	}
+	
+%\fi
+	
+	
+	
+	%----------------------------------------------------------------
+	\maketitle
+
+
+%\institute{
+%	University of Luxembourg, Luxembourg\\
+%	\email{pierrick.meaux@uni.lu}		
+%}	
+	
+	\begin{abstract}
+
+		
+\keywords{Boolean functions, Weightwise perfectly balanced functions, Cryptographic criteria.}		
+		
+	\end{abstract}
+
+
+
+\section{Introduction}
+
+\pmnote{example}
+
+\lbnote{example}
+
+
+
+\section{Preliminaries}\label{sec:prelim}
+
+
+For readability, we use the notation $+$ instead of 
+$\oplus$ to denote the addition in $\F_2$, and $\sum$ instead of $\bigoplus$. 
+In addition to classic notations, we denote by $ [a,b] $ the subset of all integers between $a$ and $b$: $\{a, a+1, \ldots,b\}$. 
+For a vector $v\in \F_2^n$ we use $\w(v)$ to denote its Hamming weight $\w(v)=|\{ i \in [1,n] \, | \, v_i=1 \}|$. 
+For two vectors $v$ and $w$ in $\F_2^n$ we denote by $\hd(v,w)$ the Hamming distance between $v$ and $w$, that is, $\hd(v,w)=\w(v+w)$. 
+For two functions $f$ and $g$ we denote by $\hd(f,g)$ the Hamming distance between their vectors of values.
+
+\subsection{Boolean functions, cryptographic criteria, and weightwise properties}
+
+In this section, we recall fundamental concepts concerning Boolean functions and their weightwise properties, which are utilized throughout this article. For a more comprehensive introduction to Boolean functions and their cryptographic parameters, we recommend consulting the book by Carlet~\cite{Carlet20},
+%consulting for instance the book by Carlet~\cite{Carlet20}, 
+and for insights into weightwise properties—also known as properties on the slices—the article by~\cite{TOSC:CarMeaRot17}.
+We denote by $\Ekn{k}{n}$ the set $\{x\in \F_2^n \, | \, \w(x)=k \}$ for $k \in [0,n]$, referring to it as a slice of the Boolean hypercube (of dimension $n$). 
+Consequently, the Boolean hypercube is divided into $n+1$ slices, where the elements share the same Hamming weight.
+%and the article~\cite{TOSC:CarMeaRot17} for insights into weightwise properties, also known as properties on the slices. We denote $\Ekn{k}{n}$ as the set $\{x\in \F_2^n , | , \w(x)=k \}$ for $k \in [0,n]$, referring to it as a slice of the Boolean hypercube (of dimension $n$). Consequently, the Boolean hypercube is divided into $n+1$ slices where the elements share the same Hamming weight.
+
+
+\begin{definition}[Boolean Function]\label{def:bool_f}
+	A Boolean function $f$ in $n$ variables is a function from $\F_2^n$ to $\F_2$. 
+	The set of all Boolean functions in $n$ variables is denoted by $\BN$.%, and we denote $\BN^*$ the set without the null function.
+\end{definition}
+
+
+When a property or a definition is restricted to a slice, we denote it by using the subscript $k$. 
+For example, for an $n$-variable Boolean function $f$ we denote its support $\supp(f)=\{x\in \F_2^n \, | \, f(x)=1  \}$. 
+%Furthermore, we denote by $\suppk{k}(f)$ its support restricted to a slice, that is $\supp(f)\cap \Ekn{k}{n}$.
+Furthermore, we denote by $\suppk{k}(f)$ the support of $f$ restricted to a slice, which is defined as $\supp(f)\cap \Ekn{k}{n}$.
+
+
+\begin{definition}[Balancedness]\label{def:balancedness}
+	A Boolean function $f\in \BN$ is called balanced if $|\supp(f)|=2^{n-1}=|\supp(f+1)|$. 
+	
+	For $k\in [0,n]$ the function is said balanced on the slice $k$ if $||\suppk{k}(f)|-|\suppk{k}(f+1)| |\le 1$. In particular when $|\Ekn{k}{n}|$ is even $|\suppk{k}(f)|=|\suppk{k}(f+1)|=|\Ekn{k}{n}|/2$.
+\end{definition}
+
+%\begin{definition}[Weightwise Perfectly Balanced Function (WPB)]\label{def:WPB}
+%	Let $m\in \N^*$ and $f$ be a Boolean function in $n=2^m$ variables. 
+%	The function $f$ is called weightwise perfectly balanced (WPB) if, for every $k\in[n-1]$, $f$ is balanced on the slice $k$, that is $\forall k \in [1,n-1], |\suppk{k}(f)|=\binom{n}{k}/2$, and:
+%	\[f(0,\dots,0)=0,\quad \text{ and } \quad f(1,\dots,1)=1.\]
+%	The set of WPB functions in $2^m$ variables is denoted $\WPB{m}$.
+%	\end{definition}
+
+Using the notion of restricted balancedness we can define the weightwise (almost) perfectly balanced functions, the focus of our work.
+
+\begin{definition}[Weightwise (Almost) Perfectly Balanced Function (WPB and WAPB)]\label{def:WAPB}
+	Let $m\in \N^*$ and $f$ be a Boolean function in $n=2^m$ variables. It will be called weightwise perfectly balanced (WPB) if, for every $k\in[1,n-1]$, $f$ is balanced on the slice $k$, that is $\forall k \in [1,n-1], |\suppk{k}(f)|=\binom{n}{k}/2$, and:
+	\[f(0,\cdots,0)=0,\quad \text{ and } f(1,\cdots,1)=1.\]	
+	The set of WPB functions in $2^m$ variables is denoted $\WPB{m}$.
+	
+	When $n$ is not a power of $2$, other weights than $k=0$ and $n$ can lead to slices of odd cardinality, we call $f\in \Bn{n}$ weightwise almost perfectly balanced (WAPB) if: 
+	\[|\suppk{k}(f)|= \left \{
+	\begin{array}{l l}
+	|\Ekn{k}{n}|/2  & \text{ if } |\Ekn{k}{n}| \text{ is even, } \\
+	(|\Ekn{k}{n}|\pm 1)/2  & \text{ if }  |\Ekn{k}{n}| \text{ is odd.}
+	\end{array}\right.\]
+	The set of WAPB functions in $n$ variables is denoted $\WAPB{n}$.		
+\end{definition}
+
+
+
+%We define other important notions to study Boolean functions, the algebraic normal form and the Walsh transform. Then we introduce important cryptographic criteria for these functions, the (weightwise) algebraic immunity and (weightwise) nonlinearity.
+We define additional crucial concepts for studying Boolean functions, namely the algebraic normal form and the Walsh transform. 
+Subsequently, we introduce key cryptographic criteria for these functions, including algebraic immunity (both general and weightwise) and nonlinearity (both general and weightwise).
+
+\begin{definition}[Algebraic Normal Form (ANF) and degree]\label{def:anf}
+We call Algebraic Normal Form of a Boolean function $f$ its $n$-variable polynomial representation over $\F_2$ (\ie belonging to $\F_2[x_1,\dots,x_n]/(x_1^2+x_1,\dots,x_n^2+x_n)$):
+	\[f(x_1,\dots,x_n)= \sum_{I \subseteq [1,n]} a_I \left( \prod_{i \in I} x_i \right) \]%x_1,\dots,x_n=\sum_{I \subseteq [1,n]} a_I x^I,\]
+	where $a_I\in \F_2$. 
+%The (algebraic) degree of $f$, denoted $\degg(f)$ is: \[\degg(f):=\left\{\begin{array}{l}
+%	\max_{I\subseteq [1,n]}\{ |I|\, | \, a_I=1\}  \text{ if $f$ is not null}\\
+%	0  \text{ otherwise}.
+%	\end{array}\right.\]	
+The (algebraic) degree of $f$, denoted $\degg(f)$ is: \[\degg(f)=\
+\max_{I\subseteq [1,n]}\{ |I|\, | \, a_I=1\}  \text{ if $f$ is not null},0  \text{ otherwise}.\]
+\end{definition}	
+
+
+\begin{definition}[Algebraic immunity and restricted algebraic immunity] \label{def:ai}
+	The algebraic immunity of a Boolean function $f\in \Bfn{n}$, denoted as $\AI(f)$, is defined as:
+	\[ \AI(f) = \min_{g \neq 0}\{ \degg(g) \; | \; fg = 0 \; \text{or} \; (f + 1)g = 0 \}{,} \]
+	where $\degg(g)$ is the algebraic degree of $g$.
+	The function $g$ is called an annihilator of $f$ (or $f + 1$). 
+	%Additionally we denote $\AN(f) = \min_{g \neq 0}\{ \degg(g) \; | \; fg = 0\}$.
+	
+The restricted algebraic immunity of a Boolean function $f\in \Bfn{n}$ on the set $S\subset \F_2^n$, denoted as $\AI_S(f)$, is defined as:
+\[ \AI_S(f) = \min_{g \neq 0 \text{ over } S}\{ \degg(g) \; | \; fg = 0 \; \text{or} \; (f + 1)g = 0 \}{.} \]	
+For $S=\Ekn{k}{n}$ we denote $\AI_{\Ekn{k}{n}}(f)$ by $\AIk{k}(f)$ and call it weightwise algebraic immunity.
+	
+	
+\end{definition}
+
+
+
+\begin{definition}[Walsh transform and restricted Walsh transform]\label{def:walsh_transform}
+	Let $f\in \Bn{n}$ be a Boolean function, its Walsh transform $\wt{f}$ at $a \in \F_2^n$ is defined as:
+	\[  \wt{f} (a) := \sum_{x \in \F_2^n} (-1)^{f(x) +  a \cdot x }.\]
+	%	The Walsh support is the set $\Wsupp{f}:=\{ a\in \F_2^n\, | \, \wt{f} (a) \neq 0 \}$.
+	Let $f\in \Bn{n}$, $S \subset \F_2^n$, its Walsh transform restricted to $S$ at $a \in \F_2^n$ is defined as:
+	\[  \wt{f,S} (a) := \sum_{x\in S} (-1)^{f(x)+ax}.\]
+	For $S=\Ekn{k}{n}$ we denote $\wt{f,\Ekn{k}{n}} (a)$ by $\wtk{f}{k}(a)$.%, and for $a= 0_{n}$ we denote $\wtk{f}{k}(a)$ as $\wtk{f}{k}(0)$.
+	
+\end{definition}
+
+\begin{Prop}[WAPB functions and restricted Walsh transform]\label{prop:WAPBWalsh}
+	
+Let $n\in \N^*$, $f\in \Bn{n}$ is WAPB if and only if:
+\[\forall k \in [0,n], \, \wtk{f}{k}(0_n)=   
+\left \{
+\begin{array}{l l}
+0  & \text{ if } |\Ekn{k}{n}| \text{ is even, } \\
+\pm 1 & \text{ if }  |\Ekn{k}{n}| \text{ is odd.}
+\end{array}\right. \] 
+If $n=2^m$ with $m\in \N^*$, $f\in \Bn{n}$ is WPB if and only if:
+\[\wtk{f}{0}(0_n)=1, \quad \wtk{f}{n}(0_n)=-1, \text{ and } \quad \forall k \in [1,n-1] \,  \wtk{f}{k}(0_n)=0. \] 
+	
+\end{Prop}
+
+\begin{definition}[Nonlinearity and weightwise nonlinearity] \label{def:nl}
+	The nonlinearity $\NL(f)$ of a Boolean function $f\in \BN$, where $n$ is a positive integer, is the minimum Hamming distance between $f$ and all the affine functions in $\BN$:
+	\[ \NL(f) = \min_{g,\, \degg(g)\leq 1} \{ \hd(f,g) \}{,} \]
+	where $g(x)=a\cdot x+\varepsilon$, $a\in \F_2^n, \varepsilon\in \F_2$. 
+	%	(where $\cdot$ is an inner product in $\F_2^n$, any choice of inner product will give the same value of $\NL(f)$)
+	%For $n$ even the functions at maximal distance from the affine functions (the ones with maximal $\NL$, that is $2^{n-1} -2^{n/2-1}$) are called bent functions.
+	
+	The nonlinearity can also be defined from the Walsh transform:
+	\[ \NL(f) = 2^{n-1}- \frac{1}{2} \max_{a\in \F_2^n}{|\wt{f}(a)|}. \]
+	
+	
+	For $k\in [0,n]$ we denote $\NLk{k}$ the nonlinearity on the slice $k$, the minimum Hamming distance between $f$ restricted to $\Ekn{k}{n}$ and the restrictions to $\Ekn{k}{n}$ of affine functions over $\F_2^n$. 
+	Accordingly: 
+	\[\NLk{k}(f)=\min_{g,\, \degg(g)\leq 1} |\suppk{k}(f+g)|.\]
+	%	We refer to the global weightwise nonlinearity of $f$ as $\gnlk(f)=\sum_{k=0}^{n}\NLk{k}(f)$.
+\end{definition}
+
+
+\begin{Prop}[Nonlinearity on the slice, adapted from~\cite{TOSC:CarMeaRot17}, Proposition 6]\label{prop:nlk}
+	Let $n\in \N^*, k\in [0,n]$, for every $n$-variable Boolean function $f$ over $\Ekn{k}{n}$:
+	\[ \NLk{k}(f)=\frac{|\Ekn{k}{n}|}{2} -\frac{\max_{a\in \F_2^n} |\wtk{f}{k}(a)|}{2}  .\]
+\end{Prop}
+
+
+
+
+
+%\subsection{Symmetric Functions}
+
+%The $n$-variable \emph{Boolean symmetric functions} are those that are constant on each slice $\Ekn{k}{n}$ for $k\in [0,n]$. 
+%This class has been assiduously studied in the context of cryptography, see \eg \cite{IEEE:Carlet04,IEEE:CanVid05,INDO:BraPre05,DM:SarMai07,IEEE:QFLW09,CCDS:Meaux21,IEEE:CarMea21}.
+%  The set of $n$-variable symmetric functions is denoted $\SYM{n}$.and $|\SYM{n}|=2^{n+1}$. 
+%In this article we mainly consider two families of symmetric functions, which are both bases of the symmetric functions:
+
+%\begin{definition}[Elementary symmetric functions]
+%Let $i\in [0,n]$, the elementary symmetric function of degree $i$ in $n$ variables, denoted $\sigma_{i,n}$, is the function which ANF contains all monomials of degree $i$ and no monomials of other degrees. 
+%\end{definition}
+%\begin{definition}[Slice indicator functions]
+ %Let $k\in [0,n]$, the indicator function of the slice of weight $k$ is defined as:
+ %\[\forall  x\in \mathbb{F}_2^{n}, \quad \phikn{k}{n}(x) = 1 \text{ if and only if } \w(x) = k.\]
+%\end{definition}
+%We recall that bent functions are those Boolean functions achieving maximal nonlinearity.
+
+%\begin{Prop}[Nonlinearity of $\sigma_{2,n}$]\label{prop:sigmaTwoBent}
+%	Let $n\in \N^*$ even, the elementary symmetric function $\sigma_{2,n}=\sum_{1\le i<j\le n}x_ix_j$ is bent, \ie 
+%	$\NL(\sigma_{2,n})=2^{n-1}-2^{n/2-1}$.
+%\end{Prop}
+
+
+%\begin{Prop}[Weightwise restricted Walsh transform and addition of symmetric function (~\cite{INDO:GinMea22}, Proposition $4$)]\label{prop:AddSym}
+%	Let $n\in \N^*$, $k\in [0,n]$ and $f \in \Bn{n}$, the following holds on $f+\phikn{k}{n}$
+%	\[\forall a\in \F_2^n, \forall i\in [0,n]\setminus \{k\}, \wtk{f+\phikn{k}{n}}{i}(a)=\wtk{f}{i}(a),\text{ and } \wtk{f+\phikn{k}{n}}{k}(a)=-\wtk{f}{i}(a).\]	
+%\end{Prop}
+
+
+
+
+
+\subsection{Krawtchouk polynomials}
+We use Krawtchouk polynomials and some of their properties to prove one of our results, we give the necessary preliminaries here and refer to \eg ~\cite{book:MacSlo78} for more details.
+
+\begin{definition}[Krawtchouk Polynomials]\label{def:Kraw}
+	The Krawtchouk polynomial of degree $k$, with $0\leq k\leq n$ is given by: $ \displaystyle \kraw{k}{\ell}{n}=\sum_{j=0}^{k} (-1)^j \binom{\ell}{j} \binom{n-\ell}{k-j}$. 
+	%	Krawtchouk polynomials are characterized by the generating series: $ \displaystyle (1+z)^{n-x} (1-z)^x=\sum_{k=0}^\infty \kraw{k}{x}{n} z^k$.
+\end{definition}
+
+
+\begin{Prop}[Krawtchouk polynomials relation]\label{prop:Kr}
+	Let $n\in \N^*$ and $k\in [0,n]$, the following hold:
+ $\kraw{k}{\ell}{n}$ is the value of the restricted Walsh transform on $\Ekn{k}{n}$ of any $n$ variable linear function $a\cdot \ell$ such that $\w(a)=\ell$.
+		%\item $\kraw{k}{n-x}{n}=(-1)^k \kraw{k}{x}{n}$,
+		%\item $\kraw{n-k}{x}{n}=(-1)^x \kraw{k}{x}{n}$,
+		%	\item if $n$ is even and $k$ is odd, $\kraw{k}{n/2}{n}=0$,
+		%\item if $n$ is even, $\kraw{n/2}{1}{n}=0$.
+		%	\item $\binom{n}{x}\kraw{k}{x}{n}=\binom{n}{k}\kraw{x}{k}{n}$.
+\end{Prop}
+
+
+\begin{Prop}[Vandermonde Convolution]\label{prop:Vandermonde}
+	Let $a,b,c \in \N$, then:
+	\begin{equation*}
+	\binom{a+c}{b}=\sum_{j=0}^b\binom{c}{b-j}  \binom{a}{j}.
+	\end{equation*}
+\end{Prop}
+
+
+
+\subsection{Tang-Liu WPB functions}
+
+We recall the construction of WPB functions from Tang and Liu~\cite{CC:TangLiu19} and one on its properties. We use these results to prove the algebraic immunity of special cases of our main constructions.
+
+
+\begin{definition}[TL WPB construction (adapted from~\cite{CC:TangLiu19}, Construction $1$ )]\label{def:TL}
+	Let $m \in \N^*$ and $n = 2^m \ge 4$ be an integer. A TL WPB Boolean function $h$ on $n$-variable is such that
+	\begin{itemize}
+		\item $h(0_n)=0$ and $h(1_n)=1$ 
+		\item $h(x,y)=0$ if $\w(x)<\w(y)$.
+		\item $h(x,y)=1$ if $\w(x)>\w(y)$.
+		\item the cardinality of $U_i=\supp(h)\cap\set{(x,y)\in\F_2^{2^{m-1}}\times \F_2^{2^{m-1}}\colon \w(x)=\w(y)=j}$ is exactly $\binom{2^{m-1}}{j}^2/2$ for all $0<j<2^{m-1}$.
+	\end{itemize}	
+	% 	Let $(c_0,\dots,c_k)\in \set{0,1}^{k+1}$ such that $\sum c_j=0$
+	% 	\[
+	% 	 c_j=
+	% 	 \begin{cases}
+	% 	  0 & |\Ekn{j}{k}|\equiv 0 \pmod 2\\ 
+	% 	  \pm 1 & |\Ekn{j}{k}|\equiv 1 \pmod 2\\
+	% 	 \end{cases}
+	% 	\]
+\end{definition}
+\begin{remark}
+	Despite Definition~\ref{def:TL} may appear quite different respect the original paper, it is equivalent when considering the restriction on $n$ to be a power of two, and the values in $0_n$ and $1_n$ imposed by Definition~\ref{def:WAPB}. 
+	%applying the constrains of our framework.
+%	Namely, here we consider only the case where $n$ is a power of two. Referring to Construction $1$ of~\cite{CC:TangLiu19}, this implies that the coefficient $c_1,\dots,c_{k-1}$ must be zero. Moreover, in~\cite{CC:TangLiu19} $h(0_n)=0$ and $h(1_n)=1$ is not required for weightwise perfectly balancedness, differently from Definition~\ref{def:WPB}. This implies that in our context we can only instantiate their construction with $(-1,0,..,0,1)$ as input sequence, \ie as in Definition~\ref{def:TL}. 
+\end{remark}
+
+\begin{Prop}[TL WPB functions properties~\cite{CC:TangLiu19}]\label{Prop:TL}
+	Let $m \in \N^*$ and $n=2^m$, a  $n$-variable TL function $h_n$ has optimal algebraic immunity $\AI(h_n)=\frac{n}{2}$.
+\end{Prop}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{main}\label{sec:general}
+
+
+
+%\section{Acknowledgments}
+%Pierrick Méaux was supported by the ERC Advanced Grant no. 787390.
+
+
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%~
+
+
+\ifnum\full=0
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{splncs04}
+\bibliography{add}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\else
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{alpha}
+\bibliography{add}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\fi
+
+%\newpage
+%\appendix
+
+
+\end{document}
