@@ -327,6 +327,28 @@ We recall the construction of WPB functions from Tang and Liu~\cite{CC:TangLiu19
 \section{Computing the restricted AI from generator matrices of Reed-Muller punctured codes}\label{sec:RMapproach}
 \pmnote{mostly one algorithm, or in 2 parts but 1 page max, then proposition that justify it gives the lowest degree annihilator.}
 
+\begin{algorithm}
+	\caption{Algorithm to find the algebraic immunity of a function $f$ on the restricted set $S\subseteq \mathbb{F}_2^n$}
+	\begin{algorithmic}
+		\Require $x\in \mathbb{F}_2^{2^n}$ truth table of $f\in B_n$
+		\Ensure $AI_S(f)$
+		\State
+		\State \textbf{Function} \textit{construct\_S\_f\_and\_g\_generators}$(x,n,S)$
+		\State \quad function body
+		\State \quad \Return $matrix_1, matrix_2, matrix_3$ 
+		\State \textbf{End Function}
+		\State
+		
+		\State $m_{max}, D^{\leq n_{max,res}}\gets \mbox{\textit{read\_values\_from\_file}}()$
+		\State $G_{rows,n}^{f_{res},S}, G_{rows,n}^{(f\oplus 1)_{res},S}, G_{n,n}^S  \leftarrow construct\_S\_f\_and\_g\_generators\left(x,n,S\right)$
+		\State $immunity_f, immunity_{f+1} \leftarrow ($\\
+		$\ find\_deg\_smallest\_S\_annihilator(G_{rows,n}^{f_{res},S}, G_{n,n}^S,D^{\leq n_{max, res}})$\\
+		$\ |\ find\_deg\_smallest\_S\_annihilator(G_{rows,n}^{(f\oplus 1)_{res},S}, G_{n,n}^S, D^{\leq n_{max, res}})$\\
+		$)$
+		\State \Comment{// $min$ takes care of $null$ values $\min(immunity_f, null) = immunity_f$ and $\min(null, immunity_{f+1}) = immunity_{f+1}$}
+		\State \Return $\min(immunity_f, immunity_{f+1})$
+	\end{algorithmic}
+\end{algorithm}
 example Construction~\ref{cons:GA}
 
 \begin{constr}
