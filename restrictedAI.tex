@@ -336,15 +336,18 @@ We recall the construction of WPB functions from Tang and Liu~\cite{CC:TangLiu19
 		\Function{find\_deg\_smallest\_S\_annihilator}{$G_{n,n}^{f_S^{(o)},S}, G_{d,n}^{S}, D^{\leq n_{max}}$}
 		\State $r \gets 0$
 		\State $i \gets 0$
+		\State $ef_f, ef_S \gets null, null$
+		\State $previousIndex \gets 0$
 		\While{$r \leq |S| /2$}
 		\State $D_i^n \gets D^n[i]$
-		\State $G_{d,n}^{f_S^{(o)},S}\gets G_{n,n}^{f_S^{(o)},S}[:D_i^n]$
-		\State $G_{i,n}^S \gets G_{n,n}^S[:D_i^n]$
-		\State $r \gets rank\left(G_{i,n}^S\right)$
-		\If{$rank\left(G_{d,n}^{f_S^{(o)},S}\right)<r$}
+		\State $ef_f\gets EF\left(\mbox{\textsc{concact}}\left(ef_f, G_{n,n}^{f_S^{(o)},S}[previousIndex:D_i^n]\right)\right)$
+		\State $ef_S \gets EF\left(\mbox{\textsc{concact}}\left(ef_S, G_{n,n}^S[previousIndex:D_i^n]\right)\right)$
+		\State $r \gets rank\left(ef_S\right)$
+		\If{$rank\left(ef_f\right)<r$}
 		\State
 		\Return $i$
 		\EndIf
+		\State $previousIndex \gets D_i^n$
 		\State $i \gets i+1$
 		\EndWhile
 		\EndFunction
@@ -352,6 +355,7 @@ We recall the construction of WPB functions from Tang and Liu~\cite{CC:TangLiu19
 		
 		\State $m_{max}, D^{\leq n_{max}}\gets \mbox{\textsc{read\_values\_from\_file}}()$
 		\State $G_{n,n}\gets m_{max}[n]$
+		\State $D^n \gets D^{\leq n_{max}}[n]$
 		\State $G_{rows,n}^{f_S,S}, G_{rows,n}^{(f\oplus 1)_S,S}, G_{n,n}^S \gets [\ ], [\ ], [\ ]$
 		\For {$i \gets 0$ to $2^n-1$ }
 		\If{$i\in S$}
@@ -364,8 +368,8 @@ We recall the construction of WPB functions from Tang and Liu~\cite{CC:TangLiu19
 		\EndIf
 		\EndFor
 		\State $immunity_f, immunity_{f+1} \leftarrow ($\\
-		$\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(G_{rows,n}^{f_S,S}, G_{n,n}^S,D^{\leq n_{max}})$\\
-		$\ |\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(G_{rows,n}^{(f\oplus 1)_S,S}, G_{n,n}^S, D^{\leq n_{max}})$\\
+		$\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(G_{rows,n}^{f_S,S}, G_{n,n}^S,D^{n})$\\
+		$\ |\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(G_{rows,n}^{(f\oplus 1)_S,S}, G_{n,n}^S, D^{n})$\\
 		$)$
 		\State \Comment{// $min$ takes care of $null$ values $\min(immunity_f, null) = immunity_f$ and $\min(null, immunity_{f+1}) = immunity_{f+1}$}
 		\State \Return $\min(immunity_f, immunity_{f+1})$
