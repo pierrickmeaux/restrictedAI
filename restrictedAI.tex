@@ -329,21 +329,43 @@ We recall the construction of WPB functions from Tang and Liu~\cite{CC:TangLiu19
 
 \begin{algorithm}
 	\caption{Algorithm to find the algebraic immunity of a function $f$ on the restricted set $S\subseteq \mathbb{F}_2^n$}
-	\begin{algorithmic}
+	\begin{algorithmic}[1]
 		\Require $x\in \mathbb{F}_2^{2^n}$ truth table of $f\in B_n$
 		\Ensure $AI_S(f)$
+		
+		\Function{find\_deg\_smallest\_S\_annihilator}{$G_{n,n}^{f_S^{(o)},S}, G_{d,n}^{S}, D^{\leq n_{max}}$}
+		\State $r \gets 0$
+		\State $i \gets 0$
+		\While{$r \leq |S| /2$}
+		\State $D_i^n \gets D^n[i]$
+		\State $G_{d,n}^{f_S^{(o)},S}\gets G_{n,n}^{f_S^{(o)},S}[:D_i^n]$
+		\State $G_{i,n}^S \gets G_{n,n}^S[:D_i^n]$
+		\State $r \gets rank\left(G_{i,n}^S\right)$
+		\If{$rank\left(G_{d,n}^{f_S^{(o)},S}\right)<r$}
 		\State
-		\State \textbf{Function} \textit{construct\_S\_f\_and\_g\_generators}$(x,n,S)$
-		\State \quad function body
-		\State \quad \Return $matrix_1, matrix_2, matrix_3$ 
-		\State \textbf{End Function}
+		\Return $i$
+		\EndIf
+		\State $i \gets i+1$
+		\EndWhile
+		\EndFunction
 		\State
 		
-		\State $m_{max}, D^{\leq n_{max,res}}\gets \mbox{\textit{read\_values\_from\_file}}()$
-		\State $G_{rows,n}^{f_{res},S}, G_{rows,n}^{(f\oplus 1)_{res},S}, G_{n,n}^S  \leftarrow construct\_S\_f\_and\_g\_generators\left(x,n,S\right)$
+		\State $m_{max}, D^{\leq n_{max}}\gets \mbox{\textsc{read\_values\_from\_file}}()$
+		\State $G_{n,n}\gets m_{max}[n]$
+		\State $G_{rows,n}^{f_S,S}, G_{rows,n}^{(f\oplus 1)_S,S}, G_{n,n}^S \gets [\ ], [\ ], [\ ]$
+		\For {$i \gets 0$ to $2^n-1$ }
+		\If{$i\in S$}
+		\State $G_{rows,n}^{S}.append\left(G_{n,n}[:][i]\right)$
+		\If{$x[i] = 1$}
+		\State $G_{rows,n}^{f_S,S}.append\left(G_{n,n}[:][i]\right)$
+		\Else
+		\State $G_{rows,n}^{(f\oplus 1)_S,S}.append\left(G_{n,n}[:][i]\right)$
+		\EndIf
+		\EndIf
+		\EndFor
 		\State $immunity_f, immunity_{f+1} \leftarrow ($\\
-		$\ find\_deg\_smallest\_S\_annihilator(G_{rows,n}^{f_{res},S}, G_{n,n}^S,D^{\leq n_{max, res}})$\\
-		$\ |\ find\_deg\_smallest\_S\_annihilator(G_{rows,n}^{(f\oplus 1)_{res},S}, G_{n,n}^S, D^{\leq n_{max, res}})$\\
+		$\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(G_{rows,n}^{f_S,S}, G_{n,n}^S,D^{\leq n_{max}})$\\
+		$\ |\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(G_{rows,n}^{(f\oplus 1)_S,S}, G_{n,n}^S, D^{\leq n_{max}})$\\
 		$)$
 		\State \Comment{// $min$ takes care of $null$ values $\min(immunity_f, null) = immunity_f$ and $\min(null, immunity_{f+1}) = immunity_{f+1}$}
 		\State \Return $\min(immunity_f, immunity_{f+1})$
