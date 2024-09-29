@@ -327,6 +327,54 @@ We recall the construction of WPB functions from Tang and Liu~\cite{CC:TangLiu19
 \section{Computing the restricted AI from generator matrices of Reed-Muller punctured codes}\label{sec:RMapproach}
 \pmnote{mostly one algorithm, or in 2 parts but 1 page max, then proposition that justify it gives the lowest degree annihilator.}
 
+\begin{algorithm}
+	\caption{Algorithm to find the algebraic immunity of a function $f$ on the restricted set $S\subseteq \mathbb{F}_2^n$}
+	\begin{algorithmic}[1]
+		\Require $x\in \mathbb{F}_2^{2^n}$ truth table of $f\in B_n$
+		\Ensure $AI_S(f)$
+		
+		\Function{find\_deg\_smallest\_S\_annihilator}{$G_{n,n}^{f_S^{(o)},S}, G_{d,n}^{S}, D^n$}
+		\State $r \gets 0$
+		\State $i \gets 0$
+		\State $ef_f, ef_S \gets null, null$
+		\State $previousIndex \gets 0$
+		\While{$r \leq |S| /2$}
+		\State $D_i^n \gets D^n[i]$
+		\State $ef_f\gets EF\left(\mbox{\textsc{concact}}\left(ef_f, G_{n,n}^{f_S^{(o)},S}[previousIndex:D_i^n]\right)\right)$
+		\State $ef_S \gets EF\left(\mbox{\textsc{concact}}\left(ef_S, G_{n,n}^S[previousIndex:D_i^n]\right)\right)$
+		\State $r \gets rank\left(ef_S\right)$
+		\If{$rank\left(ef_f\right)<r$}
+		\State
+		\Return $i$
+		\EndIf
+		\State $previousIndex \gets D_i^n$
+		\State $i \gets i+1$
+		\EndWhile
+		\EndFunction
+		\State
+		
+		\State $m_{max}, D^{\leq n_{max}}\gets \mbox{\textsc{read\_values\_from\_file}}()$
+		\State $G_{n,n}\gets m_{max}[n]$
+		\State $D^n \gets D^{\leq n_{max}}[n]$
+		\State $G_{rows,n}^{f_S,S}, G_{rows,n}^{(f\oplus 1)_S,S}, G_{n,n}^S \gets [\ ], [\ ], [\ ]$
+		\For {$i \gets 0$ to $2^n-1$ }
+		\If{$i\in S$}
+		\State $G_{rows,n}^{S}.append\left(G_{n,n}[:][i]\right)$
+		\If{$x[i] = 1$}
+		\State $G_{rows,n}^{f_S,S}.append\left(G_{n,n}[:][i]\right)$
+		\Else
+		\State $G_{rows,n}^{(f\oplus 1)_S,S}.append\left(G_{n,n}[:][i]\right)$
+		\EndIf
+		\EndIf
+		\EndFor
+		\State $immunity_f, immunity_{f+1} \leftarrow ($\\
+		$\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(G_{rows,n}^{f_S,S}, G_{n,n}^S,D^{n})$\\
+		$\ |\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(G_{rows,n}^{(f\oplus 1)_S,S}, G_{n,n}^S, D^{n})$\\
+		$)$
+		\State \Comment{// $min$ takes care of $null$ values $\min(immunity_f, null) = immunity_f$ and $\min(null, immunity_{f+1}) = immunity_{f+1}$}
+		\State \Return $\min(immunity_f, immunity_{f+1})$
+	\end{algorithmic}
+\end{algorithm}
 example Construction~\ref{cons:GA}
 
 \begin{constr}
