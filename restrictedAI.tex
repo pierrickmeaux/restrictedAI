@@ -326,11 +326,51 @@ We recall the construction of WPB functions from Tang and Liu~\cite{CC:TangLiu19
 
 \section{Computing the restricted AI from generator matrices of Reed-Muller punctured codes}\label{sec:RMapproach}
 \pmnote{mostly one algorithm, or in 2 parts but 1 page max, then proposition that justify it gives the lowest degree annihilator.}
+\begin{definition}
+	Let $G_{r,n}$ be the generator matrix of the Reed-Muller code $RM(r,n)$, we define the object $S$-$f^{(o)}$-generator $G_{r,n}^{f^{(o)},S}$ by setting to zero all the columns of $G_{r,n}$ which do not correspond to elements of $S$. For the remaining columns, we calculate $G_{r,n}^{f^{(o)},S}$ as
+	\begin{align*}
+	\left(G_{r,n}^{f^{(o)},S}\right)_{i,j} = 
+	\begin{cases}
+	f^{(o)}(u_j)*\left(G_{r,n}\right)_{i,j} \mbox{ if }u_j \in S\\
+	0 \mbox{ otherwise}
+	\end{cases}
+	\end{align*}
+	Moreover, we define the object $G_{r,n}^{f^{(o)}_S,S}$, by taking all the columns of $G_{r,n}$ which corresponds to element of $\mathbb{F}_2^n$ which are in $supp\left(f^{(o)}\right) \cap S$.
+	\begin{align}
+	\left(G_{r,n}^{f_S^{(o)},S}\right)_{:,j}           & = (G_{r,n})_{:,j} \mbox{ if } f^{(o)}(u_j) = 1 \mbox{ and } \ u_j\in S \label{eq:f-generatorRestrictedSet}
+	\end{align}
+\end{definition}
 
+\begin{proposition}\label{prop:compareranks}
+	if $rank(G^{f_S^{(o)},S}_{r.n}) < rank(G^{S}_{r.n})$, then $f^{(o)}$ has $S$-non-zero-annihilator of degree $r$.
+\end{proposition}
+\begin{proof}
+	Since $D_r^n = rank(G^{f^{(o)},S}_{r.n}) + |Ker(G^{f^{(o)},S}_{r.n})| =  rank(G^{S}_{r.n}) + |Ker(G^{S}_{r.n})|$, we have that
+	$rank(G^{f^{(o)},S}_{r.n}) < rank(G^{S}_{r.n}) \iff |Ker(G^{f^{(o)},S}_{r.n})| > |Ker(G^{S}_{r.n})|$. Therefore $\exists v\in Ker(G^{f^{(o)},S}_{r.n}) \mbox{ such that }v\not\in Ker(G^{S}_{r.n})$. Hence, it exists a Boolean function $g$ of degree $r$, given by $v*G_{r,n}$, which is such that $v*G_{r,n}\neq 0$ and $v*G_{r,n}^{S}\neq 0$, but $(g*f^{(o)})_S = v*G_{r,n}^{f,S} = 0$.\\
+	Since $rank\left(G_{r,n}^{f_S^{(o)}, S}\right) = rank\left(G_{r,n}^{f^{(o)}, S}\right)$, $rank(G^{f^{(o)},S}_{r.n}) < rank(G^{S}_{r.n}) \Rightarrow rank(G^{f_S^{(o)},S}_{r.n}) < rank(G^{S}_{r.n})$ and hence the condition $rank(G^{f_S^{(o)},S}_{r.n}) < rank(G^{S}_{r.n})$ is enough to justify the existence of such $v$ giving the $S$-non-zero-annihilator $g$.
+\end{proof}
+
+\begin{theorem}
+	Let $S\subseteq \mathbb{F}_2^n$ and let $r \in \mathbb{N}_{>0}$ such that $rank\left(G_{r, n}^{S}\right) > |S| / 2$.
+	We have that $\forall f \in \Bn{n}, \ AI_S(f) \leq r$.
+	
+\end{theorem}
+\begin{proof}
+	Let $r \in \mathbb{N}_{>0}$ be such that $rank\left(G_{r,n}^S\right) > |S| / 2$.\\
+	Let $e = rank\left(G_{r,n}^{f_{res},S}\right)$ and $d = rank\left(G_{r,n}^{(f\oplus1)_{res},S}\right)$.\\
+	Since $e \leq w_H\left(TT(f)\right)$, $d \leq w_H\left(TT(f\oplus 1)\right)$ and $w_H\left(TT(f)\right)+w_H\left(TT(f\oplus 1)\right) = |S|$, we have that $e+d\leq |S|$.\\ 
+	\begin{itemize}
+		\item If $e < |S|/2$ and $d < |S|/2$, then, from Proposition \ref{prop:compareranks}, there exists an $S$-non-zero-annihilator of degree $r$ of $f$ and one of $f\oplus 1$ which is such that $rank\left(G_{r,n}^S\right) \geq |S| / 2$.
+		\item If $e < |S|/2$ and $d \geq |S|/2$, and hence, from Proposition \ref{prop:compareranks}, there exists an $S$-non-zero-annihilator of degree $r$ of $f$ which is such that $rank\left(G_{r,n}^S\right) \geq |S| / 2$.
+		\item If $e = |S|/2$ and $d = |S|/2$, then, from Proposition \ref{prop:compareranks}, there exists an $S$-non-zero-annihilator of degree $r$ of $f$ which is such that $rank\left(G_{r,n}^S\right) > |S| / 2$.
+	\end{itemize}
+	Taking the bigger rank between the ones found in the conditions above, we see that the upper bound for the algebraic immunity on the restricted set $S$ is reached at the degree $r_{upper}$ such that $rank\left(G_{r_{upper}, n}^S\right) > |S| / 2$.
+\end{proof}
+ 
 \begin{algorithm}
 	\caption{Algorithm to find the algebraic immunity of a function $f$ on the restricted set $S\subseteq \mathbb{F}_2^n$}
 	\begin{algorithmic}[1]
-		\Require $x\in \mathbb{F}_2^{2^n}$ truth table of $f\in B_n$
+		\Require $x\in \mathbb{F}_2^{2^n}$ truth table of $f\in \Bn{n}$
 		\Ensure $AI_S(f)$
 		
 		\Function{find\_deg\_smallest\_S\_annihilator}{$G_{n,n}^{f_S^{(o)},S}, G_{d,n}^{S}, D^n$}
