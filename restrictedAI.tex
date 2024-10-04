@@ -346,7 +346,7 @@ We recall the construction of WPB functions from Tang and Liu~\cite{CC:TangLiu19
 \end{proposition}
 \begin{proof}
 	Since $D_r^n = rank(G^{f^{(o)},S}_{r.n}) + |Ker(G^{f^{(o)},S}_{r.n})| =  rank(G^{S}_{r.n}) + |Ker(G^{S}_{r.n})|$, we have that
-	$rank(G^{f^{(o)},S}_{r.n}) < rank(G^{S}_{r.n}) \iff |Ker(G^{f^{(o)},S}_{r.n})| > |Ker(G^{S}_{r.n})|$. Therefore $\exists v\in Ker(G^{f^{(o)},S}_{r.n}) \mbox{ such that }v\not\in Ker(G^{S}_{r.n})$. Hence, it exists a Boolean function $g$ of degree $r$, given by $v*G_{r,n}$, which is such that $v*G_{r,n}\neq 0$ and $v*G_{r,n}^{S}\neq 0$, but $(g*f^{(o)})_S = v*G_{r,n}^{f,S} = 0$.\\
+	$rank(G^{f^{(o)},S}_{r.n}) < rank(G^{S}_{r.n}) \iff |Ker(G^{f^{(o)},S}_{r.n})| > |Ker(G^{S}_{r.n})|$. Therefore $\exists v\in Ker(G^{f^{(o)},S}_{r.n}) \mbox{ such that }v\not\in Ker(G^{S}_{r.n})$. Hence, it exists a Boolean function $g$ of degree $r$, given by $v*G_{r,n}$, which is such that $v*G_{r,n}\neq 0$ and $v*G_{r,n}^{S}\neq 0$, but $(g*f^{(o)})_S = v*G_{r,n}^{f^{(o)},S} = 0$.\\
 	Since $rank\left(G_{r,n}^{f_S^{(o)}, S}\right) = rank\left(G_{r,n}^{f^{(o)}, S}\right)$, $rank(G^{f^{(o)},S}_{r.n}) < rank(G^{S}_{r.n}) \Rightarrow rank(G^{f_S^{(o)},S}_{r.n}) < rank(G^{S}_{r.n})$ and hence the condition $rank(G^{f_S^{(o)},S}_{r.n}) < rank(G^{S}_{r.n})$ is enough to justify the existence of such $v$ giving the $S$-non-zero-annihilator $g$.
 \end{proof}
 
@@ -358,16 +358,16 @@ We recall the construction of WPB functions from Tang and Liu~\cite{CC:TangLiu19
 \begin{proof}
 	Let $r \in \mathbb{N}_{>0}$ be such that $rank\left(G_{r,n}^S\right) > |S| / 2$.\\
 	Let $e = rank\left(G_{r,n}^{f_{res},S}\right)$ and $d = rank\left(G_{r,n}^{(f\oplus1)_{res},S}\right)$.\\
-	Since $e \leq w_H\left(TT(f)\right)$, $d \leq w_H\left(TT(f\oplus 1)\right)$ and $w_H\left(TT(f)\right)+w_H\left(TT(f\oplus 1)\right) = |S|$, we have that $e+d\leq |S|$.\\
+	Since $e \leq w_H\left(TT(f)\right)$, $d \leq w_H\left(TT(f\oplus 1)\right)$ and $w_H\left(TT(f)\right)+w_H\left(TT(f\oplus 1)\right) = |S|$, we have that $e+d\leq |S|$.\\ 
 	\begin{itemize}
 		\item If $e < |S|/2$ and $d < |S|/2$, then, from Proposition \ref{prop:compareranks}, there exists an $S$-non-zero-annihilator of degree $r$ of $f$ and one of $f\oplus 1$ which is such that $rank\left(G_{r,n}^S\right) \geq |S| / 2$.
 		\item If $e < |S|/2$ and $d \geq |S|/2$, and hence, from Proposition \ref{prop:compareranks}, there exists an $S$-non-zero-annihilator of degree $r$ of $f$ which is such that $rank\left(G_{r,n}^S\right) \geq |S| / 2$.
 		\item If $e = |S|/2$ and $d = |S|/2$, then, from Proposition \ref{prop:compareranks}, there exists an $S$-non-zero-annihilator of degree $r$ of $f$ which is such that $rank\left(G_{r,n}^S\right) > |S| / 2$.
 	\end{itemize}
-	Taking the bigger rank between the ones found in the conditions above, we see that the upper bound for the algebraic immunity on the restricted set $S$ is reached at the degree $r_{upper}$ such that $rank\left(G_{r_{upper}, n}^S\right) > |S| / 2$.
+	Taking the bigger rank between the ones found in the conditions above, we see that the upper bound for the algebraic immunity on the restricted set $S$ is reached at the degree $r$ such that $rank\left(G_{r, n}^S\right) > |S| / 2$.
 \end{proof}
-
-\begin{algorithm}
+ 
+\begin{algorithm}\label{alg:RMApproach}
 	\caption{Algorithm to find the algebraic immunity of a function $f$ on the restricted set $S\subseteq \mathbb{F}_2^n$}
 	\begin{algorithmic}[1]
 		\Require $x\in \mathbb{F}_2^{2^n}$ truth table of $f\in \Bn{n}$
@@ -393,6 +393,9 @@ We recall the construction of WPB functions from Tang and Liu~\cite{CC:TangLiu19
 		\EndFunction
 		\State
 		
+		\If{\textsc{is\_constant}$(x)$}
+		\Return $0$
+		\EndIf
 		\State $m_{max}, D^{\leq n_{max}}\gets \mbox{\textsc{read\_values\_from\_file}}()$
 		\State $G_{n,n}\gets m_{max}[n]$
 		\State $D^n \gets D^{\leq n_{max}}[n]$
@@ -415,6 +418,11 @@ We recall the construction of WPB functions from Tang and Liu~\cite{CC:TangLiu19
 		\State \Return $\min(immunity_f, immunity_{f+1})$
 	\end{algorithmic}
 \end{algorithm}
+
+\begin{remark}
+	The procedure \textsc{find\_deg\_smallest\_S\_annihilator} in \ref{alg:RMApproach} is done in parallel for $f$ and $f\oplus 1$ with the additional condition that if one of the two branches returns the value of $1$, the other branch is stopped, without having to wait for it to finish.
+\end{remark}
+
 example Construction~\ref{cons:GA}
 
 \begin{constr}
