@@ -329,7 +329,7 @@ We recall the construction of WPB functions from Tang and Liu~\cite{CC:TangLiu19
 \begin{definition}
 	Let $G_{r,n}$ be the generator matrix of the Reed-Muller code $RM(r,n)$, we define the object $S$-$f^{(o)}$-generator $G_{r,n}^{f^{(o)},S}$ by setting to zero all the columns of $G_{r,n}$ which do not correspond to elements of $S$. For the remaining columns, we calculate $G_{r,n}^{f^{(o)},S}$ as
 	\begin{align*}
-	\left(G_{r,n}^{f^{(o)},S}\right)_{i,j} = 
+	\left(G_{r,n}^{f^{(o)},S}\right)_{i,j} =
 	\begin{cases}
 	f^{(o)}(u_j)*\left(G_{r,n}\right)_{i,j} \mbox{ if }u_j \in S\\
 	0 \mbox{ otherwise}
@@ -346,14 +346,14 @@ We recall the construction of WPB functions from Tang and Liu~\cite{CC:TangLiu19
 \end{proposition}
 \begin{proof}
 	Since $D_r^n = rank(G^{f^{(o)},S}_{r.n}) + |Ker(G^{f^{(o)},S}_{r.n})| =  rank(G^{S}_{r.n}) + |Ker(G^{S}_{r.n})|$, we have that
-	$rank(G^{f^{(o)},S}_{r.n}) < rank(G^{S}_{r.n}) \iff |Ker(G^{f^{(o)},S}_{r.n})| > |Ker(G^{S}_{r.n})|$. Therefore $\exists v\in Ker(G^{f^{(o)},S}_{r.n}) \mbox{ such that }v\not\in Ker(G^{S}_{r.n})$. Hence, it exists a Boolean function $g$ of degree $r$, given by $v*G_{r,n}$, which is such that $v*G_{r,n}\neq 0$ and $v*G_{r,n}^{S}\neq 0$, but $(g*f^{(o)})_S = v*G_{r,n}^{f,S} = 0$.\\
+	$rank(G^{f^{(o)},S}_{r.n}) < rank(G^{S}_{r.n}) \iff |Ker(G^{f^{(o)},S}_{r.n})| > |Ker(G^{S}_{r.n})|$. Therefore $\exists v\in Ker(G^{f^{(o)},S}_{r.n}) \mbox{ such that }v\not\in Ker(G^{S}_{r.n})$. Hence, it exists a Boolean function $g$ of degree $r$, given by $v*G_{r,n}$, which is such that $v*G_{r,n}\neq 0$ and $v*G_{r,n}^{S}\neq 0$, but $(g*f^{(o)})_S = v*G_{r,n}^{f^{(o)},S} = 0$.\\
 	Since $rank\left(G_{r,n}^{f_S^{(o)}, S}\right) = rank\left(G_{r,n}^{f^{(o)}, S}\right)$, $rank(G^{f^{(o)},S}_{r.n}) < rank(G^{S}_{r.n}) \Rightarrow rank(G^{f_S^{(o)},S}_{r.n}) < rank(G^{S}_{r.n})$ and hence the condition $rank(G^{f_S^{(o)},S}_{r.n}) < rank(G^{S}_{r.n})$ is enough to justify the existence of such $v$ giving the $S$-non-zero-annihilator $g$.
 \end{proof}
 
 \begin{theorem}
 	Let $S\subseteq \mathbb{F}_2^n$ and let $r \in \mathbb{N}_{>0}$ such that $rank\left(G_{r, n}^{S}\right) > |S| / 2$.
 	We have that $\forall f \in \Bn{n}, \ AI_S(f) \leq r$.
-	
+
 \end{theorem}
 \begin{proof}
 	Let $r \in \mathbb{N}_{>0}$ be such that $rank\left(G_{r,n}^S\right) > |S| / 2$.\\
@@ -364,10 +364,10 @@ We recall the construction of WPB functions from Tang and Liu~\cite{CC:TangLiu19
 		\item If $e < |S|/2$ and $d \geq |S|/2$, and hence, from Proposition \ref{prop:compareranks}, there exists an $S$-non-zero-annihilator of degree $r$ of $f$ which is such that $rank\left(G_{r,n}^S\right) \geq |S| / 2$.
 		\item If $e = |S|/2$ and $d = |S|/2$, then, from Proposition \ref{prop:compareranks}, there exists an $S$-non-zero-annihilator of degree $r$ of $f$ which is such that $rank\left(G_{r,n}^S\right) > |S| / 2$.
 	\end{itemize}
-	Taking the bigger rank between the ones found in the conditions above, we see that the upper bound for the algebraic immunity on the restricted set $S$ is reached at the degree $r_{upper}$ such that $rank\left(G_{r_{upper}, n}^S\right) > |S| / 2$.
+	Taking the bigger rank between the ones found in the conditions above, we see that the upper bound for the algebraic immunity on the restricted set $S$ is reached at the degree $r$ such that $rank\left(G_{r, n}^S\right) > |S| / 2$.
 \end{proof}
  
-\begin{algorithm}
+\begin{algorithm}\label{alg:RMApproach}
 	\caption{Algorithm to find the algebraic immunity of a function $f$ on the restricted set $S\subseteq \mathbb{F}_2^n$}
 	\begin{algorithmic}[1]
 		\Require $x\in \mathbb{F}_2^{2^n}$ truth table of $f\in \Bn{n}$
@@ -393,6 +393,9 @@ We recall the construction of WPB functions from Tang and Liu~\cite{CC:TangLiu19
 		\EndFunction
 		\State
 		
+		\If{\textsc{is\_constant}$(x)$}
+		\Return $0$
+		\EndIf
 		\State $m_{max}, D^{\leq n_{max}}\gets \mbox{\textsc{read\_values\_from\_file}}()$
 		\State $G_{n,n}\gets m_{max}[n]$
 		\State $D^n \gets D^{\leq n_{max}}[n]$
@@ -415,6 +418,11 @@ We recall the construction of WPB functions from Tang and Liu~\cite{CC:TangLiu19
 		\State \Return $\min(immunity_f, immunity_{f+1})$
 	\end{algorithmic}
 \end{algorithm}
+
+\begin{remark}
+	The procedure \textsc{find\_deg\_smallest\_S\_annihilator} in \ref{alg:RMApproach} is done in parallel for $f$ and $f\oplus 1$ with the additional condition that if one of the two branches returns the value of $1$, the other branch is stopped, without having to wait for it to finish.
+\end{remark}
+
 example Construction~\ref{cons:GA}
 
 \begin{constr}
