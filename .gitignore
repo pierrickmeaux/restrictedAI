@@ -5,3 +5,6 @@
 *.log
 restrictedAI.synctex.gz
 restrictedAI.pdf
+
+.idea/
+.vscode
