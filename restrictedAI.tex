@@ -16,6 +16,8 @@
 
 \input{header.tex}
 
+\usepackage{placeins}
+
 \begin{document}
 	\title{Title}
 
@@ -458,7 +460,93 @@ example Construction~\ref{cons:GA}
 \end{constr}
 
 \section{Computing the restricted AI iteratively}\label{sec:IterativeApproach}
+Algorithm \ref{alg:MinDegreeSnonZeroAnnihilatorIterative}
 
+\begin{algorithm}
+	\caption{Algorithm to find the degree of the minimum-degree $S$-non-zero-annihilator of a function $f^{(o)}$}\label{alg:MinDegreeSnonZeroAnnihilatorIterative}
+	\begin{algorithmic}[1]
+		\Require restricted set $S\subseteq \mathbb{F}_2^n$, $Z = supp\left(f^{(o)}\right) \cap S$ and $E = \{\alpha_1, \cdots, \alpha_{D_n^n}\}$
+		\Ensure Degree of minimal degree $S$-non-zero-annihilator of $f^{(o)}$.
+		\State
+		\State $V\gets (1)$
+		\State $ops \gets [\ ]$
+		\State $k \gets 2$
+		\While{$k\leq |Z|$}
+		\State $V_{previous} \gets V$
+		\State $\left(v_1, \cdots, v_{k-1}\right) \gets \mbox{\textsc{apply\_operations}}\left(\left(z_1^{\alpha_k}, \cdots, z_{k-1}^{\alpha_k}\right), ops\right)$
+		\State  $M \gets \begin{pmatrix}
+		\multicolumn{4}{c}{\multirow{4}{*}{$V$}} & z_k^{\alpha_1}\\
+		& & & & z_k^{\alpha_2}\\
+		& & & & \vdots\\
+		& & & & z_k^{\alpha_{k-1}}\\
+		v_1 & v_1& \cdots & v_{k-1} & z_k^{\alpha_k}
+		\end{pmatrix}$
+		\State $V, ops_k\gets \mbox{\textsc{echelon\_form\_last\_col}}(M)$
+		\If{$rank(V) < k$}
+		\State $k \gets kernel\left(V\right).base()$
+		\State $\hat{g} \gets k[0]$
+		\State $nonVanishingPointIndex, vanishingFlag \gets Null, True$
+		\ForAll{$z\in Z\backslash Z_k$}
+		\State $vanishCheck, NonVanishingPointIndex \gets \mbox{\textsc{vanishes}}(\hat{g}, z)$
+		\If{$vanishCheck = False$}
+		\State $vanishingFlag \gets False$
+		\State \textbf{break}
+		\EndIf
+		\ForAll{$z_c \in Z_k$}
+		\State $vanishCheckOnS \gets \mbox{\textsc{vanishes}}(\hat{g}, z)$
+		\If{$vanishCheckOnS = False$}
+		\State \Return $w_H\left(\alpha_i\right)$
+		\EndIf
+		\EndFor
+		\State $V\gets V_{previous}$
+		\State $\mbox{\textsc{remove}}(E, \alpha_i)$
+		\State \textbf{continue}
+		\EndFor
+		\State $zIndex \gets k+nonVanishingPointIndex$
+		\State $Z \gets \mbox{\textsc{swap}}(z_{k+1}, z_{zIndex})$
+		\State \textsc{merge}$(ops, ops_k)$
+		\State $k\gets k+1$
+		\EndIf
+		\EndWhile
+	\end{algorithmic}
+\end{algorithm}
+\newpage
+\begin{algorithm}
+	\begin{algorithmic}
+		\State $S, ops_S \gets echelonFromFullMarix\left(
+		\begin{pmatrix}
+		s_1^{\alpha_1} &  s_2^{\alpha_1} & \cdots & s_{|S|}^{\alpha_{1}}\\
+		\vdots &  \vdots & \ddots & \vdots\\
+		s_{1}^{\alpha_k} &  s_{2}^{\alpha_k} & \cdots & s_{|S|}^{\alpha_{k}}\\
+		\end{pmatrix}\right)$
+		\State $r \gets rank(S)$
+		\If{$tank(V)<r$ }
+		\State \Return $w_H\left(\alpha_k\right)$
+		\EndIf
+		\State $r_V \gets rabk(V)$
+		\State $fullRank \gets False$
+		\While{$r\leq \lfloor|S| / 2\rfloor$}
+		\If{$fullRank = False$ and $r_v != k$}
+		\State $\left(v_1, \cdots, v_{k-1}\right) \gets \mbox{\textsc{apply\_operations}}\left(\left(z_1^{\alpha_k}, \cdots, z_{k-1}^{\alpha_k}\right), ops\right)$ 
+		\State $V \gets \begin{pmatrix}
+			\multicolumn{5}{c}{\multirow{1}{*}{$V$}} \\
+			v_1 & v_2 & \cdots & v_{k-1} & z_{k}^{\alpha_k}
+		\end{pmatrix}$
+		\State $r_V \gets rank(V)$
+		\State $fullRank \gets True$
+		\EndIf
+		\State $\left(v_1, \cdots, v_{k-1}\right) \gets \mbox{\textsc{apply\_operations}}\left(\left(s_1^{\alpha_k}, \cdots, s_{k-1}^{\alpha_k}\right), ops_S\right)$ 
+		\State $S \gets \begin{pmatrix}
+		\multicolumn{5}{c}{\multirow{1}{*}{$S$}} \\
+		s_1 & s_2 & \cdots & s_{k-1} & s_{k}^{\alpha_k}
+		\end{pmatrix}$
+		\State $r \gets rank(S)$
+		\If{$r_V < r$}
+		\State \Return $w_H\left(\alpha_k\right)$
+		\EndIf
+		\EndWhile
+	\end{algorithmic}
+\end{algorithm}
 
 \section{Applications to WAPB functions}
 
