@@ -492,7 +492,7 @@ Algorithm \ref{alg:MinDegreeSnonZeroAnnihilatorIterative}
 		\State $vanishingFlag \gets False$
 		\State \textbf{break}
 		\EndIf
-		\ForAll{$z_c \in Z_k$}
+		\ForAll{$z_c \in S\backslash Z$}
 		\State $vanishCheckOnS \gets \mbox{\textsc{vanishes}}(\hat{g}, z)$
 		\If{$vanishCheckOnS = False$}
 		\State \Return $w_H\left(\alpha_i\right)$
