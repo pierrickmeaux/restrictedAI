@@ -328,7 +328,13 @@ We recall the construction of WPB functions from Tang and Liu~\cite{CC:TangLiu19
 
 \section{Computing the restricted AI from generator matrices of Reed-Muller punctured codes}\label{sec:RMapproach}
 \pmnote{mostly one algorithm, or in 2 parts but 1 page max, then proposition that justify it gives the lowest degree annihilator.}
-\begin{definition}
+
+In this section we provide an algorithm to compute the algebraic immunity of a Boolean function restricted on a general subset $S \subseteq \mathbb{F}_2^n$.\\
+The idea of the algorithm is to construct the systems of equations for $S_1^r \hat{=}g_1^r*f_S = 0$ and $S_2^r\hat{=}g_2^r (f\oplus 1)_S = 0$ for $g_1^r$ and $g_2^r$ being two Boolean functions of an algebraic degree $r$ and to check for the existence of either $g_1^r$ solving $S_1^r$ or $g_2^r$ solving $S_2^r$. If neither such $g_1^r$, nor such $g_2^r$ exist, the systems $S_1^{r+1}$ and $S_2^{r+1}$ are constructed and the existence of solutions $g_{1}^{r+1}$ and $g_2^{r+1}$ is checked, until the existence of an the annihilator of either $f$ or $f\oplus 1$ is found or an until upper bound $r+\delta$ is reached. The process for the system of equation on $f_S$ and on $(f\oplus 1)_S$ is done in parallel.\\
+
+The systems of equations $S_1^r$ and $S_2^r$ are constructed by extracting the \textit{$S$-$f$-generator} and the \textit{$S$-$f+1$-generator} given by Definition \ref{def:generatorsS}, by extracting them from the \textit{Reed-Muller} generator matrix where we only consider the columns corresponding to elements in $S$.
+
+\begin{definition}\label{def:generatorsS}
 	Let $G_{r,n}$ be the generator matrix of the Reed-Muller code $RM(r,n)$, we define the object $S$-$f^{(o)}$-generator $G_{r,n}^{f^{(o)},S}$ by setting to zero all the columns of $G_{r,n}$ which do not correspond to elements of $S$. For the remaining columns, we calculate $G_{r,n}^{f^{(o)},S}$ as
 	\begin{align*}
 	\left(G_{r,n}^{f^{(o)},S}\right)_{i,j} =
@@ -351,23 +357,6 @@ We recall the construction of WPB functions from Tang and Liu~\cite{CC:TangLiu19
 	$rank(G^{f^{(o)},S}_{r.n}) < rank(G^{S}_{r.n}) \iff |Ker(G^{f^{(o)},S}_{r.n})| > |Ker(G^{S}_{r.n})|$. Therefore $\exists v\in Ker(G^{f^{(o)},S}_{r.n}) \mbox{ such that }v\not\in Ker(G^{S}_{r.n})$. Hence, it exists a Boolean function $g$ of degree $r$, given by $v*G_{r,n}$, which is such that $v*G_{r,n}\neq 0$ and $v*G_{r,n}^{S}\neq 0$, but $(g*f^{(o)})_S = v*G_{r,n}^{f^{(o)},S} = 0$.\\
 	Since $rank\left(G_{r,n}^{f_S^{(o)}, S}\right) = rank\left(G_{r,n}^{f^{(o)}, S}\right)$, $rank(G^{f^{(o)},S}_{r.n}) < rank(G^{S}_{r.n}) \Rightarrow rank(G^{f_S^{(o)},S}_{r.n}) < rank(G^{S}_{r.n})$ and hence the condition $rank(G^{f_S^{(o)},S}_{r.n}) < rank(G^{S}_{r.n})$ is enough to justify the existence of such $v$ giving the $S$-non-zero-annihilator $g$.
 \end{proof}
-
-\begin{theorem}
-	Let $S\subseteq \mathbb{F}_2^n$ and let $r \in \mathbb{N}_{>0}$ such that $rank\left(G_{r, n}^{S}\right) > |S| / 2$.
-	We have that $\forall f \in \Bn{n}, \ AI_S(f) \leq r$.
-
-\end{theorem}
-\begin{proof}
-	Let $r \in \mathbb{N}_{>0}$ be such that $rank\left(G_{r,n}^S\right) > |S| / 2$.\\
-	Let $e = rank\left(G_{r,n}^{f_{res},S}\right)$ and $d = rank\left(G_{r,n}^{(f\oplus1)_{res},S}\right)$.\\
-	Since $e \leq w_H\left(TT(f)\right)$, $d \leq w_H\left(TT(f\oplus 1)\right)$ and $w_H\left(TT(f)\right)+w_H\left(TT(f\oplus 1)\right) = |S|$, we have that $e+d\leq |S|$.\\ 
-	\begin{itemize}
-		\item If $e < |S|/2$ and $d < |S|/2$, then, from Proposition \ref{prop:compareranks}, there exists an $S$-non-zero-annihilator of degree $r$ of $f$ and one of $f\oplus 1$ which is such that $rank\left(G_{r,n}^S\right) \geq |S| / 2$.
-		\item If $e < |S|/2$ and $d \geq |S|/2$, and hence, from Proposition \ref{prop:compareranks}, there exists an $S$-non-zero-annihilator of degree $r$ of $f$ which is such that $rank\left(G_{r,n}^S\right) \geq |S| / 2$.
-		\item If $e = |S|/2$ and $d = |S|/2$, then, from Proposition \ref{prop:compareranks}, there exists an $S$-non-zero-annihilator of degree $r$ of $f$ which is such that $rank\left(G_{r,n}^S\right) > |S| / 2$.
-	\end{itemize}
-	Taking the bigger rank between the ones found in the conditions above, we see that the upper bound for the algebraic immunity on the restricted set $S$ is reached at the degree $r$ such that $rank\left(G_{r, n}^S\right) > |S| / 2$.
-\end{proof}
  
 \begin{algorithm}\label{alg:RMApproach}
 	\caption{Algorithm to find the algebraic immunity of a function $f$ on the restricted set $S\subseteq \mathbb{F}_2^n$}
@@ -382,8 +371,8 @@ We recall the construction of WPB functions from Tang and Liu~\cite{CC:TangLiu19
 		\State $previousIndex \gets 0$
 		\While{$r \leq |S| /2$}
 		\State $D_i^n \gets D^n[i]$
-		\State $ef_f\gets EF\left(\mbox{\textsc{concact}}\left(ef_f, G_{n,n}^{f_S^{(o)},S}[previousIndex:D_i^n]\right)\right)$
-		\State $ef_S \gets EF\left(\mbox{\textsc{concact}}\left(ef_S, G_{n,n}^S[previousIndex:D_i^n]\right)\right)$
+		\State $ef_f\gets EF\left(\mbox{\textsc{merge}}\left(ef_f, G_{n,n}^{f_S^{(o)},S}[previousIndex:D_i^n]\right)\right)$
+		\State $ef_S \gets EF\left(\mbox{\textsc{merge}}\left(ef_S, G_{n,n}^S[previousIndex:D_i^n]\right)\right)$
 		\State $r \gets rank\left(ef_S\right)$
 		\If{$rank\left(ef_f\right)<r$}
 		\State
