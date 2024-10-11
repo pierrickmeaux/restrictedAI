@@ -332,30 +332,41 @@ We recall the construction of WPB functions from Tang and Liu~\cite{CC:TangLiu19
 In this section we provide an algorithm to compute the algebraic immunity of a Boolean function restricted on a general subset $S \subseteq \mathbb{F}_2^n$.\\
 The idea of the algorithm is to construct the systems of equations for $S_1^r \hat{=}g_1^r*f_S = 0$ and $S_2^r\hat{=}g_2^r (f\oplus 1)_S = 0$ for $g_1^r$ and $g_2^r$ being two Boolean functions of an algebraic degree $r$ and to check for the existence of either $g_1^r$ solving $S_1^r$ or $g_2^r$ solving $S_2^r$. If neither such $g_1^r$, nor such $g_2^r$ exist, the systems $S_1^{r+1}$ and $S_2^{r+1}$ are constructed and the existence of solutions $g_{1}^{r+1}$ and $g_2^{r+1}$ is checked, until the existence of an the annihilator of either $f$ or $f\oplus 1$ is found or an until upper bound $r+\delta$ is reached. The process for the system of equation on $f_S$ and on $(f\oplus 1)_S$ is done in parallel.\\
 
-The systems of equations $S_1^r$ and $S_2^r$ are constructed by extracting the \textit{$S$-$f$-generator} and the \textit{$S$-$f+1$-generator} given by Definition \ref{def:generatorsS}, by extracting them from the \textit{Reed-Muller} generator matrix where we only consider the columns corresponding to elements in $S$.
+The systems of equations $S_1^r$ and $S_2^r$ are constructed by extracting the \textit{$S$-$f$-generator} and the \textit{$S$-$f+1$-generator} given by Definition \ref{def:generatorsS}, by extracting them from the \textit{Reed-Muller} generator matrix where we only consider the columns corresponding to elements in $S$. This is justified by Remark \ref{rem:gfMatrix}.
 
 \begin{definition}\label{def:generatorsS}
-	Let $G_{r,n}$ be the generator matrix of the Reed-Muller code $RM(r,n)$, we define the object $S$-$f^{(o)}$-generator $G_{r,n}^{f^{(o)},S}$ by setting to zero all the columns of $G_{r,n}$ which do not correspond to elements of $S$. For the remaining columns, we calculate $G_{r,n}^{f^{(o)},S}$ as
+	Let $r,n\in\mathbb{N}_{>0}$ with $r\leq n$. Let $G_{r,n}$ be the generator matrix of the Reed-Muller code $RM(r,n)$, we define the object $S$-$f^{(o)}$-generator $G_{r,n}^{f^{(o)},S}$ by setting to zero all the columns of $G_{r,n}^S$ which do not correspond to elements of $supp(f^{(o)} )\cap S$. For the remaining columns, we calculate $G_{r,n}^{f_S^{(o)},S}$ as
 	\begin{align*}
-	\left(G_{r,n}^{f^{(o)},S}\right)_{i,j} =
-	\begin{cases}
-	f^{(o)}(u_j)*\left(G_{r,n}\right)_{i,j} \mbox{ if }u_j \in S\\
-	0 \mbox{ otherwise}
-	\end{cases}
+	\left(G_{r,n}^{f^{(o)}_S,S}\right)_{i,j} = f_S^{(o)}(u_j)*\left(G_{r,n}^S\right)_{i,j}
 	\end{align*}
 	Moreover, we define the object $G_{r,n}^{f^{(o)}_S,S}$, by taking all the columns of $G_{r,n}$ which corresponds to element of $\mathbb{F}_2^n$ which are in $supp\left(f^{(o)}\right) \cap S$.
 	\begin{align}
-	\left(G_{r,n}^{f_S^{(o)},S}\right)_{:,j}           & = (G_{r,n})_{:,j} \mbox{ if } f^{(o)}(u_j) = 1 \mbox{ and } \ u_j\in S \label{eq:f-generatorRestrictedSet}
+	\left(G_{r,n}^{f_{supp\left(f^{(o)}\right) \cap S}^{(o)},S}\right)_{:,j} = (G_{r,n}^S)_{:,j} \mbox{ if } f_S^{(o)}(u_j) = 1 \label{eq:f-generatorRestrictedSet}
 	\end{align}
 \end{definition}
 
+\begin{remark}\label{rem:gfMatrix}
+	Let $g \in \Bn{n}$ and $\hat{a} = (a_I)_{I \subseteq {1,2,...,n}}$ be the vector of the coefficients of the $ANF$ of $g$, as s consequence of the construction of $G_{r,n}^{f,S}$, we have that
+	\begin{equation}
+	\begin{aligned}
+	\hat{a} G_{r,n}^{f_S,S} & = \left(\bigoplus_{i=1}a_i f_S(u_1)(G_{r,n}^S)_{i,1}, \bigoplus_{i=1}a_i f_S(u_2)(G_{r,n}^S)_{i,2}, \cdots, \bigoplus_{i=1}a_i f_S(u_n)(G_{r,n}^S)_{i,n}\right)     \\
+	& =  \left(f_S(u_1) \bigoplus_{i=1}a_i (G_{r,n}^S)_{i,1}, f_S(u_2) \bigoplus_{i=1}a_i (G_{r,n}^S)_{i,2}, \cdots, f_S(u_n) \bigoplus_{i=1}a_i (G_{r,n}^S)_{i,n}\right) \\
+	& = \left(f_S(u_1) g(u_1), f_S(u_2) g(u_2), ...., f_S(u_n) g(u_n)\right)                                                                                      \\
+	& = f_S*g
+	\end{aligned}
+	\end{equation}
+	
+	Therefore, solving $ \hat{a} G_{r,n}^f = 0$ is equivalent to solving $f*g = 0$, or in other words, finding the kernel of $G_{r,n}^f$ is equivalent to finding all non-zero-annihilators of $f$ of degree up to $r$.
+\end{remark}
+
 \begin{proposition}\label{prop:compareranks}
-	if $rank(G^{f_S^{(o)},S}_{r.n}) < rank(G^{S}_{r.n})$, then $f^{(o)}$ has $S$-non-zero-annihilator of degree $r$.
+	Let $Z = supp\left(f^{(o)}\right) \cap S$.
+	If $rank\left(G^{f_{Z}^{(o)},S}_{r.n}\right) < rank(G^{S}_{r.n})$, then $f^{(o)}$ has $S$-non-zero-annihilator of degree $r$.
 \end{proposition}
 \begin{proof}
-	Since $D_r^n = rank(G^{f^{(o)},S}_{r.n}) + |Ker(G^{f^{(o)},S}_{r.n})| =  rank(G^{S}_{r.n}) + |Ker(G^{S}_{r.n})|$, we have that
-	$rank(G^{f^{(o)},S}_{r.n}) < rank(G^{S}_{r.n}) \iff |Ker(G^{f^{(o)},S}_{r.n})| > |Ker(G^{S}_{r.n})|$. Therefore $\exists v\in Ker(G^{f^{(o)},S}_{r.n}) \mbox{ such that }v\not\in Ker(G^{S}_{r.n})$. Hence, it exists a Boolean function $g$ of degree $r$, given by $v*G_{r,n}$, which is such that $v*G_{r,n}\neq 0$ and $v*G_{r,n}^{S}\neq 0$, but $(g*f^{(o)})_S = v*G_{r,n}^{f^{(o)},S} = 0$.\\
-	Since $rank\left(G_{r,n}^{f_S^{(o)}, S}\right) = rank\left(G_{r,n}^{f^{(o)}, S}\right)$, $rank(G^{f^{(o)},S}_{r.n}) < rank(G^{S}_{r.n}) \Rightarrow rank(G^{f_S^{(o)},S}_{r.n}) < rank(G^{S}_{r.n})$ and hence the condition $rank(G^{f_S^{(o)},S}_{r.n}) < rank(G^{S}_{r.n})$ is enough to justify the existence of such $v$ giving the $S$-non-zero-annihilator $g$.
+	Since $D_r^n = rank(G^{f^{(o)_S},S}_{r.n}) + |Ker(G^{f^{(o)}_S,S}_{r.n})| =  rank(G^{S}_{r.n}) + |Ker(G^{S}_{r.n})|$, we have that
+	$rank(G^{f_S^{(o)},S}_{r.n}) < rank(G^{S}_{r.n}) \iff |Ker(G^{f_S^{(o)},S}_{r.n})| > |Ker(G^{S}_{r.n})|$. Therefore $\exists v\in Ker(G^{f_S^{(o)},S}_{r.n}) \mbox{ such that }v\not\in Ker(G^{S}_{r.n})$. Hence, it exists a Boolean function $g$ of degree $r$, given by $v*G_{r,n}$, which is such that $v*G_{r,n}\neq 0$ and $v*G_{r,n}^{S}\neq 0$, but $(g*f_S^{(o)})_S = v*G_{r,n}^{f_S^{(o)},S} = 0$.\\
+	Since $rank\left(G_{r,n}^{f_S^{(o)}, S}\right) = rank\left(G_{r,n}^{f^{(o)}, S}\right)$, $rank(G^{f^{(o)},S}_{r.n}) < rank(G^{S}_{r.n}) \Rightarrow rank(G^{f_Z^{(o)},S}_{r.n}) < rank(G^{S}_{r.n})$ and hence the condition $rank(G^{f_Z^{(o)},S}_{r.n}) < rank(G^{S}_{r.n})$ is enough to justify the existence of such $v$ giving the $S$-non-zero-annihilator $g$.
 \end{proof}
  
 \begin{algorithm}\label{alg:RMApproach}
@@ -364,14 +375,14 @@ The systems of equations $S_1^r$ and $S_2^r$ are constructed by extracting the \
 		\Require $x\in \mathbb{F}_2^{2^n}$ truth table of $f\in \Bn{n}$
 		\Ensure $AI_S(f)$
 		
-		\Function{find\_deg\_smallest\_S\_annihilator}{$G_{n,n}^{f_S^{(o)},S}, G_{d,n}^{S}, D^n$}
+		\Function{find\_deg\_smallest\_S\_annihilator}{$G_{n,n}^{f_Z^{(o)},S}, G_{d,n}^{S}, D^n$}
 		\State $r \gets 0$
 		\State $i \gets 0$
 		\State $ef_f, ef_S \gets null, null$
 		\State $previousIndex \gets 0$
 		\While{$r \leq |S| /2$}
 		\State $D_i^n \gets D^n[i]$
-		\State $ef_f\gets EF\left(\mbox{\textsc{merge}}\left(ef_f, G_{n,n}^{f_S^{(o)},S}[previousIndex:D_i^n]\right)\right)$
+		\State $ef_f\gets EF\left(\mbox{\textsc{merge}}\left(ef_f, G_{n,n}^{f_Z^{(o)},S}[previousIndex:D_i^n]\right)\right)$
 		\State $ef_S \gets EF\left(\mbox{\textsc{merge}}\left(ef_S, G_{n,n}^S[previousIndex:D_i^n]\right)\right)$
 		\State $r \gets rank\left(ef_S\right)$
 		\If{$rank\left(ef_f\right)<r$}
@@ -390,7 +401,7 @@ The systems of equations $S_1^r$ and $S_2^r$ are constructed by extracting the \
 		\State $m_{max}, D^{\leq n_{max}}\gets \mbox{\textsc{read\_values\_from\_file}}()$
 		\State $G_{n,n}\gets m_{max}[n]$
 		\State $D^n \gets D^{\leq n_{max}}[n]$
-		\State $G_{rows,n}^{f_S,S}, G_{rows,n}^{(f\oplus 1)_S,S}, G_{n,n}^S \gets [\ ], [\ ], [\ ]$
+		\State $G_{rows,n}^{f_Z,S}, G_{rows,n}^{(f\oplus 1)_Z,S}, G_{n,n}^S \gets [\ ], [\ ], [\ ]$
 		\For {$i \gets 0$ to $2^n-1$ }
 		\If{$i\in S$}
 		\State $G_{rows,n}^{S}.append\left(G_{n,n}[:][i]\right)$
@@ -402,8 +413,8 @@ The systems of equations $S_1^r$ and $S_2^r$ are constructed by extracting the \
 		\EndIf
 		\EndFor
 		\State $immunity_f, immunity_{f+1} \leftarrow ($\\
-		$\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(G_{rows,n}^{f_S,S}, G_{n,n}^S,D^{n})$\\
-		$\ |\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(G_{rows,n}^{(f\oplus 1)_S,S}, G_{n,n}^S, D^{n})$\\
+		$\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(G_{rows,n}^{f_Z,S}, G_{n,n}^S,D^{n})$\\
+		$\ |\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(G_{rows,n}^{(f\oplus 1)_Z,S}, G_{n,n}^S, D^{n})$\\
 		$)$
 		\State \Comment{// $min$ takes care of $null$ values $\min(immunity_f, null) = immunity_f$ and $\min(null, immunity_{f+1}) = immunity_{f+1}$}
 		\State \Return $\min(immunity_f, immunity_{f+1})$
