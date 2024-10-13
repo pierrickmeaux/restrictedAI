@@ -77,8 +77,58 @@ For a vector $v\in \F_2^n$ we use $\w(v)$ to denote its Hamming weight $\w(v)=|\
 For two vectors $v$ and $w$ in $\F_2^n$ we denote by $\hd(v,w)$ the Hamming distance between $v$ and $w$, that is, $\hd(v,w)=\w(v+w)$. 
 For two functions $f$ and $g$ we denote by $\hd(f,g)$ the Hamming distance between their vectors of values.
 
-\subsection{Boolean functions, cryptographic criteria, and weightwise properties}
+\subsection{Ordering relations on \texorpdfstring{$\mathbb{F}_2^n$}{F\_2^n}}
+Let $n\in \mathbb{N}_{>0}$
+\begin{definition}[Tot-WOrd relation on a field]\label{def:orderingOnK}
+	Let $K$ be a field. We define a Tot-WOrd ordering relation $<_{Ord_K}$ as a total and weel-ordering relation on $K$, that is
+	\begin{itemize}
+		\item $<_{Ord_K}$ is a total ordering in $K^{n}$
+		\item Let $\alpha, \beta, \gamma \in K$, if $\beta <_{Ord_K} \alpha$ then $\beta + \gamma <_{Ord_k} \alpha + \gamma$
+		\item Any non-empty subset of $K$, has a smaller element under $<_{Ord_K}$: if $S \subset K \neq \emptyset$, then there is a $\alpha$ such that $\alpha <_{Ord_K} \beta$ for every $\beta \in S$ such that $\beta \neq \alpha$. 
+	\end{itemize}
+\end{definition}
 
+\begin{definition}[Tot-WOrd relation on $\mathbb{F}_2^n$]\label{def:OrderingOnF2n}
+	a Tot-WOrd ordering relation $ord$ on $\mathbb{F}_2^n$ is a total ordering $<_{ord_{\mathbb{F}_n^2}}$ between elements of $\mathbb{F}_2^n$.\\
+	Since in the document we only consider total, well ordered ordering, we omit the Tot-WOrd prefix in the ordering name: we call Tot-WOrd ordering relation on $\mathbb{F}_2^n$ as an \textit{ordering relation} on $\mathbb{F}_2^n$. 
+\end{definition}
+
+Two ordering relations in $\mathbb{F}_2^n$ are used in this project: the \textit{lexicographic} and the \textit{graded lex} order.
+
+\begin{definition}[Lexicographic order]
+	Let $\alpha = (\alpha_n, \alpha_{n-1}, \cdots, \alpha_1) \in \mathbb{F}_2^n$ and $\beta = (\beta_n, \beta_{n-1}, \cdots, \beta_1) \in \mathbb{F}_2^n$.\\
+	The \textit{lexicographic} ordering relation on $\mathbb{F}_2^n$ is a ordering relation $<_{lex}$ on $\mathbb{F}_2^n$ such that $\beta <_{lex} \alpha$ if the leftmost nonzero entry of the vector difference $\hat{\alpha}-\hat{\beta}$ is positive.
+\end{definition}
+
+\begin{definition}[Graded Lex order]
+	Let $\alpha = (\alpha_n, \alpha_{n-1}, \cdots, \alpha_1) \in \mathbb{F}_2^n$ and $\beta = (\beta_n, \beta_{n-1}, \cdots, \beta_1) \in \mathbb{F}_2^n$.\\
+	The \textit{graded lex} ordering relation on $\mathbb{F}_2^n$ is a ordering relation $<_{grlex}$ on $\mathbb{F}_2^n$ such that
+	We say $\beta <_{grlex} \alpha$ if
+	\begin{align*}
+	w_H(\beta) < w_H(\alpha) \mbox{ or }  \left(w_H(\beta) = w_H(\alpha) \mbox{ and } \beta <_{lex} \alpha\right)
+	\end{align*}
+\end{definition}
+
+\begin{definition}[Ordering relation on a set]
+	We define the function 
+	\begin{align*}
+	Ord: S = \{s_1, s_2, \cdots, s_{|S|}\} \subseteq \mathbb{F}_2^n \mapsto \left(s_{\sigma(s)}\right)_{s\in S} = \left(s_{\sigma(1)}, s_{\sigma(2)}, \cdots, s_{\sigma(|S|)}\right)
+	\end{align*}
+	where $\sigma$ is the permutation assigning the index of an element of the ordered vector by the ordering $Ord$, to the index of the element in the original set $S$, i.e. $\sigma$ is such that 
+	\begin{align*}
+	s_{\sigma(i)} <_{ord} s_{\sigma(j)} \mbox{ for } i<j
+	\end{align*}
+\end{definition}
+
+\begin{definition}[Lexicographical order relation on a set]
+	We define the function $Lex: S = \{s_1, s_2, \cdots, s_{|S|}\} \subseteq \mathbb{F}_2^n \mapsto \left(s_{\sigma(s)}\right)_{s\in S} = \left(s_{\sigma(1)}, s_{\sigma(2)}, \cdots, s_{\sigma(|S|)}\right)$, where $\sigma$ is such that $s_{\sigma(i)} \leq_{lex} s_{\sigma(j)}$ for $i<j$:
+\end{definition}
+
+\begin{definition}[Graded Lex order relation on a set]
+	We define the function $GrLex: S = \{s_1, s_2, \cdots, s_{|S|}\} \subseteq \mathbb{F}_2^n \mapsto \left(s_{\sigma(s)}\right)_{s\in S} = \left(s_{\sigma(1)}, s_{\sigma(2)}, \cdots, s_{\sigma(|S|)}\right)$, where $\sigma$ is such that $s_{\sigma(i)} <_{grlex} s_{\sigma(j)}$ for $i<j$:
+\end{definition}
+
+\subsection{Boolean functions, cryptographic criteria, and weightwise properties}
 In this section, we recall fundamental concepts concerning Boolean functions and their weightwise properties, which are utilized throughout this article. For a more comprehensive introduction to Boolean functions and their cryptographic parameters, we recommend consulting the book by Carlet~\cite{Carlet20},
 %consulting for instance the book by Carlet~\cite{Carlet20}, 
 and for insights into weightwise properties—also known as properties on the slices—the article by~\cite{TOSC:CarMeaRot17}.
@@ -146,6 +196,21 @@ The (algebraic) degree of $f$, denoted $\degg(f)$ is: \[\degg(f)=\
 \max_{I\subseteq [1,n]}\{ |I|\, | \, a_I=1\}  \text{ if $f$ is not null},0  \text{ otherwise}.\]
 \end{definition}	
 
+\begin{definition}[Truth table]
+	Let $f\in \Bn{n}$ be a Boolean function, and $X = Lex\left(dom(f)\right) = \{x_1, x_2, \cdots, x_{|X|}\}$ it's domain ordered in lexicographical order.\\
+	The truth table of the Boolean function $f$ is the function $TT$ defines as
+	\begin{align*}
+	TT: \Bn{n} \rightarrow \mathbb{F}_2^{2^n},\  f \mapsto \left(f(x_i)\right)_{1\leq i \leq |X|} = \left(f(x_1), f(x_2), \cdots, f(x_{|X|})\right)
+	\end{align*}
+\end{definition}
+
+\begin{definition}[Restriction of $f$ on $S$]
+	Let $f$ be a Boolean function and $S\subseteq \mathbb{F}_2^n$, the restriction of $f$ on $S$ is given by the function $f_S$ whose truth table is
+	\begin{align*}
+	TT(f_S) = Lex\left(\left(f(u)\right)_{u\in S}\right)
+	\end{align*}
+\end{definition}
+
 
 \begin{definition}[Algebraic immunity and restricted algebraic immunity] \label{def:ai}
 	The algebraic immunity of a Boolean function $f\in \Bfn{n}$, denoted as $\AI(f)$, is defined as:
@@ -209,9 +274,6 @@ If $n=2^m$ with $m\in \N^*$, $f\in \Bn{n}$ is WPB if and only if:
 	Let $n\in \N^*, k\in [0,n]$, for every $n$-variable Boolean function $f$ over $\Ekn{k}{n}$:
 	\[ \NLk{k}(f)=\frac{|\Ekn{k}{n}|}{2} -\frac{\max_{a\in \F_2^n} |\wtk{f}{k}(a)|}{2}  .\]
 \end{Prop}
-
-
-
 
 
 %\subsection{Symmetric Functions}
@@ -306,6 +368,30 @@ We recall the construction of WPB functions from Tang and Liu~\cite{CC:TangLiu19
 	Let $m \in \N^*$ and $n=2^m$, a  $n$-variable TL function $h_n$ has optimal algebraic immunity $\AI(h_n)=\frac{n}{2}$.
 \end{Prop}
 
+%% Reed-Muller codes
+\subsection{Reed-Muller codes}
+
+\begin{definition}[Reed-Muller code - RM]
+	Let $n\in \mathbb{N}_{>0}$ and $r\in \mathbb{N}$ with $r\leq n$, the Reed-Muller code $RM(r,n)$ is the set of all $2^n$-bit length code words where each code word is the evaluations of one distinct Boolean function of maximal degree $r$ in $n$ variables.
+\end{definition}
+
+\begin{definition}[RM generator matrix]\label{rmGenerator}
+	Let $X$ be all the $2^n$ elements in $\mathbb{F}_2^n$ in lexicographical order and $P_{r,n} = \{\ u\in \mathbb{F}_2^n | w_H(u) \leq r\}$ all the elements of $\mathbb{F}_2^n$ with hamming weight smaller than $r$. The generator matrix $G_{r,n}\in Mat_{D_r^n,2^n}$ is defined as
+	\begin{align*}
+	\left(G_{r,n}\right)_{i,j} = x_j^{u_i}, \ x_j \in Lex\left(X\right),\ u_i \in (P_{r,n}
+	\end{align*}
+	We denote by $G_{r,n}^Y\in Mat_{D_r^n,|Y|}$, the Reed-Muller generator matrix restricted on the set $Y \subset X$
+	\begin{align*}
+	\left(G_{r,n}\right)^Y_{i,j} = x_j^{u_i}, \ x_j \in Lex(Y),\ u_i \in P_{r,n}
+	\end{align*}
+\end{definition}
+
+\begin{remark}
+	Let $\hat{a}$ be the vector corresponding to the coefficients in the $ANF$ of a Boolean function $f$ of $n$ variables and degree $r$, then
+	\begin{align*}
+	\hat{a} * G_{r,n} = TT(f)
+	\end{align*}
+\end{remark}
 
 
 
@@ -330,7 +416,24 @@ We recall the construction of WPB functions from Tang and Liu~\cite{CC:TangLiu19
 \pmnote{mostly one algorithm, or in 2 parts but 1 page max, then proposition that justify it gives the lowest degree annihilator.}
 
 In this section we provide an algorithm to compute the algebraic immunity of a Boolean function restricted on a general subset $S \subseteq \mathbb{F}_2^n$.\\
-The idea of the algorithm is to construct the systems of equations for $S_1^r \hat{=}g_1^r*f_S = 0$ and $S_2^r\hat{=}g_2^r (f\oplus 1)_S = 0$ for $g_1^r$ and $g_2^r$ being two Boolean functions of an algebraic degree $r$ and to check for the existence of either $g_1^r$ solving $S_1^r$ or $g_2^r$ solving $S_2^r$. If neither such $g_1^r$, nor such $g_2^r$ exist, the systems $S_1^{r+1}$ and $S_2^{r+1}$ are constructed and the existence of solutions $g_{1}^{r+1}$ and $g_2^{r+1}$ is checked, until the existence of an the annihilator of either $f$ or $f\oplus 1$ is found or an until upper bound $r+\delta$ is reached. The process for the system of equation on $f_S$ and on $(f\oplus 1)_S$ is done in parallel.\\
+The idea of the algorithm is to construct the systems of equations for $S_1^r \hat{=}g_1^r*f_S (x)= \hat{0}$ and $S_2^r\hat{=}g_2^r (f\oplus 1)_S (x) = \hat{0}$ for $x$ being in $\mathbb{F}_2^n$ and $g_1^r$ and $g_2^r$ being two Boolean functions of an algebraic degree $r$.\\
+If $f$ is non-constant in $S$, the algorithm checks for the existence of either $g_1^r$ solving $S_1^r$ or $g_2^r$ solving $S_2^r$ which do not vanish over all set $S$. If neither such solutions $g_1^r$, nor exist, new systems $S_1^{r+1}$ and $S_2^{r+1}$ are constructed and search of the existence of the solutions $g_{1}^{r+1}$ and $g_2^{r+1}$ continues. This process repeats until the existence of an the annihilator of either $f$ or $f\oplus 1$ is found or an upper bound $r+\delta$ is reached. The procedure followed on $f_S$ and on $(f\oplus 1)_S$ is done in parallel.\\
+If on the other hand, $f$ is constant in $S$, the algorithm returns $0$, as justified be Proposition \ref{prop:constantFs}.
+
+\begin{proposition}\label{prop:constantFs}
+	A Boolean function $f$ has a S-non-zero-annihilator of degree $0$ if and only if the restriction $f_S$ on $S$ is constant.
+\end{proposition}
+\begin{proof}
+	\underline{Direct implication $\Rightarrow$}\\
+	Suppose that $f\in \mathbb{BF}_n$ is a Boolean function which is constant in $S$, either this function $f$ is such that $f(x) = 0$ for all $x\in S$, or $f(x) = 1$ for all $x\in S$.\\
+	If it the case that $f$ is not null everywhere but $f(x) = 0\ \forall S$, then it exists the function $g(x) = 1$ which is not zero in all $S$, but is it such that $g(x)f(x) = 0$ for all $x\in S$.\\ 
+	If on the other hand, $f(x) = 1$ for all $x\in S$, the same argument can be used but annihilating the function $f\oplus 1$ on $S$.\\
+	\underline{Inverse implication $\Leftarrow$}\\
+	Suppose that a function $g\in \mathbb{BF}_n$ is an $S$-non-zero-annihilator of $f$ of degree $0$.\\
+	$g \neq 0$ and $deg(g) = 1 \Rightarrow g = 1$, therefore since $g$ annihilates $f$ in $S$,  $g(x) f(x) = 0$ for all $x \in S$, resulting in $f(x)g(x) = f(x) = 0$ .\\
+	In the same way, if on the other hand, $g$ annihilates $f\oplus 1$ on $S$ instead of $f$, we have that $g(x)(f(x) \oplus 1) = 0$ implying that $f\oplus 1 = 0 \Rightarrow f(x) = 1$ for all $x\in S$. 
+\end{proof}
+
 
 The systems of equations $S_1^r$ and $S_2^r$ are constructed by extracting the \textit{$S$-$f$-generator} and the \textit{$S$-$f+1$-generator} given by Definition \ref{def:generatorsS}, by extracting them from the \textit{Reed-Muller} generator matrix where we only consider the columns corresponding to elements in $S$. This is justified by Remark \ref{rem:gfMatrix}.
 
@@ -368,11 +471,34 @@ The systems of equations $S_1^r$ and $S_2^r$ are constructed by extracting the \
 	$rank(G^{f_S^{(o)},S}_{r.n}) < rank(G^{S}_{r.n}) \iff |Ker(G^{f_S^{(o)},S}_{r.n})| > |Ker(G^{S}_{r.n})|$. Therefore $\exists v\in Ker(G^{f_S^{(o)},S}_{r.n}) \mbox{ such that }v\not\in Ker(G^{S}_{r.n})$. Hence, it exists a Boolean function $g$ of degree $r$, given by $v*G_{r,n}$, which is such that $v*G_{r,n}\neq 0$ and $v*G_{r,n}^{S}\neq 0$, but $(g*f_S^{(o)})_S = v*G_{r,n}^{f_S^{(o)},S} = 0$.\\
 	Since $rank\left(G_{r,n}^{f_S^{(o)}, S}\right) = rank\left(G_{r,n}^{f^{(o)}, S}\right)$, $rank(G^{f^{(o)},S}_{r.n}) < rank(G^{S}_{r.n}) \Rightarrow rank(G^{f_Z^{(o)},S}_{r.n}) < rank(G^{S}_{r.n})$ and hence the condition $rank(G^{f_Z^{(o)},S}_{r.n}) < rank(G^{S}_{r.n})$ is enough to justify the existence of such $v$ giving the $S$-non-zero-annihilator $g$.
 \end{proof}
- 
+
+Algorithm \ref{alg:RMApproach}, provides the full procedure to determine the restricted algebraic immunity of a function $f$ of $n$ variables on the subset $S$. We provide Remark below to give additional details.
+
+\begin{remark}
+	We have the following remarks
+	\begin{itemize}
+		\item \cite{TOSC:CarMeaRot17} established that the upper bound of $AI_s(f9$ for any Boolean function $f$ and any set $S\subseteq \mathbb{F}_2^n$, is the degree $r$ such that $\left(G_{r,n}^n\right) > |S| / 2$. As a consequence of this, the search of the annihilator for $f$ and $f\oplus 1$ in our algorithm terminates once $rank\left(G_{r,n}^S\right) > \lfloor{|S| / 2}\rfloor$.
+		\item The generator matrix of a Reed-Muller does not depend on the Boolean function. It is therefore possible to pre-compute and store the generator matrices of all Reed-Muller codes with $r$ and $n$ smaller than some maximum values $r_{max}$ and $n_{max}$.
+		This suggests that it is possible to pre-compute $G_{r_{max}, n_{max}}$ for some fixed $n_{max}$ and $r_{max = n_{max}}$, and extract all others $G_{r,n}$ for $r \leq r_{max}$ and $n \leq n_{max}$ from it.\\
+		We therefore pre-conpute the hash table
+		\begin{align*}
+		G^{\leq n_{max}} = \{\left(i, G_{n,i}\right)\}_{i \leq 1 \leq n_{max}}
+		\end{align*}
+		and store it in a file.\\
+		Similarly, we can also pre-compute and store a second hash table, containing all the $D^n$s such that $n \leq n_{max}$. Such hash table is
+		\begin{align*}\label{eq:degreesHashTable}
+		D^{\leq n_{max}} =  \{\left(i,D^{n} \right)\}_{0 \leq i \leq n_{max}} =  \{\left(i, \{ \left(j, D_i^j\right)\}_{0\leq j \leq \lceil{i/2}\rceil} \right)\}_{0 \leq i \leq n_{max}}
+		\end{align*}
+		In Algorithm \ref{alg:RMApproach}, we therefore use the function \textsc{read\_values\_from\_file}, to read to two pre-computed has tables from the files where they have been pre-stored before the execution of the algorithm.
+		\item The procedure \textsc{find\_deg\_smallest\_S\_annihilator} in \ref{alg:RMApproach} is done in parallel for $f$ and $f\oplus 1$ with the additional condition that if one of the two branches returns the value of $1$, the other branch is stopped, without having to wait for it to finish.
+	\end{itemize}	
+\end{remark}
+
+
 \begin{algorithm}\label{alg:RMApproach}
 	\caption{Algorithm to find the algebraic immunity of a function $f$ on the restricted set $S\subseteq \mathbb{F}_2^n$}
 	\begin{algorithmic}[1]
-		\Require $x\in \mathbb{F}_2^{2^n}$ truth table of $f\in \Bn{n}$
+		\Require $x\in \mathbb{F}_2^{2^n}$ evaluation of the truth table of $f\in \Bn{n}$
 		\Ensure $AI_S(f)$
 		
 		\Function{find\_deg\_smallest\_S\_annihilator}{$G_{n,n}^{f_Z^{(o)},S}, G_{d,n}^{S}, D^n$}
@@ -420,10 +546,6 @@ The systems of equations $S_1^r$ and $S_2^r$ are constructed by extracting the \
 		\State \Return $\min(immunity_f, immunity_{f+1})$
 	\end{algorithmic}
 \end{algorithm}
-
-\begin{remark}
-	The procedure \textsc{find\_deg\_smallest\_S\_annihilator} in \ref{alg:RMApproach} is done in parallel for $f$ and $f\oplus 1$ with the additional condition that if one of the two branches returns the value of $1$, the other branch is stopped, without having to wait for it to finish.
-\end{remark}
 
 example Construction~\ref{cons:GA}
 
