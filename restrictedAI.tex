@@ -276,9 +276,6 @@ If $n=2^m$ with $m\in \N^*$, $f\in \Bn{n}$ is WPB if and only if:
 \end{Prop}
 
 
-
-
-
 %\subsection{Symmetric Functions}
 
 %The $n$-variable \emph{Boolean symmetric functions} are those that are constant on each slice $\Ekn{k}{n}$ for $k\in [0,n]$. 
@@ -371,6 +368,30 @@ We recall the construction of WPB functions from Tang and Liu~\cite{CC:TangLiu19
 	Let $m \in \N^*$ and $n=2^m$, a  $n$-variable TL function $h_n$ has optimal algebraic immunity $\AI(h_n)=\frac{n}{2}$.
 \end{Prop}
 
+%% Reed-Muller codes
+\subsection{Reed-Muller codes}
+
+\begin{definition}[Reed-Muller code - RM]
+	Let $n\in \mathbb{N}_{>0}$ and $r\in \mathbb{N}$ with $r\leq n$, the Reed-Muller code $RM(r,n)$ is the set of all $2^n$-bit length code words where each code word is the evaluations of one distinct Boolean function of maximal degree $r$ in $n$ variables.
+\end{definition}
+
+\begin{definition}[RM generator matrix]\label{rmGenerator}
+	Let $X$ be all the $2^n$ elements in $\mathbb{F}_2^n$ in lexicographical order and $P_{r,n} = \{\ u\in \mathbb{F}_2^n | w_H(u) \leq r\}$ all the elements of $\mathbb{F}_2^n$ with hamming weight smaller than $r$. The generator matrix $G_{r,n}\in Mat_{D_r^n,2^n}$ is defined as
+	\begin{align*}
+	\left(G_{r,n}\right)_{i,j} = x_j^{u_i}, \ x_j \in Lex\left(X\right),\ u_i \in (P_{r,n}
+	\end{align*}
+	We denote by $G_{r,n}^Y\in Mat_{D_r^n,|Y|}$, the Reed-Muller generator matrix restricted on the set $Y \subset X$
+	\begin{align*}
+	\left(G_{r,n}\right)^Y_{i,j} = x_j^{u_i}, \ x_j \in Lex(Y),\ u_i \in P_{r,n}
+	\end{align*}
+\end{definition}
+
+\begin{remark}
+	Let $\hat{a}$ be the vector corresponding to the coefficients in the $ANF$ of a Boolean function $f$ of $n$ variables and degree $r$, then
+	\begin{align*}
+	\hat{a} * G_{r,n} = TT(f)
+	\end{align*}
+\end{remark}
 
 
 
