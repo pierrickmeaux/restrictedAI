@@ -508,8 +508,8 @@ Algorithm \ref{alg:RMApproach}, provides the full procedure to determine the res
 		\State $previousIndex \gets 0$
 		\While{$r \leq |S| /2$}
 		\State $D_i^n \gets D^n[i]$
-		\State $ef_f\gets EF\left(\mbox{\textsc{merge}}\left(ef_f, G_{n,n}^{f_Z^{(o)},S}[previousIndex:D_i^n]\right)\right)$
-		\State $ef_S \gets EF\left(\mbox{\textsc{merge}}\left(ef_S, G_{n,n}^S[previousIndex:D_i^n]\right)\right)$
+		\State $ef_f\gets \mbox{\textsc{row\_echelon\_form\_last\_}}D_i^n\mbox{\textsc{\_rows}}\left(\mbox{\textsc{merge}}\left(ef_f, G_{n,n}^{f_Z^{(o)},S}[previousIndex:D_i^n]\right)\right)$
+		\State $ef_S \gets \mbox{\textsc{row\_echelon\_form\_last\_}}D_i^n\mbox{\textsc{\_rows}}\left(\mbox{\textsc{merge}}\left(ef_S, G_{n,n}^S[previousIndex:D_i^n]\right)\right)$
 		\State $r \gets rank\left(ef_S\right)$
 		\If{$rank\left(ef_f\right)<r$}
 		\State
