@@ -496,7 +496,7 @@ Algorithm \ref{alg:RMApproach}, provides the full procedure to determine the res
 
 
 \begin{algorithm}\label{alg:RMApproach}
-	\caption{Algorithm to find the algebraic immunity of a function $f$ on the restricted set $S\subseteq \mathbb{F}_2^n$}
+	\caption{Algorithm to find the algebraic immunity of a function $f$ on the restricted set $S\subseteq \mathbb{F}_2^n$.}
 	\begin{algorithmic}[1]
 		\Require $x\in \mathbb{F}_2^{2^n}$ evaluation of the truth table of $f\in \Bn{n}$
 		\Ensure $AI_S(f)$
@@ -508,8 +508,8 @@ Algorithm \ref{alg:RMApproach}, provides the full procedure to determine the res
 		\State $previousIndex \gets 0$
 		\While{$r \leq |S| /2$}
 		\State $D_i^n \gets D^n[i]$
-		\State $ef_f\gets \mbox{\textsc{row\_echelon\_form\_last\_}}D_i^n\mbox{\textsc{\_rows}}\left(\mbox{\textsc{merge}}\left(ef_f, G_{n,n}^{f_Z^{(o)},S}[previousIndex:D_i^n]\right)\right)$
-		\State $ef_S \gets \mbox{\textsc{row\_echelon\_form\_last\_}}D_i^n\mbox{\textsc{\_rows}}\left(\mbox{\textsc{merge}}\left(ef_S, G_{n,n}^S[previousIndex:D_i^n]\right)\right)$
+		\State $ef_f\gets \mbox{\textsc{row\_echelon\_form\_last\_}}D_i^n\mbox{\textsc{\_rows}}\left(ef_f\ ||\  G_{n,n}^{f_Z^{(o)},S}[previousIndex:D_i^n]\right)$\footnotemark[1]
+		\State $ef_S \gets \mbox{\textsc{row\_echelon\_form\_last\_}}D_i^n\mbox{\textsc{\_rows}}\left(ef_S\ ||\ G_{n,n}^S[previousIndex:D_i^n]\right)$
 		\State $r \gets rank\left(ef_S\right)$
 		\If{$rank\left(ef_f\right)<r$}
 		\State
@@ -530,9 +530,9 @@ Algorithm \ref{alg:RMApproach}, provides the full procedure to determine the res
 		\State $G_{rows,n}^{f_Z,S}, G_{rows,n}^{(f\oplus 1)_Z,S}, G_{n,n}^S \gets [\ ], [\ ], [\ ]$
 		\For {$i \gets 0$ to $2^n-1$ }
 		\If{$i\in S$}
-		\State $G_{rows,n}^{S}.append\left(G_{n,n}[:][i]\right)$
+		\State $G_{rows,n}^{S} \gets G_{rows,n}^{S}\ ||\ G_{n,n}[:][i]$
 		\If{$x[i] = 1$}
-		\State $G_{rows,n}^{f_S,S}.append\left(G_{n,n}[:][i]\right)$
+		\State $G_{rows,n}^{f_S,S} \gets G_{rows,n}^{f_S,S}\ ||\ G_{n,n}[:][i]$
 		\Else
 		\State $G_{rows,n}^{(f\oplus 1)_S,S}.append\left(G_{n,n}[:][i]\right)$
 		\EndIf
@@ -542,10 +542,13 @@ Algorithm \ref{alg:RMApproach}, provides the full procedure to determine the res
 		$\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(G_{rows,n}^{f_Z,S}, G_{n,n}^S,D^{n})$\\
 		$\ |\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(G_{rows,n}^{(f\oplus 1)_Z,S}, G_{n,n}^S, D^{n})$\\
 		$)$
-		\State \Comment{// $min$ takes care of $null$ values $\min(immunity_f, null) = immunity_f$ and $\min(null, immunity_{f+1}) = immunity_{f+1}$}
-		\State \Return $\min(immunity_f, immunity_{f+1})$
+		\State \Return $\min(immunity_f, immunity_{f+1})$\footnotemark[2]
 	\end{algorithmic}
 \end{algorithm}
+
+\footnotetext[1]{The symbol $||$ is used as row-concatenation of matrices, meaning that $C = A||B$ is the matrix constructed by appending all the row of the matrix $B$ to the matrix $A$.}
+\footnotetext[2]{The function $min$ takes care of $null$ values $\min(immunity_f, null) = immunity_f$ and $\min(null, immunity_{f+1}) = immunity_{f+1}$}
+
 
 example Construction~\ref{cons:GA}
 
