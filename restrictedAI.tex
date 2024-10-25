@@ -633,14 +633,15 @@ Algorithm \ref{alg:MinDegreeSnonZeroAnnihilatorIterative}
 		\State $k\gets k+1$
 		\EndIf
 		\EndWhile
-		\algstore{myalg}
+		\State \CommentSty{// The algorithm continues in the next page: Algorithm \ref{alg:continueationMinDegreeSnonZeroAnnihilatorIterative}.}
+		\algstore{algo}
 	\end{algorithmic}
 \end{algorithm}
 \newpage
 \begin{algorithm}
-	\caption{Continuation of Algorithm}
+	\caption{Continuation of Algorithm \ref{alg:MinDegreeSnonZeroAnnihilatorIterative}.}\label{alg:continueationMinDegreeSnonZeroAnnihilatorIterative}
 	\begin{algorithmic}
-		\algrestore{myalg}
+		\algrestore{algo}
 		\State $S, ops_S \gets echelonFromFullMarix\left(
 		\begin{pmatrix}
 		s_1^{\alpha_1} &  s_2^{\alpha_1} & \cdots & s_{|S|}^{\alpha_{1}}\\
