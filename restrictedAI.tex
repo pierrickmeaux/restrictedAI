@@ -629,15 +629,18 @@ Algorithm \ref{alg:MinDegreeSnonZeroAnnihilatorIterative}
 		\EndFor
 		\State $zIndex \gets k+nonVanishingPointIndex$
 		\State $Z \gets \mbox{\textsc{swap}}(z_{k+1}, z_{zIndex})$
-		\State \textsc{merge}$(ops, ops_k)$
+		\State $ops\gets ops\ ||\ ops_k$
 		\State $k\gets k+1$
 		\EndIf
 		\EndWhile
+		\algstore{myalg}
 	\end{algorithmic}
 \end{algorithm}
 \newpage
 \begin{algorithm}
+	\caption{Continuation of Algorithm}
 	\begin{algorithmic}
+		\algrestore{myalg}
 		\State $S, ops_S \gets echelonFromFullMarix\left(
 		\begin{pmatrix}
 		s_1^{\alpha_1} &  s_2^{\alpha_1} & \cdots & s_{|S|}^{\alpha_{1}}\\
