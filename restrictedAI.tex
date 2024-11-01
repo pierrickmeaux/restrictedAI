@@ -438,18 +438,18 @@ If on the other hand, $f$ is constant in $S$, the algorithm returns $0$, as just
 The systems of equations $S_1^r$ and $S_2^r$ are constructed by extracting the \textit{$S$-$f$-generator} and the \textit{$S$-$f+1$-generator} given by Definition \ref{def:generatorsS}, by extracting them from the \textit{Reed-Muller} generator matrix where we only consider the columns corresponding to elements in $S$. This is justified by Remark \ref{rem:gfMatrix}.
 
 \begin{definition}\label{def:generatorsS}
-	Let $r,n\in\mathbb{N}_{>0}$ with $r\leq n$. Let $G_{r,n}$ be the generator matrix of the Reed-Muller code $RM(r,n)$, we define the object $S$-$f^{(o)}$-generator $G_{r,n}^{f^{(o)},S}$ by setting to zero all the columns of $G_{r,n}^S$ which do not correspond to elements of $supp(f^{(o)} )\cap S$. For the remaining columns, we calculate $G_{r,n}^{f_S^{(o)},S}$ as
+	Let $r,n\in\mathbb{N}_{>0}$ with $r\leq n$. Let $G_{r,n}$ be the generator matrix of the Reed-Muller code $RM(r,n)$, we define the object $S$-$f^{(o)}$-generator $G_{r,n}^{f^{(o)}_S,S}$ by setting to zero all the columns of $G_{r,n}^S$ which do not correspond to elements of $supp(f^{(o)} )\cap S$. For the remaining columns, we calculate $G_{r,n}^{f_S^{(o)},S}$ as
 	\begin{align*}
-	\left(G_{r,n}^{f^{(o)}_S,S}\right)_{i,j} = f_S^{(o)}(u_j)*\left(G_{r,n}^S\right)_{i,j}
+	\left(G_{r,n}^{f^{(o)}_S,S}\right)_{i,j} = f_S^{(o)}(u_j)*\left(G_{r,n}^S\right)_{i,j}, \ u_j \in S
 	\end{align*}
-	Moreover, we define the object $G_{r,n}^{f^{(o)}_S,S}$, by taking all the columns of $G_{r,n}$ which corresponds to element of $\mathbb{F}_2^n$ which are in $supp\left(f^{(o)}\right) \cap S$.
+	Moreover, we define the object $G_{r,n}^{f^{(o)}_{supp\left(f^{(o)}\right) \cap S},S}$, by taking all the columns of $G_{r,n}$ which corresponds to element of $\mathbb{F}_2^n$ which are in $supp\left(f^{(o)}\right) \cap S$.
 	\begin{align}
 	\left(G_{r,n}^{f_{supp\left(f^{(o)}\right) \cap S}^{(o)},S}\right)_{:,j} = (G_{r,n}^S)_{:,j} \mbox{ if } f_S^{(o)}(u_j) = 1 \label{eq:f-generatorRestrictedSet}
 	\end{align}
 \end{definition}
 
 \begin{remark}\label{rem:gfMatrix}
-	Let $g \in \Bn{n}$ and $\hat{a} = (a_I)_{I \subseteq {1,2,...,n}}$ be the vector of the coefficients of the $ANF$ of $g$, as s consequence of the construction of $G_{r,n}^{f,S}$, we have that
+	Let $g \in \Bn{n}$ and $\hat{a} = (a_I)_{I \subseteq {1,2,...,n}}$ be the vector of the coefficients of the $ANF$ of $g$, as a consequence of the construction of $G_{r,n}^{f,S}$, we have that
 	\begin{equation}
 	\begin{aligned}
 	\hat{a} G_{r,n}^{f_S,S} & = \left(\bigoplus_{i=1}a_i f_S(u_1)(G_{r,n}^S)_{i,1}, \bigoplus_{i=1}a_i f_S(u_2)(G_{r,n}^S)_{i,2}, \cdots, \bigoplus_{i=1}a_i f_S(u_n)(G_{r,n}^S)_{i,n}\right)     \\
@@ -467,7 +467,7 @@ The systems of equations $S_1^r$ and $S_2^r$ are constructed by extracting the \
 	If $rank\left(G^{f_{Z}^{(o)},S}_{r.n}\right) < rank(G^{S}_{r.n})$, then $f^{(o)}$ has $S$-non-zero-annihilator of degree $r$.
 \end{proposition}
 \begin{proof}
-	Since $D_r^n = rank(G^{f^{(o)_S},S}_{r.n}) + |Ker(G^{f^{(o)}_S,S}_{r.n})| =  rank(G^{S}_{r.n}) + |Ker(G^{S}_{r.n})|$, we have that
+	Since $D_r^n = rank(G^{f^{(o)}_S,S}_{r.n}) + |Ker(G^{f^{(o)}_S,S}_{r.n})| =  rank(G^{S}_{r.n}) + |Ker(G^{S}_{r.n})|$, we have that
 	$rank(G^{f_S^{(o)},S}_{r.n}) < rank(G^{S}_{r.n}) \iff |Ker(G^{f_S^{(o)},S}_{r.n})| > |Ker(G^{S}_{r.n})|$. Therefore $\exists v\in Ker(G^{f_S^{(o)},S}_{r.n}) \mbox{ such that }v\not\in Ker(G^{S}_{r.n})$. Hence, it exists a Boolean function $g$ of degree $r$, given by $v*G_{r,n}$, which is such that $v*G_{r,n}\neq 0$ and $v*G_{r,n}^{S}\neq 0$, but $(g*f_S^{(o)})_S = v*G_{r,n}^{f_S^{(o)},S} = 0$.\\
 	Since $rank\left(G_{r,n}^{f_S^{(o)}, S}\right) = rank\left(G_{r,n}^{f^{(o)}, S}\right)$, $rank(G^{f^{(o)},S}_{r.n}) < rank(G^{S}_{r.n}) \Rightarrow rank(G^{f_Z^{(o)},S}_{r.n}) < rank(G^{S}_{r.n})$ and hence the condition $rank(G^{f_Z^{(o)},S}_{r.n}) < rank(G^{S}_{r.n})$ is enough to justify the existence of such $v$ giving the $S$-non-zero-annihilator $g$.
 \end{proof}
@@ -587,6 +587,45 @@ example Construction~\ref{cons:GA}
 \section{Computing the restricted AI iteratively}\label{sec:IterativeApproach}
 Algorithm \ref{alg:MinDegreeSnonZeroAnnihilatorIterative}
 
+In this section, we present an algorithm to determine the algebraic immunity restricted to a set $S \subseteq \mathbb{F}_2^n$ with a better time and space complexity of the one presented in Section \ref{sec:RMapproach}.\\ 
+The idea is to construct the objects $G_{r,n}^{f_{supp\left(f\right) \cap S},S}$ and $G_{r,n}^{\left(f\oplus 1\right)_{supp\left(f\oplus 1\right) \cap S},S}$ for different $r$ recursively while checking for the existence of annihilators, instead of extracting them from a big pre-computed Reed-Muller generator matrix restricted to $S$.\\
+
+We start by giving some definitions and remarks to be able to introduce the general idea of the algorithm
+
+\begin{definition}[Vandermonde matrix]\label{def:tVandermonde}
+    Let $Z = \{z_1, ...., z_{k_Z}\} \subseteq \mathbb{F}_2^n$ and $E = \{\alpha_1, ..., \alpha_{k_E}\}\subseteq \mathbb{F}_2^n$, we define the matrix
+    \begin{align*}
+        V_{Z,E} = 
+        \begin{pmatrix}
+            z_1^{\alpha_1} & z_1^{\alpha_2} & \cdots & z_1^{\alpha_{k_E}} \\
+            z_2^{\alpha_1} & z_2^{\alpha_2} & \cdots & z_2^{\alpha_{k_E}} \\
+            \vdots & \vdots & \ddots & \vdots \\
+            z_{k_{Z}}^{\alpha_1} & z_{k_Z}^{\alpha_2} & \cdots & z_{k_Z}^{\alpha_{k_E}}
+        \end{pmatrix}
+    \end{align*}
+    We call this matrix the \textit{Vandermonde} matrix, used in \cite{armknecht2006efficient}.\\
+    Denoting by $Z_i = \{z_1, z_2, ...., z_i\}$ and $E_j = \{\alpha_1, ..., \alpha_j\}$ for $i\in[1,z_{k_Z}]$ and $j\in[1,\alpha_{k_E}]$, the sub-matrix $V_{E_i, Z_j}$ of $V_{E,Z}$ is given by
+    \begin{align*}
+        V_{Z_i, E_j} = 
+        \begin{pmatrix}
+            z_1^{\alpha_1} & z_1^{\alpha_2} & \cdots & z_1^{\alpha_{j}} \\
+            z_2^{\alpha_1} & z_2^{\alpha_2} & \cdots & z_2^{\alpha_{j}} \\
+            \vdots & \vdots & \ddots & \vdots \\
+            z_{i}^{\alpha_1} & z_{i}^{\alpha_2} & \cdots & z_{i}^{\alpha_j}
+        \end{pmatrix}
+    \end{align*}
+\end{definition}
+
+\lbnote{I will take care later of transposing the Vanderonde matrix}\\
+\begin{remark}\label{rem:subsetOfReedMuller}
+    Let $S\subseteq \mathbb{F}_2^n$, $f \in \Bn{n}$, $Z = supp(f) \cap S$ and $d \leq n$. Let $E = GrLex(\{\alpha_2, \alpha_2, \cdots, \alpha_{D_d^n}\})$ be such that $x^E$ is the set of all monomials with maximal degree $d$ ordered by the \textit{graded lex order}. The following remarks are made
+    \begin{itemize}
+        \item $V_{E,Z}$ is the transpose of $G_{r,n}^{f_{supp\left(f\right) \cap S},S}$
+        \item Let $E^{*}\subset E$, ordered by graded lex ordering. $V_{Z,E^{*}}$ is a sub-matrix of the transpose of the $f_S$-generator $G_{d,n}^{f_{res}, S}$
+    \end{itemize}
+\end{remark}
+
+
 \begin{algorithm}
 	\caption{Algorithm to find the degree of the minimum-degree $S$-non-zero-annihilator of a function $f^{(o)}$}\label{alg:MinDegreeSnonZeroAnnihilatorIterative}
 	\begin{algorithmic}[1]
@@ -629,15 +668,19 @@ Algorithm \ref{alg:MinDegreeSnonZeroAnnihilatorIterative}
 		\EndFor
 		\State $zIndex \gets k+nonVanishingPointIndex$
 		\State $Z \gets \mbox{\textsc{swap}}(z_{k+1}, z_{zIndex})$
-		\State \textsc{merge}$(ops, ops_k)$
+		\State $ops\gets ops\ ||\ ops_k$
 		\State $k\gets k+1$
 		\EndIf
 		\EndWhile
+		\State \CommentSty{// The algorithm continues in the next page: Algorithm \ref{alg:continueationMinDegreeSnonZeroAnnihilatorIterative}.}
+		\algstore{algo}
 	\end{algorithmic}
 \end{algorithm}
 \newpage
 \begin{algorithm}
+	\caption{Continuation of Algorithm \ref{alg:MinDegreeSnonZeroAnnihilatorIterative}.}\label{alg:continueationMinDegreeSnonZeroAnnihilatorIterative}
 	\begin{algorithmic}
+		\algrestore{algo}
 		\State $S, ops_S \gets echelonFromFullMarix\left(
 		\begin{pmatrix}
 		s_1^{\alpha_1} &  s_2^{\alpha_1} & \cdots & s_{|S|}^{\alpha_{1}}\\
