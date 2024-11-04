@@ -336,37 +336,9 @@ We use Krawtchouk polynomials and some of their properties to prove one of our r
 
 
 
-\subsection{Tang-Liu WPB functions}
-
-We recall the construction of WPB functions from Tang and Liu~\cite{CC:TangLiu19} and one on its properties. We use these results to prove the algebraic immunity of special cases of our main constructions.
-
-
-\begin{definition}[TL WPB construction (adapted from~\cite{CC:TangLiu19}, Construction $1$ )]\label{def:TL}
-	Let $m \in \N^*$ and $n = 2^m \ge 4$ be an integer. A TL WPB Boolean function $h$ on $n$-variable is such that
-	\begin{itemize}
-		\item $h(0_n)=0$ and $h(1_n)=1$ 
-		\item $h(x,y)=0$ if $\w(x)<\w(y)$.
-		\item $h(x,y)=1$ if $\w(x)>\w(y)$.
-		\item the cardinality of $U_i=\supp(h)\cap\set{(x,y)\in\F_2^{2^{m-1}}\times \F_2^{2^{m-1}}\colon \w(x)=\w(y)=j}$ is exactly $\binom{2^{m-1}}{j}^2/2$ for all $0<j<2^{m-1}$.
-	\end{itemize}	
-	% 	Let $(c_0,\dots,c_k)\in \set{0,1}^{k+1}$ such that $\sum c_j=0$
-	% 	\[
-	% 	 c_j=
-	% 	 \begin{cases}
-	% 	  0 & |\Ekn{j}{k}|\equiv 0 \pmod 2\\ 
-	% 	  \pm 1 & |\Ekn{j}{k}|\equiv 1 \pmod 2\\
-	% 	 \end{cases}
-	% 	\]
-\end{definition}
-\begin{remark}
-	Despite Definition~\ref{def:TL} may appear quite different respect the original paper, it is equivalent when considering the restriction on $n$ to be a power of two, and the values in $0_n$ and $1_n$ imposed by Definition~\ref{def:WAPB}. 
-	%applying the constrains of our framework.
-%	Namely, here we consider only the case where $n$ is a power of two. Referring to Construction $1$ of~\cite{CC:TangLiu19}, this implies that the coefficient $c_1,\dots,c_{k-1}$ must be zero. Moreover, in~\cite{CC:TangLiu19} $h(0_n)=0$ and $h(1_n)=1$ is not required for weightwise perfectly balancedness, differently from Definition~\ref{def:WPB}. This implies that in our context we can only instantiate their construction with $(-1,0,..,0,1)$ as input sequence, \ie as in Definition~\ref{def:TL}. 
-\end{remark}
-
-\begin{Prop}[TL WPB functions properties~\cite{CC:TangLiu19}]\label{Prop:TL}
-	Let $m \in \N^*$ and $n=2^m$, a  $n$-variable TL function $h_n$ has optimal algebraic immunity $\AI(h_n)=\frac{n}{2}$.
-\end{Prop}
+%\begin{Prop}[TL WPB functions properties~\cite{CC:TangLiu19}]\label{Prop:TL}
+%	Let $m \in \N^*$ and $n=2^m$, a  $n$-variable TL function $h_n$ has optimal algebraic immunity $\AI(h_n)=\frac{n}{2}$.
+%\end{Prop}
 
 %% Reed-Muller codes
 \subsection{Reed-Muller codes}
@@ -415,27 +387,50 @@ We recall the construction of WPB functions from Tang and Liu~\cite{CC:TangLiu19
 \section{Computing the restricted AI from generator matrices of Reed-Muller punctured codes}\label{sec:RMapproach}
 \pmnote{mostly one algorithm, or in 2 parts but 1 page max, then proposition that justify it gives the lowest degree annihilator.}
 
-In this section we provide an algorithm to compute the algebraic immunity of a Boolean function restricted on a general subset $S \subseteq \mathbb{F}_2^n$.\\
-The idea of the algorithm is to construct the systems of equations for $S_1^r \hat{=}g_1^r*f_S (x)= \hat{0}$ and $S_2^r\hat{=}g_2^r (f\oplus 1)_S (x) = \hat{0}$ for $x$ being in $\mathbb{F}_2^n$ and $g_1^r$ and $g_2^r$ being two Boolean functions of an algebraic degree $r$.\\
-If $f$ is non-constant in $S$, the algorithm checks for the existence of either $g_1^r$ solving $S_1^r$ or $g_2^r$ solving $S_2^r$ which do not vanish over all set $S$. If neither such solutions $g_1^r$, nor exist, new systems $S_1^{r+1}$ and $S_2^{r+1}$ are constructed and search of the existence of the solutions $g_{1}^{r+1}$ and $g_2^{r+1}$ continues. This process repeats until the existence of an the annihilator of either $f$ or $f\oplus 1$ is found or an upper bound $r+\delta$ is reached. The procedure followed on $f_S$ and on $(f\oplus 1)_S$ is done in parallel.\\
-If on the other hand, $f$ is constant in $S$, the algorithm returns $0$, as justified be Proposition \ref{prop:constantFs}.
+In this section we provide an algorithm to compute the algebraic immunity of a Boolean function restricted on a general subset $S \subseteq \mathbb{F}_2^n$. 
+
+
+\pmnote{ you cannot use "on the other hand" if you do not have the first part "one the one hand" (I modified it).}
+
+The idea behind the algorithm is to construct the systems of equations for $S_1^r \hat{=}g_1^r*f_S (x)= \hat{0}$ and $S_2^r\hat{=}g_2^r (f\oplus 1)_S (x) = \hat{0}$ for $x$ being in $\mathbb{F}_2^n$ and $g_1^r$ and $g_2^r$ being two Boolean functions of an algebraic degree $r$.
+If $f$ is non-constant in $S$, the algorithm checks for the existence of either $g_1^r$ solving $S_1^r$ or $g_2^r$ solving $S_2^r$ which do not vanish over all set $S$. If neither such solutions $g_1^r$, nor exist, new systems $S_1^{r+1}$ and $S_2^{r+1}$ are constructed and search of the existence of the solutions $g_{1}^{r+1}$ and $g_2^{r+1}$ continues. This process is repeated until the existence of an the annihilator of either $f$ or $f\oplus 1$ is found or an upper bound $r+\delta$ is reached. The procedure followed on $f_S$ and on $(f\oplus 1)_S$ is done in parallel.
+Instead, if $f$ is constant in $S$, the algorithm returns $0$, as justified be Proposition \ref{prop:constantFs}.
+
+\pmnote{Important: I modified the statement of the proposition, if $f=1$ on $S$ it does not mean "$f$ has a S-non-zero-annihilator of degree $0$" because this applies to $f+1$, when it is either f or f+1 it it the restricted algebraic immunity (former proposition was false.) }
+
+
+\pmnote{constant on S  implies $f$ has a "S-non-zero-annihilator of degree $0$" is the reverse implication in the statement. direct and reverse were interchanged.}
 
 \begin{proposition}\label{prop:constantFs}
-	A Boolean function $f$ has a S-non-zero-annihilator of degree $0$ if and only if the restriction $f_S$ on $S$ is constant.
+	A Boolean function $f$ has an $\AI_S$ of $0$ if and only if the restriction $f_S$ on $S$ is constant.
 \end{proposition}
 \begin{proof}
-	\underline{Direct implication $\Rightarrow$}\\
-	Suppose that $f\in \mathbb{BF}_n$ is a Boolean function which is constant in $S$, either this function $f$ is such that $f(x) = 0$ for all $x\in S$, or $f(x) = 1$ for all $x\in S$.\\
-	If it the case that $f$ is not null everywhere but $f(x) = 0\ \forall S$, then it exists the function $g(x) = 1$ which is not zero in all $S$, but is it such that $g(x)f(x) = 0$ for all $x\in S$.\\ 
-	If on the other hand, $f(x) = 1$ for all $x\in S$, the same argument can be used but annihilating the function $f\oplus 1$ on $S$.\\
-	\underline{Inverse implication $\Leftarrow$}\\
-	Suppose that a function $g\in \mathbb{BF}_n$ is an $S$-non-zero-annihilator of $f$ of degree $0$.\\
-	$g \neq 0$ and $deg(g) = 1 \Rightarrow g = 1$, therefore since $g$ annihilates $f$ in $S$,  $g(x) f(x) = 0$ for all $x \in S$, resulting in $f(x)g(x) = f(x) = 0$ .\\
-	In the same way, if on the other hand, $g$ annihilates $f\oplus 1$ on $S$ instead of $f$, we have that $g(x)(f(x) \oplus 1) = 0$ implying that $f\oplus 1 = 0 \Rightarrow f(x) = 1$ for all $x\in S$. 
+	First, we show the reverse implication.
+	We suppose that $f\in \BN$ is constant in $S$, either $f(x) = 0$ for all $x\in S$, or $f(x) = 1$ for all $x\in S$.
+	If $f$ is not null everywhere but $f(x) = 0\ \forall S$, then the constant function $g(x) = 1$ is not zero on all $S$, and is it such that $g(x)f(x) = 0$ for all $x\in S$. 
+	Similarly, if for all $x\in S$ $f(x) = 1$, the same argument can be used for the function $f\oplus 1$ on $S$.
+	
+	Then, we show the direct implication.
+	We suppose that a function $g\in \BN$ is an $S$-non-zero-annihilator of $f$ of degree $0$. Then,
+	$g \neq 0$ and $\deg(g) = 0 \Rightarrow g = 1$, therefore since $g$ annihilates $f$ in $S$,  $g(x) f(x) = 0$ for all $x \in S$, resulting in $f(x)g(x) = f(x) = 0$.
+	Similarly, if $g$ annihilates $f\oplus 1$ on $S$ instead of $f$, we have that $g(x)(f(x) \oplus 1) = 0$ implying that $f\oplus 1 = 0 \Rightarrow f(x) = 1$ for all $x\in S$. 
+%	\underline{Direct implication $\Rightarrow$}\\
+%	Suppose that $f\in \BN$ is constant in $S$, either this function $f$ is such that $f(x) = 0$ for all $x\in S$, or $f(x) = 1$ for all $x\in S$.\\
+%	If it the case that $f$ is not null everywhere but $f(x) = 0\ \forall S$, then it exists the function $g(x) = 1$ which is not zero in all $S$, but is it such that $g(x)f(x) = 0$ for all $x\in S$.\\ 
+%	If on the other hand, $f(x) = 1$ for all $x\in S$, the same argument can be used but annihilating the function $f\oplus 1$ on $S$.\\
+%	\underline{Inverse implication $\Leftarrow$}\\
+%	Suppose that a function $g\in \mathbb{BF}_n$ is an $S$-non-zero-annihilator of $f$ of degree $0$.\\
+%	$g \neq 0$ and $deg(g) = 1 \Rightarrow g = 1$, therefore since $g$ annihilates $f$ in $S$,  $g(x) f(x) = 0$ for all $x \in S$, resulting in $f(x)g(x) = f(x) = 0$ .\\
+%	In the same way, if on the other hand, $g$ annihilates $f\oplus 1$ on $S$ instead of $f$, we have that $g(x)(f(x) \oplus 1) = 0$ implying that $f\oplus 1 = 0 \Rightarrow f(x) = 1$ for all $x\in S$. 
 \end{proof}
 
 
 The systems of equations $S_1^r$ and $S_2^r$ are constructed by extracting the \textit{$S$-$f$-generator} and the \textit{$S$-$f+1$-generator} given by Definition \ref{def:generatorsS}, by extracting them from the \textit{Reed-Muller} generator matrix where we only consider the columns corresponding to elements in $S$. This is justified by Remark \ref{rem:gfMatrix}.
+
+
+\pmnote{is the "(o)" in exponent explained somewhere?}
+
+
 
 \begin{definition}\label{def:generatorsS}
 	Let $r,n\in\mathbb{N}_{>0}$ with $r\leq n$. Let $G_{r,n}$ be the generator matrix of the Reed-Muller code $RM(r,n)$, we define the object $S$-$f^{(o)}$-generator $G_{r,n}^{f^{(o)}_S,S}$ by setting to zero all the columns of $G_{r,n}^S$ which do not correspond to elements of $supp(f^{(o)} )\cap S$. For the remaining columns, we calculate $G_{r,n}^{f_S^{(o)},S}$ as
@@ -448,8 +443,17 @@ The systems of equations $S_1^r$ and $S_2^r$ are constructed by extracting the \
 	\end{align}
 \end{definition}
 
+
+\pmnote{For the remark below, $\hat{a} $ is a vector of length $2^n$, $G_{...}$ is a matrix of $D_{...}$ rows and $2^n$ columns isn't it? In this case the vector matrix product is not in the good order.
+
+The sum is only indexed by i=1, where does it stops?
+
+
+
+}
+
 \begin{remark}\label{rem:gfMatrix}
-	Let $g \in \Bn{n}$ and $\hat{a} = (a_I)_{I \subseteq {1,2,...,n}}$ be the vector of the coefficients of the $ANF$ of $g$, as a consequence of the construction of $G_{r,n}^{f,S}$, we have that
+	Let $g \in \Bn{n}$ and $\hat{a} = (a_I)_{I \subseteq [1,n] }$ be the vector of the coefficients of the $ANF$ of $g$, as a consequence of the construction of $G_{r,n}^{f,S}$, we have that
 	\begin{equation}
 	\begin{aligned}
 	\hat{a} G_{r,n}^{f_S,S} & = \left(\bigoplus_{i=1}a_i f_S(u_1)(G_{r,n}^S)_{i,1}, \bigoplus_{i=1}a_i f_S(u_2)(G_{r,n}^S)_{i,2}, \cdots, \bigoplus_{i=1}a_i f_S(u_n)(G_{r,n}^S)_{i,n}\right)     \\
@@ -459,12 +463,12 @@ The systems of equations $S_1^r$ and $S_2^r$ are constructed by extracting the \
 	\end{aligned}
 	\end{equation}
 	
-	Therefore, solving $ \hat{a} G_{r,n}^f = 0$ is equivalent to solving $f*g = 0$, or in other words, finding the kernel of $G_{r,n}^f$ is equivalent to finding all non-zero-annihilators of $f$ of degree up to $r$.
+	Therefore, solving $ \hat{a} G_{r,n}^f = 0$ is equivalent to solving $f*g = 0$, or in other words, finding the kernel of $G_{r,n}^f$ is equivalent to finding all annihilators of $f$ of degree up to $r$.
 \end{remark}
 
 \begin{proposition}\label{prop:compareranks}
 	Let $Z = supp\left(f^{(o)}\right) \cap S$.
-	If $rank\left(G^{f_{Z}^{(o)},S}_{r.n}\right) < rank(G^{S}_{r.n})$, then $f^{(o)}$ has $S$-non-zero-annihilator of degree $r$.
+	If $rank\left(G^{f_{Z}^{(o)},S}_{r.n}\right) < rank(G^{S}_{r.n})$, then $f^{(o)}$ admits a $S$-non-zero-annihilator of degree at most $r$.
 \end{proposition}
 \begin{proof}
 	Since $D_r^n = rank(G^{f^{(o)}_S,S}_{r.n}) + |Ker(G^{f^{(o)}_S,S}_{r.n})| =  rank(G^{S}_{r.n}) + |Ker(G^{S}_{r.n})|$, we have that
@@ -472,15 +476,15 @@ The systems of equations $S_1^r$ and $S_2^r$ are constructed by extracting the \
 	Since $rank\left(G_{r,n}^{f_S^{(o)}, S}\right) = rank\left(G_{r,n}^{f^{(o)}, S}\right)$, $rank(G^{f^{(o)},S}_{r.n}) < rank(G^{S}_{r.n}) \Rightarrow rank(G^{f_Z^{(o)},S}_{r.n}) < rank(G^{S}_{r.n})$ and hence the condition $rank(G^{f_Z^{(o)},S}_{r.n}) < rank(G^{S}_{r.n})$ is enough to justify the existence of such $v$ giving the $S$-non-zero-annihilator $g$.
 \end{proof}
 
-Algorithm \ref{alg:RMApproach}, provides the full procedure to determine the restricted algebraic immunity of a function $f$ of $n$ variables on the subset $S$. We provide Remark below to give additional details.
+Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the restricted algebraic immunity of a function $f$ of $n$ variables on the subset $S$. We give additional details:
 
-\begin{remark}
-	We have the following remarks
+\begin{remark}~
+%	We have the following remarks
 	\begin{itemize}
-		\item \cite{TOSC:CarMeaRot17} established that the upper bound of $AI_s(f9$ for any Boolean function $f$ and any set $S\subseteq \mathbb{F}_2^n$, is the degree $r$ such that $\left(G_{r,n}^n\right) > |S| / 2$. As a consequence of this, the search of the annihilator for $f$ and $f\oplus 1$ in our algorithm terminates once $rank\left(G_{r,n}^S\right) > \lfloor{|S| / 2}\rfloor$.
-		\item The generator matrix of a Reed-Muller does not depend on the Boolean function. It is therefore possible to pre-compute and store the generator matrices of all Reed-Muller codes with $r$ and $n$ smaller than some maximum values $r_{max}$ and $n_{max}$.
-		This suggests that it is possible to pre-compute $G_{r_{max}, n_{max}}$ for some fixed $n_{max}$ and $r_{max = n_{max}}$, and extract all others $G_{r,n}$ for $r \leq r_{max}$ and $n \leq n_{max}$ from it.\\
-		We therefore pre-conpute the hash table
+		\item \cite{TOSC:CarMeaRot17} established that the upper bound of $AI_s(f)$ for any Boolean function $f$ and any set $S\subseteq \mathbb{F}_2^n$, is the smallest integer $r$ such that $\left(G_{r,n}^n\right) > |S| / 2$. As a consequence, the search of the annihilator for $f$ and $f\oplus 1$ in our algorithm terminates once $rank\left(G_{r,n}^S\right) > \lfloor{|S| / 2}\rfloor$.
+		\item The generator matrix of a Reed-Muller code does not depend on the Boolean function. It is therefore possible to pre-compute and store the generator matrices of all Reed-Muller codes with $r$ and $n$ smaller than some maximum values $r_{max}$ and $n_{max}$.
+		This suggests that we can pre-compute $G_{r_{max}, n_{max}}$ for some fixed $n_{max}$ and $r_{max = n_{max}}$, and extract all others $G_{r,n}$ for $r \leq r_{max}$ and $n \leq n_{max}$ from it.
+		We therefore pre-compute the hash table
 		\begin{align*}
 		G^{\leq n_{max}} = \{\left(i, G_{n,i}\right)\}_{i \leq 1 \leq n_{max}}
 		\end{align*}
@@ -489,17 +493,21 @@ Algorithm \ref{alg:RMApproach}, provides the full procedure to determine the res
 		\begin{align*}\label{eq:degreesHashTable}
 		D^{\leq n_{max}} =  \{\left(i,D^{n} \right)\}_{0 \leq i \leq n_{max}} =  \{\left(i, \{ \left(j, D_i^j\right)\}_{0\leq j \leq \lceil{i/2}\rceil} \right)\}_{0 \leq i \leq n_{max}}
 		\end{align*}
-		In Algorithm \ref{alg:RMApproach}, we therefore use the function \textsc{read\_values\_from\_file}, to read to two pre-computed has tables from the files where they have been pre-stored before the execution of the algorithm.
+		In Algorithm \ref{alg:RMApproach}, we therefore use the function \textsc{read\_values\_from\_file}, to read to two pre-computed hash tables from the files where they have been pre-stored before the execution of the algorithm.
 		\item The procedure \textsc{find\_deg\_smallest\_S\_annihilator} in \ref{alg:RMApproach} is done in parallel for $f$ and $f\oplus 1$ with the additional condition that if one of the two branches returns the value of $1$, the other branch is stopped, without having to wait for it to finish.
 	\end{itemize}	
 \end{remark}
+
+\pmnote{We have to find the issue with the footnotes, they should appear in the page.}
+
+
 
 
 \begin{algorithm}\label{alg:RMApproach}
 	\caption{Algorithm to find the algebraic immunity of a function $f$ on the restricted set $S\subseteq \mathbb{F}_2^n$.}
 	\begin{algorithmic}[1]
 		\Require $x\in \mathbb{F}_2^{2^n}$ evaluation of the truth table of $f\in \Bn{n}$
-		\Ensure $AI_S(f)$
+		\Ensure $\AI_S(f)$
 		
 		\Function{find\_deg\_smallest\_S\_annihilator}{$G_{n,n}^{f_Z^{(o)},S}, G_{d,n}^{S}, D^n$}
 		\State $r \gets 0$
@@ -508,7 +516,7 @@ Algorithm \ref{alg:RMApproach}, provides the full procedure to determine the res
 		\State $previousIndex \gets 0$
 		\While{$r \leq |S| /2$}
 		\State $D_i^n \gets D^n[i]$
-		\State $ef_f\gets \mbox{\textsc{row\_echelon\_form\_last\_}}D_i^n\mbox{\textsc{\_rows}}\left(ef_f\ ||\  G_{n,n}^{f_Z^{(o)},S}[previousIndex:D_i^n]\right)$\footnotemark[1]
+		\State $ef_f\gets \mbox{\textsc{row\_echelon\_form\_last\_}}D_i^n\mbox{\textsc{\_rows}}\left(ef_f\ ||\  G_{n,n}^{f_Z^{(o)},S}[previousIndex:D_i^n]\right)$\footnote{The symbol $||$ is used as row-concatenation of matrices, meaning that $C = A||B$ is the matrix constructed by appending all the row of the matrix $B$ to the matrix $A$.}
 		\State $ef_S \gets \mbox{\textsc{row\_echelon\_form\_last\_}}D_i^n\mbox{\textsc{\_rows}}\left(ef_S\ ||\ G_{n,n}^S[previousIndex:D_i^n]\right)$
 		\State $r \gets rank\left(ef_S\right)$
 		\If{$rank\left(ef_f\right)<r$}
@@ -542,52 +550,19 @@ Algorithm \ref{alg:RMApproach}, provides the full procedure to determine the res
 		$\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(G_{rows,n}^{f_Z,S}, G_{n,n}^S,D^{n})$\\
 		$\ |\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(G_{rows,n}^{(f\oplus 1)_Z,S}, G_{n,n}^S, D^{n})$\\
 		$)$
-		\State \Return $\min(immunity_f, immunity_{f+1})$\footnotemark[2]
+		\State \Return $\min(immunity_f, immunity_{f+1})$\footnote{The function $min$ takes care of $null$ values $\min(immunity_f, null) = immunity_f$ and $\min(null, immunity_{f+1}) = immunity_{f+1}$}
 	\end{algorithmic}
 \end{algorithm}
 
-\footnotetext[1]{The symbol $||$ is used as row-concatenation of matrices, meaning that $C = A||B$ is the matrix constructed by appending all the row of the matrix $B$ to the matrix $A$.}
-\footnotetext[2]{The function $min$ takes care of $null$ values $\min(immunity_f, null) = immunity_f$ and $\min(null, immunity_{f+1}) = immunity_{f+1}$}
+%\footnotetext[1]{The symbol $||$ is used as row-concatenation of matrices, meaning that $C = A||B$ is the matrix constructed by appending all the row of the matrix $B$ to the matrix $A$.}
+%\footnotetext[2]{The function $min$ takes care of $null$ values $\min(immunity_f, null) = immunity_f$ and $\min(null, immunity_{f+1}) = immunity_{f+1}$}
 
 
-example Construction~\ref{cons:GA}
-
-\begin{constr}
-	\caption{Construction of 2-RotS WAPB Boolean function\label{cons:GA}}
-	\begin{algorithmic}
-		% \Require $ v=(0,0,\ldots,0) \in \F_2^{n+1}$
-		\Require $\pi \in Sn$ %, G = <\pi> , r_{k,i},g_{n,k}$ is given.
-		\Ensure A 2-RotS WAPB Boolean function $f_\pi \in \BN$
-		\State Initiate $\supp(f_\pi) = \phi$
-		\State $t = 0$
-		\For {$k \gets 0$ to $n$ }
-		\For {$i \gets 1$ to $g_{k,n}$}
-		\State $u = \nu_{k,n,i}$; $l= |O_\pi(u)|$
-		\If {$l$ is even}
-		\For {$j \gets 1$ to $\frac{l}{2}$}
-		\State $\supp(f_\pi)$.append($u$)
-		\State $ u \gets \pi \circ \pi(u)$
-		\EndFor
-		\Else
-		\State $u = \pi^{t}(u)$
-		\For {$j \gets 1$ to $\lceil\frac{l - t}{2}\rceil$}
-		\State $\supp(f_\pi)$.append($u$)
-		\State $ u \gets \pi \circ \pi(u)$ 
-		\EndFor 
-		%			\State Update $t \gets t \oplus 1$
-		\State Update $t \gets 1 - t$
-		\EndIf
-		\EndFor
-		\EndFor
-		\State \textbf{return} $f_\pi$
-	\end{algorithmic}
-	
-\end{constr}
 
 \section{Computing the restricted AI iteratively}\label{sec:IterativeApproach}
-Algorithm \ref{alg:MinDegreeSnonZeroAnnihilatorIterative}
 
-In this section, we present an algorithm to determine the algebraic immunity restricted to a set $S \subseteq \mathbb{F}_2^n$ with a better time and space complexity of the one presented in Section \ref{sec:RMapproach}.\\ 
+
+In this section, we present an algorithm (Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative}) to determine the algebraic immunity restricted to a set $S \subseteq \mathbb{F}_2^n$ with a better time and space complexity of the one presented in Section \ref{sec:RMapproach}.
 The idea is to construct the objects $G_{r,n}^{f_{supp\left(f\right) \cap S},S}$ and $G_{r,n}^{\left(f\oplus 1\right)_{supp\left(f\oplus 1\right) \cap S},S}$ for different $r$ recursively while checking for the existence of annihilators, instead of extracting them from a big pre-computed Reed-Muller generator matrix restricted to $S$.\\
 
 We start by giving some definitions and remarks to be able to introduce the general idea of the algorithm
