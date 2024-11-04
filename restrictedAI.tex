@@ -226,6 +226,10 @@ For $S=\Ekn{k}{n}$ we denote $\AI_{\Ekn{k}{n}}(f)$ by $\AIk{k}(f)$ and call it w
 	
 \end{definition}
 
+\begin{remark}
+    Let $f\in \Bn{n}$. We use the notation $f^{(o)}$ referring to either $f$ or $f\oplus1$ when the choice between the two does not matter. In particular, $f^{(o)} \in \{f, f\oplus 1\}$.
+\end{remark}
+
 
 
 \begin{definition}[Walsh transform and restricted Walsh transform]\label{def:walsh_transform}
@@ -433,7 +437,7 @@ The systems of equations $S_1^r$ and $S_2^r$ are constructed by extracting the \
 
 
 \begin{definition}\label{def:generatorsS}
-	Let $r,n\in\mathbb{N}_{>0}$ with $r\leq n$. Let $G_{r,n}$ be the generator matrix of the Reed-Muller code $RM(r,n)$, we define the object $S$-$f^{(o)}$-generator $G_{r,n}^{f^{(o)}_S,S}$ by setting to zero all the columns of $G_{r,n}^S$ which do not correspond to elements of $supp(f^{(o)} )\cap S$. For the remaining columns, we calculate $G_{r,n}^{f_S^{(o)},S}$ as
+Let $r,n\in\mathbb{N}_{>0}$ with $r\leq n$. Let $G_{r,n}$ be the generator matrix of the Reed-Muller code $RM(r,n)$, we define the object $S$-$f^{(o)}$-generator $G_{r,n}^{f^{(o)}_S,S}$ by setting to zero all the columns of $G_{r,n}^S$ which do not correspond to elements of $supp(f^{(o)} )\cap S$. For the remaining columns, we calculate $G_{r,n}^{f_S^{(o)},S}$ as
 	\begin{align*}
 	\left(G_{r,n}^{f^{(o)}_S,S}\right)_{i,j} = f_S^{(o)}(u_j)*\left(G_{r,n}^S\right)_{i,j}, \ u_j \in S
 	\end{align*}
@@ -453,17 +457,17 @@ The sum is only indexed by i=1, where does it stops?
 }
 
 \begin{remark}\label{rem:gfMatrix}
-	Let $g \in \Bn{n}$ and $\hat{a} = (a_I)_{I \subseteq [1,n] }$ be the vector of the coefficients of the $ANF$ of $g$, as a consequence of the construction of $G_{r,n}^{f,S}$, we have that
+	Let $g \in \Bn{n}$ a Boolean function of degree $r\leq n$ and $\hat{a} = \left(a_I\right)_{\substack{I \subseteq [1,n] \\ deg\left(x^I\right) \leq r}}$ be the vector of the coefficients of the $ANF$ of $g$, as a consequence of the construction of $G_{r,n}^{f,S}$, we have that
 	\begin{equation}
 	\begin{aligned}
-	\hat{a} G_{r,n}^{f_S,S} & = \left(\bigoplus_{i=1}a_i f_S(u_1)(G_{r,n}^S)_{i,1}, \bigoplus_{i=1}a_i f_S(u_2)(G_{r,n}^S)_{i,2}, \cdots, \bigoplus_{i=1}a_i f_S(u_n)(G_{r,n}^S)_{i,n}\right)     \\
-	& =  \left(f_S(u_1) \bigoplus_{i=1}a_i (G_{r,n}^S)_{i,1}, f_S(u_2) \bigoplus_{i=1}a_i (G_{r,n}^S)_{i,2}, \cdots, f_S(u_n) \bigoplus_{i=1}a_i (G_{r,n}^S)_{i,n}\right) \\
+	\hat{a} * G_{r,n}^{f_S,S} & = \left(\bigoplus_{i=1}^{D_r^n}a_i f_S(u_1)(G_{r,n}^S)_{i,1}, \bigoplus_{i=1}^{D_r^n}a_i f_S(u_2)(G_{r,n}^S)_{i,2}, \cdots, \bigoplus_{i=1}^{D_r^n}a_i f_S(u_n)(G_{r,n}^S)_{i,n}\right)     \\
+	& =  \left(f_S(u_1) \bigoplus_{i=1}^{D_r^n}a_i (G_{r,n}^S)_{i,1}, f_S(u_2) \bigoplus_{i=1}^{D_r^n}a_i (G_{r,n}^S)_{i,2}, \cdots, f_S(u_n) \bigoplus_{i=1}^{D_r^n}a_i (G_{r,n}^S)_{i,n}\right) \\
 	& = \left(f_S(u_1) g(u_1), f_S(u_2) g(u_2), ...., f_S(u_n) g(u_n)\right)                                                                                      \\
 	& = f_S*g
 	\end{aligned}
 	\end{equation}
 	
-	Therefore, solving $ \hat{a} G_{r,n}^f = 0$ is equivalent to solving $f*g = 0$, or in other words, finding the kernel of $G_{r,n}^f$ is equivalent to finding all annihilators of $f$ of degree up to $r$.
+	Therefore, solving $ \hat{a} * G_{r,n}^{f_S,S} = 0$ is equivalent to solving $f_S*g = 0$, or in other words, finding the kernel of $G_{r,n}^{f_S,S}$ is equivalent to finding all annihilators of $f$ restricted to $S$ of degree up to $r$.
 \end{remark}
 
 \begin{proposition}\label{prop:compareranks}
@@ -554,8 +558,8 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 	\end{algorithmic}
 \end{algorithm}
 
-%\footnotetext[1]{The symbol $||$ is used as row-concatenation of matrices, meaning that $C = A||B$ is the matrix constructed by appending all the row of the matrix $B$ to the matrix $A$.}
-%\footnotetext[2]{The function $min$ takes care of $null$ values $\min(immunity_f, null) = immunity_f$ and $\min(null, immunity_{f+1}) = immunity_{f+1}$}
+\footnotetext[1]{The symbol $||$ is used as row-concatenation of matrices, meaning that $C = A||B$ is the matrix constructed by appending all the row of the matrix $B$ to the matrix $A$.}
+\footnotetext[2]{The function $min$ takes care of $null$ values $\min(immunity_f, null) = immunity_f$ and $\min(null, immunity_{f+1}) = immunity_{f+1}$}
 
 
 
