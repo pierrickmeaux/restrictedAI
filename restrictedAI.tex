@@ -559,7 +559,7 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 \end{algorithm}
 
 \footnotetext[1]{The symbol $||$ is used as row-concatenation of matrices, meaning that $C = A||B$ is the matrix constructed by appending all the row of the matrix $B$ to the matrix $A$.}
-\footnotetext[2]{The function $min$ takes care of $null$ values $\min(immunity_f, null) = immunity_f$ and $\min(null, immunity_{f+1}) = immunity_{f+1}$}
+\footnotetext[2]{The function $min$ takes care of $null$ values $\min(immunity_f, null) = immunity_f$ and $\min(null, immunity_{f+1}) = immunity_{f+1}$.}
 
 
 
@@ -571,38 +571,66 @@ The idea is to construct the objects $G_{r,n}^{f_{supp\left(f\right) \cap S},S}$
 
 We start by giving some definitions and remarks to be able to introduce the general idea of the algorithm
 
-\begin{definition}[Vandermonde matrix]\label{def:tVandermonde}
+\begin{definition}[T-Vandermonde matrix]\label{def:tVandermonde}
     Let $Z = \{z_1, ...., z_{k_Z}\} \subseteq \mathbb{F}_2^n$ and $E = \{\alpha_1, ..., \alpha_{k_E}\}\subseteq \mathbb{F}_2^n$, we define the matrix
     \begin{align*}
-        V_{Z,E} = 
+        V_{E,Z} = 
         \begin{pmatrix}
-            z_1^{\alpha_1} & z_1^{\alpha_2} & \cdots & z_1^{\alpha_{k_E}} \\
-            z_2^{\alpha_1} & z_2^{\alpha_2} & \cdots & z_2^{\alpha_{k_E}} \\
+            z_1^{\alpha_1} & z_2^{\alpha_1} & \cdots & z_{k_Z}^{\alpha_1} \\
+            z_1^{\alpha_2} & z_2^{\alpha_2} & \cdots & z_{k_Z}^{\alpha_2} \\
             \vdots & \vdots & \ddots & \vdots \\
-            z_{k_{Z}}^{\alpha_1} & z_{k_Z}^{\alpha_2} & \cdots & z_{k_Z}^{\alpha_{k_E}}
+            z_1^{\alpha_{k_E}} & z_2^{\alpha_{k_E}} & \cdots & z_{k_Z}^{\alpha_{k_E}}
         \end{pmatrix}
     \end{align*}
-    We call this matrix the \textit{Vandermonde} matrix, used in \cite{armknecht2006efficient}.\\
+    We call this matrix the \textit{Transpose (T-)Vandermonde} matrix: the transpose of the matrix used in \cite{armknecht2006efficient}.\\
     Denoting by $Z_i = \{z_1, z_2, ...., z_i\}$ and $E_j = \{\alpha_1, ..., \alpha_j\}$ for $i\in[1,z_{k_Z}]$ and $j\in[1,\alpha_{k_E}]$, the sub-matrix $V_{E_i, Z_j}$ of $V_{E,Z}$ is given by
     \begin{align*}
-        V_{Z_i, E_j} = 
+        V_{E_i,Z_j} = 
         \begin{pmatrix}
-            z_1^{\alpha_1} & z_1^{\alpha_2} & \cdots & z_1^{\alpha_{j}} \\
-            z_2^{\alpha_1} & z_2^{\alpha_2} & \cdots & z_2^{\alpha_{j}} \\
+            z_1^{\alpha_1} & z_2^{\alpha_1} & \cdots & z_j^{\alpha_{i}} \\
+            z_1^{\alpha_2} & z_2^{\alpha_2} & \cdots & z_j^{\alpha_{i}} \\
             \vdots & \vdots & \ddots & \vdots \\
-            z_{i}^{\alpha_1} & z_{i}^{\alpha_2} & \cdots & z_{i}^{\alpha_j}
+            z_{1}^{\alpha_i} & z_{2}^{\alpha_i} & \cdots & z_{j}^{\alpha_i}
         \end{pmatrix}
     \end{align*}
 \end{definition}
 
-\lbnote{I will take care later of transposing the Vanderonde matrix}\\
+Equally to Definition \ref{def:tVandermonde}, we define the \textit{T-Vandermonde} matrix over the set $S$.
+\begin{definition}
+    Let $S = \{s_1, s_2, \cdots, s_{k_S}\} \subseteq \mathbb{F}_2^n$, and $E = \{\alpha_1, \alpha_2, \cdots, \alpha_{k_s}\} \subseteq \mathbb{F}_2^n$. We define the matrix $S_{S,E}$ as
+    \begin{align*}
+        \left(S_{E,S}\right)_{i,j} = s_j^{\alpha_i}
+    \end{align*}
+    \begin{align*}
+        S_{E,S} = 
+        \begin{pmatrix}
+            s_1^{\alpha_1} & s_2^{\alpha_1} & \cdots & s_{k_S}^{\alpha_1} \\
+            s_1^{\alpha_2} & s_2^{\alpha_2} & \cdots & s_{k_S}^{\alpha_2} \\
+            \vdots & \vdots & \ddots & \vdots \\
+            s_1^{\alpha_{k_E}} & s_{2}^{\alpha_{k_E}} & \cdots & s_{k_S}^{\alpha_{k_E}}
+        \end{pmatrix}
+    \end{align*}
+    and for $i \leq k_S$ and $j\leq k_E$, the sub-matrix
+    \begin{align*}
+    S_{E_i, S_j} = 
+    \begin{pmatrix}
+            s_1^{\alpha_1} & s_2^{\alpha_1} & \cdots & s_{j}^{\alpha_1} \\
+            s_1^{\alpha_2} & s_2^{\alpha_2} & \cdots & s_{j}^{\alpha_2} \\
+            \vdots & \vdots & \ddots & \vdots \\
+            s_1^{\alpha_{i}} & s_{2}^{\alpha_{i}} & \cdots & s_{j}^{\alpha_{i}}
+        \end{pmatrix}    
+    \end{align*}
+\end{definition}
+
 \begin{remark}\label{rem:subsetOfReedMuller}
     Let $S\subseteq \mathbb{F}_2^n$, $f \in \Bn{n}$, $Z = supp(f) \cap S$ and $d \leq n$. Let $E = GrLex(\{\alpha_2, \alpha_2, \cdots, \alpha_{D_d^n}\})$ be such that $x^E$ is the set of all monomials with maximal degree $d$ ordered by the \textit{graded lex order}. The following remarks are made
     \begin{itemize}
-        \item $V_{E,Z}$ is the transpose of $G_{r,n}^{f_{supp\left(f\right) \cap S},S}$
-        \item Let $E^{*}\subset E$, ordered by graded lex ordering. $V_{Z,E^{*}}$ is a sub-matrix of the transpose of the $f_S$-generator $G_{d,n}^{f_{res}, S}$
+        \item $V_{E,Z} = G_{r,n}^{f_{supp\left(f\right) \cap S},S}$.
+        \item Let $E^{*}\subset E$, ordered by graded lex ordering. $V_{Z,E^{*}}$ is a sub-matrix of $G_{d,n}^{f_Z, S}$.
     \end{itemize}
 \end{remark}
+
+With these definitions in mind, we re-state the algorithm procedure as follows. Let $Z = supp\left(f^{(o)}\right) \cap S$ and $1\leq i \leq D_n^n$, the algorithm works by constructing the matrix $V_{E_i, Z_i}$, finding non non-zero annihilators restricted on $S$ of the Boolean function with support $Z_i$, by taking elements of the kernel of $V_{E_i, Z_i}$. If such non-zero annihilators exists, it checks if any of therm are also non-zero-annihilator restricted on $f$ of the full function $f^{(o)}$ with support $Z$.  
 
 
 \begin{algorithm}
