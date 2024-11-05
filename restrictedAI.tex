@@ -595,6 +595,16 @@ We start by giving some definitions and remarks to be able to introduce the gene
     \end{align*}
 \end{definition}
 
+\begin{remark}\label{rem:subsetOfReedMuller}
+    Let $S\subseteq \mathbb{F}_2^n$, $f \in \Bn{n}$, $Z = supp(f) \cap S$ and $d \leq n$. Let $E = GrLex(\{\alpha_2, \alpha_2, \cdots, \alpha_{D_d^n}\})$ be such that $x^E$ is the set of all monomials with maximal degree $d$ ordered by the \textit{graded lex order}. The following remarks are made
+    \begin{itemize}
+        \item $V_{E,Z} = G_{r,n}^{f_{supp\left(f\right) \cap S},S}$.
+        \item Let $E^{*}\subset E$, ordered by graded lex ordering. $V_{Z,E^{*}}$ is a sub-matrix of $G_{d,n}^{f_Z, S}$.
+    \end{itemize}
+\end{remark}
+
+With Definition \ref{def:tVandermonde} and Remark \ref{rem:subsetOfReedMuller} in mind, we re-state the algorithm procedure as follows. Let $Z = supp\left(f^{(o)}\right) \cap S$ and $1\leq i \leq D_n^n$, the algorithm works by constructing the matrix $V_{E_i, Z_i}$, finding non non-zero annihilators restricted on $S$ of the Boolean function with support $Z_i$, by taking elements of the kernel of $V_{E_i, Z_i}$. If such non-zero annihilators exists, it checks if any of therm are also non-zero-annihilator restricted on $S$ of the full function $f^{(o)}$ with support $Z$.\\
+
 Equally to Definition \ref{def:tVandermonde}, we define the \textit{T-Vandermonde} matrix over the set $S$.
 \begin{definition}
     Let $S = \{s_1, s_2, \cdots, s_{k_S}\} \subseteq \mathbb{F}_2^n$, and $E = \{\alpha_1, \alpha_2, \cdots, \alpha_{k_s}\} \subseteq \mathbb{F}_2^n$. We define the matrix $S_{S,E}$ as
@@ -621,17 +631,6 @@ Equally to Definition \ref{def:tVandermonde}, we define the \textit{T-Vandermond
         \end{pmatrix}    
     \end{align*}
 \end{definition}
-
-\begin{remark}\label{rem:subsetOfReedMuller}
-    Let $S\subseteq \mathbb{F}_2^n$, $f \in \Bn{n}$, $Z = supp(f) \cap S$ and $d \leq n$. Let $E = GrLex(\{\alpha_2, \alpha_2, \cdots, \alpha_{D_d^n}\})$ be such that $x^E$ is the set of all monomials with maximal degree $d$ ordered by the \textit{graded lex order}. The following remarks are made
-    \begin{itemize}
-        \item $V_{E,Z} = G_{r,n}^{f_{supp\left(f\right) \cap S},S}$.
-        \item Let $E^{*}\subset E$, ordered by graded lex ordering. $V_{Z,E^{*}}$ is a sub-matrix of $G_{d,n}^{f_Z, S}$.
-    \end{itemize}
-\end{remark}
-
-With these definitions in mind, we re-state the algorithm procedure as follows. Let $Z = supp\left(f^{(o)}\right) \cap S$ and $1\leq i \leq D_n^n$, the algorithm works by constructing the matrix $V_{E_i, Z_i}$, finding non non-zero annihilators restricted on $S$ of the Boolean function with support $Z_i$, by taking elements of the kernel of $V_{E_i, Z_i}$. If such non-zero annihilators exists, it checks if any of therm are also non-zero-annihilator restricted on $f$ of the full function $f^{(o)}$ with support $Z$.  
-
 
 \begin{algorithm}
 	\caption{Algorithm to find the degree of the minimum-degree $S$-non-zero-annihilator of a function $f^{(o)}$}\label{alg:MinDegreeSnonZeroAnnihilatorIterative}
