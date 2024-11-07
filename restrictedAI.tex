@@ -568,6 +568,7 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 
 In this section, we present an algorithm (Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative}) to determine the algebraic immunity restricted to a set $S \subseteq \mathbb{F}_2^n$ with a better time and space complexity of the one presented in Section \ref{sec:RMapproach}.
 The idea is to construct the objects $G_{r,n}^{f_{supp\left(f\right) \cap S},S}$ and $G_{r,n}^{\left(f\oplus 1\right)_{supp\left(f\oplus 1\right) \cap S},S}$ for different $r$ recursively while checking for the existence of annihilators, instead of extracting them from a big pre-computed Reed-Muller generator matrix restricted to $S$.\\
+As for Algorithm \ref{alg:RMApproach}, the procedure returns $0$ if the function $f$ is constant in $S$, we therefore only explain the case of determining the $AI_S$ for function which are such that $AI_S(f) \geq 1$. The full algorithm provided will however also cover the cases of functions with zero restricted $AI$.\\
 
 We start by giving some definitions and remarks to be able to introduce the general idea of the algorithm
 
@@ -603,7 +604,7 @@ We start by giving some definitions and remarks to be able to introduce the gene
     \end{itemize}
 \end{remark}
 
-With Definition \ref{def:tVandermonde} and Remark \ref{rem:subsetOfReedMuller} in mind, we re-state the algorithm procedure as follows. Let $Z = supp\left(f^{(o)}\right) \cap S$ and $1\leq i \leq D_n^n$, the algorithm works by constructing the matrix $V_{E_i, Z_i}$, finding non non-zero annihilators restricted on $S$ of the Boolean function with support $Z_i$, by taking elements of the kernel of $V_{E_i, Z_i}$. If such non-zero annihilators exists, it checks if any of therm are also non-zero-annihilator restricted on $S$ of the full function $f^{(o)}$ with support $Z$.\\
+With Definition \ref{def:tVandermonde} and Remark \ref{rem:subsetOfReedMuller} in mind, we re-state the algorithm's procedure as follows. Let $Z = supp\left(f^{(o)}\right) \cap S$ and $1\leq i \leq D_n^n$, if the function $f$ is not constant on $S$, the algorithm works by constructing the matrix $V_{E_i, Z_i}$, finding non-zero annihilators restricted on $S$ of the Boolean function with support $Z_i$, by taking Boolean functions corresponding to the elements of the kernel of $V_{E_i, Z_i}$. If such non-zero annihilators exist, it checks if any of them are also annihilator restricted on $S$ of the full function $f^{(o)}$ with support $Z$, by testing if they also vanish in all $Z$ but not in all $S$. If the algorithm finds any of such annihilators, it returns the degree of the last monomial added $x^{\alpha_i}$, otherwise, it continues incrementing the index $i$ until either a decided solution is found, or all the elements of $Z$ have been added.\\
 
 Equally to Definition \ref{def:tVandermonde}, we define the \textit{T-Vandermonde} matrix over the set $S$.
 \begin{definition}
