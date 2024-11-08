@@ -482,10 +482,10 @@ The sum is only indexed by i=1, where does it stops?
 
 Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the restricted algebraic immunity of a function $f$ of $n$ variables on the subset $S$. We give additional details:
 
-\begin{remark}~
+\begin{remark}~\label{rem:remarksOnAlg}
 %	We have the following remarks
-	\begin{itemize}
-		\item \cite{TOSC:CarMeaRot17} established that the upper bound of $AI_s(f)$ for any Boolean function $f$ and any set $S\subseteq \mathbb{F}_2^n$, is the smallest integer $r$ such that $\left(G_{r,n}^n\right) > |S| / 2$. As a consequence, the search of the annihilator for $f$ and $f\oplus 1$ in our algorithm terminates once $rank\left(G_{r,n}^S\right) > \lfloor{|S| / 2}\rfloor$.
+	\begin{enumerate}
+		\item \cite{TOSC:CarMeaRot17} established that the upper bound of $AI_s(f)$ for any Boolean function $f$ and any set $S\subseteq \mathbb{F}_2^n$, is the smallest integer $r$ such that $\left(G_{r,n}^n\right) > |S| / 2$. As a consequence, the search of the annihilator for $f$ and $f\oplus 1$ in our algorithm terminates once $rank\left(G_{r,n}^S\right) > \lfloor{|S| / 2}\rfloor$.\label{item:Item1RemOnAlg}
 		\item The generator matrix of a Reed-Muller code does not depend on the Boolean function. It is therefore possible to pre-compute and store the generator matrices of all Reed-Muller codes with $r$ and $n$ smaller than some maximum values $r_{max}$ and $n_{max}$.
 		This suggests that we can pre-compute $G_{r_{max}, n_{max}}$ for some fixed $n_{max}$ and $r_{max = n_{max}}$, and extract all others $G_{r,n}$ for $r \leq r_{max}$ and $n \leq n_{max}$ from it.
 		We therefore pre-compute the hash table
@@ -499,7 +499,7 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 		\end{align*}
 		In Algorithm \ref{alg:RMApproach}, we therefore use the function \textsc{read\_values\_from\_file}, to read to two pre-computed hash tables from the files where they have been pre-stored before the execution of the algorithm.
 		\item The procedure \textsc{find\_deg\_smallest\_S\_annihilator} in \ref{alg:RMApproach} is done in parallel for $f$ and $f\oplus 1$ with the additional condition that if one of the two branches returns the value of $1$, the other branch is stopped, without having to wait for it to finish.
-	\end{itemize}	
+	\end{enumerate}	
 \end{remark}
 
 \pmnote{We have to find the issue with the footnotes, they should appear in the page.}
@@ -604,7 +604,6 @@ We start by giving some definitions and remarks to be able to introduce the gene
     \end{itemize}
 \end{remark}
 
-With Definition \ref{def:tVandermonde} and Remark \ref{rem:subsetOfReedMuller} in mind, we re-state the algorithm's procedure as follows. Let $Z = supp\left(f^{(o)}\right) \cap S$ and $1\leq i \leq D_n^n$, if the function $f$ is not constant on $S$, the algorithm works by constructing the matrix $V_{E_i, Z_i}$, finding non-zero annihilators restricted on $S$ of the Boolean function with support $Z_i$, by taking Boolean functions corresponding to the elements of the kernel of $V_{E_i, Z_i}$. If such non-zero annihilators exist, it checks if any of them are also annihilator restricted on $S$ of the full function $f^{(o)}$ with support $Z$, by testing if they also vanish in all $Z$ but not in all $S$. If the algorithm finds any of such annihilators, it returns the degree of the last monomial added $x^{\alpha_i}$, otherwise, it continues incrementing the index $i$ until either a decided solution is found, or all the elements of $Z$ have been added.\\
 
 Equally to Definition \ref{def:tVandermonde}, we define the \textit{T-Vandermonde} matrix over the set $S$.
 \begin{definition}
@@ -632,6 +631,11 @@ Equally to Definition \ref{def:tVandermonde}, we define the \textit{T-Vandermond
         \end{pmatrix}    
     \end{align*}
 \end{definition}
+
+With Definition \ref{def:tVandermonde} and Remark \ref{rem:subsetOfReedMuller} in mind, we restate the algorithm's procedure as follows.\\
+Let $Z = supp\left(f^{(o)}\right) \cap S$ and $1\leq i \leq |Z|$, if the function $f$ is not constant on $S$, the algorithm works by constructing the matrix $V_{E_i, Z_i}$ and seeks for non-zero annihilators restricted on $S$ of the Boolean function with support $Z_i$, by taking Boolean functions corresponding to the elements of the kernel of $V_{E_i, Z_i}$.\\
+If such non-zero annihilators exist, the procedure checks if any of these are also annihilator restricted on $S$ of the full function $f^{(o)}$ with support $Z$, by testing if they also vanish in all $Z$ but not in all $S$. If any of such annihilators is found, the algorithm returns the degree of the last monomial added, $x^{\alpha_i}$. Otherwise, it increments the index $i$ and continues a desired solution is found or all the all matrices up to $V_{E_i, |Z|}$ containing all the element of $Z$, have been tested.\\
+If no annihilator is found after all the elements of $Z$ have been added, the algorithm iteratively adds new monomials, generates the matrices $V_{E_i, Z}$ and $S_{E_i, S_i}$ and returns the degree of the monomial $x^{\alpha_i}$ in the case in which $rank\left(V_{E_i, Z}\right) < rank\left(S_{E_i, S_i}\right)$. Following point \ref{item:Item1RemOnAlg} of Remark \ref{rem:remarksOnAlg}, the iteration stops when $rank\left(S_{E_i, E_i}\right) > |S| / 2$.
 
 \begin{algorithm}
 	\caption{Algorithm to find the degree of the minimum-degree $S$-non-zero-annihilator of a function $f^{(o)}$}\label{alg:MinDegreeSnonZeroAnnihilatorIterative}
