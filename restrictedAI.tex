@@ -558,8 +558,8 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 	\end{algorithmic}
 \end{algorithm}
 
-\footnotetext[1]{The symbol $||$ is used as row-concatenation of matrices, meaning that $C = A||B$ is the matrix constructed by appending all the row of the matrix $B$ to the matrix $A$.}
-\footnotetext[2]{The function $min$ takes care of $null$ values $\min(immunity_f, null) = immunity_f$ and $\min(null, immunity_{f+1}) = immunity_{f+1}$.}
+\footnote[1]{The symbol $||$ is used as row-concatenation of matrices, meaning that $C = A||B$ is the matrix constructed by appending all the row of the matrix $B$ to the matrix $A$.}
+\footnote[2]{The function $min$ takes care of $null$ values $\min(immunity_f, null) = immunity_f$ and $\min(null, immunity_{f+1}) = immunity_{f+1}$.}
 
 
 
@@ -635,7 +635,176 @@ Equally to Definition \ref{def:tVandermonde}, we define the \textit{T-Vandermond
 With Definition \ref{def:tVandermonde} and Remark \ref{rem:subsetOfReedMuller} in mind, we restate the algorithm's procedure as follows.\\
 Let $Z = supp\left(f^{(o)}\right) \cap S$ and $1\leq i \leq |Z|$, if the function $f$ is not constant on $S$, the algorithm works by constructing the matrix $V_{E_i, Z_i}$ and seeks for non-zero annihilators restricted on $S$ of the Boolean function with support $Z_i$, by taking Boolean functions corresponding to the elements of the kernel of $V_{E_i, Z_i}$.\\
 If such non-zero annihilators exist, the procedure checks if any of these are also annihilator restricted on $S$ of the full function $f^{(o)}$ with support $Z$, by testing if they also vanish in all $Z$ but not in all $S$. If any of such annihilators is found, the algorithm returns the degree of the last monomial added, $x^{\alpha_i}$. Otherwise, it increments the index $i$ and continues a desired solution is found or all the all matrices up to $V_{E_i, |Z|}$ containing all the element of $Z$, have been tested.\\
-If no annihilator is found after all the elements of $Z$ have been added, the algorithm iteratively adds new monomials, generates the matrices $V_{E_i, Z}$ and $S_{E_i, S_i}$ and returns the degree of the monomial $x^{\alpha_i}$ in the case in which $rank\left(V_{E_i, Z}\right) < rank\left(S_{E_i, S_i}\right)$. Following point \ref{item:Item1RemOnAlg} of Remark \ref{rem:remarksOnAlg}, the iteration stops when $rank\left(S_{E_i, E_i}\right) > |S| / 2$.
+If no annihilator is found after all the elements of $Z$ have been added, the algorithm iteratively adds new monomials, generates the matrices $V_{E_i, Z}$ and $S_{E_i, S_i}$ and returns the degree of the monomial $x^{\alpha_i}$ in the case in which $rank\left(V_{E_i, Z}\right) < rank\left(S_{E_i, S_i}\right)$. Following point \ref{item:Item1RemOnAlg} of Remark \ref{rem:remarksOnAlg}, the iteration stops when $rank\left(S_{E_i, E_i}\right) > |S| / 2$.\\
+
+\lbnote{Unify Propositions below - 2 propositions instead of 4}\\
+With Propositions \ref{prop:annihliatorOnZk} and \ref{prop:annihilatorOnZ}, we formally justify the process of finding a non-zero-annihilator of a function, from a non-zero-annihilator on a sub-support, while Proposition \ref{prop:secondPoint}, justifies the behaviour taken in the case in which no restricted non-zero-annihilator has been found before the having added all the elements of $Z$.
+\begin{proposition}\label{prop:annihliatorOnZk}
+    If it exists a $1 < k \leq \min\{|Z|, |E_{\lceil{n/2}\rceil-1}^n|\}$ such that $rank(V_{Z_k, E_k}) < |E_k|$, then it exists the Boolean function $g_k$ such that $deg\left(g_k\right) = w_H(\alpha_k)$ and $g_k(x) = 0,\ \forall x \in Z_k$.
+\end{proposition}
+\begin{proof}
+    Let $1 < k \leq \min\{|Z|, |E_{\lceil{n/2}\rceil-1}^n|\}$.\\
+    Since $V_{Z_k, E_k}$ has $|E_k|$ columns, $rank(V_{Z_k, E_k}) < |E_k| = k \implies \exists \hat{g}_k \neq \hat{0}$ such that $V_{Z_k, E_k}*\hat{g}_k = \hat{0}$.\\
+    From the construction of $V_{Z_k, E_k}$, we have that $V_{Z_k, E_k}$ contains some of the monomials of degree $w_H\left(\alpha_{k}\right)$ and from Remark \ref{rem:subsetOfReedMuller}, $V_{Z_k, E_k}$ is a sub-matrix of the transpose if the $f^{(o)}$-generator.\\
+    Denoting by $f_k^{(o)}$ the restriction of $f^{(o)}$ on $Z_k$ and using Remark \ref{rem:gfMatrix}, we see that $V_k * \hat{g}_k= TT\left(f_k^{(o)}\circ g_k\right)$, where $g_k$ is the Boolean function corresponding to $\hat{g}_k$. Therefore $V_k * \hat{g}_k = \hat{0} \Rightarrow g_k * f_k^{(o)} (x) = 0 = g_k * f^{(0)} (x)\ \forall x\in Z_k$ and since $f^{(o)} (x) = 1\ \forall x\in Z_k$, we have that $g_k(x) = 0\ \forall x \in Z_k$.\\
+    The maximal degree of $g_k$ is the degree of the monomials $x^{\alpha_k}$ which is $deg(x^{\alpha_k}) = w_H(\alpha_k)$.
+\end{proof}
+
+\begin{proposition}\label{prop:annihilatorOnZ}
+    A Boolean function $g \in \Bn{n}$ that satisfies the premise on Proposition \ref{prop:annihliatorOnZk} and also vanishes in all other elements of $Z$, is a non-zero-annihilator of $f^{(o)}$.
+\end{proposition}
+\begin{proof}
+    Let $g_k$ be a Boolean function of degree $w_H\left(\alpha_k\right)$ satisfying Proposition \ref{prop:annihliatorOnZk}. Suppose moreover that $g(x) = 0,\ \forall x \in Z\backslash Z_k$.\\
+    Since $g_k$ satisfies Proposition \ref{prop:annihliatorOnZk}, $g_k(x) = 0$ for all $x\in Z_k$ and it exists $x \in \mathbb{F}_2^n$ such that $g_k(x) = 1$.\\
+    Adding the fact that $g_k(x) = 0$ also for the inputs $x \in Z\backslash Z_k$, we have that $g_k(x) = 0, \forall x\in Z = supp\left(f^{(o)}\right)$ and $g_k \neq 0 $ in the space $\mathbb{F}_2^n$.\\
+    Therefore, we have that $g_k$ is a non-zero-annihilator of degree $w_H\left(\alpha_k\right)$ the whole function $f^{(o)}$. 
+\end{proof}
+
+\begin{proposition}\label{prop:secondPoint}
+    A Boolean function $g\in \Bn{n}$ of degree $d$ that satisfies Proposition \ref{prop:annihliatorOnZk} and Proposition \ref{prop:annihilatorOnZ} with $Z = supp\left(f^{(o)}\right) \cap S$, and that does not vanish on all $S$, is a $S$-non-zero-annihilator of degree $d$. 
+\end{proposition}
+\begin{proof}
+    This follows from the definition of an $S$-non-zero-annihilator of degree $d$.\\
+    Let $g\in \mathbb{BF}_n$ be a Boolean function satisfying Proposition \ref{prop:annihliatorOnZk} and Proposition \ref{prop:annihilatorOnZ}.\\
+     Proposition \ref{prop:annihliatorOnZk} and Proposition \ref{prop:annihilatorOnZ}, justify the fact that $g$ vanish in $Z = supp\left(f^{(o)}\right) \cap S$.\\
+    From Definition \ref{def:SNonZeroAnnihilator}, a non-zero Boolean function of degree $d$ vanishing in $Z$, but not in $S$ is an S-non-zero-annihilator of degree $d$. 
+\end{proof}
+
+\begin{proposition}
+    If it exists a $k \leq |Z|$, such that $rank\left(V_{Z, E_k}\right) < rank\left(S_{S,k}\right)$, then it exists a $S$-non-zero-annihilator of $f^{(o)}$ of degree $w_H\left(\alpha_k\right)$.
+\end{proposition}
+\begin{proof}
+    Suppose that for a $k \leq |Z|$, and that $rank\left(V_{Z, E_k}\right) < rank\left(S_{S,k}\right)$.\\
+    Since $V_{Z,E_k}$ contains all the elements of $Z$ and $S_{S,E_k}$ contains all the elements of $S$, we are in a similar situation as in Proposition \ref{prop:compareranks}. In particular, from Remark \ref{rem:subSetOrGeneratorsRestrected}, $V_{Z,E_k}$ is a sub-matrix of the transpose of $G_{w_H\left(\alpha_k\right), n}^{f_{res}^{(o)}, S}$, and $S_{S,E_k}$ is a sub-matrix of the transpose of $G_{w_H\left(\alpha_k\right), n}^{S}$.\\
+    If $w_H\left(\alpha_k\right) = d$ for a $d\geq 1$, we are exactly in the same situation as Proposition \ref{prop:compareranks}, from which we conclude that an $S$-non-zero-annihilator of degree $d$ of $f^{(o)}$ exists.\\
+    On the other hand, if $k$ is such that $D_{d}^n < k < D_{d+1}^n$ for a $d \geq 1$, if $rank\left(V_{Z, E_k}\right) < rank\left(S_{S, E_k}\right)$ it exists a $\hat{g}_k \in rightKer\left(V_{Z, E_k}\right)$ such that $\hat{g} \not\in rightKer\left(S_{S,E_k}\right)$, hence a vector $\hat{g}_k$ of coefficients of the Boolean function $g_k \in \mathbb{BF}_n$ which is non-null on $S$ but vanishes on $Z$. Such Boolean function has a degree of $w_H\left(\alpha_k\right) = d$.
+\end{proof}
+
+\lbnote{The following remarks are copied and pasted from the thesis. I still have to adapt it or potentially remove it}\\
+\begin{remark}\label{rem:partialRemark}
+    Using Theorem \ref{upperBoundRestricted}, setting an upper bound of the degree of a minimal degree $S$-non-zero-annihilator on $f^{(o)}$, the \textit{while} loop in the \textit{section 2} of the Algorithm \ref{alg:naiveAlg3-2} is constructed in such a way to set the upper bound of the transpose of the $S$-generator to $\lfloor{|S| / 2}\rfloor$.
+\end{remark}
+
+\begin{remark}
+    In the while loop of the \textit{section 2}, if we find a $k$ such that $V_k$ has full rank, we can avoid generating the matrices $V_{k^*}$ for $k^* > k$ and calculating their ranks. This is because, if $rank\left(V_k\right)$ is full $rank(V_{k^{*}}) = rank(V_K)$ for all $k^{*} > k$.
+\end{remark}
+
+\subsection{Evaluating a Boolean function's coefficients vector on a set of points}
+\lbnote{The below statement is almost copied and pasted from the thesis. I still have to adapt it}\\
+To check if one of such vectors is such that its Boolean function vanishes in a set of points, map the solution vector to the algebraic normal form of the corresponding Boolean function and then evaluate on it the points of $Z\backslash Z_k$. To avoid explicitly calculating the algebraic normal form, we evaluate the points directly on the vector by considering the non-zero elements of the vector whose monomials are sub-monomials of the evaluation point.\\
+The procedure is justified by the following propositions.
+
+\begin{proposition}\label{prop:ANFonEvaluation}
+    Let $d \in \mathbb{N}_{>0}$ and $k = D_d^n$ and $E_{k} = (\alpha_1, \alpha_2, \cdots, \alpha_k)$ the vector of all monomials up to the degree $d$ ordered by graded lex order.\\
+    Let $g^{coefs} =  (\epsilon_1, \epsilon_2, ..., \epsilon_{k})$ be the vector of coefficients corresponding to a Boolean function $g \in \Bn{n}$.\\
+    Let $y \in \mathbb{F}_2^n$ be a point such that $y <_{glex} \alpha_k$.\\
+    The evaluation of $y$ by $g$ is given by
+    \begin{align*}
+        g(y) = \bigoplus_{1\leq i\leq k} \epsilon_{i}x^{\alpha_i} \bigg|_{x=y} = \bigoplus_{1\leq i\leq k}\epsilon_i *\psi^{y}\left(x^{\alpha_i}\right)
+    \end{align*}
+    where 
+    \begin{align*}
+        \psi^{y}(x^{\alpha_i}) = 
+        \begin{cases}
+            1 \mbox{ if } x^{\alpha_i} \preceq x^{y}\\
+            0 \mbox{ otherwise}
+        \end{cases}
+    \end{align*}
+\end{proposition}
+\begin{proof}
+    Let $g^{coefs} =  (\epsilon_1, \epsilon_2, ..., \epsilon_{k})$ be the set of coefficients corresponding to the Boolean function $g \in \mathbb{BF}_n$ of degree $d$.\\
+    We have that 
+    \begin{align*}
+        \bigoplus_{1<i<k}\epsilon_i *\psi^{y}\left(x^{\alpha_i}\right) = \bigoplus_{1<i<k}\epsilon_i \begin{cases}
+            1 \mbox{ if } \alpha_i \preceq y\\
+            0 \mbox{ otherwise}
+        \end{cases} = \bigoplus_{1\leq i\leq k} \epsilon_i,\ \forall i \mbox{ such that } \alpha_i\preceq y = \bigoplus_{\alpha_i \preceq y}\epsilon_i
+    \end{align*}
+    Using Remark \ref{rem:anfAndEvaluation}, we see that
+    \begin{align*}
+         \bigoplus_{\alpha_i \preceq y}\epsilon_i = f(y)
+    \end{align*}
+\end{proof}
+
+\subsection{Complexity problem due to the dimension of the kernel}\label{subsubsection:dimensionOfKernel}
+\lbnote{The below statement is almost copied and pasted from the thesis. I still have to adapt it}\\
+We are searching for at least one element satisfying some required conditions, from a vector space that is potentially too big for the algorithm to maintain the desired efficiency.\\
+If the dimension of the right kernel of $V_k= V_{Z_k,E_k}$ is too large, the number of non-zero-annihilators on $Z_k$ is also too big, resulting in too many possible solutions to test on $Z\backslash Z_k$; denoting by $d$ the dimension of $rightKer(V_k)$, the cardinality $|rightKer(V_k)|$ is $2^d$ which is not acceptable.\\
+To solve this issue, in the case we find an element $\hat{g}_k$ of the right kernel of $V_k$ which does not vanish on $Z$, we re-order the vector $Z$ by swapping the element $z_{k+1}$ with the element which is not vanishing in $\hat{g}_k$. This ensures that such element of the kernel of $V_k$ do not get propagated to the kernel of the next matrices.
+
+\begin{proposition}\label{prop:swappingElementOfZToReduceKer}
+    Let $k < \min\{(|Z|, |E_{\lceil{n/2}\rceil}-1)\}$ and $V_k$ constructed following Definition \ref{def:inductiveConstructionOfV},\\
+    Suppose $rightKer(V_k) = <\hat{g}_k> = <(\epsilon_1,\epsilon_2, \cdots, \epsilon_k )>$ and $g_k\in \mathbb{BF}_n$ the Boolean function corresponding to $\hat{g}_k$. Suppose moreover, that it exists a $z_{k+j}$, for $j\geq 1$ such that $g_k(z_{k+j}) = 1$, then the matrix $V^{'}_{k+1}$ constructed as
+    \begin{align*}
+        V^{'}_{k+1} = 
+        \begin{pmatrix}
+        \multicolumn{4}{c}{\multirow{4}{*}{$V_{k}$}} & z_{1}^{\alpha_k}\\
+        & & & & z_{2}^{\alpha_k}\\
+        & & & & \vdots\\
+        & & & & z_{k}^{\alpha_{k}}\\
+        z_{k+j}^{\alpha_{1}} & z_{k+j}^{\alpha_{2}}& \cdots & z_{k+j}^{\alpha_{k}} & z_{k+j}^{\alpha_{k}}
+    \end{pmatrix}
+    \end{align*}
+    is such that $(\epsilon_1, \epsilon_2, \cdots, \epsilon_k, 0) \not\in rightKer(V^{'}_{k+1})$.
+\end{proposition}
+\begin{proof}
+    Suppose that $rightKer(V_k) = <\hat{g}_k> = <(\epsilon_1,\epsilon_2, \cdots, \epsilon_k )>$ and that it exists $j\geq 1$ such that $g(z_{k+j}) = 1$ but which is such that $(\epsilon_1, \epsilon_2, \cdots, \epsilon_k, 0) \in rightKer(V^{'}_{k+1})$.\\
+    If $(\epsilon_1, \epsilon_2, \cdots, \epsilon_k, 0) \in rightKer(V^{'}_{k+1})$, then $V^{'}_{k+1}* (\epsilon_1, \epsilon_2, \cdots, \epsilon_k, 0)= \hat{0}$. In particular, the last equation of the system of equation described by $V^{'}_{k+1}* (\epsilon_1, \epsilon_2, \cdots, \epsilon_k, 0)= \hat{0}$, is 
+    \begin{align}
+        \epsilon_1z_{k+j}^{\alpha_1} \oplus \cdots \oplus\epsilon_k z_{k+j}^{\alpha_k} \oplus 0*z_{k+j}^{\alpha_{k+1}} =  \epsilon_1z_{k+j}^{\alpha_1} \oplus \cdots \oplus \epsilon_k z_{k+j}^{\alpha_k} = 0
+    \end{align}
+    However, from our hypothesis, we have that
+    \begin{align*}
+        g_k(z_{k+j}) =  1 \iff g_k(z_{k+j}) = (z_{k+j}^{\alpha_1} ,z_{k+j}^{\alpha_2}, \cdots ,z_{k+j}^{\alpha_k}) \begin{pmatrix}
+            \epsilon_1\\
+            \epsilon_2\\
+            \vdots\\
+            \epsilon_k
+        \end{pmatrix}
+        = \epsilon_1z_{k+j}^{\alpha_1} \oplus \cdots \oplus \epsilon_k z_{k+j}^{\alpha_k} = 1
+    \end{align*}
+    Therefore it cannot be the case that $(\epsilon_1, \cdots, \epsilon_k, 0)$ is in the kernel of $V^{'}_{k+1}$.
+\end{proof}
+
+
+\begin{proposition}\label{prop:upperBoundOnRightKernel}
+    The sequences of matrices $(V_k)_k$ using the construction given in Proposition \ref{prop:swappingElementOfZToReduceKer}, ensure that
+    \begin{align*}
+        dim\left(rightKer\left(V_k\right)\right) \leq 1
+    \end{align*}
+\end{proposition}
+\begin{proof}
+    We prove the result by induction
+    \begin{itemize}
+        \item The initialization step $V_1 = (1)$ has full rank, hence $dim(rightKer(V_1)) = 0 \leq 1$
+        \item We suppose that $dim(rightKer(V_k)) \leq 1$. 
+        \begin{itemize}
+            \item If $dim(rightKer(V_k)) = 0$, adding a new row and column, $V_{k+1}$ can only increase the kernel by $1$, therefore $dim\left(rightKer(V_{k+1})\right) \leq 1$.
+            \item If $dim(rightKer(V_k)) = 1$, let $\hat{x} = \left(\hat{\epsilon}, 0 \right)$ where $\hat{\epsilon}$ is in $rightKer(V_k)$.\\
+            Let $\hat{z}$ be an element of $rightKer\left(V_{k+1}\right)$, we have that either $\hat{z} = (\hat{\epsilon}, 0)$ or $z = (\hat{y}, 1)$ with $\hat{y}$ being an element of $\mathbb{F}_2^{k}$.\\
+            \begin{itemize}
+                \item if $\hat{z} = (\hat{\epsilon}, 0)$ we have that
+                \begin{align*}
+                     \hat{z} = (\hat{\epsilon}, 0) \implies V_{k+1} \hat{z} = 0 \implies V_{k} \hat{\epsilon = 0} \implies \epsilon \in rightKer(V_k)
+                \end{align*}
+                However, from Proposition \ref{prop:swappingElementOfZToReduceKer}, this is only possible if $\hat{\epsilon}$ is a trivial solution.
+                \item if $\hat{z} = (\hat{y}, 1)$ with $\hat{y} \in \mathbb{F}_2^k$, we have that $V_{k+1} \hat{z} = 0$, hence
+                \begin{align*}
+                        Eq1: & V_{k} \hat{y} \oplus (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}})^T = 0 \iff V_{k} \hat{y} = (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}})^T\\
+                        Eq2: & (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} \oplus z_{k+1}^{\alpha_{k+1}} = 0 \iff (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} = z_{k+1}^{\alpha_{k+1}} 
+                \end{align*}
+                Since $dim(rightKer(V_k)) = 1$, $rank(V_k) = k-1$ and hence it exists maximum one particular solution solving $Eq1$. Suppose such a solution is $\hat{y}_p$. If $\hat{y}_p$ also solves $Eq2$, $\hat{y}_p$ is an element of the right kernel of $V_{k+1}$.
+            \end{itemize}
+            Since $(\hat{\epsilon}, 0)$ can't be an element of the right kernel of $V_{k+1}$, if it exists, $\hat{y}_p$ is the only element that can be present in $rightKer(V_{k+1})$.\\
+            Therefore $dim\left(rightKer(V_{k+1})\right) \leq 1$.
+        \end{itemize}
+    \end{itemize} 
+\end{proof}
+
+\begin{remark}
+    Notice that the definition of $V^{'}_{k+1}$ in Proposition \ref{prop:swappingElementOfZToReduceKer}, does not break Definition \ref{def:inductiveConstructionOfV}, since we do not need to specify a particular ordering relation for the element of the support $Z$ to construct the sequence $(V_{k})_k$.\\
+    We do not, however, have the same freedom for the ordering of the monomials which must remain ordered in graded lex ordering.
+\end{remark}
 
 \begin{algorithm}
 	\caption{Algorithm to find the degree of the minimum-degree $S$-non-zero-annihilator of a function $f^{(o)}$}\label{alg:MinDegreeSnonZeroAnnihilatorIterative}
