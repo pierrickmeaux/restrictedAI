@@ -389,21 +389,13 @@ We use Krawtchouk polynomials and some of their properties to prove one of our r
 
 
 \section{Computing the restricted AI from generator matrices of Reed-Muller punctured codes}\label{sec:RMapproach}
-\pmnote{mostly one algorithm, or in 2 parts but 1 page max, then proposition that justify it gives the lowest degree annihilator.}
 
 In this section we provide an algorithm to compute the algebraic immunity of a Boolean function restricted on a general subset $S \subseteq \mathbb{F}_2^n$. 
 
 
-\pmnote{ you cannot use "on the other hand" if you do not have the first part "one the one hand" (I modified it).}
-
 The idea behind the algorithm is to construct the systems of equations for $S_1^r \hat{=}g_1^r*f_S (x)= \hat{0}$ and $S_2^r\hat{=}g_2^r (f\oplus 1)_S (x) = \hat{0}$ for $x$ being in $\mathbb{F}_2^n$ and $g_1^r$ and $g_2^r$ being two Boolean functions of an algebraic degree $r$.
 If $f$ is non-constant in $S$, the algorithm checks for the existence of either $g_1^r$ solving $S_1^r$ or $g_2^r$ solving $S_2^r$ which do not vanish over all set $S$. If neither such solutions $g_1^r$, nor exist, new systems $S_1^{r+1}$ and $S_2^{r+1}$ are constructed and search of the existence of the solutions $g_{1}^{r+1}$ and $g_2^{r+1}$ continues. This process is repeated until the existence of an the annihilator of either $f$ or $f\oplus 1$ is found or an upper bound $r+\delta$ is reached. The procedure followed on $f_S$ and on $(f\oplus 1)_S$ is done in parallel.
 Instead, if $f$ is constant in $S$, the algorithm returns $0$, as justified be Proposition \ref{prop:constantFs}.
-
-\pmnote{Important: I modified the statement of the proposition, if $f=1$ on $S$ it does not mean "$f$ has a S-non-zero-annihilator of degree $0$" because this applies to $f+1$, when it is either f or f+1 it it the restricted algebraic immunity (former proposition was false.) }
-
-
-\pmnote{constant on S  implies $f$ has a "S-non-zero-annihilator of degree $0$" is the reverse implication in the statement. direct and reverse were interchanged.}
 
 \begin{proposition}\label{prop:constantFs}
 	A Boolean function $f$ has an $\AI_S$ of $0$ if and only if the restriction $f_S$ on $S$ is constant.
@@ -432,9 +424,6 @@ Instead, if $f$ is constant in $S$, the algorithm returns $0$, as justified be P
 The systems of equations $S_1^r$ and $S_2^r$ are constructed by extracting the \textit{$S$-$f$-generator} and the \textit{$S$-$f+1$-generator} given by Definition \ref{def:generatorsS}, by extracting them from the \textit{Reed-Muller} generator matrix where we only consider the columns corresponding to elements in $S$. This is justified by Remark \ref{rem:gfMatrix}.
 
 
-\pmnote{is the "(o)" in exponent explained somewhere?}
-
-
 
 \begin{definition}\label{def:generatorsS}
 Let $r,n\in\mathbb{N}_{>0}$ with $r\leq n$. Let $G_{r,n}$ be the generator matrix of the Reed-Muller code $RM(r,n)$, we define the object $G_{r,n}^{f^{(o)}_S,S}$ by setting to zero all the columns of $G_{r,n}^S$ which do not correspond to elements of $supp(f^{(o)} )\cap S$. For the remaining columns, we calculate $G_{r,n}^{f_S^{(o)},S}$ as
@@ -446,15 +435,6 @@ Let $r,n\in\mathbb{N}_{>0}$ with $r\leq n$. Let $G_{r,n}$ be the generator matri
 	\left(G_{r,n}^{f_{supp\left(f^{(o)}\right) \cap S}^{(o)},S}\right)_{:,j} = (G_{r,n}^S)_{:,j} \mbox{ if } f_S^{(o)}(u_j) = 1 \label{eq:f-generatorRestrictedSet}
 	\end{align}
 \end{definition}
-
-
-\pmnote{For the remark below, $\hat{a} $ is a vector of length $2^n$, $G_{...}$ is a matrix of $D_{...}$ rows and $2^n$ columns isn't it? In this case the vector matrix product is not in the good order.
-
-The sum is only indexed by i=1, where does it stops?
-
-
-
-}
 
 \begin{remark}\label{rem:gfMatrix}
 	Let $g \in \Bn{n}$ a Boolean function of degree $r\leq n$ and $\hat{a} = \left(a_I\right)_{\substack{I \subseteq [1,n] \\ deg\left(x^I\right) \leq r}}$ be the vector of the coefficients of the $ANF$ of $g$, as a consequence of the construction of $G_{r,n}^{f,S}$, we have that
@@ -558,8 +538,8 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 	\end{algorithmic}
 \end{algorithm}
 
-\footnote[1]{The symbol $||$ is used as row-concatenation of matrices, meaning that $C = A||B$ is the matrix constructed by appending all the row of the matrix $B$ to the matrix $A$.}
-\footnote[2]{The function $min$ takes care of $null$ values $\min(immunity_f, null) = immunity_f$ and $\min(null, immunity_{f+1}) = immunity_{f+1}$.}
+\footnotetext[1]{The symbol $||$ is used as row-concatenation of matrices, meaning that $C = A||B$ is the matrix constructed by appending all the row of the matrix $B$ to the matrix $A$.}
+\footnotetext[2]{The function $min$ takes care of $null$ values $\min(immunity_f, null) = immunity_f$ and $\min(null, immunity_{f+1}) = immunity_{f+1}$.}
 
 
 
@@ -604,6 +584,42 @@ We start by giving some definitions and remarks to be able to introduce the gene
     \end{itemize}
 \end{remark}
 
+\begin{remark}\label{rem:squareConstruction}
+    Let $i\geq 1$. We have that if $1< i+1 \leq \min{\left(|Z|, |E_{D_n^n}|\right)}$, $V_{Z_{i+1}, E_{i+1}}$ can be computed as
+    \begin{align*}
+        V_{E_{i+1}, Z_{i+1}} = 
+        \begin{pmatrix}
+        \multicolumn{4}{c}{\multirow{4}{*}{$V_{E_{i}, Z_{i}}$}} & z_{i+1}^{\alpha_{1}}\\
+        & & & & z_{i+1}^{\alpha_{2}}\\
+        & & & & \vdots\\
+        & & & & z_{i+1}^{\alpha_{i}}\\
+        z_1^{\alpha_{i+1}} & z_2^{\alpha_{i+1}}& \cdots & z_{i}^{\alpha_{i+1}} & z_{i+1}^{\alpha_{i+1}}
+    \end{pmatrix}
+    \end{align*}
+    This can be seen by combining Definition \ref{def:tVandermonde} and the fact that for all $i$ such that $1< i+1 \leq \min{\left(|Z|, |E|-1\right)}$, the matrix $V_{Z_{i+1}, E_{i+1}}$ is squared.
+\end{remark}
+
+\begin{definition}[Sequence of $V_k$ matrices]\label{def:inductiveConstructionOfV}
+    As a consequence of Remark \ref{rem:squareConstruction}, we define the sequence of sub-matrices $\left(V_k\right)_{k\in [1,D_{\lceil{n/2}\rceil-1}^n]}$ by
+    \begin{align*}
+        V_k = 
+        \begin{cases}
+            \begin{pmatrix}
+        \multicolumn{4}{c}{\multirow{4}{*}{$V_{k-1}$}} & z_k^{\alpha_{1}}\\
+        & & & & z_k^{\alpha_{2}}\\
+        & & & & \vdots\\
+        & & & & z_k^{\alpha_{k-1}}\\
+        z_1^{\alpha_{k}} & z_{2}^{\alpha_k}& \cdots & z_{k-1}^{\alpha_{k}} & z_{k}^{\alpha_{k}}
+    \end{pmatrix} & \mbox{ if } 2\leq k \leq \min{\left(|Z|, |E_{D_{\lceil{n/2}\rceil-1}^n}|\right)}\\
+    \begin{pmatrix}
+        \multicolumn{4}{c}{\multirow{1}{*}{$V_{k-1}$}} \\
+        z_1^{\alpha_k} & z_2^{\alpha_k} & \cdots & z_{k}^{\alpha_k}
+    \end{pmatrix} & \mbox{ if } |Z| < k \leq |E_{D_n^n}|
+        \end{cases}
+    \end{align*}
+    with $V_1 = \begin{pmatrix} z_1^{\alpha_1}\end{pmatrix} = z_1^{(000)_2} = (1)$ 
+\end{definition}
+
 
 Equally to Definition \ref{def:tVandermonde}, we define the \textit{T-Vandermonde} matrix over the set $S$.
 \begin{definition}
@@ -637,103 +653,42 @@ Let $Z = supp\left(f^{(o)}\right) \cap S$ and $1\leq i \leq |Z|$, if the functio
 If such non-zero annihilators exist, the procedure checks if any of these are also annihilator restricted on $S$ of the full function $f^{(o)}$ with support $Z$, by testing if they also vanish in all $Z$ but not in all $S$. If any of such annihilators is found, the algorithm returns the degree of the last monomial added, $x^{\alpha_i}$. Otherwise, it increments the index $i$ and continues a desired solution is found or all the all matrices up to $V_{E_i, |Z|}$ containing all the element of $Z$, have been tested.\\
 If no annihilator is found after all the elements of $Z$ have been added, the algorithm iteratively adds new monomials, generates the matrices $V_{E_i, Z}$ and $S_{E_i, S_i}$ and returns the degree of the monomial $x^{\alpha_i}$ in the case in which $rank\left(V_{E_i, Z}\right) < rank\left(S_{E_i, S_i}\right)$. Following point \ref{item:Item1RemOnAlg} of Remark \ref{rem:remarksOnAlg}, the iteration stops when $rank\left(S_{E_i, E_i}\right) > |S| / 2$.\\
 
-\lbnote{Unify Propositions below - 2 propositions instead of 4}\\
-With Propositions \ref{prop:annihliatorOnZk} and \ref{prop:annihilatorOnZ}, we formally justify the process of finding a non-zero-annihilator of a function, from a non-zero-annihilator on a sub-support, while Proposition \ref{prop:secondPoint}, justifies the behaviour taken in the case in which no restricted non-zero-annihilator has been found before the having added all the elements of $Z$.
+With Proposition \ref{prop:annihliatorOnZk} and Remark \ref{rem:annihilatorOnZ}, we formally justify the process of finding a non-zero-annihilator of a function, from a non-zero-annihilator on a sub-support, while Proposition \ref{prop:comparsonVandSAfterAllelementsofZ}, justifies the behaviour taken in the case in which no restricted non-zero-annihilator has been found before the having added all the elements of $Z$.
 \begin{proposition}\label{prop:annihliatorOnZk}
-    If it exists a $1 < k \leq \min\{|Z|, |E_{\lceil{n/2}\rceil-1}^n|\}$ such that $rank(V_{Z_k, E_k}) < |E_k|$, then it exists the Boolean function $g_k$ such that $deg\left(g_k\right) = w_H(\alpha_k)$ and $g_k(x) = 0,\ \forall x \in Z_k$.
+    If it exists a $1 < k \leq \min\{|Z|, |E_{D_n^n}|\}$ such that $rank(V_{Z_k, E_k}) < |E_k|$, then it exists the Boolean function $g_k$ such that $deg\left(g_k\right) = w_H(\alpha_k)$ and $g_k(x) = 0,\ \forall x \in Z_k$.
 \end{proposition}
 \begin{proof}
-    Let $1 < k \leq \min\{|Z|, |E_{\lceil{n/2}\rceil-1}^n|\}$.\\
+    Let $1 < k \leq \min\{|Z|, |E_{D_n^n}|\}$.\\
     Since $V_{Z_k, E_k}$ has $|E_k|$ columns, $rank(V_{Z_k, E_k}) < |E_k| = k \implies \exists \hat{g}_k \neq \hat{0}$ such that $V_{Z_k, E_k}*\hat{g}_k = \hat{0}$.\\
-    From the construction of $V_{Z_k, E_k}$, we have that $V_{Z_k, E_k}$ contains some of the monomials of degree $w_H\left(\alpha_{k}\right)$ and from Remark \ref{rem:subsetOfReedMuller}, $V_{Z_k, E_k}$ is a sub-matrix of the transpose if the $f^{(o)}$-generator.\\
+    From the construction of $V_{Z_k, E_k}$, we have that $V_{Z_k, E_k}$ contains some of the monomials of degree $w_H\left(\alpha_{k}\right)$ and from Remark \ref{rem:subsetOfReedMuller}, $V_{Z_k, E_k}$ is a sub-matrix of $G_{w_H\left(\alpha_k\right),n}^{f_Z^{(o)}, S}$.\\
     Denoting by $f_k^{(o)}$ the restriction of $f^{(o)}$ on $Z_k$ and using Remark \ref{rem:gfMatrix}, we see that $V_k * \hat{g}_k= TT\left(f_k^{(o)}\circ g_k\right)$, where $g_k$ is the Boolean function corresponding to $\hat{g}_k$. Therefore $V_k * \hat{g}_k = \hat{0} \Rightarrow g_k * f_k^{(o)} (x) = 0 = g_k * f^{(0)} (x)\ \forall x\in Z_k$ and since $f^{(o)} (x) = 1\ \forall x\in Z_k$, we have that $g_k(x) = 0\ \forall x \in Z_k$.\\
     The maximal degree of $g_k$ is the degree of the monomials $x^{\alpha_k}$ which is $deg(x^{\alpha_k}) = w_H(\alpha_k)$.
 \end{proof}
 
-\begin{proposition}\label{prop:annihilatorOnZ}
-    A Boolean function $g \in \Bn{n}$ that satisfies the premise on Proposition \ref{prop:annihliatorOnZk} and also vanishes in all other elements of $Z$, is a non-zero-annihilator of $f^{(o)}$.
-\end{proposition}
-\begin{proof}
-    Let $g_k$ be a Boolean function of degree $w_H\left(\alpha_k\right)$ satisfying Proposition \ref{prop:annihliatorOnZk}. Suppose moreover that $g(x) = 0,\ \forall x \in Z\backslash Z_k$.\\
-    Since $g_k$ satisfies Proposition \ref{prop:annihliatorOnZk}, $g_k(x) = 0$ for all $x\in Z_k$ and it exists $x \in \mathbb{F}_2^n$ such that $g_k(x) = 1$.\\
-    Adding the fact that $g_k(x) = 0$ also for the inputs $x \in Z\backslash Z_k$, we have that $g_k(x) = 0, \forall x\in Z = supp\left(f^{(o)}\right)$ and $g_k \neq 0 $ in the space $\mathbb{F}_2^n$.\\
-    Therefore, we have that $g_k$ is a non-zero-annihilator of degree $w_H\left(\alpha_k\right)$ the whole function $f^{(o)}$. 
-\end{proof}
-
-\begin{proposition}\label{prop:secondPoint}
-    A Boolean function $g\in \Bn{n}$ of degree $d$ that satisfies Proposition \ref{prop:annihliatorOnZk} and Proposition \ref{prop:annihilatorOnZ} with $Z = supp\left(f^{(o)}\right) \cap S$, and that does not vanish on all $S$, is a $S$-non-zero-annihilator of degree $d$. 
-\end{proposition}
-\begin{proof}
-    This follows from the definition of an $S$-non-zero-annihilator of degree $d$.\\
-    Let $g\in \mathbb{BF}_n$ be a Boolean function satisfying Proposition \ref{prop:annihliatorOnZk} and Proposition \ref{prop:annihilatorOnZ}.\\
-     Proposition \ref{prop:annihliatorOnZk} and Proposition \ref{prop:annihilatorOnZ}, justify the fact that $g$ vanish in $Z = supp\left(f^{(o)}\right) \cap S$.\\
-    From Definition \ref{def:SNonZeroAnnihilator}, a non-zero Boolean function of degree $d$ vanishing in $Z$, but not in $S$ is an S-non-zero-annihilator of degree $d$. 
-\end{proof}
-
-\begin{proposition}
-    If it exists a $k \leq |Z|$, such that $rank\left(V_{Z, E_k}\right) < rank\left(S_{S,k}\right)$, then it exists a $S$-non-zero-annihilator of $f^{(o)}$ of degree $w_H\left(\alpha_k\right)$.
-\end{proposition}
-\begin{proof}
-    Suppose that for a $k \leq |Z|$, and that $rank\left(V_{Z, E_k}\right) < rank\left(S_{S,k}\right)$.\\
-    Since $V_{Z,E_k}$ contains all the elements of $Z$ and $S_{S,E_k}$ contains all the elements of $S$, we are in a similar situation as in Proposition \ref{prop:compareranks}. In particular, from Remark \ref{rem:subSetOrGeneratorsRestrected}, $V_{Z,E_k}$ is a sub-matrix of the transpose of $G_{w_H\left(\alpha_k\right), n}^{f_{res}^{(o)}, S}$, and $S_{S,E_k}$ is a sub-matrix of the transpose of $G_{w_H\left(\alpha_k\right), n}^{S}$.\\
-    If $w_H\left(\alpha_k\right) = d$ for a $d\geq 1$, we are exactly in the same situation as Proposition \ref{prop:compareranks}, from which we conclude that an $S$-non-zero-annihilator of degree $d$ of $f^{(o)}$ exists.\\
-    On the other hand, if $k$ is such that $D_{d}^n < k < D_{d+1}^n$ for a $d \geq 1$, if $rank\left(V_{Z, E_k}\right) < rank\left(S_{S, E_k}\right)$ it exists a $\hat{g}_k \in rightKer\left(V_{Z, E_k}\right)$ such that $\hat{g} \not\in rightKer\left(S_{S,E_k}\right)$, hence a vector $\hat{g}_k$ of coefficients of the Boolean function $g_k \in \mathbb{BF}_n$ which is non-null on $S$ but vanishes on $Z$. Such Boolean function has a degree of $w_H\left(\alpha_k\right) = d$.
-\end{proof}
-
-\lbnote{The following remarks are copied and pasted from the thesis. I still have to adapt it or potentially remove it}\\
-\begin{remark}\label{rem:partialRemark}
-    Using Theorem \ref{upperBoundRestricted}, setting an upper bound of the degree of a minimal degree $S$-non-zero-annihilator on $f^{(o)}$, the \textit{while} loop in the \textit{section 2} of the Algorithm \ref{alg:naiveAlg3-2} is constructed in such a way to set the upper bound of the transpose of the $S$-generator to $\lfloor{|S| / 2}\rfloor$.
+\begin{remark}\label{rem:annihilatorOnZ}
+    A Boolean function $g \in \Bn{n}$ of degree $d$ that satisfies the premise on Proposition \ref{prop:annihliatorOnZk} and also vanishes in all other elements of $Z$, is a non-zero-annihilator of $f^{(o)}$ of degree $d$ restricted on $S$.
 \end{remark}
+    
+
+\begin{proposition}\label{prop:comparsonVandSAfterAllelementsofZ}
+    If it exists a $k \geq |Z|$, such that $rank\left(V_{Z, E_k}\right) < rank\left(S_{E_k,S}\right)$, then it exists a non-zero-annihilator of $f^{(o)}$ of degree $w_H\left(\alpha_k\right)$ restricted to $S$.
+\end{proposition}
+\begin{proof}
+    Suppose that for a $k \geq |Z|$, $rank\left(V_{Z, E_k}\right) < rank\left(S_{S,E_k}\right)$.\\
+    Since $V_{Z,E_k}$ contains all the elements of $Z$ and $S_{S,E_k}$ contains all the elements of $S$, we are in a similar situation as in Proposition \ref{prop:compareranks}. In particular, from Remark \ref{rem:subsetOfReedMuller}, $V_{Z,E_k}$ is a sub-matrix of $G_{w_H\left(\alpha_k\right), n}^{f_Z^{(o)}, S}$, and $S_{S,E_k}$ is a sub-matrix of $G_{w_H\left(\alpha_k\right), n}^{S}$.\\
+    If $w_H\left(\alpha_k\right) = d$ for a $d\geq 1$, we are exactly in the same situation as Proposition \ref{prop:compareranks}, from which we conclude that a non-zero-annihilator of degree $d$ of $f^{(o)}$ restricted on $S$ exists.\\
+    On the other hand, if $k$ is such that $D_{d}^n < k < D_{d+1}^n$ for a $d \geq 1$, if $rank\left(V_{Z, E_k}\right) < rank\left(S_{S, E_k}\right)$ it exists a $\hat{g}_k \in rightKer\left(V_{Z, E_k}\right)$ such that $\hat{g} \not\in rightKer\left(S_{E_k, S}\right)$, hence a vector $\hat{g}_k$ of coefficients of the Boolean function $g_k \in \mathbb{BF}_n$ which is non-null on $S$ but vanishes on $Z$. Such Boolean function has a degree of $w_H\left(\alpha_k\right) = d$.
+\end{proof}
+
 
 \begin{remark}
-    In the while loop of the \textit{section 2}, if we find a $k$ such that $V_k$ has full rank, we can avoid generating the matrices $V_{k^*}$ for $k^* > k$ and calculating their ranks. This is because, if $rank\left(V_k\right)$ is full $rank(V_{k^{*}}) = rank(V_K)$ for all $k^{*} > k$.
+    In the procedure described, we search for at least one element satisfying some required conditions, from a vector space that is potentially too big for the algorithm to maintain the desired efficiency. To solve this issue, in the case we find an element $\hat{g}_k$ of the right kernel of $V_k$ which does not vanish on $Z$, we re-order the vector $Z$ by swapping the element $z_{k+1}$ with the element which is not vanishing in $\hat{g}_k$. This guarantees that such elements of the kernel of $V_k$ do not get propagated to the kernel of the subsequent matrices. Additionally, it ensures that the cardinality of the kernel of $V_k$ is upper-bounded by $1$ for all $k \leq |Z|$.\\
+    Propositions \ref{prop:swappingElementOfZToReduceKer} and \ref{prop:upperBoundOnRightKernel} provide justifications for this claim.
 \end{remark}
 
-\subsection{Evaluating a Boolean function's coefficients vector on a set of points}
-\lbnote{The below statement is almost copied and pasted from the thesis. I still have to adapt it}\\
-To check if one of such vectors is such that its Boolean function vanishes in a set of points, map the solution vector to the algebraic normal form of the corresponding Boolean function and then evaluate on it the points of $Z\backslash Z_k$. To avoid explicitly calculating the algebraic normal form, we evaluate the points directly on the vector by considering the non-zero elements of the vector whose monomials are sub-monomials of the evaluation point.\\
-The procedure is justified by the following propositions.
-
-\begin{proposition}\label{prop:ANFonEvaluation}
-    Let $d \in \mathbb{N}_{>0}$ and $k = D_d^n$ and $E_{k} = (\alpha_1, \alpha_2, \cdots, \alpha_k)$ the vector of all monomials up to the degree $d$ ordered by graded lex order.\\
-    Let $g^{coefs} =  (\epsilon_1, \epsilon_2, ..., \epsilon_{k})$ be the vector of coefficients corresponding to a Boolean function $g \in \Bn{n}$.\\
-    Let $y \in \mathbb{F}_2^n$ be a point such that $y <_{glex} \alpha_k$.\\
-    The evaluation of $y$ by $g$ is given by
-    \begin{align*}
-        g(y) = \bigoplus_{1\leq i\leq k} \epsilon_{i}x^{\alpha_i} \bigg|_{x=y} = \bigoplus_{1\leq i\leq k}\epsilon_i *\psi^{y}\left(x^{\alpha_i}\right)
-    \end{align*}
-    where 
-    \begin{align*}
-        \psi^{y}(x^{\alpha_i}) = 
-        \begin{cases}
-            1 \mbox{ if } x^{\alpha_i} \preceq x^{y}\\
-            0 \mbox{ otherwise}
-        \end{cases}
-    \end{align*}
-\end{proposition}
-\begin{proof}
-    Let $g^{coefs} =  (\epsilon_1, \epsilon_2, ..., \epsilon_{k})$ be the set of coefficients corresponding to the Boolean function $g \in \mathbb{BF}_n$ of degree $d$.\\
-    We have that 
-    \begin{align*}
-        \bigoplus_{1<i<k}\epsilon_i *\psi^{y}\left(x^{\alpha_i}\right) = \bigoplus_{1<i<k}\epsilon_i \begin{cases}
-            1 \mbox{ if } \alpha_i \preceq y\\
-            0 \mbox{ otherwise}
-        \end{cases} = \bigoplus_{1\leq i\leq k} \epsilon_i,\ \forall i \mbox{ such that } \alpha_i\preceq y = \bigoplus_{\alpha_i \preceq y}\epsilon_i
-    \end{align*}
-    Using Remark \ref{rem:anfAndEvaluation}, we see that
-    \begin{align*}
-         \bigoplus_{\alpha_i \preceq y}\epsilon_i = f(y)
-    \end{align*}
-\end{proof}
-
-\subsection{Complexity problem due to the dimension of the kernel}\label{subsubsection:dimensionOfKernel}
-\lbnote{The below statement is almost copied and pasted from the thesis. I still have to adapt it}\\
-We are searching for at least one element satisfying some required conditions, from a vector space that is potentially too big for the algorithm to maintain the desired efficiency.\\
-If the dimension of the right kernel of $V_k= V_{Z_k,E_k}$ is too large, the number of non-zero-annihilators on $Z_k$ is also too big, resulting in too many possible solutions to test on $Z\backslash Z_k$; denoting by $d$ the dimension of $rightKer(V_k)$, the cardinality $|rightKer(V_k)|$ is $2^d$ which is not acceptable.\\
-To solve this issue, in the case we find an element $\hat{g}_k$ of the right kernel of $V_k$ which does not vanish on $Z$, we re-order the vector $Z$ by swapping the element $z_{k+1}$ with the element which is not vanishing in $\hat{g}_k$. This ensures that such element of the kernel of $V_k$ do not get propagated to the kernel of the next matrices.
-
+\lbnote{Transpose the matrices in the propositions below}\\
 \begin{proposition}\label{prop:swappingElementOfZToReduceKer}
-    Let $k < \min\{(|Z|, |E_{\lceil{n/2}\rceil}-1)\}$ and $V_k$ constructed following Definition \ref{def:inductiveConstructionOfV},\\
+    Let $k < \min\{(|Z|, |E_{D_n^n}|\}$ and $V_k$ constructed following Definition \ref{def:inductiveConstructionOfV},\\
     Suppose $rightKer(V_k) = <\hat{g}_k> = <(\epsilon_1,\epsilon_2, \cdots, \epsilon_k )>$ and $g_k\in \mathbb{BF}_n$ the Boolean function corresponding to $\hat{g}_k$. Suppose moreover, that it exists a $z_{k+j}$, for $j\geq 1$ such that $g_k(z_{k+j}) = 1$, then the matrix $V^{'}_{k+1}$ constructed as
     \begin{align*}
         V^{'}_{k+1} = 
