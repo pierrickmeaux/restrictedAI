@@ -757,8 +757,149 @@ With Proposition \ref{prop:annihliatorOnZk} and Remark \ref{rem:annihilatorOnZ},
 \end{proof}
 
 \begin{remark}
-    Notice that the definition of $V^{'}_{k+1}$ in Proposition \ref{prop:swappingElementOfZToReduceKer}, does not break Definition \ref{def:inductiveConstructionOfV}, since we do not need to specify a particular ordering relation for the element of the support $Z$ to construct the sequence $(V_{k})_k$.\\
-    We do not, however, have the same freedom for the ordering of the monomials which must remain ordered in graded lex ordering.
+    Notice that the definition of $V^{'}_{k+1}$ in Proposition \ref{prop:swappingElementOfZToReduceKer}, does not break Definition \ref{def:inductiveConstructionOfV}, since we do not need to specify a particular ordering relation for the element of the support $Z$ to construct the sequence $(V_{k})_k$.
+\end{remark}
+
+\lbnote{Transpose the matrices in the sections below}\\
+\subsection{Using echelon form matrices of the previous steps}\label{subsubsection:optEchelonForm}
+For each iteration $k$ of the algorithm $k$, the matrix $V_k$ would already contain the sub-matrix $V_{k-1}$. It is therefore possible to compute the echelon form of $V_{k-1}$ and use it to compute the echelon form of $V_{k}$. In such a way, the matrix $V_k$ would already contain the sub-matrix $EF(V_{k-1})$ which is already in echelon form, allowing to reduce the number of steps needed to compute the rank of $V_k$.\\
+To be able to apply such a method, however, we have to be careful when we are squarely constructing the matrix; at each step, we are appending columns to the matrix, therefore, to compute $EF\left(V_k\right)$ have to keep track of all the rows operation performed to compute $EF\left(V_j\right)$ for all $j<k$ and apply them before computing $EF\left(V_k\right)$.\\
+Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, better justify the claim.
+
+\begin{definition}[Equality up to row permutation]
+    We say that two matrices $M_1$ and $M_2$ are \textit{equal up-to-permutation} if there exists a row permutation $\rho$ such that
+    \begin{align*}
+        M_1 = \rho M_2
+    \end{align*}
+    We say that $M_1 =_p M_2$
+\end{definition}
+
+\begin{remark}\label{rem:rowEchelonForm}
+    Let $k_r, k_c \in \mathbb{N}$ and $M\in Mat_{k_r,k_c}(\mathbb{F}_2^n)$. Let $M = LU$ be the $LU$ decomposition of $M$, then
+    \begin{align*}
+        EF(M) =_p U
+    \end{align*}
+\end{remark}
+
+\begin{remark}
+    Let $k$ be such that $1<k< \min{\left(|Z|,|E_{\lceil{n/2}\rceil-1}^n|\right)}$
+    \begin{align*}
+        EF\left(V_{k}\right) \neq_p EF\left(  \begin{pmatrix}
+            \multicolumn{4}{c}{\multirow{4}{*}{$EF(V_{k-1})$}} & z_1^{\alpha_k}\\
+            & & & & z_2^{\alpha_k}\\
+            & & & & \vdots\\
+            & & & & z_{k-1}^{\alpha_{k}}\\
+            z_k^{\alpha_{1}} & z_k^{\alpha_{2}}& \cdots & z_{k}^{\alpha_{k-1}} & z_{k}^{\alpha_k}
+        \end{pmatrix}\right)
+    \end{align*}
+\end{remark}
+
+\begin{proposition}\label{prop:rowEchelonForm}
+    Let $k$ be such that $1<k< \min{\left(|Z|,|E_{\lceil{n/2}\rceil-1}^n|\right)}$ it holds that
+    \begin{align*}
+        EF\left(V_{k}\right) =_p
+        EF\left( 
+        \begin{pmatrix}
+    \multicolumn{4}{c}{\phantom{a}\multirow{4}{*}{$EF\left(V_{k-1}\right)$}\phantom{a}} & P_{k-1}\begin{pmatrix}
+        z_1^{\alpha_k}\\
+        z_2^{\alpha_k}\\
+        \vdots\\
+        z_{k-1}^{\alpha_{k}}
+    \end{pmatrix}\\
+    \multicolumn{4}{c}{} & \\
+    \multicolumn{4}{c}{} & \\
+    \multicolumn{4}{c}{} & \\
+    z_k^{\alpha_{1}} & z_k^{\alpha_{2}} & \cdots & z_{k}^{\alpha_{k-1}} & z_{k}^{\alpha_k}
+\end{pmatrix}
+        \right)
+    \end{align*}
+    where $P_{k-1}$ if the inverse of the lower triangular of $V_{k-1}$: it is such that $L_{k-1}^{-1} = P_{k-1}$, where $V_{k-1} = L_{k-1}U_{k-1}$ with $EF(V_{k-1})=_p U_{k-1}$
+\end{proposition}
+\begin{proof}
+    Let $k$ be such that $1<k< \min{\left(|Z|,|E_{\lceil{n/2}\rceil-1}^n|\right)}$. The triangular composition of $V_{k-1}$ is
+    \begin{align*}
+        V_{k-1} = L_{k-1} U_{k-1}
+    \end{align*}
+    where $L_{k-1}$ is a lower triangular matrix and $U_{k-1} = EF\left(V_{k-1}\right)$ is the upper triangular matrix.
+    \begin{align*}
+        V_{k} = &
+        \begin{pmatrix}
+            \multicolumn{4}{c}{\multirow{4}{*}{$L_{k-1}U_{k-1}$}} & z_1^{\alpha_k}\\
+            & & & & z_2^{\alpha_k}\\
+            & & & & \vdots\\
+            & & & & z_{k-1}^{\alpha_{k}}\\
+            z_k^{\alpha_{1}} & z_k^{\alpha_{2}}& \cdots & z_{k}^{\alpha_{k-1}} & z_{k}^{\alpha_k}
+        \end{pmatrix}\\
+        = &  
+        \begin{pmatrix}
+            \multicolumn{4}{c}{\multirow{4}{*}{$L_{k-1}$}} & 0\\
+            & & & & 0\\
+            & & & & \vdots\\
+            & & & & 0\\
+            0 & 0& \cdots & 0 & 1
+        \end{pmatrix}
+        \begin{pmatrix}
+            \multicolumn{4}{c}{\phantom{a}\multirow{4}{*}{$U_{k-1}$}\phantom{a}} & L_{k-1}^{-1}
+                \begin{pmatrix}
+                    z_1^{\alpha_k}\\
+                    z_2^{\alpha_k}\\
+                \vdots\\
+                z_{k-1}^{\alpha_{k}}
+            \end{pmatrix}\\
+            \multicolumn{4}{c}{} & \\
+            \multicolumn{4}{c}{} & \\
+            \multicolumn{4}{c}{} & \\
+            z_k^{\alpha_{1}} & z_k^{\alpha_{2}} & \cdots & z_{k}^{\alpha_{k-1}} & z_{k}^{\alpha_k}
+        \end{pmatrix}
+    \end{align*}
+    Since $L_{k-1}$ is a lower triangular matrix, $ \begin{pmatrix}
+            \multicolumn{4}{c}{\multirow{4}{*}{$L_{k-1}$}} & 0\\
+            & & & & 0\\
+            & & & & \vdots\\
+            & & & & 0\\
+            0 & 0& \cdots & 0 & 1
+        \end{pmatrix}$ is also a lower triangular matrix, and therefore
+     \begin{align*}
+        EF\left(V_{k}\right) = 
+        EF\left( 
+        \begin{pmatrix}
+            \multicolumn{4}{c}{\phantom{a}\multirow{4}{*}{$U_{k-1}$}\phantom{a}} & L_{k-1}^{-1}
+            \begin{pmatrix}
+                z_1^{\alpha_k}\\
+                z_2^{\alpha_k}\\
+                \vdots\\
+                z_{k-1}^{\alpha_{k}}
+            \end{pmatrix}\\
+            \multicolumn{4}{c}{} & \\
+            \multicolumn{4}{c}{} & \\
+            \multicolumn{4}{c}{} & \\
+            z_k^{\alpha_{1}} & z_k^{\alpha_{2}} & \cdots & z_{k}^{\alpha_{k-1}} & z_{k}^{\alpha_k}
+        \end{pmatrix}
+        \right)
+    \end{align*}
+    Taking $U_{k-1} =_p EF\left(V_{k-1}\right)$ and $P_{k-1} = L_{k-1}^{-1}$
+    \begin{align*}
+        EF\left(V_{k}\right) =_p 
+        EF\left( 
+        \begin{pmatrix}
+            \multicolumn{4}{c}{\phantom{a}\multirow{4}{*}{$EF\left(V_{k-1}\right)$}\phantom{a}} & P_{k-1}
+            \begin{pmatrix}
+                z_1^{\alpha_k}\\
+                z_2^{\alpha_k}\\
+                \vdots\\
+                z_{k-1}^{\alpha_{k}}
+            \end{pmatrix}\\
+            \multicolumn{4}{c}{} & \\
+            \multicolumn{4}{c}{} & \\
+            \multicolumn{4}{c}{} & \\
+            z_k^{\alpha_{1}} & z_k^{\alpha_{2}} & \cdots & z_{k}^{\alpha_{k-1}} & z_{k}^{\alpha_k}
+        \end{pmatrix}
+        \right)
+    \end{align*}
+\end{proof}
+
+\begin{remark}\label{rem:historyOfOperations}
+    As also stated by \cite{armknecht2006efficient}, $P_{k-1}$ is the matrix corresponding to the history of operations applied to the rows of $V_{k-1}$ to be able to obtain $EF\left(V_{k-1}\right)$.
 \end{remark}
 
 \begin{algorithm}
