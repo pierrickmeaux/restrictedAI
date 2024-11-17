@@ -1096,7 +1096,7 @@ The following procedure is done for each slice $E_{k,n}$.
     \item Initialise a hash table of all possible values of $AI_k$
     \item For each sub-truth table in $\omega_i^{(k)} \in \Omega_k$ ($\omega_i^{(k)}$ is either generated on the fly by an iterator or by having the source code for the generation of $\omega_i^{(k)}$ in this loop.)
     \begin{enumerate}
-        \item Run Algorithm \ref{alg:fullAlg3ForAIRestrictesSetOpt} with $S=\omega_i^{(k)}$\\
+        \item Run Algorithm \lbnote{Reference to algorithm} with $S=\omega_i^{(k)}$\\
         \item Increment the value in the hash table corresponding to the output of the previous step
     \end{enumerate}
     \item Divide each value in the hash table by $|\Omega|$.
