@@ -990,6 +990,141 @@ Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, bette
 \end{algorithm}
 
 \section{Applications to WAPB functions}
+In this section, we apply the algorithms to the weightwise perfectly balanced (WPB) Boolean functions with the intent to study their algebraic immunity restricted to subsets of constant Hamming weight. In particular, we determine the probability distributions of the $AI_K$ of $WPB$ functions and we compute the $AI_k$ of already published $WPB$ Boolean functions.
+
+\subsection{Determination of \texorpdfstring{$AI_k$}{AIk} distribution of WPB functions}
+Similarly to what has been done in \cite{Latin:GinMea23} for the weighwise non-linearity $NL_k$, we determine the discrete probability distribution of the $AI_k$ of weighwise perfectly balanced Boolean functions, describing the probability of a function $f\in WPB_{2^n}$ of having a certain algebraic immunity restricted on the slice $E_{k,n}$. A more formal definition in given Definition \ref{def:distAIk} below.
+
+\begin{definition}\label{def:distAIk}
+    Let $m \in \mathbb{N}_> 0$, $n = 2^m$ and $k \in [1,n-1]$. Similarly to \cite{Latin:GinMea23}, we define the discrete probability distribution of $AI_k$ as
+    \begin{align*}
+        p_{AI_k}(x) = \frac{\bigg|\{f\in WPB_m\  |\  AI_k(f) = x\}\bigg|}{|WPB_m|}
+    \end{align*}
+\end{definition}
+
+We aim to determine this distribution for $m = 2, 3$, and $4$. However, the number of due of $WPB$ functions increases fast with the growth of $m$, making this computation infeasible for $m > 2$. In fact, as stated in \cite{Latin:GinMea23}, $|WPB_2| = 720$, while $|WPB_3| > 2^{243}$ and $|WPB_4| > 2^{65452}$.\\
+Therefore, we have to take a different approach for $m > 2$ by generating a certain number of samples from the set $WPB_m$ and calculating the probability over it. The larger the sample size we select, the better we approximate the distribution \ref{def:distAIk}.
+
+\begin{definition}
+    We define the $AI_k$ distribution over a sample $\Omega$ as
+    \begin{align*}
+        p_{\Omega, AI_k}(x) =  \frac{\bigg|\{f\in \Omega\ |\  AI_k(f) = x\}\bigg|}{|\Omega|}
+    \end{align*}
+\end{definition}
+
+
+\subsubsection{Determination of the full distribution for \texorpdfstring{m=2}{m=2}}
+For $m=2 \Rightarrow n = 4$, it is possible to determine the full probability distribution from Definition \ref{def:distAIk} without using the random sampling strategy.\\
+The resulting plots can be found on Fig \ref{fig:dullDist} and Fig \ref{fig:averagesFullDist} and the corresponding data in Table \ref{table:averagesFullDist} and Table \ref{table:probFullDist}.
+
+\begin{figure}[ht]
+    \centering
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/WPB_2_sample_size_full_dist.png}
+        \caption{Mean $AI_k$}
+        \label{fig:averagesFullDist}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/WPB_2_sample_size_full_dist_prob.png}
+        \caption{Probability distribution of $AI_k$}
+        \label{fig:probFullDist}
+    \end{minipage}
+    \caption{Mean $AI_k$ and probability distribution of $AI_k$ from Definition \ref{def:distAIk} of Boolean functions the family $WPB_2$ variable}
+    \label{fig:dullDist}
+\end{figure}
+
+
+\begin{table}[ht]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+       \begin{tabular}{rrr}
+\toprule
+ $k$ &  $AI_k(f)=d$ &  $p\left(AI_K(f) = d\right)$ \\
+\midrule
+   0 &            0 &                          1.0 \\
+   0 &            1 &                          0.0 \\
+   0 &            2 &                          0.0 \\
+   \hline
+   1 &            0 &                          0.0 \\
+   1 &            1 &                          1.0 \\
+   1 &            2 &                          0.0 \\
+   \hline
+   2 &            0 &                          0.0 \\
+   2 &            1 &                          1.0 \\
+   2 &            2 &                          0.0 \\
+   \hline
+   3 &            0 &                          0.0 \\
+   3 &            1 &                          1.0 \\
+   3 &            2 &                          0.0 \\
+   \hline
+   4 &            0 &                          1.0 \\
+   4 &            1 &                          0.0 \\
+   4 &            2 &                          0.0 \\
+\bottomrule
+\end{tabular}
+        \caption{Probability distribution of $AI_k$ for $n=4$, $m=2$}
+        \label{table:probFullDist}
+    \end{minipage}\hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \begin{tabular}{rrr}
+\toprule
+ $k$ &  $\mathbb{E}[T(AI_k)]$ &  $\mathbb{E}[AI_k]$ \\
+\midrule
+   0 &               0.000038 &                 0.0 \\
+   1 &               0.055785 &                 1.0 \\
+   2 &               0.062083 &                 1.0 \\
+   3 &               0.067631 &                 1.0 \\
+   4 &               0.000105 &                 0.0 \\
+\bottomrule
+\end{tabular}
+        \caption{Average execution time and $AI_k$ for $n=4$, $m=2$}
+        \label{table:averagesFullDist}
+    \end{minipage}
+\end{table}
+
+\subsubsection{Random Sampling}
+In practice, the random sampling is done by generating a set $\Omega_k = \{\omega_1^{(k)}, \cdots, \omega_{|\Omega|}^{(k)}\}$ of $|\Omega|$ number of random balanced sub-truth tables for each slice $E_{k,n}$. Then, for each slice $E_{k,n}$ the $AI_k$ is calculated with each restricted set in $\Omega_k$ and a \textit{Montecarlo} is applied, counting the number of times a particular $AI_k$ is computed.\\
+Depending on the value of $m$ and the chosen sample size, the number of sub-truth tables generated may be too large to fit in memory simultaneously. Therefore, it is essential to avoid storing all elements in memory at once. Instead, we should process them one by one, either by computing sequentially or by using iterators.\\ 
+
+The following procedure is done for each slice $E_{k,n}$.
+\begin{enumerate}
+    \item Initialise a hash table of all possible values of $AI_k$
+    \item For each sub-truth table in $\omega_i^{(k)} \in \Omega_k$ ($\omega_i^{(k)}$ is either generated on the fly by an iterator or by having the source code for the generation of $\omega_i^{(k)}$ in this loop.)
+    \begin{enumerate}
+        \item Run Algorithm \lbnote{Reference to algorithm} with $S=\omega_i^{(k)}$\\
+        \item Increment the value in the hash table corresponding to the output of the previous step
+    \end{enumerate}
+    \item Divide each value in the hash table by $|\Omega|$.
+\end{enumerate}
+
+\textbf{Results for $n=8$ and sample size$=2^{15}$}\\
+Figure \ref{fig:probDist32768} represent the $AI_K$ distribution and Figure \ref{fig:averages32768} $AI_k$ average values.\\
+The table \lbnote{reference to table} shows the average values plotted in Figure \ref{fig:averages32768} and the average execution times and table \lbnote{Reference to table} shows the data of the probability distribution plotted in Figure \ref{fig:probDist32768}.
+
+\begin{figure}[ht]
+    \centering
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/WPB_3_sample_size_32768_dist.png}
+        \caption{Mean $AI_k$}
+        \label{fig:averages32768}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/WPB_3_sample_size_32768_dist_prob.png}
+        \caption{Probability distribution of $AI_k$}
+        \label{fig:probDist32768}
+    \end{minipage}
+    \caption{Mean $AI_k$ and probability distribution of $AI_k$ with sampling size $23768$ of Boolean function of $n=8$ variable}
+    \label{fig:main2}
+\end{figure}
+
 
 \section{Conclusion and open questions}
 
