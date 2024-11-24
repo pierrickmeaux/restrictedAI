@@ -347,6 +347,14 @@ We use Krawtchouk polynomials and some of their properties to prove one of our r
 %% Reed-Muller codes
 \subsection{Reed-Muller codes}
 
+\begin{definition}[Monomials and set of monomials]
+    Let $\alpha,x\in \mathbb{F}_2^n$, the monomial $x^{\alpha}$ is calculated as
+    \begin{align*}
+        x^{\alpha} = \prod_{i=1}^n x^\alpha_i
+    \end{align*}
+    Let $E = \{\alpha_1, \alpha_2, \cdots, \alpha_k\} \subseteq \mathbb{F}_2^n$, we denote by $x^E = \{x^{\alpha_1}, x^{\alpha_2}, \cdots, x^{\alpha_k}\}$ the set of all monomials associated to $E$.
+\end{definition}
+
 \begin{definition}[Reed-Muller code - RM]
 	Let $n\in \mathbb{N}_{>0}$ and $r\in \mathbb{N}$ with $r\leq n$, the Reed-Muller code $RM(r,n)$ is the set of all $2^n$-bit length code words where each code word is the evaluations of one distinct Boolean function of maximal degree $r$ in $n$ variables.
 \end{definition}
@@ -944,6 +952,55 @@ Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, bette
 	\end{algorithmic}
 \end{algorithm}
 
+
+\begin{algorithm}[H]\label{alg:fullAlg3ForAIRestrictesSetOpt}
+    \caption{Algorithm to compute the algebraic immunity of a function $f\in \Bn{n}$ restricted to $S$}
+    \begin{algorithmic}[1]
+
+        \Function{construct\_monomials}{$n,d$}
+        \State $E \leftarrow [\ ]$\;
+        \For{$i \leftarrow 0$ \textbf{to} $d$}
+            \State $binaryStr\leftarrow array\left((0)_{2,n}\right)$;
+            \For{$c_i \in combinations(n, i)$}
+                \State $binaryStr[c_i] = "1"$;
+            \EndFor
+            \State $E \gets E || binaryStr$;
+        \EndFor
+        \State \Return $E$;
+		\EndFunction
+        \State
+
+        \State $Z \leftarrow []$;
+        \State $Z_c \leftarrow []$;
+        \For{$k \leftarrow 0$ \textbf{to} $2^n-1$}{
+            \If{$k \not\in S$}
+                \State \textbf{continue}\;
+            \EndIf
+            \If{$x[k] = 1$}
+                \State $Z \gets Z || \left(x[k]\right)_2$;
+            \Else
+                \State $Z_c \gets Z_c || \left(x[k]\right)_2$;
+            \EndIf
+        }
+        \EndFor
+        \If {$Z = [\ ]$ or $Z_c = [\ ]$}
+            \State \Return $0$;
+        \EndIf
+        \State
+
+        \State $E \leftarrow \mbox{\textsc{construct\_monomials}}(n=n, d=n)$\;
+        \State $r\gets \frac{Z}{Z_c}$\;
+        \If{$1/ratio < r < ratio$}
+            \State $immunity_f, immunity_{f+1} \leftarrow ($\\
+		$\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(Z=Z, E=E, S=S)$\\
+		$\ |\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(Z=Z_c, E=E, S=S)$\\
+		$)$;
+            \State \Return $min{\left(immunity_f, immunity_{f+1}\right)}$
+        \Else
+            \State \Return $\mbox{\textsc{find\_deg\_smallest\_S\_annihilator\_seq}}(Z=Z, Z_c, E=E, S=S))$;
+        \EndIf
+    \end{algorithmic}
+\end{algorithm}
 \section{Applications to WAPB functions}
 In this section, we apply the algorithms to the weightwise perfectly balanced (WPB) Boolean functions with the intent to study their algebraic immunity restricted to subsets of constant Hamming weight. In particular, we determine the probability distributions of the $AI_K$ of $WPB$ functions and we compute the $AI_k$ of already published $WPB$ Boolean functions.
 
@@ -1051,7 +1108,7 @@ The following procedure is done for each slice $E_{k,n}$.
     \item Initialise a hash table of all possible values of $AI_k$
     \item For each sub-truth table in $\omega_i^{(k)} \in \Omega_k$ ($\omega_i^{(k)}$ is either generated on the fly by an iterator or by having the source code for the generation of $\omega_i^{(k)}$ in this loop.)
     \begin{enumerate}
-        \item Run Algorithm \lbnote{Reference to algorithm} with $S=\omega_i^{(k)}$\\
+        \item Run Algorithm \ref{alg:fullAlg3ForAIRestrictesSetOpt} with $S=\omega_i^{(k)}$\\
         \item Increment the value in the hash table corresponding to the output of the previous step
     \end{enumerate}
     \item Divide each value in the hash table by $|\Omega|$.
