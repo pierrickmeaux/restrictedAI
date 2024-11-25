@@ -498,7 +498,7 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 \begin{algorithm}\label{alg:RMApproach}
 	\caption{Algorithm to find the algebraic immunity of a function $f$ on the restricted set $S\subseteq \mathbb{F}_2^n$.}
 	\begin{algorithmic}[1]
-		\Require $x\in \mathbb{F}_2^{2^n}$ evaluation of the truth table of $f\in \Bn{n}$
+		\Require $x\in \mathbb{F}_2^{2^n}$ evaluation of the truth table of $f\in \Bn{n}$ and the restricted set $S\subseteq \mathbb{F}_2^n$.
 		\Ensure $\AI_S(f)$
 		
 		\Function{find\_deg\_smallest\_S\_annihilator}{$G_{n,n}^{f_Z^{(o)},S}, G_{d,n}^{S}, D^n$}
@@ -515,7 +515,7 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 		\State
 		\Return $i$
 		\EndIf
-		\State $previousIndex \gets D_i^n$
+		\State $previousIndex \gets D_i^n$Algorithm
 		\State $i \gets i+1$
 		\EndWhile
 		\EndFunction
@@ -589,7 +589,7 @@ We start by giving some definitions and remarks to be able to introduce the gene
     %        z_{1}^{\alpha_i} & z_{2}^{\alpha_i} & \cdots & z_{j}^{\alpha_i}
     %    \end{pmatrix}
     %\end{align*}
-    In the same way, we define the matrices $S_{E,S}$ and $S_{E_i, S_j}$ as the \textbf{T-Vandermond} matrices on the elements of the set $S\subseteq \mathbb{F}_2^n$.
+    In the same way, we define the matrices $S_{E,S}$ and $S_{E_i, S_j}$ as the \textit{T-Vandermond} matrices on the elements of the set $S\subseteq \mathbb{F}_2^n$.
 \end{definition}
 
 \begin{remark}\label{rem:subsetOfReedMuller}
@@ -862,6 +862,7 @@ Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, bette
     As also stated by \cite{armknecht2006efficient}, $P_{k-1}$ is the matrix corresponding to the history of operations applied to the rows of $V_{k-1}$ to be able to obtain $EF\left(V_{k-1}\right)$.
 \end{remark}
 
+\lbnote{Add Footnotes to \textsc{vanish\_on} and \textsc{apply\_operations} functions}\\
 \begin{algorithm}
 	\caption{Algorithm to find the degree of the minimum-degree $S$-non-zero-annihilator of a function $f^{(o)}$}\label{alg:MinDegreeSnonZeroAnnihilatorIterative}
 	\begin{algorithmic}[1]
@@ -887,13 +888,13 @@ Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, bette
 		\State $\hat{g} \gets k[0]$
 		\State $nonVanishingPointIndex, vanishingFlag \gets Null, True$
 		\ForAll{$z\in Z\backslash Z_k$}
-		\State $vanishCheck, NonVanishingPointIndex \gets \mbox{\textsc{vanishes}}(\hat{g}, z)$
+		\State $vanishCheck, NonVanishingPointIndex \gets \mbox{\textsc{vanishes\_on}}(\hat{g}, z)$
 		\If{$vanishCheck = False$}
 		\State $vanishingFlag \gets False$
 		\State \textbf{break}
 		\EndIf
 		\ForAll{$z_c \in S\backslash Z$}
-		\State $vanishCheckOnS \gets \mbox{\textsc{vanishes}}(\hat{g}, z)$
+		\State $vanishCheckOnS \gets \mbox{\textsc{vanishes\_on}}(\hat{g}, z)$
 		\If{$vanishCheckOnS = False$}
 		\State \Return $w_H\left(\alpha_i\right)$
 		\EndIf
@@ -953,9 +954,15 @@ Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, bette
 \end{algorithm}
 
 
+\lbnote{Algorithm \ref{alg:fullAlg3ForAIRestrictesSetOpt} is needed to refer it in the applications \ref{enum:stepOfapplicationEnum}. See it is really compulsory to put it here.}\\
+\lbnote{Add Footnotes to \textsc{find\_deg\_smallest\_S\_annihilator\_seq} function.}
+
 \begin{algorithm}[H]\label{alg:fullAlg3ForAIRestrictesSetOpt}
     \caption{Algorithm to compute the algebraic immunity of a function $f\in \Bn{n}$ restricted to $S$}
     \begin{algorithmic}[1]
+        \Require $x\in \mathbb{F}_2^{2^n}$ evaluation of the truth table of $f\in \Bn{n}$ and the restricted set $S\subseteq \mathbb{F}_2^n$.
+		\Ensure $\AI_S(f)$
+        \State
 
         \Function{construct\_monomials}{$n,d$}
         \State $E \leftarrow [\ ]$\;
@@ -1108,7 +1115,7 @@ The following procedure is done for each slice $E_{k,n}$.
     \item Initialise a hash table of all possible values of $AI_k$
     \item For each sub-truth table in $\omega_i^{(k)} \in \Omega_k$ ($\omega_i^{(k)}$ is either generated on the fly by an iterator or by having the source code for the generation of $\omega_i^{(k)}$ in this loop.)
     \begin{enumerate}
-        \item Run Algorithm \ref{alg:fullAlg3ForAIRestrictesSetOpt} with $S=\omega_i^{(k)}$\\
+        \item Run Algorithm \ref{alg:fullAlg3ForAIRestrictesSetOpt} with $S=\omega_i^{(k)}$\label{enum:stepOfapplicationEnum}\\
         \item Increment the value in the hash table corresponding to the output of the previous step
     \end{enumerate}
     \item Divide each value in the hash table by $|\Omega|$.
