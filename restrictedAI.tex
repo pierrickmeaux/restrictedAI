@@ -347,6 +347,14 @@ We use Krawtchouk polynomials and some of their properties to prove one of our r
 %% Reed-Muller codes
 \subsection{Reed-Muller codes}
 
+\begin{definition}[Monomials and set of monomials]
+    Let $\alpha,x\in \mathbb{F}_2^n$, the monomial $x^{\alpha}$ is calculated as
+    \begin{align*}
+        x^{\alpha} = \prod_{i=1}^n x^\alpha_i
+    \end{align*}
+    Let $E = \{\alpha_1, \alpha_2, \cdots, \alpha_k\} \subseteq \mathbb{F}_2^n$, we denote by $x^E = \{x^{\alpha_1}, x^{\alpha_2}, \cdots, x^{\alpha_k}\}$ the set of all monomials associated to $E$.
+\end{definition}
+
 \begin{definition}[Reed-Muller code - RM]
 	Let $n\in \mathbb{N}_{>0}$ and $r\in \mathbb{N}$ with $r\leq n$, the Reed-Muller code $RM(r,n)$ is the set of all $2^n$-bit length code words where each code word is the evaluations of one distinct Boolean function of maximal degree $r$ in $n$ variables.
 \end{definition}
@@ -490,7 +498,7 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 \begin{algorithm}\label{alg:RMApproach}
 	\caption{Algorithm to find the algebraic immunity of a function $f$ on the restricted set $S\subseteq \mathbb{F}_2^n$.}
 	\begin{algorithmic}[1]
-		\Require $x\in \mathbb{F}_2^{2^n}$ evaluation of the truth table of $f\in \Bn{n}$
+		\Require $x\in \mathbb{F}_2^{2^n}$ evaluation of the truth table of $f\in \Bn{n}$ and the restricted set $S\subseteq \mathbb{F}_2^n$.
 		\Ensure $\AI_S(f)$
 		
 		\Function{find\_deg\_smallest\_S\_annihilator}{$G_{n,n}^{f_Z^{(o)},S}, G_{d,n}^{S}, D^n$}
@@ -507,7 +515,7 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 		\State
 		\Return $i$
 		\EndIf
-		\State $previousIndex \gets D_i^n$
+		\State $previousIndex \gets D_i^n$Algorithm
 		\State $i \gets i+1$
 		\EndWhile
 		\EndFunction
@@ -553,27 +561,35 @@ As for Algorithm \ref{alg:RMApproach}, the procedure returns $0$ if the function
 We start by giving some definitions and remarks to be able to introduce the general idea of the algorithm
 
 \begin{definition}[T-Vandermonde matrix]\label{def:tVandermonde}
-    Let $Z = \{z_1, ...., z_{k_Z}\} \subseteq \mathbb{F}_2^n$ and $E = \{\alpha_1, ..., \alpha_{k_E}\}\subseteq \mathbb{F}_2^n$, we define the matrix
+    Let $Z = \{z_1, ...., z_{k_Z}\} \subseteq \mathbb{F}_2^n$ and $E = \{\alpha_1, \cdots, \alpha_{k_E}\}\subseteq \mathbb{F}_2^n$, we define the matrix $V_{E,Z}$ whose entries are
     \begin{align*}
-        V_{E,Z} = 
-        \begin{pmatrix}
-            z_1^{\alpha_1} & z_2^{\alpha_1} & \cdots & z_{k_Z}^{\alpha_1} \\
-            z_1^{\alpha_2} & z_2^{\alpha_2} & \cdots & z_{k_Z}^{\alpha_2} \\
-            \vdots & \vdots & \ddots & \vdots \\
-            z_1^{\alpha_{k_E}} & z_2^{\alpha_{k_E}} & \cdots & z_{k_Z}^{\alpha_{k_E}}
-        \end{pmatrix}
+        \left(V_{E,Z}\right)_{i,j} = z_j^{\alpha_i} \quad \forall i\in[1,k_E] \mbox{ and } j\in[1, k_Z] 
     \end{align*}
+    
+    %\begin{align*}
+    %    V_{E,Z} = 
+    %    \begin{pmatrix}
+    %        z_1^{\alpha_1} & z_2^{\alpha_1} & \cdots & z_{k_Z}^{\alpha_1} \\
+    %        z_1^{\alpha_2} & z_2^{\alpha_2} & \cdots & z_{k_Z}^{\alpha_2} \\
+    %        \vdots & \vdots & \ddots & \vdots \\
+    %        z_1^{\alpha_{k_E}} & z_2^{\alpha_{k_E}} & \cdots & z_{k_Z}^{\alpha_{k_E}}
+    %    \end{pmatrix}
+    %\end{align*}
     We call this matrix the \textit{T-Vandermonde} matrix: the transpose of the matrix used in \cite{armknecht2006efficient}.\\
-    Denoting by $Z_i = \{z_1, z_2, ...., z_i\}$ and $E_j = \{\alpha_1, ..., \alpha_j\}$ for $i\in[1,z_{k_Z}]$ and $j\in[1,\alpha_{k_E}]$, the sub-matrix $V_{E_i, Z_j}$ of $V_{E,Z}$ is given by
+    Denoting by $Z_i = \{z_1, z_2, ...., z_i\}$ and $E_j = \{\alpha_1, ..., \alpha_j\}$ for $i\in[1,z_{k_Z}]$ and $j\in[1,\alpha_{k_E}]$, the sub-matrix $V_{E_i, Z_j}$ of $V_{E,Z}$, is given by the elements
     \begin{align*}
-        V_{E_i,Z_j} = 
-        \begin{pmatrix}
-            z_1^{\alpha_1} & z_2^{\alpha_1} & \cdots & z_j^{\alpha_{i}} \\
-            z_1^{\alpha_2} & z_2^{\alpha_2} & \cdots & z_j^{\alpha_{i}} \\
-            \vdots & \vdots & \ddots & \vdots \\
-            z_{1}^{\alpha_i} & z_{2}^{\alpha_i} & \cdots & z_{j}^{\alpha_i}
-        \end{pmatrix}
+        \left(V_{E_i,Z_j}\right)_{n,l} = z_l^{\alpha_n} \quad \forall n\in[1,i] \mbox{ and } l\in[1, j] 
     \end{align*}
+    %\begin{align*}
+    %    V_{E_i,Z_j} = 
+    %    \begin{pmatrix}
+    %        z_1^{\alpha_1} & z_2^{\alpha_1} & \cdots & z_j^{\alpha_{i}} \\
+    %        z_1^{\alpha_2} & z_2^{\alpha_2} & \cdots & z_j^{\alpha_{i}} \\
+    %        \vdots & \vdots & \ddots & \vdots \\
+    %        z_{1}^{\alpha_i} & z_{2}^{\alpha_i} & \cdots & z_{j}^{\alpha_i}
+    %    \end{pmatrix}
+    %\end{align*}
+    In the same way, we define the matrices $S_{E,S}$ and $S_{E_i, S_j}$ as the \textit{T-Vandermond} matrices on the elements of the set $S\subseteq \mathbb{F}_2^n$.
 \end{definition}
 
 \begin{remark}\label{rem:subsetOfReedMuller}
@@ -620,63 +636,10 @@ We start by giving some definitions and remarks to be able to introduce the gene
     with $V_1 = \begin{pmatrix} z_1^{\alpha_1}\end{pmatrix} = z_1^{(000)_2} = (1)$ 
 \end{definition}
 
-
-Equally to Definition \ref{def:tVandermonde}, we define the \textit{T-Vandermonde} matrix over the set $S$.
-\begin{definition}
-    Let $S = \{s_1, s_2, \cdots, s_{k_S}\} \subseteq \mathbb{F}_2^n$, and $E = \{\alpha_1, \alpha_2, \cdots, \alpha_{k_s}\} \subseteq \mathbb{F}_2^n$. We define the matrix $S_{E,S}$ as
-    \begin{align*}
-        S_{E,S} = 
-        \begin{pmatrix}
-            s_1^{\alpha_1} & s_2^{\alpha_1} & \cdots & s_{k_S}^{\alpha_1} \\
-            s_1^{\alpha_2} & s_2^{\alpha_2} & \cdots & s_{k_S}^{\alpha_2} \\
-            \vdots & \vdots & \ddots & \vdots \\
-            s_1^{\alpha_{k_E}} & s_{2}^{\alpha_{k_E}} & \cdots & s_{k_S}^{\alpha_{k_E}}
-        \end{pmatrix}
-    \end{align*}
-    and for $i \leq k_S$ and $j\leq k_E$, the sub-matrix
-    \begin{align*}
-    S_{E_i, S_j} = 
-    \begin{pmatrix}
-            s_1^{\alpha_1} & s_2^{\alpha_1} & \cdots & s_{j}^{\alpha_1} \\
-            s_1^{\alpha_2} & s_2^{\alpha_2} & \cdots & s_{j}^{\alpha_2} \\
-            \vdots & \vdots & \ddots & \vdots \\
-            s_1^{\alpha_{i}} & s_{2}^{\alpha_{i}} & \cdots & s_{j}^{\alpha_{i}}
-        \end{pmatrix}    
-    \end{align*}
-\end{definition}
-
 With Definition \ref{def:tVandermonde} and Remark \ref{rem:subsetOfReedMuller} in mind, we state the algorithm's procedure as follows.\\
 Let $Z = supp\left(f^{(o)}\right) \cap S$ and $1\leq i \leq |Z|$, if the function $f$ is not constant on $S$, the algorithm works by constructing the matrix $V_{E_i, Z_i}$ and seeks functions vanishing on the set $Z_i$ by taking Boolean functions corresponding to the elements of the kernel of $V_{E_i, Z_i}$.\\
 If such functions exist, the procedure checks if any of these are also annihilator restricted on $S$ of the full function $f^{(o)}$, by testing if they also vanish in all $Z$ but not in all $S$. If any of such annihilators is found, the algorithm returns the degree of the last monomial added, $x^{\alpha_i}$. Otherwise, it increments the index $i$, constructs the next matrix following Definition \ref{def:inductiveConstructionOfV} and continues until a desired solution is found or if all the squared matrices up to $V_{E_i, |Z|}$ have been constructed and tested.\\
-Suppose no annihilator is found after all the elements of $Z$ have been added. In that case, the algorithm iteratively adds new monomials, generates the matrices $V_{E_i, Z}$ and $S_{E_i, S_i}$ and returns the degree of the monomial $x^{\alpha_i}$ in the case in which $rank\left(V_{E_i, Z}\right) < rank\left(S_{E_i, S_i}\right)$. Following from point \ref{item:Item1RemOnAlg} of Remark \ref{rem:remarksOnAlg}, if such condition is not satisfied at the step $i$, the iteration continues until $rank\left(S_{E_i, S_i}\right) > |S| / 2$.\\
-
-With Proposition \ref{prop:annihliatorOnZk} and Remark \ref{rem:annihilatorOnZ}, we formally justify the process of finding a non-zero-annihilator restricted to $S$ of a function from a nonzero annihilator on a sub-support, while with Proposition \ref{prop:comparsonVandSAfterAllelementsofZ}, we justify the behavior taken in the case in which no restricted non-zero-annihilator has been found before having added all the elements of $Z$.
-\begin{proposition}\label{prop:annihliatorOnZk}
-    If there exists a $1 < k \leq \min\{|Z|, |E_{D_n^n}|\}$ such that $rank(V_{E_k,Z_k}) < |E_k|$, then there exists a Boolean function $g_k$ such that $deg\left(g_k\right) = w_H(\alpha_k)$ and $g_k(x) = 0,\ \forall x \in Z_k$.
-\end{proposition}
-\begin{proof}
-    Let $1 < k \leq \min\{|Z|, |E_{D_n^n}|\}$.\\
-    Since $V_{E_k, Z_k}$ has $|E_k|$ rows, $rank(V_{E_k, Z_k}) < |E_k| = k \implies \exists \hat{g}_k \neq \hat{0}$ such that $V_{E_k, Z_k}*\hat{g}_k = \hat{0}$.\\
-    From the construction of $V_k = V_{E_k, Z_k}$, we have that $V_{E_k, Z_k}$ contains some of the monomials of degree $w_H\left(\alpha_{k}\right)$ and from Remark \ref{rem:subsetOfReedMuller}, $V_{E_k,Z_k}$ is a sub-matrix of $G_{w_H\left(\alpha_k\right),n}^{f_Z^{(o)}, S}$.\\
-    Denoting by $f_k^{(o)}$ the restriction of $f^{(o)}$ on $Z_k$ and using Remark \ref{rem:gfMatrix}, we see that $V_k * \hat{g}_k= TT\left(f_k^{(o)}\circ g_k\right)$, where $g_k$ is the Boolean function corresponding to $\hat{g}_k$. Therefore $V_k * \hat{g}_k = \hat{0} \Rightarrow g_k * f_k^{(o)} (x) = 0 = g_k * f^{(0)} (x)\ \forall x\in Z_k$ and since $f^{(o)} (x) = 1\ \forall x\in Z_k$, we have that $g_k(x) = 0\ \forall x \in Z_k$.\\
-    The maximal degree of $g_k$ is the degree of the monomials $x^{\alpha_k}$ which is $deg(x^{\alpha_k}) = w_H(\alpha_k)$.
-\end{proof}
-
-\begin{remark}\label{rem:annihilatorOnZ}
-    A Boolean function $g \in \Bn{n}$ of degree $d$ that satisfies the premise on Proposition \ref{prop:annihliatorOnZk} and also vanishes in all other elements of $Z$, is a non-zero-annihilator of $f^{(o)}$ of degree $d$ restricted on $S$.
-\end{remark}
-    
-
-\begin{proposition}\label{prop:comparsonVandSAfterAllelementsofZ}
-    If it exists a $k \geq |Z|$, such that $rank\left(V_{E_k, Z}\right) < rank\left(S_{E_k,S}\right)$, then it exists a non-zero-annihilator of $f^{(o)}$ of degree $w_H\left(\alpha_k\right)$ restricted to $S$.
-\end{proposition}
-\begin{proof}
-    Suppose that for a $k \geq |Z|$, $rank\left(V_{E_k, Z}\right) < rank\left(S_{E_k, S}\right)$.\\
-    Since $V_{E_k, Z}$ contains all the elements of $Z$ and $S_{E_k, S}$ contains all the elements of $S$, we are in a situation similar to Proposition \ref{prop:compareranks}. In particular, from Remark \ref{rem:subsetOfReedMuller}, $V_{E_k,Z}$ is a sub-matrix of $G_{w_H\left(\alpha_k\right), n}^{f_Z^{(o)}, S}$, and $S_{E_k,S}$ is a sub-matrix of $G_{w_H\left(\alpha_k\right), n}^{S}$.\\
-    If $w_H\left(\alpha_k\right) = d$ for a $d\geq 1$, we are exactly in the same situation as Proposition \ref{prop:compareranks}, from which we conclude that a non-zero-annihilator of degree $d$ of $f^{(o)}$ restricted on $S$ exists.\\
-    On the other hand, if $k$ is such that $D_{d}^n < k < D_{d+1}^n$ for a $d \geq 1$, if $rank\left(V_{E_k,Z}\right) < rank\left(S_{E_k,S}\right)$ it exists a $\hat{g}_k \in rightKer\left(V_{E_k,Z}\right)$ such that $\hat{g} \not\in rightKer\left(S_{E_k, S}\right)$, hence a vector $\hat{g}_k$ of coefficients of the Boolean function $g_k \in \Bn{n}$ which is non-null on $S$ but vanishes on $Z$. This Boolean function has a degree of $w_H\left(\alpha_k\right) = d$.
-\end{proof}
-
+Suppose no annihilator is found after all the elements of $Z$ have been added. In that case, the algorithm iteratively adds new monomials, generates the matrices $V_{E_i, Z}$ and $S_{E_i, S_i}$ and returns the degree of the monomial $x^{\alpha_i}$ in the case in which $rank\left(V_{E_i, Z}\right) < rank\left(S_{E_i, S_i}\right)$. Following from point \ref{item:Item1RemOnAlg} of Remark \ref{rem:remarksOnAlg}, if such condition is not satisfied at the step $i$, the iteration continues until $rank\left(S_{E_i, S_i}\right) > |S| / 2$.
 
 \begin{remark}
     In the procedure described, we search for at least one element satisfying some required conditions from a vector space that is potentially too big for the algorithm to maintain the desired efficiency. To solve this issue, in the case we find an element $\hat{g}_k$ of the right kernel of $V_k$ which does not vanish on $Z$, we re-order the vector $Z$ by swapping the element $z_{k+1}$ with the element which is not vanishing in $\hat{g}_k$. This guarantees that such elements of the kernel of $V_k$ do not get propagated to the kernel of the subsequent matrices. Furthermore, it ensures that the cardinality of the kernel of $V_k$ is upper-bounded by $1$ for all $k \leq |Z|$.\\
@@ -899,6 +862,7 @@ Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, bette
     As also stated by \cite{armknecht2006efficient}, $P_{k-1}$ is the matrix corresponding to the history of operations applied to the rows of $V_{k-1}$ to be able to obtain $EF\left(V_{k-1}\right)$.
 \end{remark}
 
+\lbnote{Add Footnotes to \textsc{vanish\_on} and \textsc{apply\_operations} functions}\\
 \begin{algorithm}
 	\caption{Algorithm to find the degree of the minimum-degree $S$-non-zero-annihilator of a function $f^{(o)}$}\label{alg:MinDegreeSnonZeroAnnihilatorIterative}
 	\begin{algorithmic}[1]
@@ -924,13 +888,13 @@ Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, bette
 		\State $\hat{g} \gets k[0]$
 		\State $nonVanishingPointIndex, vanishingFlag \gets Null, True$
 		\ForAll{$z\in Z\backslash Z_k$}
-		\State $vanishCheck, NonVanishingPointIndex \gets \mbox{\textsc{vanishes}}(\hat{g}, z)$
+		\State $vanishCheck, NonVanishingPointIndex \gets \mbox{\textsc{vanishes\_on}}(\hat{g}, z)$
 		\If{$vanishCheck = False$}
 		\State $vanishingFlag \gets False$
 		\State \textbf{break}
 		\EndIf
 		\ForAll{$z_c \in S\backslash Z$}
-		\State $vanishCheckOnS \gets \mbox{\textsc{vanishes}}(\hat{g}, z)$
+		\State $vanishCheckOnS \gets \mbox{\textsc{vanishes\_on}}(\hat{g}, z)$
 		\If{$vanishCheckOnS = False$}
 		\State \Return $w_H\left(\alpha_i\right)$
 		\EndIf
@@ -989,6 +953,61 @@ Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, bette
 	\end{algorithmic}
 \end{algorithm}
 
+
+\lbnote{Algorithm \ref{alg:fullAlg3ForAIRestrictesSetOpt} is needed to refer it in the applications \ref{enum:stepOfapplicationEnum}. See it is really compulsory to put it here.}\\
+\lbnote{Add Footnotes to \textsc{find\_deg\_smallest\_S\_annihilator\_seq} function.}
+
+\begin{algorithm}[H]\label{alg:fullAlg3ForAIRestrictesSetOpt}
+    \caption{Algorithm to compute the algebraic immunity of a function $f\in \Bn{n}$ restricted to $S$}
+    \begin{algorithmic}[1]
+        \Require $x\in \mathbb{F}_2^{2^n}$ evaluation of the truth table of $f\in \Bn{n}$ and the restricted set $S\subseteq \mathbb{F}_2^n$.
+		\Ensure $\AI_S(f)$
+        \State
+
+        \Function{construct\_monomials}{$n,d$}
+        \State $E \leftarrow [\ ]$\;
+        \For{$i \leftarrow 0$ \textbf{to} $d$}
+            \State $binaryStr\leftarrow array\left((0)_{2,n}\right)$;
+            \For{$c_i \in combinations(n, i)$}
+                \State $binaryStr[c_i] = "1"$;
+            \EndFor
+            \State $E \gets E || binaryStr$;
+        \EndFor
+        \State \Return $E$;
+		\EndFunction
+        \State
+
+        \State $Z \leftarrow []$;
+        \State $Z_c \leftarrow []$;
+        \For{$k \leftarrow 0$ \textbf{to} $2^n-1$}{
+            \If{$k \not\in S$}
+                \State \textbf{continue}\;
+            \EndIf
+            \If{$x[k] = 1$}
+                \State $Z \gets Z || \left(x[k]\right)_2$;
+            \Else
+                \State $Z_c \gets Z_c || \left(x[k]\right)_2$;
+            \EndIf
+        }
+        \EndFor
+        \If {$Z = [\ ]$ or $Z_c = [\ ]$}
+            \State \Return $0$;
+        \EndIf
+        \State
+
+        \State $E \leftarrow \mbox{\textsc{construct\_monomials}}(n=n, d=n)$\;
+        \State $r\gets \frac{Z}{Z_c}$\;
+        \If{$1/ratio < r < ratio$}
+            \State $immunity_f, immunity_{f+1} \leftarrow ($\\
+		$\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(Z=Z, E=E, S=S)$\\
+		$\ |\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(Z=Z_c, E=E, S=S)$\\
+		$)$;
+            \State \Return $min{\left(immunity_f, immunity_{f+1}\right)}$
+        \Else
+            \State \Return $\mbox{\textsc{find\_deg\_smallest\_S\_annihilator\_seq}}(Z=Z, Z_c, E=E, S=S))$;
+        \EndIf
+    \end{algorithmic}
+\end{algorithm}
 \section{Applications to WAPB functions}
 In this section, we apply the algorithms to the weightwise perfectly balanced (WPB) Boolean functions with the intent to study their algebraic immunity restricted to subsets of constant Hamming weight. In particular, we determine the probability distributions of the $AI_K$ of $WPB$ functions and we compute the $AI_k$ of already published $WPB$ Boolean functions.
 
@@ -1096,7 +1115,7 @@ The following procedure is done for each slice $E_{k,n}$.
     \item Initialise a hash table of all possible values of $AI_k$
     \item For each sub-truth table in $\omega_i^{(k)} \in \Omega_k$ ($\omega_i^{(k)}$ is either generated on the fly by an iterator or by having the source code for the generation of $\omega_i^{(k)}$ in this loop.)
     \begin{enumerate}
-        \item Run Algorithm \lbnote{Reference to algorithm} with $S=\omega_i^{(k)}$\\
+        \item Run Algorithm \ref{alg:fullAlg3ForAIRestrictesSetOpt} with $S=\omega_i^{(k)}$\label{enum:stepOfapplicationEnum}\\
         \item Increment the value in the hash table corresponding to the output of the previous step
     \end{enumerate}
     \item Divide each value in the hash table by $|\Omega|$.
