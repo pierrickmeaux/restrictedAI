@@ -470,7 +470,7 @@ Let $r,n\in\N^*$ with $r\leq n$. Let $G_{r,n}$ be the generator matrix of the Re
 	\begin{aligned}
 	\hat{a} \cdot G_{r,n}^{f_S,S} & = \left(\bigoplus_{i=1}^{D_r^n}a_i f_S(u_1)(G_{r,n}^S)_{i,1}, \bigoplus_{i=1}^{D_r^n}a_i f_S(u_2)(G_{r,n}^S)_{i,2}, \cdots, \bigoplus_{i=1}^{D_r^n}a_i f_S(u_n)(G_{r,n}^S)_{i,n}\right)     \\
 	& =  \left(f_S(u_1) \bigoplus_{i=1}^{D_r^n}a_i (G_{r,n}^S)_{i,1}, f_S(u_2) \bigoplus_{i=1}^{D_r^n}a_i (G_{r,n}^S)_{i,2}, \cdots, f_S(u_n) \bigoplus_{i=1}^{D_r^n}a_i (G_{r,n}^S)_{i,n}\right) \\
-	& = \left(f_S(u_1) g(u_1), f_S(u_2) g(u_2), ...., f_S(u_n) g(u_n)\right)                                                                                      \\
+	& = \left(f_S(u_1) g(u_1), f_S(u_2) g(u_2), \cdots, f_S(u_n) g(u_n)\right)                                                                                      \\
 	& = f_S \cdot g
 	\end{aligned}
 	\end{equation}
@@ -580,14 +580,28 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 \section{Computing the restricted AI iteratively}\label{sec:IterativeApproach}
 
 
-In this section, we present an algorithm (Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative}) to determine the algebraic immunity restricted to a set $S \subseteq \mathbb{F}_2^n$ with a better time and space complexity of the one presented in Section \ref{sec:RMapproach}.
-The idea is to construct the objects $G_{r,n}^{f_{supp\left(f\right) \cap S},S}$ and $G_{r,n}^{\left(f\oplus 1\right)_{supp\left(f\oplus 1\right) \cap S},S}$ for different $r$ recursively while checking for the existence of annihilators, instead of extracting them from a big pre-computed Reed-Muller generator matrix restricted to $S$.\\
-As for Algorithm \ref{alg:RMApproach}, the procedure returns $0$ if the function $f$ is constant in $S$, we therefore only explain the case of determining the $AI_S$ for functions which are such that $AI_S(f) \geq 1$. The full algorithm provided will however also cover the cases of functions with zero restricted $AI_S$.\\
+%In this section, we present an algorithm (Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative}) to determine the algebraic immunity restricted to a set $S \subseteq \mathbb{F}_2^n$ with a better time and space complexity than the one presented in Section~\ref{sec:RMapproach}.
+%The idea is to construct the objects $G_{r,n}^{f_{supp\left(f\right) \cap S},S}$ and $G_{r,n}^{\left(f\oplus 1\right)_{supp\left(f\oplus 1\right) \cap S},S}$ for different $r$ iteratively, increasing the size of the matrix one row per iteration and saving computations, while checking for the existence of annihilators, instead of extracting them from a big pre-computed Reed-Muller generator matrix restricted to $S$.
+%The method generalizes the approach of~\cite{EC:ACGKMR06} on the standard algebraic immunity.
 
-We start by giving some definitions and remarks to be able to introduce the general idea of the algorithm
+%As for Algorithm~\ref{alg:RMApproach}, the procedure returns $0$ if the function $f$ is constant in $S$, we therefore only explain the case of determining the $\AI_S$ for functions which are such that $\AI_S(f) \geq 1$ (The full algorithm provided however also covers the cases of functions with null $AI_S$).
+
+%We start with definitions and remarks to be able to introduce the general idea of the algorithm.
+
+
+In this section, we present an algorithm (Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative}) to determine the algebraic immunity restricted to a set $S \subseteq \mathbb{F}_2^n$ with improved time and space complexity compared to the method presented in Section~\ref{sec:RMapproach}. 
+
+The core idea is to iteratively construct the objects $G_{r,n}^{f_{supp\left(f\right) \cap S},S}$ and $G_{r,n}^{\left(f\oplus 1\right)_{supp\left(f\oplus 1\right) \cap S},S}$ for varying $r$, increasing the size of the matrix by one row per iteration while minimizing computations. 
+This approach checks for the existence of annihilators dynamically, rather than extracting them from a large, pre-computed Reed-Muller generator matrix restricted to $S$. The method extends the approach of~\cite{EC:ACGKMR06} for determining the standard algebraic immunity.
+As with Algorithm~\ref{alg:RMApproach}, this procedure returns $0$ if the function $f$ is constant on $S$. Hence, we focus on explaining the case of determining $\AI_S(f)$ for functions such that $\AI_S(f) \geq 1$. (The full algorithm, however, also addresses functions with null $\AI_S$.)
+
+We begin with definitions and remarks necessary to introduce the general idea of the algorithm.
+
+
+
 
 \begin{definition}[T-Vandermonde matrix]\label{def:tVandermonde}
-    Let $Z = \{z_1, ...., z_{k_Z}\} \subseteq \mathbb{F}_2^n$ and $E = \{\alpha_1, \cdots, \alpha_{k_E}\}\subseteq \mathbb{F}_2^n$, we define the matrix $V_{E,Z}$ whose entries are
+    Let $Z = \{z_1, \cdots, z_{k_Z}\} \subseteq \mathbb{F}_2^n$ and $E = \{\alpha_1, \cdots, \alpha_{k_E}\}\subseteq \mathbb{F}_2^n$, we define the matrix $V_{E,Z}$ whose entries are
     \begin{align*}
         \left(V_{E,Z}\right)_{i,j} = z_j^{\alpha_i} \quad \forall i\in[1,k_E] \mbox{ and } j\in[1, k_Z] 
     \end{align*}
@@ -602,7 +616,7 @@ We start by giving some definitions and remarks to be able to introduce the gene
     %    \end{pmatrix}
     %\end{align*}
     We call this matrix the \textit{T-Vandermonde} matrix: the transpose of the matrix used in \cite{armknecht2006efficient}.\\
-    Denoting by $Z_i = \{z_1, z_2, ...., z_i\}$ and $E_j = \{\alpha_1, ..., \alpha_j\}$ for $i\in[1,z_{k_Z}]$ and $j\in[1,\alpha_{k_E}]$, the sub-matrix $V_{E_i, Z_j}$ of $V_{E,Z}$, is given by the elements
+    Denoting by $Z_i = \{z_1, z_2, \cdots, z_i\}$ and $E_j = \{\alpha_1, \cdots, \alpha_j\}$ for $i\in[1,z_{k_Z}]$ and $j\in[1,\alpha_{k_E}]$, the sub-matrix $V_{E_i, Z_j}$ of $V_{E,Z}$, is given by the elements
     \begin{align*}
         \left(V_{E_i,Z_j}\right)_{n,l} = z_l^{\alpha_n} \quad \forall n\in[1,i] \mbox{ and } l\in[1, j] 
     \end{align*}
@@ -615,11 +629,11 @@ We start by giving some definitions and remarks to be able to introduce the gene
     %        z_{1}^{\alpha_i} & z_{2}^{\alpha_i} & \cdots & z_{j}^{\alpha_i}
     %    \end{pmatrix}
     %\end{align*}
-    In the same way, we define the matrices $S_{E,S}$ and $S_{E_i, S_j}$ as the \textit{T-Vandermond} matrices on the elements of the set $S\subseteq \mathbb{F}_2^n$.
+    In the same way, we define the matrices $S_{E,S}$ and $S_{E_i, S_j}$ as the \textit{T-Vandermonde} sub-matrices on the elements of the set $S\subseteq \mathbb{F}_2^n$.
 \end{definition}
 
 \begin{remark}\label{rem:subsetOfReedMuller}
-    Let $S\subseteq \mathbb{F}_2^n$, $f \in \Bn{n}$, $Z = supp(f) \cap S$ and $d \leq n$. Let $E = GrLex(\{\alpha_2, \alpha_2, \cdots, \alpha_{D_d^n}\})$ be such that $x^E$ is the set of all monomials with maximal degree $d$ ordered by the \textit{graded lex order}. The following remarks are made
+    Let $S\subseteq \mathbb{F}_2^n$, $f \in \Bn{n}$, $Z = supp(f) \cap S$ and $d \leq n$. Let $E = GrLex(\{\alpha_2, \alpha_2, \cdots, \alpha_{D_d^n}\})$ be such that $x^E$ is the set of all monomials with degree at most $d$ ordered by the \textit{graded lex order}. The following remarks are made
     \begin{itemize}
         \item $V_{E,Z} = G_{d,n}^{f_{Z},S}$.
         \item Let $E^{*}\subset E$, ordered by graded lex ordering. $V_{Z,E^{*}}$ is a sub-matrix of $G_{d,n}^{f_Z, S}$.
@@ -638,7 +652,7 @@ We start by giving some definitions and remarks to be able to introduce the gene
         z_1^{\alpha_{i+1}} & z_2^{\alpha_{i+1}}& \cdots & z_{i}^{\alpha_{i+1}} & z_{i+1}^{\alpha_{i+1}}
     \end{pmatrix}
     \end{align*}
-    This can be seen by combining Definition \ref{def:tVandermonde} and the fact that for all $i$ such that $1< i+1 \leq \min{\left(|Z|, |E|-1\right)}$, the matrix $V_{Z_{i+1}, E_{i+1}}$ is squared.
+    This can be seen by combining Definition \ref{def:tVandermonde} and the fact that for all $i$ such that $1< i+1 \leq \min{\left(|Z|, |E|-1\right)}$, the matrix $V_{Z_{i+1}, E_{i+1}}$ is square.
 \end{remark}
 
 \begin{definition}[Sequence of $V_k$ matrices]\label{def:inductiveConstructionOfV}
@@ -663,8 +677,8 @@ We start by giving some definitions and remarks to be able to introduce the gene
 \end{definition}
 
 With Definition \ref{def:tVandermonde} and Remark \ref{rem:subsetOfReedMuller} in mind, we state the algorithm's procedure as follows.\\
-Let $Z = supp\left(f^{(o)}\right) \cap S$ and $1\leq i \leq |Z|$, if the function $f$ is not constant on $S$, the algorithm works by constructing the matrix $V_{E_i, Z_i}$ and seeks functions vanishing on the set $Z_i$ by taking Boolean functions corresponding to the elements of the kernel of $V_{E_i, Z_i}$.\\
-If such functions exist, the procedure checks if any of these are also annihilator restricted on $S$ of the full function $f^{(o)}$, by testing if they also vanish in all $Z$ but not in all $S$. If any of such annihilators is found, the algorithm returns the degree of the last monomial added, $x^{\alpha_i}$. Otherwise, it increments the index $i$, constructs the next matrix following Definition \ref{def:inductiveConstructionOfV} and continues until a desired solution is found or if all the squared matrices up to $V_{E_i, |Z|}$ have been constructed and tested.\\
+Let $Z = supp\left(f^{(o)}\right) \cap S$ and $1\leq i \leq |Z|$, if the function $f$ is not constant on $S$, the algorithm works by constructing the matrix $V_{E_i, Z_i}$ and seeks functions vanishing on the set $Z_i$ by taking vectors corresponding to the elements of the kernel of $V_{E_i, Z_i}$.\\
+If such functions exist, the procedure checks if any of these are also annihilator restricted on $S$ of the full function $f^{(o)}$, by testing if they also vanish in all $Z$ but not in all $S$. If any of such annihilators is found, the algorithm returns the degree of the last monomial added, $x^{\alpha_i}$. Otherwise, it increments the index $i$, constructs the next matrix following Definition \ref{def:inductiveConstructionOfV} and continues until a desired solution is found or if all the square matrices up to $V_{E_i, |Z|}$ have been constructed and tested.\\
 Suppose no annihilator is found after all the elements of $Z$ have been added. In that case, the algorithm iteratively adds new monomials, generates the matrices $V_{E_i, Z}$ and $S_{E_i, S_i}$ and returns the degree of the monomial $x^{\alpha_i}$ in the case in which $rank\left(V_{E_i, Z}\right) < rank\left(S_{E_i, S_i}\right)$. Following from point \ref{item:Item1RemOnAlg} of Remark \ref{rem:remarksOnAlg}, if such condition is not satisfied at the step $i$, the iteration continues until $rank\left(S_{E_i, S_i}\right) > |S| / 2$.
 
 \begin{remark}
