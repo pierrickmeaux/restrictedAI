@@ -78,9 +78,9 @@ For two vectors $v$ and $w$ in $\F_2^n$ we denote by $\hd(v,w)$ the Hamming dist
 For two functions $f$ and $g$ we denote by $\hd(f,g)$ the Hamming distance between their vectors of values.
 
 \subsection{Ordering relations on \texorpdfstring{$\mathbb{F}_2^n$}{F\_2^n}}
-Let $n\in \mathbb{N}_{>0}$
+Let $n\in \N^*$
 \begin{definition}[Tot-WOrd relation on a field]\label{def:orderingOnK}
-	Let $K$ be a field. We define a Tot-WOrd ordering relation $<_{Ord_K}$ as a total and weel-ordering relation on $K$, that is
+	Let $K$ be a field. We define a Tot-WOrd ordering relation $<_{Ord_K}$ as a total and well-ordering relation on $K$, that is
 	\begin{itemize}
 		\item $<_{Ord_K}$ is a total ordering in $K^{n}$
 		\item Let $\alpha, \beta, \gamma \in K$, if $\beta <_{Ord_K} \alpha$ then $\beta + \gamma <_{Ord_k} \alpha + \gamma$
@@ -88,9 +88,9 @@ Let $n\in \mathbb{N}_{>0}$
 	\end{itemize}
 \end{definition}
 
-\begin{definition}[Tot-WOrd relation on $\mathbb{F}_2^n$]\label{def:OrderingOnF2n}
-	a Tot-WOrd ordering relation $ord$ on $\mathbb{F}_2^n$ is a total ordering $<_{ord_{\mathbb{F}_n^2}}$ between elements of $\mathbb{F}_2^n$.\\
-	Since in the document we only consider total, well ordered ordering, we omit the Tot-WOrd prefix in the ordering name: we call Tot-WOrd ordering relation on $\mathbb{F}_2^n$ as an \textit{ordering relation} on $\mathbb{F}_2^n$. 
+\begin{definition}[Tot-WOrd relation on $\F_2^n$]\label{def:OrderingOnF2n}
+	a Tot-WOrd ordering relation $ord$ on $\F_2^n$ is a total ordering $<_{ord_{\F_n^2}}$ between elements of $\F_2^n$.\\
+	Since in the document we only consider total, well ordered orderings, we omit the Tot-WOrd prefix in the ordering name: we call Tot-WOrd ordering relation on $\mathbb{F}_2^n$ as an \textit{ordering relation} on $\mathbb{F}_2^n$. 
 \end{definition}
 
 Two ordering relations in $\mathbb{F}_2^n$ are used in this project: the \textit{lexicographic} and the \textit{graded lex} order.
@@ -227,11 +227,12 @@ For $S=\Ekn{k}{n}$ we denote $\AI_{\Ekn{k}{n}}(f)$ by $\AIk{k}(f)$ and call it w
 \end{definition}
 
 \begin{remark}
-    Let $f\in \Bn{n}$. We use the notation $f^{(o)}$ referring to either $f$ or $f\oplus1$ when the choice between the two does not matter. In particular, $f^{(o)} \in \{f, f\oplus 1\}$.
+    Let $f\in \Bn{n}$. We use the notation $f^{(o)}$ referring to either $f$ or $f \oplus 1$ when the same process or result applies to any of them. 
+    In particular, $f^{(o)} \in \{f, f\oplus 1\}$.
 \end{remark}
 
 
-
+\iffalse
 \begin{definition}[Walsh transform and restricted Walsh transform]\label{def:walsh_transform}
 	Let $f\in \Bn{n}$ be a Boolean function, its Walsh transform $\wt{f}$ at $a \in \F_2^n$ is defined as:
 	\[  \wt{f} (a) := \sum_{x \in \F_2^n} (-1)^{f(x) +  a \cdot x }.\]
@@ -278,6 +279,7 @@ If $n=2^m$ with $m\in \N^*$, $f\in \Bn{n}$ is WPB if and only if:
 	Let $n\in \N^*, k\in [0,n]$, for every $n$-variable Boolean function $f$ over $\Ekn{k}{n}$:
 	\[ \NLk{k}(f)=\frac{|\Ekn{k}{n}|}{2} -\frac{\max_{a\in \F_2^n} |\wtk{f}{k}(a)|}{2}  .\]
 \end{Prop}
+
 
 
 %\subsection{Symmetric Functions}
@@ -343,37 +345,44 @@ We use Krawtchouk polynomials and some of their properties to prove one of our r
 %\begin{Prop}[TL WPB functions properties~\cite{CC:TangLiu19}]\label{Prop:TL}
 %	Let $m \in \N^*$ and $n=2^m$, a  $n$-variable TL function $h_n$ has optimal algebraic immunity $\AI(h_n)=\frac{n}{2}$.
 %\end{Prop}
+\fi
+
 
 %% Reed-Muller codes
 \subsection{Reed-Muller codes}
 
 \begin{definition}[Monomials and set of monomials]
-    Let $\alpha,x\in \mathbb{F}_2^n$, the monomial $x^{\alpha}$ is calculated as
+    Let $u, x\in \F_2^n$ denoted as $x=(x_1,\cdots,x_n)$ and $u=(u_1,\cdots,u_n)$, the monomial $x^{u}$ is calculated as
     \begin{align*}
-        x^{\alpha} = \prod_{i=1}^n x^\alpha_i
+        x^{u} = \prod_{i=1}^n x_i^{u_i}.
     \end{align*}
+    
     Let $E = \{\alpha_1, \alpha_2, \cdots, \alpha_k\} \subseteq \mathbb{F}_2^n$, we denote by $x^E = \{x^{\alpha_1}, x^{\alpha_2}, \cdots, x^{\alpha_k}\}$ the set of all monomials associated to $E$.
 \end{definition}
 
 \begin{definition}[Reed-Muller code - RM]
-	Let $n\in \mathbb{N}_{>0}$ and $r\in \mathbb{N}$ with $r\leq n$, the Reed-Muller code $RM(r,n)$ is the set of all $2^n$-bit length code words where each code word is the evaluations of one distinct Boolean function of maximal degree $r$ in $n$ variables.
+	Let $n\in \N^*$ and $r\in \N$ with $r\leq n$, the Reed-Muller code $RM(r,n)$ is the set of all $2^n$-bit length binary vectors where each code word is the evaluation of one distinct Boolean function of degree at most $r$ in $n$ variables.
 \end{definition}
 
+
+
 \begin{definition}[RM generator matrix]\label{rmGenerator}
-	Let $X$ be all the $2^n$ elements in $\mathbb{F}_2^n$ in lexicographical order and $P_{r,n} = \{\ u\in \mathbb{F}_2^n | w_H(u) \leq r\}$ all the elements of $\mathbb{F}_2^n$ with hamming weight smaller than $r$. The generator matrix $G_{r,n}\in Mat_{D_r^n,2^n}$ is defined as
+	Let $X$ be the set of the $2^n$ elements in $\F_2^n$ in lexicographical order and $P_{r,n} = \{\ u\in \mathbb{F}_2^n \mid w_H(u) \leq r\}$ the set of all the elements of $\F_2^n$ with Hamming weight smaller than or equal to $r$. 
+	The generator matrix $G_{r,n}\in Mat_{D_r^n,2^n}$ is defined as
 	\begin{align*}
-	\left(G_{r,n}\right)_{i,j} = x_j^{u_i}, \ x_j \in Lex\left(X\right),\ u_i \in (P_{r,n}
+%	\left(G_{r,n}\right)_{i,j} = x_j^{u_i}, \ x_j \in Lex\left(X\right),\ u_i \in P_{r,n}
+\left(G_{r,n}\right)_{i,j} = x_j^{u_i}, \ x_j \in X,\ u_i \in P_{r,n}.
 	\end{align*}
 	We denote by $G_{r,n}^Y\in Mat_{D_r^n,|Y|}$, the Reed-Muller generator matrix restricted on the set $Y \subset X$
 	\begin{align*}
-	\left(G_{r,n}\right)^Y_{i,j} = x_j^{u_i}, \ x_j \in Lex(Y),\ u_i \in P_{r,n}
+	\left(G_{r,n}\right)^Y_{i,j} = x_j^{u_i}, \ x_j \in Y,\ u_i \in P_{r,n}.
 	\end{align*}
 \end{definition}
 
 \begin{remark}
 	Let $\hat{a}$ be the vector corresponding to the coefficients in the $ANF$ of a Boolean function $f$ of $n$ variables and degree $r$, then
 	\begin{align*}
-	\hat{a} * G_{r,n} = TT(f)
+	\hat{a} \cdot  G_{r,n} = TT(f).
 	\end{align*}
 \end{remark}
 
@@ -396,7 +405,7 @@ We use Krawtchouk polynomials and some of their properties to prove one of our r
 
 
 
-\section{Computing the restricted AI from generator matrices of Reed-Muller punctured codes}\label{sec:RMapproach}
+\section{Computing the restricted AI from punctured) generator matrices of Reed-Muller codes}\label{sec:RMapproach}
 
 In this section we provide an algorithm to compute the algebraic immunity of a Boolean function restricted on a general subset $S \subseteq \mathbb{F}_2^n$. 
 
@@ -434,7 +443,7 @@ The systems of equations $S_1^r$ and $S_2^r$ are constructed by extracting the \
 
 
 \begin{definition}\label{def:generatorsS}
-Let $r,n\in\mathbb{N}_{>0}$ with $r\leq n$. Let $G_{r,n}$ be the generator matrix of the Reed-Muller code $RM(r,n)$, we define the object $G_{r,n}^{f^{(o)}_S,S}$ by setting to zero all the columns of $G_{r,n}^S$ which do not correspond to elements of $supp(f^{(o)} )\cap S$. For the remaining columns, we calculate $G_{r,n}^{f_S^{(o)},S}$ as
+Let $r,n\in\N^*$ with $r\leq n$. Let $G_{r,n}$ be the generator matrix of the Reed-Muller code $RM(r,n)$, we define the object $G_{r,n}^{f^{(o)}_S,S}$ by setting to zero all the columns of $G_{r,n}^S$ which do not correspond to elements of $supp(f^{(o)} )\cap S$. For the remaining columns, we calculate $G_{r,n}^{f_S^{(o)},S}$ as
 	\begin{align*}
 	\left(G_{r,n}^{f^{(o)}_S,S}\right)_{i,j} = f_S^{(o)}(u_j)*\left(G_{r,n}^S\right)_{i,j}, \ u_j \in S
 	\end{align*}
@@ -735,7 +744,7 @@ Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, bette
 \end{definition}
 
 \begin{remark}\label{rem:rowEchelonForm}
-    Let $k_r, k_c \in \mathbb{N}$ and $M\in Mat_{k_r,k_c}(\mathbb{F}_2^n)$. Let $M = LU$ be the $LU$ decomposition of $M$, then
+    Let $k_r, k_c \in \N$ and $M\in Mat_{k_r,k_c}(\mathbb{F}_2^n)$. Let $M = LU$ be the $LU$ decomposition of $M$, then
     \begin{align*}
         EF(M) =_p U
     \end{align*}
@@ -1015,7 +1024,7 @@ In this section, we apply the algorithms to the weightwise perfectly balanced (W
 Similarly to what has been done in \cite{Latin:GinMea23} for the weighwise non-linearity $NL_k$, we determine the discrete probability distribution of the $AI_k$ of weighwise perfectly balanced Boolean functions, describing the probability of a function $f\in WPB_{2^n}$ of having a certain algebraic immunity restricted on the slice $E_{k,n}$. A more formal definition in given Definition \ref{def:distAIk} below.
 
 \begin{definition}\label{def:distAIk}
-    Let $m \in \mathbb{N}_> 0$, $n = 2^m$ and $k \in [1,n-1]$. Similarly to \cite{Latin:GinMea23}, we define the discrete probability distribution of $AI_k$ as
+    Let $m \in \N^*$, $n = 2^m$ and $k \in [1,n-1]$. Similarly to \cite{Latin:GinMea23}, we define the discrete probability distribution of $AI_k$ as
     \begin{align*}
         p_{AI_k}(x) = \frac{\bigg|\{f\in WPB_m\  |\  AI_k(f) = x\}\bigg|}{|WPB_m|}
     \end{align*}
