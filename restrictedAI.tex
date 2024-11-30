@@ -560,12 +560,12 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 		$\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(G_{rows,n}^{f_Z,S}, G_{n,n}^S,D^{n})$\\
 		$\ |\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(G_{rows,n}^{(f\oplus 1)_Z,S}, G_{n,n}^S, D^{n})$\\
 		$)$
-		\State \Return $\min(immunity_f, immunity_{f+1})$\footnotemark
+		\State \Return $\mbox{\textsc{min}}(immunity_f, immunity_{f+1})$\footnotemark
 	\end{algorithmic}
 \end{algorithm}
 
 \footnotetext[1]{The symbol $||$ is used as row-concatenation of matrices, meaning that $C = A||B$ is the matrix constructed by appending all the row of the matrix $B$ to the matrix $A$.}
-\footnotetext[2]{The function $min$ takes care of $null$ values $\min(immunity_f, null) = immunity_f$ and $\min(null, immunity_{f+1}) = immunity_{f+1}$.}
+\footnotetext[2]{The function \textsc{min} takes care of $null$ values $\mbox{\textsc{min}}(immunity_f, null) = immunity_f$ and $\mbox{\textsc{min}}(null, immunity_{f+1}) = immunity_{f+1}$.}
 
 
 
@@ -678,8 +678,10 @@ Suppose no annihilator is found after all the elements of $Z$ have been added. I
 
 \subsection{Keeping the cardinality of the kernel of $V_k$ upper-bounded by $1$}
 
-In the procedure described, we search for at least one element satisfying some required conditions from a vector space that is potentially too big for the algorithm to maintain the desired efficiency. To solve this issue, in the case we find an element $\hat{g}_k$ of the right kernel of $V_k$ which does not vanish on $Z$, we re-order the vector $Z$ by swapping the element $z_{k+1}$ with the element which is not vanishing in $\hat{g}_k$. This guarantees that such elements of the kernel of $V_k$ do not get propagated to the kernel of the subsequent matrices. Furthermore, it ensures that the cardinality of the kernel of $V_k$ is upper-bounded by $1$ for all $k \leq |Z|$.\\
-    Propositions \ref{prop:swappingElementOfZToReduceKer} and \ref{prop:upperBoundOnRightKernel} provide justifications for this claim.
+In the procedure described, we search for at least one element satisfying some required conditions from a vector space that is potentially too big for the algorithm to maintain the desired efficiency. To solve this issue, in the case we find an element $\hat{g}_k$ of the right kernel of $V_k$ which does not vanish on $Z$, we re-order the vector $Z$ by swapping the element $z_{k+1}$ with the element which is not vanishing in $\hat{g}_k$. This guarantees that such elements of the kernel of $V_k$ do not get propagated to the kernel of the subsequent matrices.\\
+Moreover, in case an element of the kernel of $V_k$ vanishing on all $Z$ and all $S$ is found, we drop the monomial $\alpha_k$ by constructing the matrix $V_{k+1}$ by replacing the row corresponding to the monomial $\alpha_k$ with the one corresponding to the monomial $\alpha_{k+1}$.\\
+This procedure ensures that the cardinality of the kernel of $V_k$ is upper-bounded by $1$ for all $k \leq |Z|$.\\
+Propositions \ref{prop:swappingElementOfZToReduceKer}, \ref{prop:upperBoundOnRightKernel} and \ref{prop:constructionOfNextVRemovingAlphai} provide justifications for this claim.
 
 \begin{proposition}\label{prop:swappingElementOfZToReduceKer}
     Let $k < \min\{(|Z|, |E_{D_n^n}|\}$ and $V_k$ constructed following Definition \ref{def:inductiveConstructionOfV},\\
@@ -756,9 +758,31 @@ In the procedure described, we search for at least one element satisfying some r
     Notice that the definition of $V^{'}_{k+1}$ in Proposition \ref{prop:swappingElementOfZToReduceKer}, does not break Definition \ref{def:inductiveConstructionOfV}, since we do not need to specify a particular ordering relation for the element of the support $Z$ to construct the sequence $(V_{k})_k$.
 \end{remark}
 
-\lbnote{Transpose the matrices in the sections below}\\
-\subsection{Using echelon form matrices of the previous steps}\label{subsubsection:optEchelonForm}
-For each iteration $k$ of the algorithm, the matrix $V_k$ already contains the sub-matrix $V_{k-1}$. It is therefore possible to compute the echelon form of $V_{k-1}$ and use it to compute the echelon form of $V_{k}$. In such a way, the matrix $V_k$ would already contain the sub-matrix $EF(V_{k-1})$ which is already in echelon form, allowing to reduce the number of steps needed to compute the rank of $V_k$.\\
+\begin{proposition}\label{prop:constructionOfNextVRemovingAlphai}
+    Let $ker(V_{E_k, Z_k}) = <\hat{g}_k> = <(\epsilon_1, \cdots, \epsilon_k)>$ be such that the corresponding Boolean function $g_k\in \Bn{n}$ is such that $g_k(x) = 0,\ \forall x\in Z$, but it exists a $y\in S$ such that $g_k(y) = 1$.\\
+    Let $E^{*} = (\alpha_1, \alpha_2, \cdots, \alpha_{k-1}, \alpha_{k+1})$ be the vector constructed from $E_k$, but by replacing the last element $\alpha_{k}$ with $\alpha_{k+1}$ and let $V_{k+1} = V_{E^{*}_{k+1}, Z_k}$ be the matrix defined by replacing the monomial $\alpha_k$ in $V_{E_k, Z_k}$, with the monomial $\alpha_{k+1}$ 
+    \begin{align*}
+        V_{E^{*}_{k+1}, Z_{k}} = 
+        \begin{pmatrix}
+        \multicolumn{4}{c}{\multirow{4}{*}{$E_{k-1}, V_{Z_{k-1}}$}} & z_{k}^{\alpha_{1}}\\
+        & & & & z_{k}^{\alpha_{2}}\\
+        & & & & \vdots\\
+        & & & & z_{k}^{\alpha_{k-1}}\\
+        z_{1}^{\alpha_{k+1}} & z_{2}^{\alpha_{k+1}}& \cdots & z_{k}^{\alpha_{k+1}} & z_{k}^{\alpha_{k+1}}
+    \end{pmatrix}
+    \end{align*}
+    then, either $\hat{g}_k \not\in ker(V_{E^{*}_{k+1}, Z_k})$, or $\hat{g}_k$ is the only element (except for $\hat{0}$) in the right kernel of $V_{E_{k+1}^{*}, Z_k}$. Hence
+    \begin{align*}
+        dim\left(ker(V_{E^{*}_{k+1}, Z_k})\right)\leq 1   
+    \end{align*}
+\end{proposition}
+\begin{proof}
+    Proposition \ref{prop:swappingElementOfZToReduceKer} ensures that neither the kernel of $V_{E^{*}_{k+1}, Z_{k}}$ does not contain elements preceding with elements of the kernel of $V_{ E_{k-1}, Z_{k-1}}$, therefore, $V_{E_{k-1}, Z_{k-1}}$ can be treated as a full-rank matrix.\\
+    Modifying the last row of a matrix containing a full-rank sub-matrix does not increase the size of the kernel. This is because the first $k$ entries of the elements of the kernel of $V_{E_k, Z_k }$ and $V_{E^{*}_{k+1}, Z_k}$ are the same and the only difference is given by the last row which is also the only row that can induce a linear dependence. This leaves the dimension of the kernel of $V_{ E^{*}_{k+1}, Z_k}$ to be bounded by $1$.
+\end{proof}
+
+\subsection{Using column echelon form matrices of the previous steps}\label{subsubsection:optEchelonForm}
+For each iteration $k$ of the algorithm, the matrix $V_k$ already contains the sub-matrix $V_{k-1}$. It is therefore possible to compute the column echelon form of $V_{k-1}$ and use it to compute the column echelon form of $V_{k}$. In such a way, the matrix $V_k$ would already contain the sub-matrix $EF(V_{k-1})$ which is already in column echelon form, allowing to reduce the number of steps needed to compute the rank of $V_k$.\\
 To be able to apply such a method, however, we have to be careful when we are squarely constructing the matrix; at each step, we are appending columns to the matrix, therefore, to compute $EF\left(V_k\right)$ have to keep track of all the rows operation performed to compute $EF\left(V_j\right)$ for all $j<k$ and apply them before computing $EF\left(V_k\right)$.\\
 Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, better justify the claim.
 
@@ -771,81 +795,57 @@ Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, bette
 \end{definition}
 
 \begin{remark}\label{rem:rowEchelonForm}
-    Let $k_r, k_c \in \N$ and $M\in Mat_{k_r,k_c}(\mathbb{F}_2^n)$. Let $M = LU$ be the $LU$ decomposition of $M$, then
+    Let $k_r, k_c \in \N$ and $M\in Mat_{k_r,k_c}(\mathbb{F}_2^n)$. Let $M^T = L^TU^T$ be the $LU$ decomposition of $M^T$, then
     \begin{align*}
         EF(M) =_p U
-    \end{align*}
-\end{remark}
-
-\begin{remark}
-    Let $k$ be such that $1<k< \min{\left(|Z|,|E_{\lceil{n/2}\rceil-1}^n|\right)}$
-    \begin{align*}
-        EF\left(V_{k}\right) \neq_p EF\left(  \begin{pmatrix}
-            \multicolumn{4}{c}{\multirow{4}{*}{$EF(V_{k-1})$}} & z_1^{\alpha_k}\\
-            & & & & z_2^{\alpha_k}\\
-            & & & & \vdots\\
-            & & & & z_{k-1}^{\alpha_{k}}\\
-            z_k^{\alpha_{1}} & z_k^{\alpha_{2}}& \cdots & z_{k}^{\alpha_{k-1}} & z_{k}^{\alpha_k}
-        \end{pmatrix}\right)
     \end{align*}
 \end{remark}
 
 \begin{proposition}\label{prop:rowEchelonForm}
     Let $k$ be such that $1<k< \min{\left(|Z|,|E_{D_n^n}|\right)}$ it holds that
     \begin{align*}
-        EF\left(V_{k}\right) =_p
-        EF\left( 
+        EF\left(V_{k}\right) =_p & EF
         \begin{pmatrix}
-    \multicolumn{4}{c}{\phantom{a}\multirow{4}{*}{$EF\left(V_{k-1}\right)$}\phantom{a}} & P_{k-1}\begin{pmatrix}
-        z_1^{\alpha_k}\\
-        z_2^{\alpha_k}\\
-        \vdots\\
-        z_{k-1}^{\alpha_{k}}
-    \end{pmatrix}\\
-    \multicolumn{4}{c}{} & \\
-    \multicolumn{4}{c}{} & \\
-    \multicolumn{4}{c}{} & \\
-    z_k^{\alpha_{1}} & z_k^{\alpha_{2}} & \cdots & z_{k}^{\alpha_{k-1}} & z_{k}^{\alpha_k}
-\end{pmatrix}
-        \right)
+        \begin{pmatrix}
+            \multicolumn{4}{c}{\multirow{4}{*}{$EF\left(V_{k-1}\right)$}} & z_k^{\alpha_1}\\
+            & & & & z_k^{\alpha_2}\\
+            & & & & \vdots\\
+            & & & & z_{k}^{\alpha_{k-1}}\\
+            (z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}})P_{k-1} & z_{k}^{\alpha_k}
+        \end{pmatrix}
+        \end{pmatrix}
     \end{align*}
-    where $P_{k-1}$ if the inverse of the lower triangular of $V_{k-1}$: it is such that $L_{k-1}^{-1} = P_{k-1}$, where $V_{k-1} = L_{k-1}U_{k-1}$ with $EF(V_{k-1})=_p U_{k-1}$
+    where $P_{k-1}$ if the inverse of the lower triangular of $V_{k-1}$: it is such that $L_{k-1}^{-1} = P_{k-1}$, where $V_{k-1} = U_{k-1}L_{k-1}$ with $EF(V_{k-1})=_p U_{k-1}$
 \end{proposition}
 \begin{proof}
-    Let $k$ be such that $1<k< \min{\left(|Z|,|E_{\lceil{n/2}\rceil-1}^n|\right)}$. The triangular composition of $V_{k-1}$ is
+    Let $k$ be such that $1<k< \min{\left(|Z|,|E_{D_n^n}|\right)}$. The triangular composition of $V_{k-1}^T$ is
     \begin{align*}
-        V_{k-1} = L_{k-1} U_{k-1}
+        V_{k-1}^T = L_{k-1}^T U_{k-1}^T \Rightarrow V_{k-1} = U_{k-1} L_{k-1} 
     \end{align*}
     where $L_{k-1}$ is a lower triangular matrix and $U_{k-1} = EF\left(V_{k-1}\right)$ is the upper triangular matrix.
     \begin{align*}
         V_{k} = &
         \begin{pmatrix}
-            \multicolumn{4}{c}{\multirow{4}{*}{$L_{k-1}U_{k-1}$}} & z_1^{\alpha_k}\\
-            & & & & z_2^{\alpha_k}\\
+            \multicolumn{4}{c}{\multirow{4}{*}{$U_{k-1}L_{k-1}$}} & z_k^{\alpha_1}\\
+            & & & & z_k^{\alpha_2}\\
             & & & & \vdots\\
-            & & & & z_{k-1}^{\alpha_{k}}\\
-            z_k^{\alpha_{1}} & z_k^{\alpha_{2}}& \cdots & z_{k}^{\alpha_{k-1}} & z_{k}^{\alpha_k}
+            & & & & z_{k}^{\alpha_{k-1}}\\
+            z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}} & z_{k}^{\alpha_k}
         \end{pmatrix}\\
         = &  
+        \begin{pmatrix}
+            \multicolumn{4}{c}{\multirow{4}{*}{$U_{k-1}$}} & z_k^{\alpha_1}\\
+            & & & & z_k^{\alpha_2}\\
+            & & & & \vdots\\
+            & & & & z_{k}^{\alpha_{k-1}}\\
+            (z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}})L_{k-1}^{-1} & z_{k}^{\alpha_k}
+        \end{pmatrix}
         \begin{pmatrix}
             \multicolumn{4}{c}{\multirow{4}{*}{$L_{k-1}$}} & 0\\
             & & & & 0\\
             & & & & \vdots\\
             & & & & 0\\
             0 & 0& \cdots & 0 & 1
-        \end{pmatrix}
-        \begin{pmatrix}
-            \multicolumn{4}{c}{\phantom{a}\multirow{4}{*}{$U_{k-1}$}\phantom{a}} & L_{k-1}^{-1}
-                \begin{pmatrix}
-                    z_1^{\alpha_k}\\
-                    z_2^{\alpha_k}\\
-                \vdots\\
-                z_{k-1}^{\alpha_{k}}
-            \end{pmatrix}\\
-            \multicolumn{4}{c}{} & \\
-            \multicolumn{4}{c}{} & \\
-            \multicolumn{4}{c}{} & \\
-            z_k^{\alpha_{1}} & z_k^{\alpha_{2}} & \cdots & z_{k}^{\alpha_{k-1}} & z_{k}^{\alpha_k}
         \end{pmatrix}
     \end{align*}
     Since $L_{k-1}$ is a lower triangular matrix, $ \begin{pmatrix}
@@ -855,42 +855,30 @@ Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, bette
             & & & & 0\\
             0 & 0& \cdots & 0 & 1
         \end{pmatrix}$ is also a lower triangular matrix, and therefore
-     \begin{align*}
-        EF\left(V_{k}\right) = 
-        EF\left( 
+      \begin{align*}
+        EF\left(V_{k}\right) =_p & EF
         \begin{pmatrix}
-            \multicolumn{4}{c}{\phantom{a}\multirow{4}{*}{$U_{k-1}$}\phantom{a}} & L_{k-1}^{-1}
-            \begin{pmatrix}
-                z_1^{\alpha_k}\\
-                z_2^{\alpha_k}\\
-                \vdots\\
-                z_{k-1}^{\alpha_{k}}
-            \end{pmatrix}\\
-            \multicolumn{4}{c}{} & \\
-            \multicolumn{4}{c}{} & \\
-            \multicolumn{4}{c}{} & \\
-            z_k^{\alpha_{1}} & z_k^{\alpha_{2}} & \cdots & z_{k}^{\alpha_{k-1}} & z_{k}^{\alpha_k}
+        \begin{pmatrix}
+            \multicolumn{4}{c}{\multirow{4}{*}{$U_{k-1}$}} & z_k^{\alpha_1}\\
+            & & & & z_k^{\alpha_2}\\
+            & & & & \vdots\\
+            & & & & z_{k}^{\alpha_{k-1}}\\
+            (z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}})L_{k-1}^{-1} & z_{k}^{\alpha_k}
         \end{pmatrix}
-        \right)
+        \end{pmatrix}
     \end{align*}
     Taking $U_{k-1} =_p EF\left(V_{k-1}\right)$ and $P_{k-1} = L_{k-1}^{-1}$
     \begin{align*}
-        EF\left(V_{k}\right) =_p 
-        EF\left( 
+        EF\left(V_{k}\right) =_p & EF
         \begin{pmatrix}
-            \multicolumn{4}{c}{\phantom{a}\multirow{4}{*}{$EF\left(V_{k-1}\right)$}\phantom{a}} & P_{k-1}
-            \begin{pmatrix}
-                z_1^{\alpha_k}\\
-                z_2^{\alpha_k}\\
-                \vdots\\
-                z_{k-1}^{\alpha_{k}}
-            \end{pmatrix}\\
-            \multicolumn{4}{c}{} & \\
-            \multicolumn{4}{c}{} & \\
-            \multicolumn{4}{c}{} & \\
-            z_k^{\alpha_{1}} & z_k^{\alpha_{2}} & \cdots & z_{k}^{\alpha_{k-1}} & z_{k}^{\alpha_k}
+        \begin{pmatrix}
+            \multicolumn{4}{c}{\multirow{4}{*}{$EF\left(V_{k-1}\right)$}} & z_k^{\alpha_1}\\
+            & & & & z_k^{\alpha_2}\\
+            & & & & \vdots\\
+            & & & & z_{k}^{\alpha_{k-1}}\\
+            (z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}})P_{k-1} & z_{k}^{\alpha_k}
         \end{pmatrix}
-        \right)
+        \end{pmatrix}
     \end{align*}
 \end{proof}
 
@@ -898,7 +886,36 @@ Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, bette
     $P_{k-1}$ is the matrix corresponding to the history of operations applied to the rows of $V_{k-1}$ to be able to obtain $EF\left(V_{k-1}\right)$.
 \end{remark}
 
-\begin{algorithm}
+As a consequence of Remark \ref{rem:historyOfOperations}, it can be seen that when calculating the column echelon form of the matrix $V_k$ using $P_{k-1}$, we construct the application $P_k$ which can be used to compute the column echelon form of $V_{k+1}$ in the next operation. Remark \ref{rem:echelonFormConstructingNextP} shows this more formally.
+
+\begin{remark}\label{rem:echelonFormConstructingNextP}
+    \begin{align*}
+        EF\left(V_{k}\right) =
+        EF
+        \begin{pmatrix}
+        \begin{pmatrix}
+            \multicolumn{4}{c}{\multirow{4}{*}{$EF\left(V_{k-1}\right)$}} & z_k^{\alpha_1}\\
+            & & & & z_k^{\alpha_2}\\
+            & & & & \vdots\\
+            & & & & z_{k}^{\alpha_{k-1}}\\
+            (z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}})P_{k-1} & z_{k}^{\alpha_k}
+        \end{pmatrix}
+        \end{pmatrix}
+        =_p 
+        \begin{pmatrix}
+            \multicolumn{4}{c}{\multirow{4}{*}{$EF\left(V_{k-1}\right)$}} & 0\\
+            & & & & 0\\
+            & & & & \vdots\\
+            & & & & 0\\
+            (z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}} & z_{k}^{\alpha_k})P_{k}
+        \end{pmatrix}
+    \end{align*}
+\end{remark}
+
+Algorithm \ref{alg:AlgOnF0}, shows the procedure to calculate the degree of the minimal degree non-zero-annihilator with degree $\geq 1$ restricted to $S\subseteq \mathbb{F}_2^n$ of a function $f^{(o)} \in \{f, f\oplus 1\}$, while Algorithm \ref{alg:fullAlg3ForAIRestrictesSetOpt} shows the full procedure to determine the restricted algebraic immunity of $f$ in $S$, calling Algorithm \ref{alg:AlgOnF0} for $f$ and $f\oplus 1$ in parallel.\\
+Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} which triggers the same process as Algorithm~\ref{alg:AlgOnF0}, but applies it sequentially to $f$ and $f \oplus 1$, to avoid waiting for both processes to complete simultaneously. This function is triggered only when $\mathrm{supp}(f) \cap S$ and $\mathrm{supp}(f \oplus 1) \cap S$ differ significantly in cardinality, as in such cases, the probability of one of the two processes terminating quickly is high.
+
+\begin{algorithm}\label{alg:AlgOnF0}
 	\caption{Algorithm to find the degree of the minimum-degree $S$-non-zero-annihilator of a function $f^{(o)}$}\label{alg:MinDegreeSnonZeroAnnihilatorIterative}
 	\begin{algorithmic}[1]
 		\Require restricted set $S\subseteq \mathbb{F}_2^n$, $Z = supp\left(f^{(o)}\right) \cap S$ and $E = \{\alpha_1, \cdots, \alpha_{D_n^n}\}$
@@ -939,7 +956,7 @@ Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, bette
 		\State \textbf{continue}
 		\EndFor
 		\State $zIndex \gets k+nonVanishingPointIndex$
-		\State $Z \gets \mbox{\textsc{swap}}(z_{k+1}, z_{zIndex})$
+		\State $Z \gets \mbox{\textsc{swap}}(z_{k+1}, z_{zIndex})$\footnotemark
 		\State $ops\gets ops\ ||\ ops_k$
 		\State $k\gets k+1$
 		\EndIf
@@ -988,12 +1005,25 @@ Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, bette
 	\end{algorithmic}
 \end{algorithm}
 
+\begin{remark}\label{rem:permutationClarification}
+    To keep the pseudocode in line with the theory, the elements in the vector or sets are often parsed by name instead of by index, namely let $Z = (z_1, z_2, \cdots, z_k)$ we consider that $Z[i-1] = z_i$.\\
+    Therefore, we have to clarify our notation in the case in which two vector elements get swapped. In the case of Algorithm \ref{alg:AlgOnF0}, we consider that the swap generates a new vector with the name of the variables adapted with their index position in the vector to keep satisfying the condition $Z[i-1] = z_{i}$. Meaning that 
+    \begin{align*}
+        \mbox{\textsc{swap}}(z_i, z_j) \rightarrow (z_{\sigma(1)}, \cdots, z_{\sigma(i)}, \cdots, z_{\sigma(j)}, \cdots, z_{\sigma(k)}) = Z^{'} = (z^{'}_1, \cdots, z^{'}_i, \cdots, z^{'}_j, \cdots, z^{'}_k)
+    \end{align*}
+    where $\sigma$ is a describing the swap
+    \begin{align*}
+        \sigma = \begin{pmatrix}
+            1 & \cdots & i & \cdots & j & \cdots k\\
+            1 & \cdots & j & \cdots & i & \cdots k\\
+        \end{pmatrix}
+    \end{align*}
+\end{remark}
+
 \footnotetext[3]{\textsc{apply\_operations} is a function taking a vector and the list of column operations described by $P_{k-1}$ in Remark \ref{rem:historyOfOperations}}
 \footnotetext[4]{\textsc{vanished\_on} is a function taking as input the vector of the $ANF$ coefficient of a Boolean function $g \in \Bn{n}$ and a point $z$ on which to evaluate the corresponding Boolean function $g$. If $g$ vanished is $z$ it returns $True$ otherwise it returns $False$. }
+\footnotetext[5]{See Remark \ref{rem:permutationClarification}}
 
-\lbnote{Algorithm \ref{alg:fullAlg3ForAIRestrictesSetOpt} is needed to refer it in the applications \ref{enum:stepOfapplicationEnum}. See it is really compulsory to put it here.}\\
-
-\subsection{Handling the computation on $f$ and $f\oplus 1$ in case of highly unbalanced functions}
 \begin{algorithm}[H]\label{alg:fullAlg3ForAIRestrictesSetOpt}
     \caption{Algorithm to compute the algebraic immunity of a function $f\in \Bn{n}$ restricted to $S$}
     \begin{algorithmic}[1]
@@ -1046,7 +1076,7 @@ Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, bette
     \end{algorithmic}
 \end{algorithm}
 
-\footnotetext[5]{The implementation of the function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} is similar to the function \textsc{find\_deg\_smallest\_S\_annihilator} described in Algorithm \ref{alg:MinDegreeSnonZeroAnnihilatorIterative} with the difference that the degree of the minimal degree restricted non-zero annihilator of $f$ or of $f\oplus 1$ is found sequentially instead of in parallel.}
+\footnotetext[6]{The implementation of the function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} is similar to the function \textsc{find\_deg\_smallest\_S\_annihilator} described in Algorithm \ref{alg:MinDegreeSnonZeroAnnihilatorIterative} with the difference that the degree of the minimal degree restricted non-zero annihilator of $f$ or of $f\oplus 1$ is found sequentially instead of in parallel.}
 
 \section{Applications to WAPB functions}
 In this section, we apply the algorithms to the weightwise perfectly balanced (WPB) Boolean functions with the intent to study their algebraic immunity restricted to subsets of constant Hamming weight. In particular, we determine the probability distributions of the $AI_K$ of $WPB$ functions and we compute the $AI_k$ of already published $WPB$ Boolean functions.
