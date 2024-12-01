@@ -685,7 +685,7 @@ Propositions \ref{prop:swappingElementOfZToReduceKer}, \ref{prop:upperBoundOnRig
 
 \begin{proposition}\label{prop:swappingElementOfZToReduceKer}
     Let $k < \min\{(|Z|, |E_{D_n^n}|\}$ and $V_k$ constructed following Definition \ref{def:inductiveConstructionOfV},\\
-    Suppose $rightKer(V_k) = <\hat{g}_k> = <(\epsilon_1,\epsilon_2, \cdots, \epsilon_k )>$ and $g_k\in \Bn{n}$ the Boolean function corresponding to $\hat{g}_k$. Suppose moreover, that it exists a $z_{k+j}$, for $j\geq 1$ such that $g_k(z_{k+j}) = 1$, then the matrix $V^{'}_{k+1}$ constructed as
+    Suppose $ker(V_k) = <\hat{g}_k> = <(\epsilon_1,\epsilon_2, \cdots, \epsilon_k )>$ and $g_k\in \Bn{n}$ the Boolean function having $\hat{g}_k$ as the coefficients of its algebraic normal form. Suppose moreover, that it exists a $z_{k+j}$, for $j\geq 1$ such that $g_k(z_{k+j}) = 1$, then the matrix $V^{'}_{k+1}$ constructed as
     \begin{align*}
         V^{'}_{k+1} = 
         \begin{pmatrix}
@@ -723,7 +723,7 @@ Propositions \ref{prop:swappingElementOfZToReduceKer}, \ref{prop:upperBoundOnRig
 \begin{proposition}\label{prop:upperBoundOnRightKernel}
     The sequences of matrices $(V_k)_k$ using the construction given in Proposition \ref{prop:swappingElementOfZToReduceKer}, ensure that
     \begin{align*}
-        dim\left(ker\left(V_k\right)\right) \leq 1
+        dim\left(ker\left(V_k\right)\right) \leq 1\quad \forall k \in [1, |Z|]
     \end{align*}
 \end{proposition}
 \begin{proof}
@@ -741,14 +741,14 @@ Propositions \ref{prop:swappingElementOfZToReduceKer}, \ref{prop:upperBoundOnRig
                      \hat{z} = (\hat{\epsilon}, 0) \implies \hat{z}  \cdot V_{k+1} = 0 \implies \hat{\epsilon}\cdot V_{k} = 0 \implies \epsilon \in ker(V_k)
                 \end{align*}
                 However, from Proposition \ref{prop:swappingElementOfZToReduceKer}, this is only possible if $\hat{\epsilon}$ is a trivial solution.
-                \item if $\hat{z} = (\hat{y}, 1)$ with $\hat{y} \in \mathbb{F}_2^k$, we have that $V_{k+1} \hat{z} = 0$, hence
+                \item if $\hat{z} = (\hat{y}, 1)$ with $\hat{y} \in \mathbb{F}_2^k$, we have that $\hat{z} \cdot V_{k+1} = 0$, hence
                 \begin{align*}
                         Eq1: & \hat{y}  \cdot V_{k} \oplus (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}}) = 0 \iff \hat{y} \cdot V_{k} = (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}})\\
                         Eq2: & (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} \oplus z_{k+1}^{\alpha_{k+1}} = 0 \iff (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} = z_{k+1}^{\alpha_{k+1}} 
                 \end{align*}
-                Since $dim(ker(V_k)) = 1$, $rank(V_k) = k-1$ and hence it exists maximum one particular solution solving $Eq1$. Suppose such a solution is $\hat{y}_p$. If $\hat{y}_p$ also solves $Eq2$, $\hat{y}_p$ is an element of the right kernel of $V_{k+1}$.
+                Since $dim(ker(V_k)) = 1$, $rank(V_k) = k-1$ and hence it exists maximum one particular solution solving $Eq1$. Suppose such a solution is $\hat{y}_p$. If $\hat{y}_p$ also solves $Eq2$, $\hat{y}_p$ is an element of the kernel of $V_{k+1}$.
             \end{itemize}
-            Since $(\hat{\epsilon}, 0)$ can't be an element of the right kernel of $V_{k+1}$, if it exists, $\hat{y}_p$ is the only element that can be present in $ker(V_{k+1})$.\\
+            Since $(\hat{\epsilon}, 0)$ can't be an element of the kernel of $V_{k+1}$, if it exists, $\hat{y}_p$ is the only element that can be present in $ker(V_{k+1})$.\\
             Therefore $dim\left(ker(V_{k+1})\right) \leq 1$.
         \end{itemize}
     \end{itemize} 
@@ -783,11 +783,11 @@ Propositions \ref{prop:swappingElementOfZToReduceKer}, \ref{prop:upperBoundOnRig
 
 \subsection{Using column echelon form matrices of the previous steps}\label{subsubsection:optEchelonForm}
 For each iteration $k$ of the algorithm, the matrix $V_k$ already contains the sub-matrix $V_{k-1}$. It is therefore possible to compute the column echelon form of $V_{k-1}$ and use it to compute the column echelon form of $V_{k}$. In such a way, the matrix $V_k$ would already contain the sub-matrix $EF(V_{k-1})$ which is already in column echelon form, allowing to reduce the number of steps needed to compute the rank of $V_k$.\\
-To be able to apply such a method, however, we have to be careful when we are squarely constructing the matrix; at each step, we are appending columns to the matrix, therefore, to compute $EF\left(V_k\right)$ have to keep track of all the rows operation performed to compute $EF\left(V_j\right)$ for all $j<k$ and apply them before computing $EF\left(V_k\right)$.\\
+To be able to apply such a method, however, we have to be careful when we are squarely constructing the matrix; at each step, we are appending rows to the matrix, therefore, to compute $EF\left(V_k\right)$ have to keep track of all the columns operation performed to compute $EF\left(V_j\right)$ for all $j<k$ and apply them before computing $EF\left(V_k\right)$.\\
 Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, better justify the claim.
 
 \begin{definition}[Equality up to row permutation]
-    We say that two matrices $M_1$ and $M_2$ are \textit{equal up-to-permutation} if there exists a row permutation $\rho$ such that
+    We say that two matrices $M_1$ and $M_2$ are \textit{equal up-to-permutation} if there exists a column permutation $\rho$ such that
     \begin{align*}
         M_1 = \rho M_2
     \end{align*}
@@ -815,14 +815,14 @@ Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, bette
         \end{pmatrix}
         \end{pmatrix}
     \end{align*}
-    where $P_{k-1}$ if the inverse of the lower triangular of $V_{k-1}$: it is such that $L_{k-1}^{-1} = P_{k-1}$, where $V_{k-1} = U_{k-1}L_{k-1}$ with $EF(V_{k-1})=_p U_{k-1}$
+    where $P_{k-1}$ if the inverse of the upper triangular of $V_{k-1}$: it is such that $L_{k-1}^{-1} = P_{k-1}$, where $V_{k-1} = U_{k-1}L_{k-1}$ with $EF(V_{k-1})=_p U_{k-1}$
 \end{proposition}
 \begin{proof}
     Let $k$ be such that $1<k< \min{\left(|Z|,|E_{D_n^n}|\right)}$. The triangular composition of $V_{k-1}^T$ is
     \begin{align*}
         V_{k-1}^T = L_{k-1}^T U_{k-1}^T \Rightarrow V_{k-1} = U_{k-1} L_{k-1} 
     \end{align*}
-    where $L_{k-1}$ is a lower triangular matrix and $U_{k-1} = EF\left(V_{k-1}\right)$ is the upper triangular matrix.
+    where $L_{k-1}$ is a upper triangular matrix and $U_{k-1} = EF\left(V_{k-1}\right)$ is the lower triangular matrix.
     \begin{align*}
         V_{k} = &
         \begin{pmatrix}
@@ -848,13 +848,13 @@ Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, bette
             0 & 0& \cdots & 0 & 1
         \end{pmatrix}
     \end{align*}
-    Since $L_{k-1}$ is a lower triangular matrix, $ \begin{pmatrix}
+    Since $L_{k-1}$ is an upper triangular matrix, $ \begin{pmatrix}
             \multicolumn{4}{c}{\multirow{4}{*}{$L_{k-1}$}} & 0\\
             & & & & 0\\
             & & & & \vdots\\
             & & & & 0\\
             0 & 0& \cdots & 0 & 1
-        \end{pmatrix}$ is also a lower triangular matrix, and therefore
+        \end{pmatrix}$ is also an upper triangular matrix, and therefore
       \begin{align*}
         EF\left(V_{k}\right) =_p & EF
         \begin{pmatrix}
@@ -883,10 +883,10 @@ Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, bette
 \end{proof}
 
 \begin{remark}\label{rem:historyOfOperations}
-    $P_{k-1}$ is the matrix corresponding to the history of operations applied to the rows of $V_{k-1}$ to be able to obtain $EF\left(V_{k-1}\right)$.
+    $P_{k-1}$ is the matrix corresponding to the history of operations applied to the columns of $V_{k-1}$ to be able to obtain $EF\left(V_{k-1}\right)$.
 \end{remark}
 
-As a consequence of Remark \ref{rem:historyOfOperations}, it can be seen that when calculating the column echelon form of the matrix $V_k$ using $P_{k-1}$, we construct the application $P_k$ which can be used to compute the column echelon form of $V_{k+1}$ in the next operation. Remark \ref{rem:echelonFormConstructingNextP} shows this more formally.
+As a consequence of Remark \ref{rem:historyOfOperations}, it can be seen that when calculating the column echelon form of the matrix $V_k$ using $P_{k-1}$, we construct the application $P_k$ which can be used to compute the column echelon form of $V_{k+1}$ in the next iteration. Remark \ref{rem:echelonFormConstructingNextP} shows this more formally.
 
 \begin{remark}\label{rem:echelonFormConstructingNextP}
     \begin{align*}
@@ -1011,7 +1011,7 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
     \begin{align*}
         \mbox{\textsc{swap}}(z_i, z_j) \rightarrow (z_{\sigma(1)}, \cdots, z_{\sigma(i)}, \cdots, z_{\sigma(j)}, \cdots, z_{\sigma(k)}) = Z^{'} = (z^{'}_1, \cdots, z^{'}_i, \cdots, z^{'}_j, \cdots, z^{'}_k)
     \end{align*}
-    where $\sigma$ is a describing the swap
+    where $\sigma$ is a permutation describing the swap
     \begin{align*}
         \sigma = \begin{pmatrix}
             1 & \cdots & i & \cdots & j & \cdots k\\
