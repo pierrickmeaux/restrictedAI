@@ -134,7 +134,7 @@ In this section, we recall fundamental concepts concerning Boolean functions and
 and for insights into weightwise properties—also known as properties on the slices—the article by~\cite{TOSC:CarMeaRot17}.
 We denote by $\Ekn{k}{n}$ the set $\{x\in \F_2^n \, | \, \w(x)=k \}$ for $k \in [0,n]$, referring to it as a slice of the Boolean hypercube (of dimension $n$). 
 Consequently, the Boolean hypercube is divided into $n+1$ slices, where the elements share the same Hamming weight.
-%and the article~\cite{TOSC:CarMeaRot17} for insights into weightwise properties, also known as properties on the slices. We denote $\Ekn{k}{n}$ as the set $\{x\in \F_2^n , | , \w(x)=k \}$ for $k \in [0,n]$, referring to it as a slice of the Boolean hypercube (of dimension $n$). Consequently, the Boolean hypercube is divided into $n+1$ slices where the elements share the same Hamming weight.
+%and the article~{TOSC:CarMeaRot17} for insights into weightwise properties, also known as properties on the slices. We denote $\Ekn{k}{n}$ as the set $\{x\in \F_2^n , | , \w(x)=k \}$ for $k \in [0,n]$, referring to it as a slice of the Boolean hypercube (of dimension $n$). Consequently, the Boolean hypercube is divided into $n+1$ slices where the elements share the same Hamming weight.
 
 
 \begin{definition}[Boolean Function]\label{def:bool_f}
@@ -227,8 +227,8 @@ For $S=\Ekn{k}{n}$ we denote $\AI_{\Ekn{k}{n}}(f)$ by $\AIk{k}(f)$ and call it w
 \end{definition}
 
 \begin{remark}
-    Let $f\in \Bn{n}$. We use the notation $f^{(o)}$ referring to either $f$ or $f \oplus 1$ when the same process or result applies to any of them. 
-    In particular, $f^{(o)} \in \{f, f\oplus 1\}$.
+    Let $f\in \Bn{n}$. We use the notation $f^{(o)}$ referring to either $f$ or $f + 1$ when the same process or result applies to any of them. 
+    In particular, $f^{(o)} \in \{f, f + 1\}$.
 \end{remark}
 
 
@@ -275,7 +275,7 @@ If $n=2^m$ with $m\in \N^*$, $f\in \Bn{n}$ is WPB if and only if:
 \end{definition}
 
 
-\begin{Prop}[Nonlinearity on the slice, adapted from~\cite{TOSC:CarMeaRot17}, Proposition 6]\label{prop:nlk}
+\begin{Prop}[Nonlinearity on the slice, adapted from~{TOSC:CarMeaRot17}, Proposition 6]\label{prop:nlk}
 	Let $n\in \N^*, k\in [0,n]$, for every $n$-variable Boolean function $f$ over $\Ekn{k}{n}$:
 	\[ \NLk{k}(f)=\frac{|\Ekn{k}{n}|}{2} -\frac{\max_{a\in \F_2^n} |\wtk{f}{k}(a)|}{2}  .\]
 \end{Prop}
@@ -285,7 +285,7 @@ If $n=2^m$ with $m\in \N^*$, $f\in \Bn{n}$ is WPB if and only if:
 %\subsection{Symmetric Functions}
 
 %The $n$-variable \emph{Boolean symmetric functions} are those that are constant on each slice $\Ekn{k}{n}$ for $k\in [0,n]$. 
-%This class has been assiduously studied in the context of cryptography, see \eg \cite{IEEE:Carlet04,IEEE:CanVid05,INDO:BraPre05,DM:SarMai07,IEEE:QFLW09,CCDS:Meaux21,IEEE:CarMea21}.
+%This class has been assiduously studied in the context of cryptography, see \eg {IEEE:Carlet04,IEEE:CanVid05,INDO:BraPre05,DM:SarMai07,IEEE:QFLW09,CCDS:Meaux21,IEEE:CarMea21}.
 %  The set of $n$-variable symmetric functions is denoted $\SYM{n}$.and $|\SYM{n}|=2^{n+1}$. 
 %In this article we mainly consider two families of symmetric functions, which are both bases of the symmetric functions:
 
@@ -304,7 +304,7 @@ If $n=2^m$ with $m\in \N^*$, $f\in \Bn{n}$ is WPB if and only if:
 %\end{Prop}
 
 
-%\begin{Prop}[Weightwise restricted Walsh transform and addition of symmetric function (~\cite{INDO:GinMea22}, Proposition $4$)]\label{prop:AddSym}
+%\begin{Prop}[Weightwise restricted Walsh transform and addition of symmetric function (~{INDO:GinMea22}, Proposition $4$)]\label{prop:AddSym}
 %	Let $n\in \N^*$, $k\in [0,n]$ and $f \in \Bn{n}$, the following holds on $f+\phikn{k}{n}$
 %	\[\forall a\in \F_2^n, \forall i\in [0,n]\setminus \{k\}, \wtk{f+\phikn{k}{n}}{i}(a)=\wtk{f}{i}(a),\text{ and } \wtk{f+\phikn{k}{n}}{k}(a)=-\wtk{f}{i}(a).\]	
 %\end{Prop}
@@ -314,7 +314,7 @@ If $n=2^m$ with $m\in \N^*$, $f\in \Bn{n}$ is WPB if and only if:
 
 
 \subsection{Krawtchouk polynomials}
-We use Krawtchouk polynomials and some of their properties to prove one of our results, we give the necessary preliminaries here and refer to \eg ~\cite{book:MacSlo78} for more details.
+We use Krawtchouk polynomials and some of their properties to prove one of our results, we give the necessary preliminaries here and refer to \eg ~{book:MacSlo78} for more details.
 
 \begin{definition}[Krawtchouk Polynomials]\label{def:Kraw}
 	The Krawtchouk polynomial of degree $k$, with $0\leq k\leq n$ is given by: $ \displaystyle \kraw{k}{\ell}{n}=\sum_{j=0}^{k} (-1)^j \binom{\ell}{j} \binom{n-\ell}{k-j}$. 
@@ -342,7 +342,7 @@ We use Krawtchouk polynomials and some of their properties to prove one of our r
 
 
 
-%\begin{Prop}[TL WPB functions properties~\cite{CC:TangLiu19}]\label{Prop:TL}
+%\begin{Prop}[TL WPB functions properties~{CC:TangLiu19}]\label{Prop:TL}
 %	Let $m \in \N^*$ and $n=2^m$, a  $n$-variable TL function $h_n$ has optimal algebraic immunity $\AI(h_n)=\frac{n}{2}$.
 %\end{Prop}
 \fi
@@ -403,7 +403,7 @@ We use Krawtchouk polynomials and some of their properties to prove one of our r
 
 
 
-
+\lbnote{Replace $\oplus$ with $+$ and everywhere}\\
 
 \section{Computing the restricted AI from punctured) generator matrices of Reed-Muller codes}\label{sec:RMapproach}
 
@@ -413,7 +413,6 @@ In this section we provide an algorithm to compute the algebraic immunity of a B
 %The idea behind the algorithm is to check if the systems of equations $S_1^r \hat{=}g_1^r*f_S (x)= \hat{0}$ or $S_2^r\hat{=}g_2^r (f\oplus 1)_S (x) = \hat{0}$ admit a non null solution, for $x$ in $\F_2^n$ and $g_1^r$ and $g_2^r$ two Boolean functions of algebraic degree at most $r$. The check is done by checking if the rank of the punctured RM matrices is smaller than expected.
 %If $f$ is non-constant in $S$, the algorithm checks for the existence of either $g_1^r$ solving $S_1^r$ or $g_2^r$ solving $S_2^r$ which do not vanish over all set $S$. If neither such solutions $g_1^r$, nor exist, new systems $S_1^{r+1}$ and $S_2^{r+1}$ are constructed and search of the existence of the solutions $g_{1}^{r+1}$ and $g_2^{r+1}$ continues. This process is repeated until the existence of an the annihilator of either $f$ or $f\oplus 1$ is found or an upper bound $r+\delta$ is reached. The procedure followed on $f_S$ and on $(f\oplus 1)_S$ is done in parallel.
 %Instead, if $f$ is constant in $S$, the algorithm returns $0$, as justified by Proposition~\ref{prop:constantFs}.
-
 
 
 The algorithm aims to determine whether the systems of equations $S_1^r \hat{=}g_1^r*f_S (x)= \hat{0}$ or $S_2^r\hat{=}g_2^r (f\oplus 1)_S (x) = \hat{0}$ admit a non-zero solution for $x \in \F_2^n$, where $g_1^r$ and $ g_2^r$ are Boolean functions of algebraic degree at most $ r$. 
@@ -493,7 +492,7 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 \begin{remark}~\label{rem:remarksOnAlg}
 %	We have the following remarks
 	\begin{enumerate}
-		\item \cite{TOSC:CarMeaRot17} established that the upper bound of $AI_s(f)$ for any Boolean function $f$ and any set $S\subseteq \mathbb{F}_2^n$, is the smallest integer $r$ such that $\left(G_{r,n}^n\right) > |S| / 2$. As a consequence, the search of the annihilator for $f$ and $f\oplus 1$ in our algorithm terminates once $rank\left(G_{r,n}^S\right) > \lfloor{|S| / 2}\rfloor$.\label{item:Item1RemOnAlg}
+		\item ~\cite{TOSC:CarMeaRot17} established that the upper bound of $AI_s(f)$ for any Boolean function $f$ and any set $S\subseteq \mathbb{F}_2^n$, is the smallest integer $r$ such that $\left(G_{r,n}^n\right) > |S| / 2$. As a consequence, the search of the annihilator for $f$ and $f\oplus 1$ in our algorithm terminates once $rank\left(G_{r,n}^S\right) > \lfloor{|S| / 2}\rfloor$.\label{item:Item1RemOnAlg}
 		\item The generator matrix of a Reed-Muller code does not depend on the Boolean function. It is therefore possible to pre-compute and store the generator matrices of all Reed-Muller codes with $r$ and $n$ smaller than some maximum values $r_{max}$ and $n_{max}$.
 		This suggests that we can pre-compute $G_{r_{max}, n_{max}}$ for some fixed $n_{max}$ and $r_{max = n_{max}}$, and extract all others $G_{r,n}$ for $r \leq r_{max}$ and $n \leq n_{max}$ from it.
 		We therefore pre-compute the hash table
@@ -610,7 +609,7 @@ We begin with definitions and remarks necessary to introduce the general idea of
     %        z_1^{\alpha_{k_E}} & z_2^{\alpha_{k_E}} & \cdots & z_{k_Z}^{\alpha_{k_E}}
     %    \end{pmatrix}
     %\end{align*}
-    We call this matrix the \textit{T-Vandermonde} matrix: the transpose of the matrix used in \cite{armknecht2006efficient}.\\
+    We call this matrix the \textit{T-Vandermonde} matrix: the transpose of the matrix used in ~\cite{armknecht2006efficient}.\\
     Denoting by $Z_i = \{z_1, z_2, \cdots, z_i\}$ and $E_j = \{\alpha_1, \cdots, \alpha_j\}$ for $i\in[1,z_{k_Z}]$ and $j\in[1,\alpha_{k_E}]$, the sub-matrix $V_{E_i, Z_j}$ of $V_{E,Z}$, is given by the elements
     \begin{align*}
         \left(V_{E_i,Z_j}\right)_{n,l} = z_l^{\alpha_n} \quad \forall n\in[1,i] \mbox{ and } l\in[1, j] 
@@ -1082,16 +1081,16 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 In this section, we apply the algorithms to the weightwise perfectly balanced (WPB) Boolean functions with the intent to study their algebraic immunity restricted to subsets of constant Hamming weight. In particular, we determine the probability distributions of the $AI_K$ of $WPB$ functions and we compute the $AI_k$ of already published $WPB$ Boolean functions.
 
 \subsection{Determination of \texorpdfstring{$AI_k$}{AIk} distribution of WPB functions}
-Similarly to what has been done in \cite{Latin:GinMea23} for the weighwise non-linearity $NL_k$, we determine the discrete probability distribution of the $AI_k$ of weighwise perfectly balanced Boolean functions, describing the probability of a function $f\in WPB_{2^n}$ of having a certain algebraic immunity restricted on the slice $E_{k,n}$. A more formal definition in given Definition \ref{def:distAIk} below.
+Similarly to what has been done in ~\cite{Latin:GinMea23} for the weighwise non-linearity $NL_k$, we determine the discrete probability distribution of the $AI_k$ of weighwise perfectly balanced Boolean functions, describing the probability of a function $f\in WPB_{2^n}$ of having a certain algebraic immunity restricted on the slice $E_{k,n}$. A more formal definition in given Definition \ref{def:distAIk} below.
 
 \begin{definition}\label{def:distAIk}
-    Let $m \in \N^*$, $n = 2^m$ and $k \in [1,n-1]$. Similarly to \cite{Latin:GinMea23}, we define the discrete probability distribution of $AI_k$ as
+    Let $m \in \N^*$, $n = 2^m$ and $k \in [1,n-1]$. Similarly to ~\cite{Latin:GinMea23}, we define the discrete probability distribution of $AI_k$ as
     \begin{align*}
         p_{AI_k}(x) = \frac{\bigg|\{f\in WPB_m\  |\  AI_k(f) = x\}\bigg|}{|WPB_m|}
     \end{align*}
 \end{definition}
 
-We aim to determine this distribution for $m = 2, 3$, and $4$. However, the number of due of $WPB$ functions increases fast with the growth of $m$, making this computation infeasible for $m > 2$. In fact, as stated in \cite{Latin:GinMea23}, $|WPB_2| = 720$, while $|WPB_3| > 2^{243}$ and $|WPB_4| > 2^{65452}$.\\
+We aim to determine this distribution for $m = 2, 3$, and $4$. However, the number of due of $WPB$ functions increases fast with the growth of $m$, making this computation infeasible for $m > 2$. In fact, as stated in ~\cite{Latin:GinMea23}, $|WPB_2| = 720$, while $|WPB_3| > 2^{243}$ and $|WPB_4| > 2^{65452}$.\\
 Therefore, we have to take a different approach for $m > 2$ by generating a certain number of samples from the set $WPB_m$ and calculating the probability over it. The larger the sample size we select, the better we approximate the distribution \ref{def:distAIk}.
 
 \begin{definition}
@@ -1214,6 +1213,178 @@ The table \lbnote{reference to table} shows the average values plotted in Figure
     \label{fig:main2}
 \end{figure}
 
+\section{Determination of \texorpdfstring{$AI_k$}{AIk} of published Boolean functions}
+In this section, we calculate the $AI_k$s of the published function ~\cite{Mat:ZJZQ23} and ~\cite{AMC:DalMal23} for $n=8$ and $16$ variables. Table \ref{table:publiedFunctions} shows these results and Figures \ref{fig:DM24}  and \ref{fig:ZS23} and Tables \ref{table:DM24} and \ref{table:ZS23} provide details for each function.\\
+We see that ~\cite{AMC:DalMal23} is more secure than ~\cite{Mat:ZJZQ23} since it has a better $AI_k$s for both $n=8$ and $n=16$. in particular
+\begin{description}
+    \item[n=8] ~\cite{Mat:ZJZQ23} has a constant $AI_k$ of $2$ for $k\in [2,7]$, while ~\cite{AMC:DalMal23} has a $AI_k$ of $3$ for $k=5$
+    \item[n=16] ~\cite{Mat:ZJZQ23} has a constant $AI_k$ of $2$, $k\in [2,14]$, while ~\cite{AMC:DalMal23} has a $AI_k$ of $3$ for $k=5,7,9$ and $11$.
+\end{description}
+
+\begin{table}[ht]
+\caption{$AI_k$ of ~\cite{AMC:DalMal23} and ~\cite{Mat:ZJZQ23} with $m=3 \Rightarrow n=8$ and $m=4 \Rightarrow n=16$}\label{table:publiedFunctions}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\multicolumn{18}{|c|}{~\cite{AMC:DalMal23}} \\
+\hline
+$n$ & $AI_0$ & $AI_1$ & $AI_2$ & $AI_3$ & $AI_4$ & $AI_5$ & $AI_6$ & $AI_7$ & $AI_8$ & $AI_9$ & $AI_{10}$ & $AI_{11}$ & $AI_{12}$ & $AI_{13}$ & $AI_{14}$ & $AI_{15}$ & $AI_{16}$ \\
+\hline
+8 & 0 & 1 & 1 & 2 & 2 & 2 & 2 & 1 & 1 &  0 &  &  &  &  &  &  &  \\
+16 & 0 & 1 & 1 & 2 & 2 & 3 & 2 & 3 & 2 &  3 & 2 & 3 & 2 & 2 & 1 & 1 & 0 \\
+\hline
+\hline
+\multicolumn{18}{|c|}{~\cite{Mat:ZJZQ23}} \\
+\hline
+$n$ & $AI_0$ & $AI_1$ & $AI_2$ & $AI_3$ & $AI_4$ & $AI_5$ & $AI_6$ & $AI_7$ & $AI_8$ & $AI_9$ & $AI_{10}$ & $AI_{11}$ & $AI_{12}$ & $AI_{13}$ & $AI_{14}$ & $AI_{15}$ & $AI_{16}$ \\
+\hline
+8 & 0 & 1 & 2 & 2 & 2 & 2 & 2 & 2 & 1 &  0 &  &  &  &  &  &  &  \\
+16 & 0 & 1 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2  & 2 & 2 & 2 & 2 & 2 & 1 & 0 \\
+\hline
+\end{tabular}
+}
+\end{table}
+
+\begin{figure}[ht]
+    \centering
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/DM24plot_n_8.png}
+        \caption{$AI_k$ of ~\cite{AMC:DalMal23} with $8$ variables.}
+        \label{fig:DM248}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/DM24_plot_n_16.png}
+        \caption{$AI_k$ of ~\cite{AMC:DalMal23} with $8$ variables.}
+        \label{fig:DM2416}
+    \end{minipage}
+    \caption{$AI_k$ of ~\cite{AMC:DalMal23} with $8$ and $16$ variables.}
+    \label{fig:DM24}
+\end{figure}
+
+\begin{table}[ht]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+       \begin{tabular}{rrr}
+\toprule
+ $k$ &  $AI_k$ &  $T(AI_k)$ \\
+\midrule
+ 0 &    0 & 0.000123 \\
+ 1 &    1 & 0.047655 \\
+ 2 &    1 & 0.051065 \\
+ 3 &    2 & 0.061322 \\
+ 4 &    2 & 0.154352 \\
+ 5 &    2 & 0.056368 \\
+ 6 &    1 & 0.056426 \\
+ 7 &    1 & 0.047242 \\
+ 8 &    0 & 0.000179 \\
+\bottomrule
+\end{tabular}
+        \caption{$AI_k$ of ~\cite{AMC:DalMal23} for $n=8$}\label{table:delay8}
+    \end{minipage}\hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \begin{tabular}{rrr}
+\toprule
+ $k$ &  $AI_k$ &    $T(AI_k)$ \\
+\midrule
+ 0 &    0 &   0.002340 \\
+ 1 &    1 &   0.108739 \\
+ 2 &    1 &   0.340639 \\
+ 3 &    2 &   1.224184 \\
+ 4 &    2 &   4.905083 \\
+ 5 &    3 &  45.742510 \\
+ 6 &    2 &  36.582689 \\
+ 7 &    3 & 126.007482 \\
+ 8 &    2 &  62.031974 \\
+ 9 &    3 & 122.329721 \\
+10 &    2 &  32.403677 \\
+11 &    3 &  38.583301 \\
+12 &    2 &   7.484190 \\
+13 &    2 &   1.386225 \\
+14 &    1 &   0.464174 \\
+15 &    1 &   0.130139 \\
+16 &    0 &   0.002395 \\
+\bottomrule
+\end{tabular}
+        \caption{$AI_k$ of ~\cite{AMC:DalMal23} for $m=4$ $n=2^{m}=16$}\label{table:delay16}
+    \end{minipage}
+    \caption{$AI_k$ and execution times of ~\cite{AMC:DalMal23} with $m=3 \Rightarrow n=8$ and $m=4 \Rightarrow n=16$}\label{table:DM24}
+\end{table}
+
+\begin{figure}[h]
+    \centering
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/ZS23plot_n_8.png}
+        \caption{$AI_k$ of ~\cite{Mat:ZJZQ23} with $8$ variables.}
+        \label{fig:8TL19}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/ZS23plot_n_8.png}
+        \caption{$AI_k$ of ~\cite{Mat:ZJZQ23} with $8$ variables.}
+        \label{fig:WPB16Vars}
+    \end{minipage}
+    \caption{$AI_k$ of ~\cite{Mat:ZJZQ23} with $8$ and $16$ variables.}
+    \label{fig:ZS23}
+\end{figure}
+
+
+\begin{table}[h!]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+       \begin{tabular}{rrr}
+\toprule
+ $k$ &  $AI_k$ &  $T(AI_k)$ \\
+\midrule
+ 0 &    0 & 0.000112 \\
+ 1 &    1 & 0.065713 \\
+ 2 &    2 & 0.066023 \\
+ 3 &    2 & 0.081503 \\
+ 4 &    3 & 0.179297 \\
+ 5 &    2 & 0.076255 \\
+ 6 &    2 & 0.070314 \\
+ 7 &    1 & 0.069297 \\
+ 8 &    0 & 0.000187 \\
+\bottomrule
+\end{tabular}
+        \caption{$AI_k$ of ~\cite{Mat:ZJZQ23} for $n=8$}\label{table:ZS238}
+    \end{minipage}\hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \begin{tabular}{rrr}
+\toprule
+ $k$ &  $AI_k$ &    $T(AI_k)$ \\
+\midrule
+ 0 &    0 &   0.000042 \\
+ 1 &    1 &   0.114860 \\
+ 2 &    2 &   0.152704 \\
+ 3 &    2 &   1.417250 \\
+ 4 &    2 & 113.271871 \\
+ 5 &    2 &   3.794986 \\
+ 6 &    2 & 238.984037 \\
+ 7 &    2 &   7.799990 \\
+ 8 &    2 & 328.257657 \\
+ 9 &    2 &   7.396375 \\
+10 &    2 & 187.716422 \\
+11 &    2 &   2.973467 \\
+12 &    2 &  65.602001 \\
+13 &    2 &   0.999994 \\
+14 &    2 &   0.155272 \\
+15 &    1 &   0.123540 \\
+16 &    0 &   0.000050 \\
+\bottomrule
+\end{tabular}
+        \caption{$AI_k$ of ~\cite{Mat:ZJZQ23} for $m=4$ $n=2^{m}=16$}\label{table:ZS2316}
+    \end{minipage}
+    \caption{$AI_k$ and execution times of ~\cite{Mat:ZJZQ23} with $m=3 \Rightarrow n=8$ and $m=4 \Rightarrow n=16$}\label{table:ZS23}
+\end{table}
 
 \section{Conclusion and open questions}
 
