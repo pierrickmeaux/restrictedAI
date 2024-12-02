@@ -1103,7 +1103,7 @@ Therefore, we have to take a different approach for $m > 2$ by generating a cert
 
 \subsubsection{Determination of the full distribution for \texorpdfstring{m=2}{m=2}}
 For $m=2 \Rightarrow n = 4$, it is possible to determine the full probability distribution from Definition \ref{def:distAIk} without using the random sampling strategy.\\
-The resulting plots can be found on Fig \ref{fig:dullDist} and Fig \ref{fig:averagesFullDist} and the corresponding data in Table \ref{table:averagesFullDist} and Table \ref{table:probFullDist}.
+The resulting plots can be found on Fig \ref{fig:dullDist} and Fig \ref{fig:averagesFullDist}. % and the corresponding data in Table \ref{table:averagesFullDist} and Table \ref{table:probFullDist}.
 
 \begin{figure}[ht]
     \centering
@@ -1124,7 +1124,7 @@ The resulting plots can be found on Fig \ref{fig:dullDist} and Fig \ref{fig:aver
     \label{fig:dullDist}
 \end{figure}
 
-
+\begin{comment}
 \begin{table}[ht]
     \centering
     \begin{minipage}{0.45\textwidth}
@@ -1174,6 +1174,7 @@ The resulting plots can be found on Fig \ref{fig:dullDist} and Fig \ref{fig:aver
         \label{table:averagesFullDist}
     \end{minipage}
 \end{table}
+\end{comment}
 
 \subsubsection{Random Sampling}
 In practice, the random sampling is done by generating a set $\Omega_k = \{\omega_1^{(k)}, \cdots, \omega_{|\Omega|}^{(k)}\}$ of $|\Omega|$ number of random balanced sub-truth tables for each slice $E_{k,n}$. Then, for each slice $E_{k,n}$ the $AI_k$ is calculated with each restricted set in $\Omega_k$ and the number of times a particular $AI_k$ is computed is counted.\\
@@ -1212,9 +1213,10 @@ The table \lbnote{reference to table} shows the average values plotted in Figure
     \caption{Mean $AI_k$ and probability distribution of $AI_k$ with sampling size $23768$ of Boolean function of $n=8$ variable}
     \label{fig:main2}
 \end{figure}
+\newpage
 
 \section{Determination of \texorpdfstring{$AI_k$}{AIk} of published Boolean functions}
-In this section, we calculate the $AI_k$s of the published function ~\cite{Mat:ZJZQ23} and ~\cite{AMC:DalMal23} for $n=8$ and $16$ variables. Table \ref{table:publiedFunctions} shows these results and Figures \ref{fig:DM24}  and \ref{fig:ZS23} and Tables \ref{table:DM24} and \ref{table:ZS23} provide details for each function.\\
+In this section, we calculate the $AI_k$s of the published function ~\cite{Mat:ZJZQ23} and ~\cite{AMC:DalMal23} for $n=8$ and $16$ variables. Table \ref{table:publiedFunctions} shows these results.% and Figures \ref{fig:DM24}  and \ref{fig:ZS23} and Tables \ref{table:DM24} and \ref{table:ZS23} provide details for each function.\\
 We see that ~\cite{AMC:DalMal23} is more secure than ~\cite{Mat:ZJZQ23} since it has a better $AI_k$s for both $n=8$ and $n=16$. in particular
 \begin{description}
     \item[n=8] ~\cite{Mat:ZJZQ23} has a constant $AI_k$ of $2$ for $k\in [2,7]$, while ~\cite{AMC:DalMal23} has a $AI_k$ of $3$ for $k=5$
@@ -1245,6 +1247,7 @@ $n$ & $AI_0$ & $AI_1$ & $AI_2$ & $AI_3$ & $AI_4$ & $AI_5$ & $AI_6$ & $AI_7$ & $A
 }
 \end{table}
 
+\begin{comment}
 \begin{figure}[ht]
     \centering
     \begin{minipage}[b]{0.45\textwidth}
@@ -1263,7 +1266,9 @@ $n$ & $AI_0$ & $AI_1$ & $AI_2$ & $AI_3$ & $AI_4$ & $AI_5$ & $AI_6$ & $AI_7$ & $A
     \caption{$AI_k$ of ~\cite{AMC:DalMal23} with $8$ and $16$ variables.}
     \label{fig:DM24}
 \end{figure}
+\end{comment}
 
+\begin{comment}
 \begin{table}[ht]
     \centering
     \begin{minipage}{0.45\textwidth}
@@ -1312,9 +1317,11 @@ $n$ & $AI_0$ & $AI_1$ & $AI_2$ & $AI_3$ & $AI_4$ & $AI_5$ & $AI_6$ & $AI_7$ & $A
 \end{tabular}
         \caption{$AI_k$ of ~\cite{AMC:DalMal23} for $m=4$ $n=2^{m}=16$}\label{table:delay16}
     \end{minipage}
-    \caption{$AI_k$ and execution times of ~\cite{AMC:DalMal23} with $m=3 \Rightarrow n=8$ and $m=4 \Rightarrow n=16$}\label{table:DM24}
+    \caption{$AI_k$ and execution times of ~\cite{AMC:DalMal23} with $m=3 \Rightarrow n=8$ Figand $m=4 \Rightarrow n=16$}\label{table:DM24}
 \end{table}
+\end{comment}
 
+\begin{comment}
 \begin{figure}[h]
     \centering
     \begin{minipage}[b]{0.45\textwidth}
@@ -1333,8 +1340,9 @@ $n$ & $AI_0$ & $AI_1$ & $AI_2$ & $AI_3$ & $AI_4$ & $AI_5$ & $AI_6$ & $AI_7$ & $A
     \caption{$AI_k$ of ~\cite{Mat:ZJZQ23} with $8$ and $16$ variables.}
     \label{fig:ZS23}
 \end{figure}
+\end{comment}
 
-
+\begin{comment}
 \begin{table}[h!]
     \centering
     \begin{minipage}{0.45\textwidth}
@@ -1385,6 +1393,7 @@ $n$ & $AI_0$ & $AI_1$ & $AI_2$ & $AI_3$ & $AI_4$ & $AI_5$ & $AI_6$ & $AI_7$ & $A
     \end{minipage}
     \caption{$AI_k$ and execution times of ~\cite{Mat:ZJZQ23} with $m=3 \Rightarrow n=8$ and $m=4 \Rightarrow n=16$}\label{table:ZS23}
 \end{table}
+\end{comment}
 
 \section{Conclusion and open questions}
 
