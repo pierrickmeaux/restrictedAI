@@ -634,8 +634,10 @@ We begin with definitions and remarks necessary to introduce the general idea of
     %        z_1^{\alpha_{k_E}} & z_2^{\alpha_{k_E}} & \cdots & z_{k_Z}^{\alpha_{k_E}}
     %    \end{pmatrix}
     %\end{align*}
-    We call this matrix the \textit{T-Vandermonde} matrix: the transpose of the matrix used in ~\cite{armknecht2006efficient}.\\
-    Denoting by $Z_i = \{z_1, z_2, \cdots, z_i\}$ and $E_j = \{\alpha_1, \cdots, \alpha_j\}$ for $i\in[1,z_{k_Z}]$ and $j\in[1,\alpha_{k_E}]$, the sub-matrix $V_{E_i, Z_j}$ of $V_{E,Z}$, is given by the elements
+  %  We call this matrix the \textit{T-Vandermonde} matrix the transpose of the matrix used in ~\cite{armknecht2006efficient}.\\
+  We refer to this matrix as the \textit{T-Vandermonde} matrix, as it is the transpose of a Vandermonde matrix.
+  % the transpose of the matrix used in ~\cite{armknecht2006efficient}.\\
+    Denoting by $Z_i = \{z_1, z_2, \cdots, z_i\}$ and $E_j = \{\alpha_1, \dots, \alpha_j\}$ for $i\in[1,z_{k_Z}]$ and $j\in[1,\alpha_{k_E}]$, the sub-matrix $V_{E_i, Z_j}$ of $V_{E,Z}$, is given by the elements:
     \begin{align*}
         \left(V_{E_i,Z_j}\right)_{n,l} = z_l^{\alpha_n} \quad \forall n\in[1,i] \mbox{ and } l\in[1, j] 
     \end{align*}
@@ -647,8 +649,7 @@ We begin with definitions and remarks necessary to introduce the general idea of
     %        \vdots & \vdots & \ddots & \vdots \\
     %        z_{1}^{\alpha_i} & z_{2}^{\alpha_i} & \cdots & z_{j}^{\alpha_i}
     %    \end{pmatrix}
-    %\end{align*}
-    In the same way, we define the matrices $S_{E,S}$ and $S_{E_i, S_j}$ as the \textit{T-Vandermonde} sub-matrices on the elements of the set $S\subseteq \mathbb{F}_2^n$.
+    Similarly, we define the matrices $S_{E,S}$ and $S_{E_i, S_j}$ as the T-Vandermonde sub-matrices corresponding to the elements of the set $S\subseteq \mathbb{F}_2^n$.
 \end{definition}
 
 \begin{remark}\label{rem:subsetOfReedMuller}
@@ -692,24 +693,48 @@ We begin with definitions and remarks necessary to introduce the general idea of
     \end{pmatrix} & \mbox{ if } |Z| < k \leq |E_{D_n^n}|
         \end{cases}
     \end{align*}
-    with $V_1 = \begin{pmatrix} z_1^{\alpha_1}\end{pmatrix} = z_1^{(000)_2} = (1)$ 
+    with $V_1 = \begin{pmatrix} z_1^{\alpha_1}\end{pmatrix} = z_1^{0_n} = (1)$ 
 \end{definition}
 
-With Definition \ref{def:tVandermonde} and Remark \ref{rem:subsetOfReedMuller} in mind, we state the algorithm's procedure as follows.\\
-Let $Z = supp\left(f^{(o)}\right) \cap S$ and $1\leq i \leq |Z|$, if the function $f$ is not constant on $S$, the algorithm works by constructing the matrix $V_{E_i, Z_i}$ and seeks functions vanishing on the set $Z_i$ by taking vectors corresponding to the elements of the kernel of $V_{E_i, Z_i}$.\\
-If such functions exist, the procedure checks if any of these are also annihilator restricted on $S$ of the full function $f^{(o)}$, by testing if they also vanish in all $Z$ but not in all $S$. If any of such annihilators is found, the algorithm returns the degree of the last monomial added, $x^{\alpha_i}$. Otherwise, it increments the index $i$, constructs the next matrix following Definition \ref{def:inductiveConstructionOfV} and continues until a desired solution is found or if all the square matrices up to $V_{E_i, |Z|}$ have been constructed and tested.\\
-Suppose no annihilator is found after all the elements of $Z$ have been added. In that case, the algorithm iteratively adds new monomials, generates the matrices $V_{E_i, Z}$ and $S_{E_i, S_i}$ and returns the degree of the monomial $x^{\alpha_i}$ in the case in which $rank\left(V_{E_i, Z}\right) < rank\left(S_{E_i, S_i}\right)$. Following from point \ref{item:Item1RemOnAlg} of Remark \ref{rem:remarksOnAlg}, if such condition is not satisfied at the step $i$, the iteration continues until $rank\left(S_{E_i, S_i}\right) > |S| / 2$.
+%With Definition~\ref{def:tVandermonde} and Remark~\ref{rem:subsetOfReedMuller} in mind, we state the algorithm's procedure as follows.
+%Let $Z = supp\left(f^{(o)}\right) \cap S$ and $1\leq i \leq |Z|$, if the function $f$ is not constant on $S$, the algorithm works by constructing the matrix $V_{E_i, Z_i}$ and seeks functions vanishing on the set $Z_i$ by taking vectors corresponding to the elements of the kernel of $V_{E_i, Z_i}$.\\
+%If such functions exist, the procedure checks if any of these are also annihilator restricted on $S$ of the full function $f^{(o)}$, by testing if they also vanish in all $Z$ but not in all $S$. If any of such annihilators is found, the algorithm returns the degree of the last monomial added, $x^{\alpha_i}$. Otherwise, it increments the index $i$, constructs the next matrix following Definition \ref{def:inductiveConstructionOfV} and continues until a desired solution is found or if all the square matrices up to $V_{E_i, |Z|}$ have been constructed and tested.\\
+%Suppose no annihilator is found after all the elements of $Z$ have been added. In that case, the algorithm iteratively adds new monomials, generates the matrices $V_{E_i, Z}$ and $S_{E_i, S_i}$ and returns the degree of the monomial $x^{\alpha_i}$ in the case in which $rank\left(V_{E_i, Z}\right) < rank\left(S_{E_i, S_i}\right)$. Following from point \ref{item:Item1RemOnAlg} of Remark \ref{rem:remarksOnAlg}, if such condition is not satisfied at the step $i$, the iteration continues until $rank\left(S_{E_i, S_i}\right) > |S| / 2$.
+
+
+
+With Definition~\ref{def:tVandermonde} and Remark~\ref{rem:subsetOfReedMuller} in mind, we describe the algorithm's procedure as follows. 
+Let \( Z = \text{supp}\left(f^{(o)}\right) \cap S \), and let \( 1 \leq i \leq |Z| \). If the function \( f \) is not constant on \( S \), the algorithm begins by constructing the matrix \( V_{E_i, Z_i} \) and searches for functions vanishing on the set \( Z_i \) by identifying vectors corresponding to the elements of the kernel of \( V_{E_i, Z_i} \).
+If such functions exist, the procedure checks whether any of them are also annihilators restricted to \( S \) for the full function \( f^{(o)} \). This is done by verifying that they vanish on all elements of \( Z \) but not on all elements of \( S \). If such an annihilator is found, the algorithm returns the degree of the last monomial added, \( x^{\alpha_i} \). Otherwise, it increments the index \( i \), constructs the next matrix following Definition~\ref{def:inductiveConstructionOfV}, and continues until a solution is found or all square matrices up to \( V_{E_i, |Z|} \) have been constructed and tested.
+If no annihilator is found after all the elements of \( Z \) have been added, the algorithm iteratively adds new monomials and generates the matrices \( V_{E_i, Z} \) and \( S_{E_i, S_i} \). It then returns the degree of the monomial \( x^{\alpha_i} \) if \( \text{rank}\left(V_{E_i, Z}\right) < \text{rank}\left(S_{E_i, S_i}\right) \). Following point~\ref{item:Item1RemOnAlg} in Remark~\ref{rem:remarksOnAlg}, if this condition is not satisfied at step \( i \), the iteration continues until \( \text{rank}\left(S_{E_i, S_i}\right) > |S| / 2 \).
+Indeed, if for some \( i \), \( \text{rank}\left(V_{E_i, Z}\right) < \text{rank}\left(S_{E_i, S_i}\right) \), then there exists a non-null annihilator over \( S \) of degree at most \( \text{deg}(\alpha_i) \). Conversely, if the condition is not met before \( \text{rank}\left(S_{E_i, S_i}\right) > |S| / 2 \), Remark~\ref{rem:remarksOnAlg} guarantees that either \( f \) or \( f+1 \) admits a non-trivial annihilator on \( S \) of this degree.
+
+
 
 \subsection{Keeping the cardinality of the kernel of $V_k$ upper-bounded by $1$}
 
-In the procedure described, we search for at least one element satisfying some required conditions from a vector space that is potentially too big for the algorithm to maintain the desired efficiency. To solve this issue, in the case we find an element $\hat{g}_k$ of the right kernel of $V_k$ which does not vanish on $Z$, we re-order the vector $Z$ by swapping the element $z_{k+1}$ with the element which is not vanishing in $\hat{g}_k$. This guarantees that such elements of the kernel of $V_k$ do not get propagated to the kernel of the subsequent matrices.\\
-Moreover, in case an element of the kernel of $V_k$ vanishing on all $Z$ and all $S$ is found, we drop the monomial $\alpha_k$ by constructing the matrix $V_{k+1}$ by replacing the row corresponding to the monomial $\alpha_k$ with the one corresponding to the monomial $\alpha_{k+1}$.\\
-This procedure ensures that the cardinality of the kernel of $V_k$ is upper-bounded by $1$ for all $k \leq |Z|$.\\
-Propositions \ref{prop:swappingElementOfZToReduceKer}, \ref{prop:upperBoundOnRightKernel} and \ref{prop:constructionOfNextVRemovingAlphai} provide justifications for this claim.
+%In the procedure described, we search for at least one element satisfying some required conditions from a vector space that is potentially too big for the algorithm to maintain the desired efficiency. To solve this issue, in the case we find an element $\hat{g}_k$ of the right kernel of $V_k$ which does not vanish on $Z$, we re-order the vector $Z$ by swapping the element $z_{k+1}$ with the element which is not vanishing in $\hat{g}_k$. This guarantees that such elements of the kernel of $V_k$ do not get propagated to the kernel of the subsequent matrices.\\
+%Moreover, in case an element of the kernel of $V_k$ vanishing on all $Z$ and all $S$ is found, we drop the monomial $\alpha_k$ by constructing the matrix $V_{k+1}$ by replacing the row corresponding to the monomial $\alpha_k$ with the one corresponding to the monomial $\alpha_{k+1}$.\\
+%This procedure ensures that the cardinality of the kernel of $V_k$ is upper-bounded by $1$ for all $k \leq |Z|$.\\
+%Propositions \ref{prop:swappingElementOfZToReduceKer}, \ref{prop:upperBoundOnRightKernel} and \ref{prop:constructionOfNextVRemovingAlphai} provide justifications for this claim.
+
+
+In the procedure described, we aim to identify at least one element from a vector space that satisfies certain required conditions, while maintaining the algorithm's desired efficiency. 
+Since this vector space can potentially be too large, we address this issue as follows: if we find an element \( \hat{g}_k \) in the right kernel of \( V_k \) that does not vanish on \( Z \), we re-order the vector \( Z \) by swapping the element \( z_{k+1} \) with the element that does not vanish in \( \hat{g}_k \). 
+This ensures that such elements of the kernel of \( V_k \) do not propagate into the kernel of subsequent matrices.
+
+Furthermore, if an element of the kernel of \( V_k \) is found that vanishes on all of \( Z \) and \( S \), the monomial \( \alpha_k \) is dropped. 
+The matrix \( V_{k+1} \) is then constructed by replacing the row corresponding to the monomial \( \alpha_k \) with one corresponding to the monomial \( \alpha_{k+1} \).
+This procedure guarantees that the cardinality of the kernel of \( V_k \) is upper-bounded by \( 1 \) for all \( k \leq |Z| \).
+Propositions~\ref{prop:swappingElementOfZToReduceKer}, ~\ref{prop:upperBoundOnRightKernel}, and ~\ref{prop:constructionOfNextVRemovingAlphai} provide formal justifications for these claims.
+
+
+
 
 \begin{proposition}\label{prop:swappingElementOfZToReduceKer}
-    Let $k < \min\{(|Z|, |E_{D_n^n}|\}$ and $V_k$ constructed following Definition \ref{def:inductiveConstructionOfV},\\
-    Suppose $ker(V_k) = <\hat{g}_k> = <(\epsilon_1,\epsilon_2, \cdots, \epsilon_k )>$ and $g_k\in \Bn{n}$ the Boolean function having $\hat{g}_k$ as the coefficients of its algebraic normal form. Suppose moreover, that it exists a $z_{k+j}$, for $j\geq 1$ such that $g_k(z_{k+j}) = 1$, then the matrix $V^{'}_{k+1}$ constructed as
+    Let $k < \min\{(|Z|, |E_{D_n^n}|\}$ and let $V_k$ constructed following Definition~\ref{def:inductiveConstructionOfV}. 
+    Suppose $\text{ker}(V_k) = \langle \hat{g}_k \rangle=\langle (\epsilon_1, \epsilon_2, \dots, \epsilon_k) \rangle $ and let $g_k\in \Bn{n}$ be the Boolean function having $\hat{g}_k$ as ANF. 
+    Furthermore, assume there exists a $z_{k+j}$, for $j\geq 1$ such that $g_k(z_{k+j}) = 1$. Then, the matrix $V^{'}_{k+1}$ constructed as:
     \begin{align*}
         V^{'}_{k+1} = 
         \begin{pmatrix}
@@ -720,71 +745,134 @@ Propositions \ref{prop:swappingElementOfZToReduceKer}, \ref{prop:upperBoundOnRig
         z_{1}^{\alpha_{k+1}} & z_{2}^{\alpha_{k+1}}& \cdots & z_{k}^{\alpha_{k+1}} & z_{k+j}^{\alpha_{k+1}}
     \end{pmatrix}
     \end{align*}
-    is such that $(\epsilon_1, \epsilon_2, \cdots, \epsilon_k, 0) \not\in ker(V^{'}_{k+1})$.
+    is such that $(\epsilon_1, \epsilon_2, \dots, \epsilon_k, 0) \not\in \text{ker}(V^{'}_{k+1})$.
 \end{proposition}
 \begin{proof}
-    Suppose that $ker(V_k) = <\hat{g}_k> = <(\epsilon_1,\epsilon_2, \cdots, \epsilon_k )>$ and that it exists $j\geq 1$ such that $g(z_{k+j}) = 1$ but which is such that $(\epsilon_1, \epsilon_2, \cdots, \epsilon_k, 0) \in ker(V^{'}_{k+1})$.\\
-    If $(\epsilon_1, \epsilon_2, \cdots, \epsilon_k, 0) \in ker(V^{'}_{k+1})$, then $(\epsilon_1, \epsilon_2, \cdots, \epsilon_k, 0) \cdot V^{'}_{k+1}= \hat{0}$. In particular, the last equation of the system of equation described by $(\epsilon_1, \epsilon_2, \cdots, \epsilon_k, 0) \cdot V^{'}_{k+1} = \hat{0}$, is 
-    \begin{align}
-        \epsilon_1z_{k+j}^{\alpha_1} + \cdots +\epsilon_k z_{k+j}^{\alpha_k} + 0 \cdot z_{k+j}^{\alpha_{k+1}} =  \epsilon_1z_{k+j}^{\alpha_1} + \cdots + \epsilon_k z_{k+j}^{\alpha_k} = 0
-    \end{align}
-    However, from our hypothesis, we have that
-    \begin{align*}
-        g_k(z_{k+j}) =  1 \iff g_k(z_{k+j}) = 
-        (\epsilon_1, \epsilon_2, \cdots,  \epsilon_k)
-        \begin{pmatrix}
-            z_{k+j}^{\alpha_1}\\
-            z_{k+j}^{\alpha_2}\\
-            \vdots\\
-            z_{k+j}^{\alpha_k}
-        \end{pmatrix}
-        = \epsilon_1z_{k+j}^{\alpha_1} + \cdots + \epsilon_k z_{k+j}^{\alpha_k} = 1
-    \end{align*}
-    Therefore it cannot be the case that $(\epsilon_1, \cdots, \epsilon_k, 0)$ is in the kernel of $V^{'}_{k+1}$.
+	
+	    Suppose \( \text{ker}(V_k) = \langle \hat{g}_k \rangle = \langle (\epsilon_1, \epsilon_2, \dots, \epsilon_k) \rangle \), and that there exists \( j \geq 1 \) such that \( g_k(z_{k+j}) = 1 \), but it is also such that \( (\epsilon_1, \epsilon_2, \dots, \epsilon_k, 0) \in \text{ker}(V'_{k+1}) \).
+
+  
+If \( (\epsilon_1, \epsilon_2, \dots, \epsilon_k, 0) \in \text{ker}(V'_{k+1}) \), then \( (\epsilon_1, \epsilon_2, \dots, \epsilon_k, 0) \cdot V'_{k+1} = \hat{0} \). Specifically, the last equation in the system of equations described by \( (\epsilon_1, \epsilon_2, \dots, \epsilon_k, 0) \cdot V'_{k+1} = \hat{0} \) is:
+   \[
+\epsilon_1 z_{k+j}^{\alpha_1} + \cdots + \epsilon_k z_{k+j}^{\alpha_k} + 0 \cdot z_{k+j}^{\alpha_{k+1}} = \epsilon_1 z_{k+j}^{\alpha_1} + \cdots + \epsilon_k z_{k+j}^{\alpha_k} = 0.
+\]
+%    \begin{align}
+ %       \epsilon_1z_{k+j}^{\alpha_1} + \cdots +\epsilon_k z_{k+j}^{\alpha_k} + 0 \cdot z_{k+j}^{\alpha_{k+1}} =  \epsilon_1z_{k+j}^{\alpha_1} + \cdots + \epsilon_k z_{k+j}^{\alpha_k} = 0
+ %   \end{align}
+However, from our hypothesis, we have:
+\[
+g_k(z_{k+j}) = 1 \iff g_k(z_{k+j}) = 
+(\epsilon_1, \epsilon_2, \dots, \epsilon_k)
+\begin{pmatrix}
+z_{k+j}^{\alpha_1} \\
+z_{k+j}^{\alpha_2} \\
+\vdots \\
+z_{k+j}^{\alpha_k}
+\end{pmatrix}
+= \epsilon_1 z_{k+j}^{\alpha_1} + \cdots + \epsilon_k z_{k+j}^{\alpha_k} = 1.
+\]
+This contradiction shows that it cannot be the case that \( (\epsilon_1, \dots, \epsilon_k, 0) \) is in the kernel of \( V'_{k+1} \).   
+
 \end{proof}
 
 
 \begin{proposition}\label{prop:upperBoundOnRightKernel}
-    The sequences of matrices $(V_k)_k$ using the construction given in Proposition \ref{prop:swappingElementOfZToReduceKer}, ensure that
-    \begin{align*}
-        dim\left(ker\left(V_k\right)\right) \leq 1\quad \forall k \in [1, |Z|]
-    \end{align*}
+%    The sequences of matrices $(V_k)_k$ using the construction given in Proposition \ref{prop:swappingElementOfZToReduceKer}, ensure that
+%    \begin{align*}
+%        dim\left(ker\left(V_k\right)\right) \leq 1\quad \forall k \in [1, |Z|]
+%    \end{align*}   
+    The sequence of matrices \( (V_k)_k \), constructed as described in Proposition~\ref{prop:swappingElementOfZToReduceKer}, ensures that:    
+    \[
+    \text{dim}\left(\text{ker}\left(V_k\right)\right) \leq 1, \quad \forall k \in [1, |Z|].
+    \]
 \end{proposition}
 \begin{proof}
-    We prove the result by induction
+    We prove the result by induction:
     \begin{itemize}
-        \item The initialization step $V_1 = (1)$ has full rank, hence $dim(ker(V_1)) = 0 \leq 1$
-        \item We suppose that $dim(ker(V_k)) \leq 1$. 
+        \item Base case. The initial matrix $V_1 = (1)$ has full rank, so $\text{dim}( \text{ker}(V_1)) = 0 \leq 1$.
+        \item Induction step. We suppose that $\text{dim}( \text{ker}(V_k))\le 1$. We show that $\text{dim}( \text{ker}(V_{k+1}))\le 1$.
         \begin{itemize}
-            \item If $dim(ker(V_k)) = 0$, adding a new row and column, $V_{k+1}$ can only increase the kernel by $1$, therefore $dim\left(ker(V_{k+1})\right) \leq 1$.
-            \item If $dim(ker(V_k)) = 1$, let $\hat{x} = \left(\hat{\epsilon}, 0 \right)$ where $\hat{\epsilon}$ is in $ker(V_k)$.\\
-            Let $\hat{z}$ be an element of $ker\left(V_{k+1}\right)$, we have that either $\hat{z} = (\hat{\epsilon}, 0)$ or $z = (\hat{y}, 1)$ with $\hat{y}$ being an element of $\mathbb{F}_2^{k}$.\\
+            \item If $\text{dim}( \text{ker}(V_k))= 0$, adding a new row and column to form $V_{k+1}$ can increase the kernel by at most $1$. Hence, $\text{dim}( \text{ker}(V_{k+1}))\le 1$.
+            \item %If $\text{dim}( \text{ker}(V_k))= 1$, 
+            %let $\hat{x} = \left(\hat{\epsilon}, 0 \right)$ where $\hat{\epsilon}$ is in $\text{ker}(V_k)$.            
+            If $\text{dim}( \text{ker}(V_k))= 1$, let $\hat{z}$ be an element of $\text{ker}\left(V_{k+1}\right)$. 
+            Then either:
             \begin{itemize}
-                \item if $\hat{z} = (\hat{\epsilon}, 0)$ we have that
-                \begin{align*}
-                     \hat{z} = (\hat{\epsilon}, 0) \implies \hat{z}  \cdot V_{k+1} = 0 \implies \hat{\epsilon}\cdot V_{k} = 0 \implies \epsilon \in ker(V_k)
-                \end{align*}
-                However, from Proposition \ref{prop:swappingElementOfZToReduceKer}, this is only possible if $\hat{\epsilon}$ is a trivial solution.
-                \item if $\hat{z} = (\hat{y}, 1)$ with $\hat{y} \in \mathbb{F}_2^k$, we have that $\hat{z} \cdot V_{k+1} = 0$, hence
-                \begin{align*}
-                        Eq1: & \hat{y}  \cdot V_{k} + (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}}) = 0 \iff \hat{y} \cdot V_{k} = (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}})\\
-                        Eq2: & (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} + z_{k+1}^{\alpha_{k+1}} = 0 \iff (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} = z_{k+1}^{\alpha_{k+1}} 
-                \end{align*}
-                Since $dim(ker(V_k)) = 1$, $rank(V_k) = k-1$ and hence it exists maximum one particular solution solving $Eq1$. Suppose such a solution is $\hat{y}_p$. If $\hat{y}_p$ also solves $Eq2$, $\hat{y}_p$ is an element of the kernel of $V_{k+1}$.
-            \end{itemize}
-            Since $(\hat{\epsilon}, 0)$ can't be an element of the kernel of $V_{k+1}$, if it exists, $\hat{y}_p$ is the only element that can be present in $ker(V_{k+1})$.\\
-            Therefore $dim\left(ker(V_{k+1})\right) \leq 1$.
+            	\item  \( \hat{z} = (\hat{\epsilon}, 0) \):  
+\[
+\hat{z} \cdot V_{k+1} = 0 \implies \hat{\epsilon} \cdot V_k = 0 \implies \hat{\epsilon} \in \text{ker}(V_k).
+\]
+By Proposition~\ref{prop:swappingElementOfZToReduceKer}, \( \hat{\epsilon} \) can only be a trivial solution.
+
+\item \( \hat{z} = (\hat{y}, 1) \), where \( \hat{y} \in \mathbb{F}_2^k \):          
+In this case $\hat{z} \cdot V_{k+1} = 0$ implies:
+\begin{equation}\label{Eq:eq1}
+ \hat{y}  \cdot V_{k} + (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}}) = 0 \iff \hat{y} \cdot V_{k} = (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}}),
+\end{equation}
+and 
+
+\pmnote{why is y on the right side for the second equation?}
+
+\begin{equation}\label{Eq:eq2}
+(z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} + z_{k+1}^{\alpha_{k+1}} = 0 \iff (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} = z_{k+1}^{\alpha_{k+1}}.
+\end{equation}	
+%\[
+%\hat{z} \cdot V_{k+1} = 0 \implies 
+%\begin{aligned}
+%& \text{Eq1: } \hat{y} \cdot V_k = (z_1^{\alpha_{k+1}}, \dots, z_k^{\alpha_{k+1}}), \\
+%& \text{Eq2: } (z_{k+1}^{\alpha_1}, \dots, z_{k+1}^{\alpha_k})^T \hat{y} = z_{k+1}^{\alpha_{k+1}}.\\
+%\end{aligned}
+%\]    
+%               \begin{align*}
+%Eq1: & \hat{y}  \cdot V_{k} + (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}}) = 0 \iff \hat{y} \cdot V_{k} = (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}})\\
+% Eq2: & (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} + z_{k+1}^{\alpha_{k+1}} = 0 \iff (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} = z_{k+1}^{\alpha_{k+1}} 
+%                \end{align*}
         \end{itemize}
-    \end{itemize} 
+            
+%            , we have that either $\hat{z} = (\hat{\epsilon}, 0)$ or $z = (\hat{y}, 1)$ with $\hat{y}$ being an element of $\mathbb{F}_2^{k}$.\\
+%            \begin{itemize}
+%                \item if $\hat{z} = (\hat{\epsilon}, 0)$ we have that
+%                \begin{align*}
+%                     \hat{z} = (\hat{\epsilon}, 0) \implies \hat{z}  \cdot V_{k+1} = 0 \implies \hat{\epsilon}\cdot V_{k} = 0 \implies \epsilon \in ker(V_k)
+%                \end{align*}
+%                However, from Proposition \ref{prop:swappingElementOfZToReduceKer}, this is only possible if $\hat{\epsilon}$ is a trivial solution.
+%                \item if $\hat{z} = (\hat{y}, 1)$ with $\hat{y} \in \mathbb{F}_2^k$, we have that $\hat{z} \cdot V_{k+1} = 0$, hence
+%                \begin{align*}
+%                        Eq1: & \hat{y}  \cdot V_{k} + (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}}) = 0 \iff \hat{y} \cdot V_{k} = (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}})\\
+%                        Eq2: & (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} + z_{k+1}^{\alpha_{k+1}} = 0 \iff (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} = z_{k+1}^{\alpha_{k+1}} 
+%                \end{align*}
+
+
+Since $\text{dim}(\text{ker}(V_k)) = 1$, $\text{rank}(V_k) = k-1$. Hence, there exists at most one particular solution $\hat{y}_p$ for Equation~\ref{Eq:eq1}. 
+If \( \hat{y}_p \) also solves Equation~\ref{Eq:eq2}, then \( \hat{y}_p \) is in \( \ker(V_{k+1}) \).
+ 
+\end{itemize}
+Since $(\hat{\epsilon}, 0)$  cannot be in \( \text{ker}(V_{k+1}) \), the only possible element in \( \text{ker}(V_{k+1}) \) is \( \hat{y}_p \), if it exists. Therefore, \( \text{dim}(\text{ker}(V_{k+1})) \leq 1 \).
+        \end{itemize}
+
+
+
+
+
+
+
+
+
 \end{proof}
 
+
 \begin{remark}
-    Notice that the definition of $V^{'}_{k+1}$ in Proposition \ref{prop:swappingElementOfZToReduceKer}, does not break Definition \ref{def:inductiveConstructionOfV}, since we do not need to specify a particular ordering relation for the element of the support $Z$ to construct the sequence $(V_{k})_k$.
+    Notice that the definition of $V^{'}_{k+1}$ in Proposition~\ref{prop:swappingElementOfZToReduceKer}, does not conflict with Definition~\ref{def:inductiveConstructionOfV}, s constructing the sequence $(V_{k})_k$ does not require a specific ordering of the elements in the support $Z$.   
 \end{remark}
 
+
+
+
 \begin{proposition}\label{prop:constructionOfNextVRemovingAlphai}
-    Let $ker(V_{E_k, Z_k}) = <\hat{g}_k> = <(\epsilon_1, \cdots, \epsilon_k)>$ be such that the corresponding Boolean function $g_k\in \Bn{n}$ is such that $g_k(x) = 0,\ \forall x\in Z$, but it exists a $y\in S$ such that $g_k(y) = 1$.\\
-    Let $E^{*} = (\alpha_1, \alpha_2, \cdots, \alpha_{k-1}, \alpha_{k+1})$ be the vector constructed from $E_k$, but by replacing the last element $\alpha_{k}$ with $\alpha_{k+1}$ and let $V_{k+1} = V_{E^{*}_{k+1}, Z_k}$ be the matrix defined by replacing the monomial $\alpha_k$ in $V_{E_k, Z_k}$, with the monomial $\alpha_{k+1}$ 
+    Let $\text{ker}(V_{E_k, Z_k}) =  \langle \hat{g}_k \rangle = \langle (\epsilon_1, \dots, \epsilon_k) \rangle$, where the corresponding Boolean function $g_k\in \Bn{n}$ satisfies $g_k(x) = 0,\ \forall x\in Z$, but satisfies a $y\in S$ such that $g_k(y) = 1$.
+    
+    Define $E^{*} = (\alpha_1, \alpha_2, \dots, \alpha_{k-1}, \alpha_{k+1})$ , a vector constructed from $E_k$ by replacing the last element $\alpha_{k}$ with $\alpha_{k+1}$. 
+    Let $V_{k+1} = V_{E^{*}_{k+1}, Z_k}$ be the matrix defined by replacing the monomial $\alpha_k$ in $V_{E_k, Z_k}$, with the monomial $\alpha_{k+1}$: 
     \begin{align*}
         V_{E^{*}_{k+1}, Z_{k}} = 
         \begin{pmatrix}
@@ -793,19 +881,34 @@ Propositions \ref{prop:swappingElementOfZToReduceKer}, \ref{prop:upperBoundOnRig
         & & & & \vdots\\
         & & & & z_{k}^{\alpha_{k-1}}\\
         z_{1}^{\alpha_{k+1}} & z_{2}^{\alpha_{k+1}}& \cdots & z_{k}^{\alpha_{k+1}} & z_{k}^{\alpha_{k+1}}
-    \end{pmatrix}
+    \end{pmatrix}.
     \end{align*}
-    then, either $\hat{g}_k \not\in ker(V_{E^{*}_{k+1}, Z_k})$, or $\hat{g}_k$ is the only element (except for $\hat{0}$) in the right kernel of $V_{E_{k+1}^{*}, Z_k}$. Hence
+    Then, either $\hat{g}_k \not\in \text{ker}(V_{E^{*}_{k+1}, Z_k})$, or $\hat{g}_k$ is the only element (aside from $\hat{0}$) in the right kernel of $V_{E_{k+1}^{*}, Z_k}$. Hence:
     \begin{align*}
-        dim\left(ker(V_{E^{*}_{k+1}, Z_k})\right)\leq 1   
+        \text{dim}\left(\text{ker}(V_{E^{*}_{k+1}, Z_k})\right)\leq 1. 
     \end{align*}
+
 \end{proposition}
 \begin{proof}
-    Proposition \ref{prop:swappingElementOfZToReduceKer} ensures that neither the kernel of $V_{E^{*}_{k+1}, Z_{k}}$ does not contain elements preceding with elements of the kernel of $V_{ E_{k-1}, Z_{k-1}}$, therefore, $V_{E_{k-1}, Z_{k-1}}$ can be treated as a full-rank matrix.\\
-    Modifying the last row of a matrix containing a full-rank sub-matrix does not increase the size of the kernel. This is because the first $k$ entries of the elements of the kernel of $V_{E_k, Z_k }$ and $V_{E^{*}_{k+1}, Z_k}$ are the same and the only difference is given by the last row which is also the only row that can induce a linear dependence. This leaves the dimension of the kernel of $V_{ E^{*}_{k+1}, Z_k}$ to be bounded by $1$.
+
+    Proposition~\ref{prop:swappingElementOfZToReduceKer} ensures that the kernel of $V_{E^{*}_{k+1}, Z_{k}}$ does not contain elements derived from the kernel of $V_{ E_{k-1}, Z_{k-1}}$. 
+    Therefore, $V_{E_{k-1}, Z_{k-1}}$ can be treated as a full-rank matrix.
+    Modifying the last row of a matrix that contains a full-rank sub-matrix does not increase the size of the kernel. This is because the first $k$ entries of the elements in the kernel of $V_{E_k, Z_k }$ and $V_{E^{*}_{k+1}, Z_k}$ are the same, with the only difference arising from the last row. 
+    Since this row is the only one that can introduce linear dependence, the dimension of the kernel of $V_{ E^{*}_{k+1}, Z_k}$ is bounded by $1$.
 \end{proof}
 
+
+
+
+
+
+
 \subsection{Using column echelon form matrices of the previous steps}\label{subsubsection:optEchelonForm}
+
+\pmnote{corrections paused here}
+
+
+
 For each iteration $k$ of the algorithm, the matrix $V_k$ already contains the sub-matrix $V_{k-1}$. It is therefore possible to compute the column echelon form of $V_{k-1}$ and use it to compute the column echelon form of $V_{k}$. In such a way, the matrix $V_k$ would already contain the sub-matrix $EF(V_{k-1})$ which is already in column echelon form, allowing to reduce the number of steps needed to compute the rank of $V_k$.\\
 To be able to apply such a method, however, we have to be careful when we are squarely constructing the matrix; at each step, we are appending rows to the matrix, therefore, to compute $EF\left(V_k\right)$ have to keep track of all the columns operation performed to compute $EF\left(V_j\right)$ for all $j<k$ and apply them before computing $EF\left(V_k\right)$.\\
 Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, better justify the claim.
@@ -1103,7 +1206,7 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 \footnotetext[6]{The implementation of the function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} is similar to the function \textsc{find\_deg\_smallest\_S\_annihilator} described in Algorithm \ref{alg:MinDegreeSnonZeroAnnihilatorIterative} with the difference that the degree of the minimal degree restricted non-zero annihilator of $f$ or of $f+ 1$ is found sequentially instead of in parallel.}
 
 \section{Applications to WAPB functions}
-In this section, we apply the algorithms to the weightwise perfectly balanced (WPB) Boolean functions with the intent to study their algebraic immunity restricted to subsets of constant Hamming weight. In particular, we determine the probability distributions of the $AI_K$ of $WPB$ functions and we compute the $AI_k$ of already published $WPB$ Boolean functions.
+In this section, we apply the algorithms to the weightwise perfectly balanced (WPB) Boolean functions with the intent to study their algebraic immunity restricted to subsets of constant Hamming weight. In particular, we determine the probability distributions of the $AI_k$ of WPB functions and we compute the $AI_k$ of some WPB Boolean functions already studied.
 
 \subsection{Determination of \texorpdfstring{$AI_k$}{AIk} distribution of WPB functions}
 Similarly to what has been done in ~\cite{Latin:GinMea23} for the weighwise non-linearity $NL_k$, we determine the discrete probability distribution of the $AI_k$ of weighwise perfectly balanced Boolean functions, describing the probability of a function $f\in WPB_{2^n}$ of having a certain algebraic immunity restricted on the slice $E_{k,n}$. A more formal definition in given Definition \ref{def:distAIk} below.
