@@ -77,7 +77,21 @@ For a vector $v\in \F_2^n$ we use $\w(v)$ to denote its Hamming weight $\w(v)=|\
 For two vectors $v$ and $w$ in $\F_2^n$ we denote by $\hd(v,w)$ the Hamming distance between $v$ and $w$, that is, $\hd(v,w)=\w(v+w)$. 
 For two functions $f$ and $g$ we denote by $\hd(f,g)$ the Hamming distance between their vectors of values.
 
+
+
+
 \subsection{Ordering relations on \texorpdfstring{$\mathbb{F}_2^n$}{F\_2^n}}
+
+\pmnote{Why are ordering important for this project?
+
+@Luca, do you use the fact that the order is on a field? I think the structure of field has no importance here, the order relation is on the binary strings of length n. 
+In this case, it could be shortened, defining the orders in a standard way on $\{0,1\}^n$ and saying it applies to  $\F_2^n$ (since $\F_2^n$ is the set of binary strings of length n, with the coordinate wise XOR and coordinate wise AND).
+
+}
+
+
+
+
 Let $n\in \N^*$
 \begin{definition}[Tot-WOrd relation on a field]\label{def:orderingOnK}
 	Let $K$ be a field. We define a Tot-WOrd ordering relation $<_{Ord_K}$ as a total and well-ordering relation on $K$, that is
@@ -95,8 +109,15 @@ Let $n\in \N^*$
 
 Two ordering relations in $\mathbb{F}_2^n$ are used in this project: the \textit{lexicographic} and the \textit{graded lex} order.
 
+\pmnote{ In the following the coordinates are written from n to 1, and from 1 to n in the other definitions. Is there a particular reason?}
+
+
 \begin{definition}[Lexicographic order]
 	Let $\alpha = (\alpha_n, \alpha_{n-1}, \cdots, \alpha_1) \in \mathbb{F}_2^n$ and $\beta = (\beta_n, \beta_{n-1}, \cdots, \beta_1) \in \mathbb{F}_2^n$.\\
+	
+	\pmnote{In the last part, why are there hat on $\alpha$ and $\beta$?}
+	
+	
 	The \textit{lexicographic} ordering relation on $\mathbb{F}_2^n$ is a ordering relation $<_{lex}$ on $\mathbb{F}_2^n$ such that $\beta <_{lex} \alpha$ if the leftmost nonzero entry of the vector difference $\hat{\alpha}-\hat{\beta}$ is positive.
 \end{definition}
 
@@ -195,6 +216,11 @@ We call Algebraic Normal Form of a Boolean function $f$ its $n$-variable polynom
 The (algebraic) degree of $f$, denoted $\degg(f)$ is: \[\degg(f)=\
 \max_{I\subseteq [1,n]}\{ |I|\, | \, a_I=1\}  \text{ if $f$ is not null},0  \text{ otherwise}.\]
 \end{definition}	
+
+
+\pmnote{Why is the Lex order appearing in the definitions? Is it a particularity of the object, or a convention taken for the implementation?
+}
+
 
 \begin{definition}[Truth table]
 	Let $f\in \Bn{n}$ be a Boolean function, and $X = Lex\left(dom(f)\right) = \{x_1, x_2, \cdots, x_{|X|}\}$ it's domain ordered in lexicographical order.\\
@@ -352,7 +378,7 @@ We use Krawtchouk polynomials and some of their properties to prove one of our r
 \subsection{Reed-Muller codes}
 
 \begin{definition}[Monomials and set of monomials]
-    Let $u, x\in \F_2^n$ denoted as $x=(x_1,\cdots,x_n)$ and $u=(u_1,\cdots,u_n)$, the monomial $x^{u}$ is calculated as
+    Let $u, x\in \F_2^n$ denoted as $x=(x_1,\cdots,x_n)$ and $u=(u_1,\cdots,u_n)$, the monomial $x^{u}$ is calculated as:
     \begin{align*}
         x^{u} = \prod_{i=1}^n x_i^{u_i}.
     \end{align*}
@@ -403,7 +429,7 @@ We use Krawtchouk polynomials and some of their properties to prove one of our r
 
 
 
-\lbnote{Replace $\oplus$ with $+$ and everywhere}\\
+
 
 \section{Computing the restricted AI from punctured) generator matrices of Reed-Muller codes}\label{sec:RMapproach}
 
@@ -415,10 +441,10 @@ In this section we provide an algorithm to compute the algebraic immunity of a B
 %Instead, if $f$ is constant in $S$, the algorithm returns $0$, as justified by Proposition~\ref{prop:constantFs}.
 
 
-The algorithm aims to determine whether the systems of equations $S_1^r \hat{=}g_1^r*f_S (x)= \hat{0}$ or $S_2^r\hat{=}g_2^r (f\oplus 1)_S (x) = \hat{0}$ admit a non-zero solution for $x \in \F_2^n$, where $g_1^r$ and $ g_2^r$ are Boolean functions of algebraic degree at most $ r$. 
+The algorithm aims to determine whether the systems of equations $S_1^r \hat{=}g_1^r*f_S (x)= \hat{0}$ or $S_2^r\hat{=}g_2^r (f+ 1)_S (x) = \hat{0}$ admit a non-zero solution for $x \in \F_2^n$, where $g_1^r$ and $ g_2^r$ are Boolean functions of algebraic degree at most $ r$. 
 This is achieved by examining whether the rank of the punctured Reed-Muller (RM) matrices is smaller than one with the columns corresponding to the entire $S$.
 If $f$ is non-constant on $S$, the algorithm searches for the existence of either $g_1^r$ solving $S_1^r$ or $g_2^r$ solving $S_2^r$, where neither function vanishes over the entire set \( S \). 
-If such solutions \( g_1^r \) or \( g_2^r \) do not exist, new systems \( S_1^{r+1} \) and \( S_2^{r+1} \) are considered (through bigger matrices), and the search for solutions \( g_1^{r+1} \) and \( g_2^{r+1} \) continues. This iterative process is repeated until either an annihilator of \( f \) or \( f \oplus 1 \) is found or an upper bound \( r + \delta \) is reached. The procedure for \( f_S \) and \( (f \oplus 1)_S \) is carried out in parallel.
+If such solutions \( g_1^r \) or \( g_2^r \) do not exist, new systems \( S_1^{r+1} \) and \( S_2^{r+1} \) are considered (through bigger matrices), and the search for solutions \( g_1^{r+1} \) and \( g_2^{r+1} \) continues. This iterative process is repeated until either an annihilator of \( f \) or \( f + 1 \) is found or an upper bound \( r + \delta \) is reached. The procedure for \( f_S \) and \( (f + 1)_S \) is carried out in parallel.
 Conversely, if \( f \) is constant on \( S \), the algorithm terminates and returns \( 0 \), as justified by Proposition~\ref{prop:constantFs}.
 
 
@@ -431,12 +457,12 @@ Conversely, if \( f \) is constant on \( S \), the algorithm terminates and retu
 	First, we show the reverse implication.
 	We suppose that $f\in \BN$ is constant on $S$, either $f(x) = 0$ for all $x\in S$, or $f(x) = 1$ for all $x\in S$.
 	If $f$ is not null everywhere but $f(x) = 0\ \forall x \in  S$, then the constant function $g(x) = 1$ is not zero on all $S$, and is it such that $g(x)f(x) = 0$ for all $x\in S$. 
-	Similarly, if for all $x\in S$ $f(x) = 1$, the same argument can be used for the function $f\oplus 1$ on $S$.
+	Similarly, if for all $x\in S$ $f(x) = 1$, the same argument can be used for the function $f+ 1$ on $S$.
 	
 	Then, we show the direct implication.
 	We suppose that a function $g\in \BN$ is an $S$-non-zero-annihilator of $f$ of degree $0$. Then,
 	$g \neq 0$ and $\deg(g) = 0 \Rightarrow g = 1$, therefore since $g$ annihilates $f$ in $S$,  $g(x) f(x) = 0$ for all $x \in S$, resulting in $f(x)g(x) = f(x) = 0$.
-	Similarly, if $g$ annihilates $f\oplus 1$ on $S$ instead of $f$, we have that $g(x)(f(x) \oplus 1) = 0$ implying that $f\oplus 1 = 0 \Rightarrow f(x) = 1$ for all $x\in S$. 
+	Similarly, if $g$ annihilates $f+ 1$ on $S$ instead of $f$, we have that $g(x)(f(x) + 1) = 0$ implying that $f+ 1 = 0 \Rightarrow f(x) = 1$ for all $x\in S$. 
 %	\underline{Direct implication $\Rightarrow$}\\
 %	Suppose that $f\in \BN$ is constant in $S$, either this function $f$ is such that $f(x) = 0$ for all $x\in S$, or $f(x) = 1$ for all $x\in S$.\\
 %	If it the case that $f$ is not null everywhere but $f(x) = 0\ \forall S$, then it exists the function $g(x) = 1$ which is not zero in all $S$, but is it such that $g(x)f(x) = 0$ for all $x\in S$.\\ 
@@ -492,7 +518,7 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 \begin{remark}~\label{rem:remarksOnAlg}
 %	We have the following remarks
 	\begin{enumerate}
-		\item ~\cite{TOSC:CarMeaRot17} established that the upper bound of $AI_s(f)$ for any Boolean function $f$ and any set $S\subseteq \mathbb{F}_2^n$, is the smallest integer $r$ such that $\left(G_{r,n}^n\right) > |S| / 2$. As a consequence, the search of the annihilator for $f$ and $f\oplus 1$ in our algorithm terminates once $rank\left(G_{r,n}^S\right) > \lfloor{|S| / 2}\rfloor$.\label{item:Item1RemOnAlg}
+		\item ~\cite{TOSC:CarMeaRot17} established that the upper bound of $AI_s(f)$ for any Boolean function $f$ and any set $S\subseteq \mathbb{F}_2^n$, is the smallest integer $r$ such that $\left(G_{r,n}^n\right) > |S| / 2$. As a consequence, the search of the annihilator for $f$ and $f+ 1$ in our algorithm terminates once $rank\left(G_{r,n}^S\right) > \lfloor{|S| / 2}\rfloor$.\label{item:Item1RemOnAlg}
 		\item The generator matrix of a Reed-Muller code does not depend on the Boolean function. It is therefore possible to pre-compute and store the generator matrices of all Reed-Muller codes with $r$ and $n$ smaller than some maximum values $r_{max}$ and $n_{max}$.
 		This suggests that we can pre-compute $G_{r_{max}, n_{max}}$ for some fixed $n_{max}$ and $r_{max = n_{max}}$, and extract all others $G_{r,n}$ for $r \leq r_{max}$ and $n \leq n_{max}$ from it.
 		We therefore pre-compute the hash table
@@ -505,11 +531,10 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 		D^{\leq n_{max}} =  \{\left(i,D^{n} \right)\}_{0 \leq i \leq n_{max}} =  \{\left(i, \{ \left(j, D_i^j\right)\}_{0\leq j \leq \lceil{i/2}\rceil} \right)\}_{0 \leq i \leq n_{max}}
 		\end{align*}
 		In Algorithm \ref{alg:RMApproach}, we therefore use the function \textsc{read\_values\_from\_file}, to read to two pre-computed hash tables from the files where they have been pre-stored before the execution of the algorithm.
-		\item The procedure \textsc{find\_deg\_smallest\_S\_annihilator} in \ref{alg:RMApproach} is done in parallel for $f$ and $f\oplus 1$ with the additional condition that if one of the two branches returns the value of $1$, the other branch is stopped, without having to wait for it to finish.
+		\item The procedure \textsc{find\_deg\_smallest\_S\_annihilator} in \ref{alg:RMApproach} is done in parallel for $f$ and $f+ 1$ with the additional condition that if one of the two branches returns the value of $1$, the other branch is stopped, without having to wait for it to finish.
 	\end{enumerate}	
 \end{remark}
 
-\pmnote{We have to find the issue with the footnotes, they should appear in the page.}
 
 \begin{algorithm}\label{alg:RMApproach}
 %	\caption{Algorithm to find the algebraic immunity of a function $f$ on the restricted set $S\subseteq \mathbb{F}_2^n$.}
@@ -544,20 +569,20 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 		\State $m_{max}, D^{\leq n_{max}}\gets \mbox{\textsc{read\_values\_from\_file}}()$
 		\State $G_{n,n}\gets m_{max}[n]$
 		\State $D^n \gets D^{\leq n_{max}}[n]$
-		\State $G_{rows,n}^{f_Z,S}, G_{rows,n}^{(f\oplus 1)_Z,S}, G_{n,n}^S \gets [\ ], [\ ], [\ ]$
+		\State $G_{rows,n}^{f_Z,S}, G_{rows,n}^{(f+ 1)_Z,S}, G_{n,n}^S \gets [\ ], [\ ], [\ ]$
 		\For {$i \gets 0$ to $2^n-1$ }
 		\If{$i\in S$}
 		\State $G_{rows,n}^{S} \gets G_{rows,n}^{S}\ ||\ G_{n,n}[:][i]$
 		\If{$x[i] = 1$}
 		\State $G_{rows,n}^{f_S,S} \gets G_{rows,n}^{f_S,S}\ ||\ G_{n,n}[:][i]$
 		\Else
-		\State $G_{rows,n}^{(f\oplus 1)_S,S}.append\left(G_{n,n}[:][i]\right)$
+		\State $G_{rows,n}^{(f+ 1)_S,S}.append\left(G_{n,n}[:][i]\right)$
 		\EndIf
 		\EndIf
 		\EndFor
 		\State $immunity_f, immunity_{f+1} \leftarrow ($\\
 		$\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(G_{rows,n}^{f_Z,S}, G_{n,n}^S,D^{n})$\\
-		$\ |\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(G_{rows,n}^{(f\oplus 1)_Z,S}, G_{n,n}^S, D^{n})$\\
+		$\ |\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(G_{rows,n}^{(f+ 1)_Z,S}, G_{n,n}^S, D^{n})$\\
 		$)$
 		\State \Return $\mbox{\textsc{min}}(immunity_f, immunity_{f+1})$\footnotemark
 	\end{algorithmic}
@@ -585,7 +610,7 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 
 In this section, we present an algorithm (Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative}) to determine the algebraic immunity restricted to a set $S \subseteq \mathbb{F}_2^n$ with improved time and space complexity compared to the method presented in Section~\ref{sec:RMapproach}. 
 
-The core idea is to iteratively construct the objects $G_{r,n}^{f_{supp\left(f\right) \cap S},S}$ and $G_{r,n}^{\left(f\oplus 1\right)_{supp\left(f\oplus 1\right) \cap S},S}$ for varying $r$, increasing the size of the matrix by one row per iteration while minimizing computations. 
+The core idea is to iteratively construct the objects $G_{r,n}^{f_{supp\left(f\right) \cap S},S}$ and $G_{r,n}^{\left(f+ 1\right)_{supp\left(f+ 1\right) \cap S},S}$ for varying $r$, increasing the size of the matrix by one row per iteration while minimizing computations. 
 This approach checks for the existence of annihilators dynamically, rather than extracting them from a large, pre-computed Reed-Muller generator matrix restricted to $S$. The method extends the approach of~\cite{EC:ACGKMR06} for determining the standard algebraic immunity.
 As with Algorithm~\ref{alg:RMApproach}, this procedure returns $0$ if the function $f$ is constant on $S$. Hence, we focus on explaining the case of determining $\AI_S(f)$ for functions such that $\AI_S(f) \geq 1$. (The full algorithm, however, also addresses functions with null $\AI_S$.)
 
@@ -701,7 +726,7 @@ Propositions \ref{prop:swappingElementOfZToReduceKer}, \ref{prop:upperBoundOnRig
     Suppose that $ker(V_k) = <\hat{g}_k> = <(\epsilon_1,\epsilon_2, \cdots, \epsilon_k )>$ and that it exists $j\geq 1$ such that $g(z_{k+j}) = 1$ but which is such that $(\epsilon_1, \epsilon_2, \cdots, \epsilon_k, 0) \in ker(V^{'}_{k+1})$.\\
     If $(\epsilon_1, \epsilon_2, \cdots, \epsilon_k, 0) \in ker(V^{'}_{k+1})$, then $(\epsilon_1, \epsilon_2, \cdots, \epsilon_k, 0) \cdot V^{'}_{k+1}= \hat{0}$. In particular, the last equation of the system of equation described by $(\epsilon_1, \epsilon_2, \cdots, \epsilon_k, 0) \cdot V^{'}_{k+1} = \hat{0}$, is 
     \begin{align}
-        \epsilon_1z_{k+j}^{\alpha_1} \oplus \cdots \oplus\epsilon_k z_{k+j}^{\alpha_k} \oplus 0 \cdot z_{k+j}^{\alpha_{k+1}} =  \epsilon_1z_{k+j}^{\alpha_1} \oplus \cdots \oplus \epsilon_k z_{k+j}^{\alpha_k} = 0
+        \epsilon_1z_{k+j}^{\alpha_1} + \cdots +\epsilon_k z_{k+j}^{\alpha_k} + 0 \cdot z_{k+j}^{\alpha_{k+1}} =  \epsilon_1z_{k+j}^{\alpha_1} + \cdots + \epsilon_k z_{k+j}^{\alpha_k} = 0
     \end{align}
     However, from our hypothesis, we have that
     \begin{align*}
@@ -713,7 +738,7 @@ Propositions \ref{prop:swappingElementOfZToReduceKer}, \ref{prop:upperBoundOnRig
             \vdots\\
             z_{k+j}^{\alpha_k}
         \end{pmatrix}
-        = \epsilon_1z_{k+j}^{\alpha_1} \oplus \cdots \oplus \epsilon_k z_{k+j}^{\alpha_k} = 1
+        = \epsilon_1z_{k+j}^{\alpha_1} + \cdots + \epsilon_k z_{k+j}^{\alpha_k} = 1
     \end{align*}
     Therefore it cannot be the case that $(\epsilon_1, \cdots, \epsilon_k, 0)$ is in the kernel of $V^{'}_{k+1}$.
 \end{proof}
@@ -742,8 +767,8 @@ Propositions \ref{prop:swappingElementOfZToReduceKer}, \ref{prop:upperBoundOnRig
                 However, from Proposition \ref{prop:swappingElementOfZToReduceKer}, this is only possible if $\hat{\epsilon}$ is a trivial solution.
                 \item if $\hat{z} = (\hat{y}, 1)$ with $\hat{y} \in \mathbb{F}_2^k$, we have that $\hat{z} \cdot V_{k+1} = 0$, hence
                 \begin{align*}
-                        Eq1: & \hat{y}  \cdot V_{k} \oplus (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}}) = 0 \iff \hat{y} \cdot V_{k} = (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}})\\
-                        Eq2: & (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} \oplus z_{k+1}^{\alpha_{k+1}} = 0 \iff (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} = z_{k+1}^{\alpha_{k+1}} 
+                        Eq1: & \hat{y}  \cdot V_{k} + (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}}) = 0 \iff \hat{y} \cdot V_{k} = (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}})\\
+                        Eq2: & (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} + z_{k+1}^{\alpha_{k+1}} = 0 \iff (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} = z_{k+1}^{\alpha_{k+1}} 
                 \end{align*}
                 Since $dim(ker(V_k)) = 1$, $rank(V_k) = k-1$ and hence it exists maximum one particular solution solving $Eq1$. Suppose such a solution is $\hat{y}_p$. If $\hat{y}_p$ also solves $Eq2$, $\hat{y}_p$ is an element of the kernel of $V_{k+1}$.
             \end{itemize}
@@ -911,8 +936,8 @@ As a consequence of Remark \ref{rem:historyOfOperations}, it can be seen that wh
     \end{align*}
 \end{remark}
 
-Algorithm \ref{alg:AlgOnF0}, shows the procedure to calculate the degree of the minimal degree non-zero-annihilator with degree $\geq 1$ restricted to $S\subseteq \mathbb{F}_2^n$ of a function $f^{(o)} \in \{f, f\oplus 1\}$, while Algorithm \ref{alg:fullAlg3ForAIRestrictesSetOpt} shows the full procedure to determine the restricted algebraic immunity of $f$ in $S$, calling Algorithm \ref{alg:AlgOnF0} for $f$ and $f\oplus 1$ in parallel.\\
-Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} which triggers the same process as Algorithm~\ref{alg:AlgOnF0}, but applies it sequentially to $f$ and $f \oplus 1$, to avoid waiting for both processes to complete simultaneously. This function is triggered only when $\mathrm{supp}(f) \cap S$ and $\mathrm{supp}(f \oplus 1) \cap S$ differ significantly in cardinality, as in such cases, the probability of one of the two processes terminating quickly is high.
+Algorithm \ref{alg:AlgOnF0}, shows the procedure to calculate the degree of the minimal degree non-zero-annihilator with degree $\geq 1$ restricted to $S\subseteq \mathbb{F}_2^n$ of a function $f^{(o)} \in \{f, f+ 1\}$, while Algorithm \ref{alg:fullAlg3ForAIRestrictesSetOpt} shows the full procedure to determine the restricted algebraic immunity of $f$ in $S$, calling Algorithm \ref{alg:AlgOnF0} for $f$ and $f+ 1$ in parallel.\\
+Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} which triggers the same process as Algorithm~\ref{alg:AlgOnF0}, but applies it sequentially to $f$ and $f + 1$, to avoid waiting for both processes to complete simultaneously. This function is triggered only when $\mathrm{supp}(f) \cap S$ and $\mathrm{supp}(f + 1) \cap S$ differ significantly in cardinality, as in such cases, the probability of one of the two processes terminating quickly is high.
 
 \begin{algorithm}\label{alg:AlgOnF0}
 	\caption{Algorithm to find the degree of the minimum-degree $S$-non-zero-annihilator of a function $f^{(o)}$}\label{alg:MinDegreeSnonZeroAnnihilatorIterative}
@@ -1075,7 +1100,7 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
     \end{algorithmic}
 \end{algorithm}
 
-\footnotetext[6]{The implementation of the function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} is similar to the function \textsc{find\_deg\_smallest\_S\_annihilator} described in Algorithm \ref{alg:MinDegreeSnonZeroAnnihilatorIterative} with the difference that the degree of the minimal degree restricted non-zero annihilator of $f$ or of $f\oplus 1$ is found sequentially instead of in parallel.}
+\footnotetext[6]{The implementation of the function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} is similar to the function \textsc{find\_deg\_smallest\_S\_annihilator} described in Algorithm \ref{alg:MinDegreeSnonZeroAnnihilatorIterative} with the difference that the degree of the minimal degree restricted non-zero annihilator of $f$ or of $f+ 1$ is found sequentially instead of in parallel.}
 
 \section{Applications to WAPB functions}
 In this section, we apply the algorithms to the weightwise perfectly balanced (WPB) Boolean functions with the intent to study their algebraic immunity restricted to subsets of constant Hamming weight. In particular, we determine the probability distributions of the $AI_K$ of $WPB$ functions and we compute the $AI_k$ of already published $WPB$ Boolean functions.
