@@ -82,43 +82,17 @@ For two functions $f$ and $g$ we denote by $\hd(f,g)$ the Hamming distance betwe
 
 \subsection{Ordering relations on \texorpdfstring{$\mathbb{F}_2^n$}{F\_2^n}}
 
-\pmnote{Why are ordering important for this project?
-
-@Luca, do you use the fact that the order is on a field? I think the structure of field has no importance here, the order relation is on the binary strings of length n. 
-In this case, it could be shortened, defining the orders in a standard way on $\{0,1\}^n$ and saying it applies to  $\F_2^n$ (since $\F_2^n$ is the set of binary strings of length n, with the coordinate wise XOR and coordinate wise AND).
-
-}
-
-
-
-
 Let $n\in \N^*$
-\begin{definition}[Tot-WOrd relation on a field]\label{def:orderingOnK}
-	Let $K$ be a field. We define a Tot-WOrd ordering relation $<_{Ord_K}$ as a total and well-ordering relation on $K$, that is
-	\begin{itemize}
-		\item $<_{Ord_K}$ is a total ordering in $K^{n}$
-		\item Let $\alpha, \beta, \gamma \in K$, if $\beta <_{Ord_K} \alpha$ then $\beta + \gamma <_{Ord_k} \alpha + \gamma$
-		\item Any non-empty subset of $K$, has a smaller element under $<_{Ord_K}$: if $S \subset K \neq \emptyset$, then there is a $\alpha$ such that $\alpha <_{Ord_K} \beta$ for every $\beta \in S$ such that $\beta \neq \alpha$. 
-	\end{itemize}
-\end{definition}
+Two ordering relations in $\mathbb{F}_2^n$ are used: the \textit{lexicographic} and the \textit{graded lex} order.
 
-\begin{definition}[Tot-WOrd relation on $\F_2^n$]\label{def:OrderingOnF2n}
-	a Tot-WOrd ordering relation $ord$ on $\F_2^n$ is a total ordering $<_{ord_{\F_n^2}}$ between elements of $\F_2^n$.\\
-	Since in the document we only consider total, well ordered orderings, we omit the Tot-WOrd prefix in the ordering name: we call Tot-WOrd ordering relation on $\mathbb{F}_2^n$ as an \textit{ordering relation} on $\mathbb{F}_2^n$. 
-\end{definition}
-
-Two ordering relations in $\mathbb{F}_2^n$ are used in this project: the \textit{lexicographic} and the \textit{graded lex} order.
-
-\pmnote{ In the following the coordinates are written from n to 1, and from 1 to n in the other definitions. Is there a particular reason?}
+\pmnote{ In the following the coordinates are written from n to 1, and from 1 to n in the other definitions. Is there a particular reason?}\\
+\lbnote{Normally, the coordinates of an element in $\mathbb{F}_2^n$ are now written from n to 1 everywhere. But I will double-check this.}
 
 
 \begin{definition}[Lexicographic order]
-	Let $\alpha = (\alpha_n, \alpha_{n-1}, \cdots, \alpha_1) \in \mathbb{F}_2^n$ and $\beta = (\beta_n, \beta_{n-1}, \cdots, \beta_1) \in \mathbb{F}_2^n$.\\
+	Let $\alpha = (\alpha_n, \alpha_{n-1}, \cdots, \alpha_1) \in \mathbb{F}_2^n$ and $\beta = (\beta_n, \beta_{n-1}, \cdots, \beta_1) \in \mathbb{F}_2^n$.\\	
 	
-	\pmnote{In the last part, why are there hat on $\alpha$ and $\beta$?}
-	
-	
-	The \textit{lexicographic} ordering relation on $\mathbb{F}_2^n$ is a ordering relation $<_{lex}$ on $\mathbb{F}_2^n$ such that $\beta <_{lex} \alpha$ if the leftmost nonzero entry of the vector difference $\hat{\alpha}-\hat{\beta}$ is positive.
+	The \textit{lexicographic} ordering relation on $\mathbb{F}_2^n$ is a ordering relation $<_{lex}$ on $\mathbb{F}_2^n$ such that $\beta <_{lex} \alpha$ if the leftmost nonzero entry of the vector difference $\alpha-\beta$ is positive.
 \end{definition}
 
 \begin{definition}[Graded Lex order]
@@ -139,14 +113,12 @@ Two ordering relations in $\mathbb{F}_2^n$ are used in this project: the \textit
 	\begin{align*}
 	s_{\sigma(i)} <_{ord} s_{\sigma(j)} \mbox{ for } i<j
 	\end{align*}
-\end{definition}
-
-\begin{definition}[Lexicographical order relation on a set]
-	We define the function $Lex: S = \{s_1, s_2, \cdots, s_{|S|}\} \subseteq \mathbb{F}_2^n \mapsto \left(s_{\sigma(s)}\right)_{s\in S} = \left(s_{\sigma(1)}, s_{\sigma(2)}, \cdots, s_{\sigma(|S|)}\right)$, where $\sigma$ is such that $s_{\sigma(i)} \leq_{lex} s_{\sigma(j)}$ for $i<j$:
-\end{definition}
-
-\begin{definition}[Graded Lex order relation on a set]
-	We define the function $GrLex: S = \{s_1, s_2, \cdots, s_{|S|}\} \subseteq \mathbb{F}_2^n \mapsto \left(s_{\sigma(s)}\right)_{s\in S} = \left(s_{\sigma(1)}, s_{\sigma(2)}, \cdots, s_{\sigma(|S|)}\right)$, where $\sigma$ is such that $s_{\sigma(i)} <_{grlex} s_{\sigma(j)}$ for $i<j$:
+    In particular, we define the \textit{lexicographical set order relation}, by the function 
+    $$Lex: S = \{s_1, s_2, \cdots, s_{|S|}\} \subseteq \mathbb{F}_2^n \mapsto \left(s_{\sigma(s)}\right)_{s\in S} = \left(s_{\sigma(1)}, s_{\sigma(2)}, \cdots, s_{\sigma(|S|)}\right)$$
+    where $\sigma$ is such that $s_{\sigma(i)} \leq_{lex} s_{\sigma(j)}$ for $i<j$\\
+    and the \textit{Graded Lex set order relation} by the function 
+    $$GrLex: S = \{s_1, s_2, \cdots, s_{|S|}\} \subseteq \mathbb{F}_2^n \mapsto \left(s_{\sigma(s)}\right)_{s\in S} = \left(s_{\sigma(1)}, s_{\sigma(2)}, \cdots, s_{\sigma(|S|)}\right)$$
+    where $\sigma$ is such that $s_{\sigma(i)} <_{grlex} s_{\sigma(j)}$ for $i<j$.
 \end{definition}
 
 \subsection{Boolean functions, cryptographic criteria, and weightwise properties}
@@ -217,18 +189,17 @@ The (algebraic) degree of $f$, denoted $\degg(f)$ is: \[\degg(f)=\
 \max_{I\subseteq [1,n]}\{ |I|\, | \, a_I=1\}  \text{ if $f$ is not null},0  \text{ otherwise}.\]
 \end{definition}	
 
-
-\pmnote{Why is the Lex order appearing in the definitions? Is it a particularity of the object, or a convention taken for the implementation?
-}
-
-
-\begin{definition}[Truth table]
-	Let $f\in \Bn{n}$ be a Boolean function, and $X = Lex\left(dom(f)\right) = \{x_1, x_2, \cdots, x_{|X|}\}$ it's domain ordered in lexicographical order.\\
+\begin{definition}[Truth table]\label{def:trutthTable}
+	Let $f\in \Bn{n}$ be a Boolean function, and $X = dom(f) = \{x_1, x_2, \cdots, x_{|X|}\}$ it's domain ordered in lexicographical order.\\
 	The truth table of the Boolean function $f$ is the function $TT$ defines as
 	\begin{align*}
 	TT: \Bn{n} \rightarrow \mathbb{F}_2^{2^n},\  f \mapsto \left(f(x_i)\right)_{1\leq i \leq |X|} = \left(f(x_1), f(x_2), \cdots, f(x_{|X|})\right)
 	\end{align*}
 \end{definition}
+
+\begin{remark}
+    We consider the set $X$ in definition \ref{def:trutthTable} to be in lexicographic order, in such a way that $X = Lex\left(dom(f)\right)$.
+\end{remark}
 
 \begin{definition}[Restriction of $f$ on $S$]
 	Let $f$ be a Boolean function and $S\subseteq \mathbb{F}_2^n$, the restriction of $f$ on $S$ is given by the function $f_S$ whose truth table is
@@ -493,8 +464,8 @@ Let $r,n\in\N^*$ with $r\leq n$. Let $G_{r,n}$ be the generator matrix of the Re
 	Let $g \in \Bn{n}$ a Boolean function of degree $r\leq n$ and $\hat{a} = \left(a_I\right)_{\substack{I \subseteq [1,n] \\ deg\left(x^I\right) \leq r}}$ be the vector of the coefficients of the $ANF$ of $g$, as a consequence of the construction of $G_{r,n}^{f,S}$, we have that
 	\begin{equation}
 	\begin{aligned}
-	\hat{a} \cdot G_{r,n}^{f_S,S} & = \left(\bigoplus_{i=1}^{D_r^n}a_i f_S(u_1)(G_{r,n}^S)_{i,1}, \bigoplus_{i=1}^{D_r^n}a_i f_S(u_2)(G_{r,n}^S)_{i,2}, \cdots, \bigoplus_{i=1}^{D_r^n}a_i f_S(u_n)(G_{r,n}^S)_{i,n}\right)     \\
-	& =  \left(f_S(u_1) \bigoplus_{i=1}^{D_r^n}a_i (G_{r,n}^S)_{i,1}, f_S(u_2) \bigoplus_{i=1}^{D_r^n}a_i (G_{r,n}^S)_{i,2}, \cdots, f_S(u_n) \bigoplus_{i=1}^{D_r^n}a_i (G_{r,n}^S)_{i,n}\right) \\
+	\hat{a} \cdot G_{r,n}^{f_S,S} & = \left(\sum_{i=1}^{D_r^n}a_i f_S(u_1)(G_{r,n}^S)_{i,1}, \sum_{i=1}^{D_r^n}a_i f_S(u_2)(G_{r,n}^S)_{i,2}, \cdots, \sum_{i=1}^{D_r^n}a_i f_S(u_n)(G_{r,n}^S)_{i,n}\right)     \\
+	& =  \left(f_S(u_1) \sum_{i=1}^{D_r^n}a_i (G_{r,n}^S)_{i,1}, f_S(u_2) \sum_{i=1}^{D_r^n}a_i (G_{r,n}^S)_{i,2}, \cdots, f_S(u_n) \sum_{i=1}^{D_r^n}a_i (G_{r,n}^S)_{i,n}\right) \\
 	& = \left(f_S(u_1) g(u_1), f_S(u_2) g(u_2), \cdots, f_S(u_n) g(u_n)\right)                                                                                      \\
 	& = f_S \cdot g
 	\end{aligned}
@@ -544,21 +515,21 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 		\Ensure $\AI_S(f)$
 		
 		\Function{find\_deg\_smallest\_S\_annihilator}{$G_{n,n}^{f_Z^{(o)},S}, G_{d,n}^{S}, D^n$}
-		\State $r \gets 0$
-		\State $i \gets 0$
-		\State $ef_f, ef_S \gets null, null$
-		\State $previousIndex \gets 0$
+		\State $r \gets 0$;
+		\State $i \gets 0$;
+		\State $ef_f, ef_S \gets null, null$;
+		\State $previousIndex \gets 0$;
 		\While{$r \leq |S| /2$}
-		\State $D_i^n \gets D^n[i]$
-		\State $ef_f\gets \mbox{\textsc{row\_echelon\_form\_last\_}}D_i^n\mbox{\textsc{\_rows}}\left(ef_f\ ||\  G_{n,n}^{f_Z^{(o)},S}[previousIndex:D_i^n]\right)$\footnotemark
-		\State $ef_S \gets \mbox{\textsc{row\_echelon\_form\_last\_}}D_i^n\mbox{\textsc{\_rows}}\left(ef_S\ ||\ G_{n,n}^S[previousIndex:D_i^n]\right)$
-		\State $r \gets rank\left(ef_S\right)$
+		\State $D_i^n \gets D^n[i]$;
+		\State $ef_f\gets \mbox{\textsc{echelon\_form\_last\_}}D_i^n\mbox{\textsc{\_rows}}\left(ef_f\ ||\  G_{n,n}^{f_Z^{(o)},S}[previousIndex:D_i^n]\right)$\footnotemark;
+		\State $ef_S \gets \mbox{\textsc{echelon\_form\_last\_}}D_i^n\mbox{\textsc{\_rows}}\left(ef_S\ ||\ G_{n,n}^S[previousIndex:D_i^n]\right)$;
+		\State $r \gets rank\left(ef_S\right)$;
 		\If{$rank\left(ef_f\right)<r$}
 		\State
-		\Return $i$
+		\Return $i$;
 		\EndIf
-		\State $previousIndex \gets D_i^n$
-		\State $i \gets i+1$
+		\State $previousIndex \gets D_i^n$;
+		\State $i \gets i+1$;
 		\EndWhile
 		\EndFunction
 		\State
@@ -566,25 +537,25 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 		\If{\textsc{is\_constant}$(x)$}
 		\Return $0$
 		\EndIf
-		\State $m_{max}, D^{\leq n_{max}}\gets \mbox{\textsc{read\_values\_from\_file}}()$
-		\State $G_{n,n}\gets m_{max}[n]$
-		\State $D^n \gets D^{\leq n_{max}}[n]$
-		\State $G_{rows,n}^{f_Z,S}, G_{rows,n}^{(f+ 1)_Z,S}, G_{n,n}^S \gets [\ ], [\ ], [\ ]$
+		\State $m_{max}, D^{\leq n_{max}}\gets \mbox{\textsc{read\_values\_from\_file}}()$;
+		\State $G_{n,n}\gets m_{max}[n]$;
+		\State $D^n \gets D^{\leq n_{max}}[n]$;
+		\State $G_{rows,n}^{f_Z,S}, G_{rows,n}^{(f+ 1)_Z,S}, G_{n,n}^S \gets [\ ], [\ ], [\ ]$;
 		\For {$i \gets 0$ to $2^n-1$ }
 		\If{$i\in S$}
-		\State $G_{rows,n}^{S} \gets G_{rows,n}^{S}\ ||\ G_{n,n}[:][i]$
+		\State $G_{rows,n}^{S} \gets G_{rows,n}^{S}\ ||\ G_{n,n}[:][i]$;
 		\If{$x[i] = 1$}
-		\State $G_{rows,n}^{f_S,S} \gets G_{rows,n}^{f_S,S}\ ||\ G_{n,n}[:][i]$
+		\State $G_{rows,n}^{f_S,S} \gets G_{rows,n}^{f_S,S}\ ||\ G_{n,n}[:][i]$;
 		\Else
-		\State $G_{rows,n}^{(f+ 1)_S,S}.append\left(G_{n,n}[:][i]\right)$
+		\State $G_{rows,n}^{(f+ 1)_S,S}.append\left(G_{n,n}[:][i]\right)$;
 		\EndIf
 		\EndIf
 		\EndFor
 		\State $immunity_f, immunity_{f+1} \leftarrow ($\\
 		$\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(G_{rows,n}^{f_Z,S}, G_{n,n}^S,D^{n})$\\
 		$\ |\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(G_{rows,n}^{(f+ 1)_Z,S}, G_{n,n}^S, D^{n})$\\
-		$)$
-		\State \Return $\mbox{\textsc{min}}(immunity_f, immunity_{f+1})$\footnotemark
+		$)$;
+		\State \Return $\mbox{\textsc{min}}(immunity_f, immunity_{f+1})$\footnotemark;
 	\end{algorithmic}
 \end{algorithm}
 
@@ -810,11 +781,8 @@ In this case $\hat{z} \cdot V_{k+1} = 0$ implies:
  \hat{y}  \cdot V_{k} + (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}}) = 0 \iff \hat{y} \cdot V_{k} = (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}}),
 \end{equation}
 and 
-
-\pmnote{why is y on the right side for the second equation?}
-
 \begin{equation}\label{Eq:eq2}
-(z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} + z_{k+1}^{\alpha_{k+1}} = 0 \iff (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} = z_{k+1}^{\alpha_{k+1}}.
+\hat{y} \cdot (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T + z_{k+1}^{\alpha_{k+1}} = 0 \iff \hat{y} \cdot (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T = z_{k+1}^{\alpha_{k+1}}.
 \end{equation}	
 %\[
 %\hat{z} \cdot V_{k+1} = 0 \implies 
@@ -908,6 +876,9 @@ Since $(\hat{\epsilon}, 0)$  cannot be in \( \text{ker}(V_{k+1}) \), the only po
 \pmnote{corrections paused here}
 
 
+\begin{definition}[Column Echelon form]
+    Let $k_r,k_c\in \mathbb{N}_{>0}$ and $M \in Mat_{k_r,k_c}$ be a matrix of $k_r$ rows and $k_c$ columns. We denote by $EF: Mat_{k_r,k_c} \rightarrow Mat_{k_r,k_c}$, the function transforming a matrix to its column echelon form.    
+\end{definition}
 
 For each iteration $k$ of the algorithm, the matrix $V_k$ already contains the sub-matrix $V_{k-1}$. It is therefore possible to compute the column echelon form of $V_{k-1}$ and use it to compute the column echelon form of $V_{k}$. In such a way, the matrix $V_k$ would already contain the sub-matrix $EF(V_{k-1})$ which is already in column echelon form, allowing to reduce the number of steps needed to compute the rank of $V_k$.\\
 To be able to apply such a method, however, we have to be careful when we are squarely constructing the matrix; at each step, we are appending rows to the matrix, therefore, to compute $EF\left(V_k\right)$ have to keep track of all the columns operation performed to compute $EF\left(V_j\right)$ for all $j<k$ and apply them before computing $EF\left(V_k\right)$.\\
@@ -1048,44 +1019,44 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 		\Require restricted set $S\subseteq \mathbb{F}_2^n$, $Z = supp\left(f^{(o)}\right) \cap S$ and $E = \{\alpha_1, \cdots, \alpha_{D_n^n}\}$
 		\Ensure Degree of minimal degree $S$-non-zero-annihilator of $f^{(o)}$.
 		\State
-		\State $V\gets (1)$
-		\State $ops \gets [\ ]$
-		\State $k \gets 2$
+		\State $V\gets (1)$;
+		\State $ops \gets [\ ]$;
+		\State $k \gets 2$;
 		\While{$k\leq |Z|$}
-		\State $V_{previous} \gets V$
-		\State $\left(v_1, \cdots, v_{k-1}\right) \gets \mbox{\textsc{apply\_operations}}\left(\left(z_1^{\alpha_k}, \cdots, z_{k-1}^{\alpha_k}\right), ops\right)$\footnotemark
+		\State $V_{previous} \gets V$;
+		\State $\left(v_1, \cdots, v_{k-1}\right) \gets \mbox{\textsc{apply\_operations}}\left(\left(z_1^{\alpha_k}, \cdots, z_{k-1}^{\alpha_k}\right), ops\right)$\footnotemark;
 		\State  $M \gets \begin{pmatrix}
 		\multicolumn{4}{c}{\multirow{4}{*}{$V$}} & z_k^{\alpha_1}\\
 		& & & & z_k^{\alpha_2}\\
 		& & & & \vdots\\
 		& & & & z_k^{\alpha_{k-1}}\\
 		v_1 & v_1& \cdots & v_{k-1} & z_k^{\alpha_k}
-		\end{pmatrix}$
-		\State $V, ops_k\gets \mbox{\textsc{echelon\_form\_last\_col}}(M)$
+		\end{pmatrix}$;
+		\State $V, ops_k\gets \mbox{\textsc{EF\_last\_col}}(M)$\footnotemark;
 		\If{$rank(V) < k$}
-		\State $k \gets kernel\left(V\right).base()$
-		\State $\hat{g} \gets k[0]$
-		\State $nonVanishingPointIndex, vanishingFlag \gets Null, True$
+		\State $k \gets kernel\left(V\right).base()$;
+		\State $\hat{g} \gets k[0]$;
+		\State $nonVanishingPointIndex, vanishingFlag \gets Null, True$;
 		\ForAll{$z\in Z\backslash Z_k$}
-		\State $vanishCheck, NonVanishingPointIndex \gets \mbox{\textsc{vanishes\_on}}(\hat{g}, z)$\footnotemark
+		\State $vanishCheck, NonVanishingPointIndex \gets \mbox{\textsc{vanishes\_on}}(\hat{g}, z)$\footnotemark;
 		\If{$vanishCheck = False$}
-		\State $vanishingFlag \gets False$
-		\State \textbf{break}
+		\State $vanishingFlag \gets False$;
+		\State \textbf{break};
 		\EndIf
 		\ForAll{$z_c \in S\backslash Z$}
-		\State $vanishCheckOnS \gets \mbox{\textsc{vanishes\_on}}(\hat{g}, z)$
+		\State $vanishCheckOnS \gets \mbox{\textsc{vanishes\_on}}(\hat{g}, z)$;
 		\If{$vanishCheckOnS = False$}
-		\State \Return $w_H\left(\alpha_i\right)$
+		\State \Return $w_H\left(\alpha_i\right)$;
 		\EndIf
 		\EndFor
-		\State $V\gets V_{previous}$
-		\State $\mbox{\textsc{remove}}(E, \alpha_i)$
-		\State \textbf{continue}
+		\State $V\gets V_{previous}$;
+		\State $\mbox{\textsc{remove}}(E, \alpha_i)$;
+		\State \textbf{continue};
 		\EndFor
-		\State $zIndex \gets k+nonVanishingPointIndex$
-		\State $Z \gets \mbox{\textsc{swap}}(z_{k+1}, z_{zIndex})$\footnotemark
-		\State $ops\gets ops\ ||\ ops_k$
-		\State $k\gets k+1$
+		\State $zIndex \gets k+nonVanishingPointIndex$;
+		\State $Z \gets \mbox{\textsc{swap}}(z_{k+1}, z_{zIndex})$\footnotemark;
+		\State $ops\gets ops\ ||\ ops_k$;
+		\State $k\gets k+1$;
 		\EndIf
 		\EndWhile
 		\State \CommentSty{// The algorithm continues in the next page: Algorithm \ref{alg:continueationMinDegreeSnonZeroAnnihilatorIterative}.}
@@ -1097,36 +1068,36 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 	\caption{Continuation of Algorithm \ref{alg:MinDegreeSnonZeroAnnihilatorIterative}.}\label{alg:continueationMinDegreeSnonZeroAnnihilatorIterative}
 	\begin{algorithmic}
 		\algrestore{algo}
-		\State $S, ops_S \gets echelonFromFullMarix\left(
+		\State $S, ops_S \gets \mbox{\textsc{EF}}\left(
 		\begin{pmatrix}
 		s_1^{\alpha_1} &  s_2^{\alpha_1} & \cdots & s_{|S|}^{\alpha_{1}}\\
 		\vdots &  \vdots & \ddots & \vdots\\
 		s_{1}^{\alpha_k} &  s_{2}^{\alpha_k} & \cdots & s_{|S|}^{\alpha_{k}}\\
-		\end{pmatrix}\right)$
-		\State $r \gets rank(S)$
+		\end{pmatrix}\right)$;
+		\State $r \gets rank(S)$;
 		\If{$tank(V)<r$ }
-		\State \Return $w_H\left(\alpha_k\right)$
+		\State \Return $w_H\left(\alpha_k\right)$;
 		\EndIf
-		\State $r_V \gets rabk(V)$
-		\State $fullRank \gets False$
+		\State $r_V \gets rabk(V)$;
+		\State $fullRank \gets False$;
 		\While{$r\leq \lfloor|S| / 2\rfloor$}
 		\If{$fullRank = False$ and $r_v != k$}
 		\State $\left(v_1, \cdots, v_{k-1}\right) \gets \mbox{\textsc{apply\_operations}}\left(\left(z_1^{\alpha_k}, \cdots, z_{k-1}^{\alpha_k}\right), ops\right)$ 
 		\State $V \gets \begin{pmatrix}
 			\multicolumn{5}{c}{\multirow{1}{*}{$V$}} \\
 			v_1 & v_2 & \cdots & v_{k-1} & z_{k}^{\alpha_k}
-		\end{pmatrix}$
-		\State $r_V \gets rank(V)$
-		\State $fullRank \gets True$
+		\end{pmatrix}$;
+		\State $r_V \gets rank(V)$;
+		\State $fullRank \gets True$;
 		\EndIf
-		\State $\left(v_1, \cdots, v_{k-1}\right) \gets \mbox{\textsc{apply\_operations}}\left(\left(s_1^{\alpha_k}, \cdots, s_{k-1}^{\alpha_k}\right), ops_S\right)$ 
+		\State $\left(v_1, \cdots, v_{k-1}\right) \gets \mbox{\textsc{apply\_operations}}\left(\left(s_1^{\alpha_k}, \cdots, s_{k-1}^{\alpha_k}\right), ops_S\right)$;
 		\State $S \gets \begin{pmatrix}
 		\multicolumn{5}{c}{\multirow{1}{*}{$S$}} \\
 		s_1 & s_2 & \cdots & s_{k-1} & s_{k}^{\alpha_k}
-		\end{pmatrix}$
-		\State $r \gets rank(S)$
+		\end{pmatrix}$;
+		\State $r \gets rank(S)$;
 		\If{$r_V < r$}
-		\State \Return $w_H\left(\alpha_k\right)$
+		\State \Return $w_H\left(\alpha_k\right)$;
 		\EndIf
 		\EndWhile
 	\end{algorithmic}
@@ -1148,27 +1119,15 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 \end{remark}
 
 \footnotetext[3]{\textsc{apply\_operations} is a function taking a vector and the list of column operations described by $P_{k-1}$ in Remark \ref{rem:historyOfOperations}}
-\footnotetext[4]{\textsc{vanished\_on} is a function taking as input the vector of the $ANF$ coefficient of a Boolean function $g \in \Bn{n}$ and a point $z$ on which to evaluate the corresponding Boolean function $g$. If $g$ vanished is $z$ it returns $True$ otherwise it returns $False$. }
-\footnotetext[5]{See Remark \ref{rem:permutationClarification}}
+\footnotetext[4]{The implementation of \textsc{EF\_last\_col} is different from the implementation of \textsc{EF}, as it uses the fact that it only needs to column-echelon the last row and column added instead of the full matrix. }
+\footnotetext[5]{\textsc{vanished\_on} is a function taking as input the vector of the $ANF$ coefficient of a Boolean function $g \in \Bn{n}$ and a point $z$ on which to evaluate the corresponding Boolean function $g$. If $g$ vanished is $z$ it returns $True$ otherwise it returns $False$. }
+\footnotetext[6]{See Remark \ref{rem:permutationClarification}}
 
 \begin{algorithm}[H]\label{alg:fullAlg3ForAIRestrictesSetOpt}
     \caption{Algorithm to compute the algebraic immunity of a function $f\in \Bn{n}$ restricted to $S$}
     \begin{algorithmic}[1]
         \Require $x\in \mathbb{F}_2^{2^n}$ evaluation of the truth table of $f\in \Bn{n}$ and the restricted set $S\subseteq \mathbb{F}_2^n$.
 		\Ensure $\AI_S(f)$
-        \State
-
-        \Function{construct\_monomials}{$n,d$}
-        \State $E \leftarrow [\ ]$\;
-        \For{$i \leftarrow 0$ \textbf{to} $d$}
-            \State $binaryStr\leftarrow array\left((0)_{2,n}\right)$;
-            \For{$c_i \in combinations(n, i)$}
-                \State $binaryStr[c_i] = "1"$;
-            \EndFor
-            \State $E \gets E || binaryStr$;
-        \EndFor
-        \State \Return $E$;
-		\EndFunction
         \State
 
         \State $Z \leftarrow []$;
@@ -1189,21 +1148,22 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
         \EndIf
         \State
 
-        \State $E \leftarrow \mbox{\textsc{construct\_monomials}}(n=n, d=n)$\;
+        \State $E_{D_n^n} \leftarrow \mbox{\textsc{construct\_monomials}}(n=n, d=n)$\footnotemark;
         \State $r\gets \frac{Z}{Z_c}$\;
         \If{$1/ratio < r < ratio$}
             \State $immunity_f, immunity_{f+1} \leftarrow ($\\
-		$\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(Z=Z, E=E, S=S)$\\
-		$\ |\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(Z=Z_c, E=E, S=S)$\\
+		$\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(Z=Z, E=E_{D_n^n}, S=S)$\\
+		$\ |\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(Z=Z_c, E=E_{D_n^n}, S=S)$\\
 		$)$;
-            \State \Return $min{\left(immunity_f, immunity_{f+1}\right)}$
+            \State \Return \textsc{min}$\left(immunity_f, immunity_{f+1}\right)$;
         \Else
-            \State \Return $\mbox{\textsc{find\_deg\_smallest\_S\_annihilator\_seq}}(Z=Z, Z_c, E=E, S=S))$\footnotemark;
+            \State \Return $\mbox{\textsc{find\_deg\_smallest\_S\_annihilator\_seq}}(Z=Z, Z_c, E=E_{D_n^n}, S=S))$\footnotemark;
         \EndIf
     \end{algorithmic}
 \end{algorithm}
 
-\footnotetext[6]{The implementation of the function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} is similar to the function \textsc{find\_deg\_smallest\_S\_annihilator} described in Algorithm \ref{alg:MinDegreeSnonZeroAnnihilatorIterative} with the difference that the degree of the minimal degree restricted non-zero annihilator of $f$ or of $f+ 1$ is found sequentially instead of in parallel.}
+\footnotetext[7]{The implementation of the function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} is similar to the function \textsc{find\_deg\_smallest\_S\_annihilator} described in Algorithm \ref{alg:MinDegreeSnonZeroAnnihilatorIterative} with the difference that the degree of the minimal degree restricted non-zero annihilator of $f$ or of $f+ 1$ is found sequentially instead of in parallel.}
+\footnotetext[8]{\textsc{construct\_monomials} generates all monomials up to the gree $d$ with $n$ variables. $E_{D_n^n}$ may also be pre-computed and the function \textsc{construct\_monomials} removed from the algorithm.}
 
 \section{Applications to WAPB functions}
 In this section, we apply the algorithms to the weightwise perfectly balanced (WPB) Boolean functions with the intent to study their algebraic immunity restricted to subsets of constant Hamming weight. In particular, we determine the probability distributions of the $AI_k$ of WPB functions and we compute the $AI_k$ of some WPB Boolean functions already studied.
