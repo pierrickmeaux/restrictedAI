@@ -19,6 +19,8 @@
 \usepackage{placeins}
 
 \begin{document}
+	
+\setcounter{page}{1}
 	\title{Title}
 
 	
@@ -453,7 +455,7 @@ In this section we provide an algorithm to compute the algebraic immunity of a B
 
 
 The algorithm aims to determine whether the systems of equations $S_1^r \hat{=}g_1^r*f_S (x)= \hat{0}$ or $S_2^r\hat{=}g_2^r (f+ 1)_S (x) = \hat{0}$ admit a non-zero solution for $x \in \F_2^n$, where $g_1^r$ and $ g_2^r$ are Boolean functions of algebraic degree at most $ r$. 
-This is achieved by examining whether the rank of the punctured Reed-Muller (RM) matrices is smaller than one with the columns corresponding to the entire $S$.
+This is achieved by examining whether the rank of one of the punctured Reed-Muller (RM) matrices is smaller than one with the columns corresponding to the entire $S$.
 If $f$ is non-constant on $S$, the algorithm searches for the existence of either $g_1^r$ solving $S_1^r$ or $g_2^r$ solving $S_2^r$, where neither function vanishes over the entire set \( S \). 
 If such solutions \( g_1^r \) or \( g_2^r \) do not exist, new systems \( S_1^{r+1} \) and \( S_2^{r+1} \) are considered (through bigger matrices), and the search for solutions \( g_1^{r+1} \) and \( g_2^{r+1} \) continues. This iterative process is repeated until either an annihilator of \( f \) or \( f + 1 \) is found or an upper bound \( r + \delta \) is reached. The procedure for \( f_S \) and \( (f + 1)_S \) is carried out in parallel.
 Conversely, if \( f \) is constant on \( S \), the algorithm terminates and returns \( 0 \), as justified by Proposition~\ref{prop:constantFs}.
@@ -485,14 +487,15 @@ Conversely, if \( f \) is constant on \( S \), the algorithm terminates and retu
 \end{proof}
 
 
-The matrices corresponding to systems of equations $S_1^r$ and $S_2^r$ are constructed by extracting the \textit{$S$-$f$-generator} and the \textit{$S$-$f+1$-generator} given by Definition \ref{def:generatorsS}, by extracting them from the \textit{Reed-Muller} generator matrix where we only consider the columns corresponding to elements in $S$. This is justified by Remark \ref{rem:gfMatrix}.
+The matrices corresponding to systems of equations $S_1^r$ and $S_2^r$ are constructed by extracting the $S$-$f$-generator and the $S$-$(f+1)$-generator given by Definition~\ref{def:generatorsS}, by extracting them from the Reed-Muller generator matrix where we only consider the columns corresponding to elements in $S$. 
+This is justified by Remark~\ref{rem:gfMatrix}.
 
 
 
 \begin{definition}\label{def:generatorsS}
 Let $r,n\in\N^*$ with $r\leq n$. Let $G_{r,n}$ be the generator matrix of the Reed-Muller code $RM(r,n)$, we define the object $G_{r,n}^{f^{(o)}_S,S}$ by setting to zero all the columns of $G_{r,n}^S$ which do not correspond to elements of $supp(f^{(o)} )\cap S$. For the remaining columns, we calculate $G_{r,n}^{f_S^{(o)},S}$ as
 	\begin{align*}
-	\left(G_{r,n}^{f^{(o)}_S,S}\right)_{i,j} = f_S^{(o)}(u_j)*\left(G_{r,n}^S\right)_{i,j}, \ u_j \in S
+	\left(G_{r,n}^{f^{(o)}_S,S}\right)_{i,j} = f_S^{(o)}(u_j) \cdot \left(G_{r,n}^S\right)_{i,j}, \ u_j \in S
 	\end{align*}
 	Moreover, we define the object $G_{r,n}^{f^{(o)}_{supp\left(f^{(o)}\right) \cap S},S}$, by taking all the columns of $G_{r,n}$ which corresponds to element of $\mathbb{F}_2^n$ which are in $supp\left(f^{(o)}\right) \cap S$.
 	\begin{align}
@@ -664,7 +667,9 @@ We begin with definitions and remarks necessary to introduce the general idea of
 \end{definition}
 
 \begin{remark}\label{rem:subsetOfReedMuller}
-    Let $S\subseteq \mathbb{F}_2^n$, $f \in \Bn{n}$, $Z = supp(f) \cap S$ and $d \leq n$. Let $E = GrLex(\{\alpha_2, \alpha_2, \cdots, \alpha_{D_d^n}\})$ be such that $x^E$ is the set of all monomials with degree at most $d$ ordered by the \textit{graded lex order}. The following remarks are made
+Let $E = GrLex(\{\alpha_2, \alpha_2, \cdots, \alpha_{D_d^n}\})$ be such that $x^E$ is the set of all monomials with degree at most $d$ ordered by the graded lex order. 
+    We remark the following:
+    %The following remarks are made
     \begin{itemize}
         \item $V_{E,Z} = G_{d,n}^{f_{Z},S}$.
         \item Let $E^{*}\subset E$, ordered by graded lex ordering. $V_{Z,E^{*}}$ is a sub-matrix of $G_{d,n}^{f_Z, S}$.
@@ -672,7 +677,8 @@ We begin with definitions and remarks necessary to introduce the general idea of
 \end{remark}
 
 \begin{remark}\label{rem:squareConstruction}
-    Let $i\geq 1$. We have that if $1< i+1 \leq \min{\left(|Z|, |E_{D_n^n}|\right)}$, $V_{Z_{i+1}, E_{i+1}}$ can be computed as
+ %   Let $i\geq 1$. We have that if $1< i+1 \leq \min{\left(|Z|, |E_{D_n^n}|\right)}$, $V_{Z_{i+1}, E_{i+1}}$ can be computed as
+ Let $i\geq 1$. If $1< i+1 \leq \min{\left(|Z|, |E_{D_n^n}|\right)}$, then $V_{Z_{i+1}, E_{i+1}}$ can be computed as
     \begin{align*}
         V_{E_{i+1}, Z_{i+1}} = 
         \begin{pmatrix}
@@ -681,7 +687,7 @@ We begin with definitions and remarks necessary to introduce the general idea of
         & & & & \vdots\\
         & & & & z_{i+1}^{\alpha_{i}}\\
         z_1^{\alpha_{i+1}} & z_2^{\alpha_{i+1}}& \cdots & z_{i}^{\alpha_{i+1}} & z_{i+1}^{\alpha_{i+1}}
-    \end{pmatrix}
+    \end{pmatrix}.
     \end{align*}
     This can be seen by combining Definition \ref{def:tVandermonde} and the fact that for all $i$ such that $1< i+1 \leq \min{\left(|Z|, |E|-1\right)}$, the matrix $V_{Z_{i+1}, E_{i+1}}$ is square.
 \end{remark}
@@ -697,14 +703,14 @@ We begin with definitions and remarks necessary to introduce the general idea of
         & & & & \vdots\\
         & & & & z_k^{\alpha_{k-1}}\\
         z_1^{\alpha_{k}} & z_{2}^{\alpha_k}& \cdots & z_{k-1}^{\alpha_{k}} & z_{k}^{\alpha_{k}}
-    \end{pmatrix} & \mbox{ if } 2\leq k \leq \min{\left(|Z|, |E_{D_{\lceil{n/2}\rceil-1}^n}|\right)}\\
+    \end{pmatrix} & \mbox{ if } 2\leq k \leq \min{\left(|Z|, |E_{D_{\lceil{n/2}\rceil-1}^n}|\right)},\\
     \begin{pmatrix}
         \multicolumn{4}{c}{\multirow{1}{*}{$V_{k-1}$}} \\
         z_1^{\alpha_k} & z_2^{\alpha_k} & \cdots & z_{k}^{\alpha_k}
-    \end{pmatrix} & \mbox{ if } |Z| < k \leq |E_{D_n^n}|
+    \end{pmatrix} & \mbox{ if } |Z| < k \leq |E_{D_n^n}|,
         \end{cases}
     \end{align*}
-    with $V_1 = \begin{pmatrix} z_1^{\alpha_1}\end{pmatrix} = z_1^{0_n} = (1)$ 
+    with $V_1 = \begin{pmatrix} z_1^{\alpha_1}\end{pmatrix} = z_1^{0_n} = (1)$ .
 \end{definition}
 
 %With Definition~\ref{def:tVandermonde} and Remark~\ref{rem:subsetOfReedMuller} in mind, we state the algorithm's procedure as follows.
@@ -730,7 +736,7 @@ Indeed, if for some \( i \), \( \text{rank}\left(V_{E_i, Z}\right) < \text{rank}
 %Propositions \ref{prop:swappingElementOfZToReduceKer}, \ref{prop:upperBoundOnRightKernel} and \ref{prop:constructionOfNextVRemovingAlphai} provide justifications for this claim.
 
 
-In the procedure described, we aim to identify at least one element from a vector space that satisfies certain required conditions, while maintaining the algorithm's desired efficiency. 
+In the procedure described, we aim to identify at least one element from a vector space that satisfies certain required conditions (corresponding to an annihilator, not trivial on $S$), while maintaining the algorithm's desired efficiency. 
 Since this vector space can potentially be too large, we address this issue as follows: if we find an element \( \hat{g}_k \) in the right kernel of \( V_k \) that does not vanish on \( Z \), we re-order the vector \( Z \) by swapping the element \( z_{k+1} \) with the element that does not vanish in \( \hat{g}_k \). 
 This ensures that such elements of the kernel of \( V_k \) do not propagate into the kernel of subsequent matrices.
 
@@ -913,31 +919,46 @@ Since $(\hat{\epsilon}, 0)$  cannot be in \( \text{ker}(V_{k+1}) \), the only po
 
 \subsection{Using column echelon form matrices of the previous steps}\label{subsubsection:optEchelonForm}
 
-\pmnote{corrections paused here}
+
 
 
 \begin{definition}[Column Echelon form]
-    Let $k_r,k_c\in \mathbb{N}_{>0}$ and $M \in Mat_{k_r,k_c}$ be a matrix of $k_r$ rows and $k_c$ columns. We denote by $EF: Mat_{k_r,k_c} \rightarrow Mat_{k_r,k_c}$, the function transforming a matrix to its column echelon form.    
+    Let $k_r,k_c\in \N^*$ and $M \in Mat_{k_r,k_c}$.
+    % be a matrix of $k_r$ rows and $k_c$ columns. 
+    We denote by $EF: Mat_{k_r,k_c} \rightarrow Mat_{k_r,k_c}$, the function transforming a matrix to its column echelon form.    
 \end{definition}
 
-For each iteration $k$ of the algorithm, the matrix $V_k$ already contains the sub-matrix $V_{k-1}$. It is therefore possible to compute the column echelon form of $V_{k-1}$ and use it to compute the column echelon form of $V_{k}$. In such a way, the matrix $V_k$ would already contain the sub-matrix $EF(V_{k-1})$ which is already in column echelon form, allowing to reduce the number of steps needed to compute the rank of $V_k$.\\
-To be able to apply such a method, however, we have to be careful when we are squarely constructing the matrix; at each step, we are appending rows to the matrix, therefore, to compute $EF\left(V_k\right)$ have to keep track of all the columns operation performed to compute $EF\left(V_j\right)$ for all $j<k$ and apply them before computing $EF\left(V_k\right)$.\\
-Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, better justify the claim.
+%For each iteration $k$ of the algorithm, the matrix $V_k$ already contains the sub-matrix $V_{k-1}$. It is therefore possible to compute the column echelon form of $V_{k-1}$ and use it to compute the column echelon form of $V_{k}$. In such a way, the matrix $V_k$ would already contain the sub-matrix $EF(V_{k-1})$ which is already in column echelon form, allowing to reduce the number of steps needed to compute the rank of $V_k$.\\
+%To be able to apply such a method, however, we have to be careful when we are squarely constructing the matrix; at each step, we are appending rows to the matrix, therefore, to compute $EF\left(V_k\right)$ have to keep track of all the columns operation performed to compute $EF\left(V_j\right)$ for all $j<k$ and apply them before computing $EF\left(V_k\right)$.\\
+%Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, better justify the claim.
+
+
+
+For each iteration \( k \) of the algorithm, the matrix \( V_k \) already includes the sub-matrix \( V_{k-1} \). Thus, it is possible to compute the column echelon form of \( V_{k-1} \) and use it to derive the column echelon form of \( V_k \). 
+This approach allows \( V_k \) to inherently contain \( EF(V_{k-1}) \), which is already in column echelon form, thereby reducing the computational steps required to determine the rank of \( V_k \).
+However, to apply this method effectively, careful attention must be paid during the construction of the matrix. 
+Since rows are appended to the matrix at each step, computing \( EF(V_k) \) requires keeping track of all column operations performed while computing \( EF(V_j) \) for all \( j < k \). 
+These operations must be applied before computing \( EF(V_k) \).
+Remark~\ref{rem:rowEchelonForm} and Proposition~\ref{prop:rowEchelonForm} provide further justification for this claim.
+
 
 \begin{definition}[Equality up to row permutation]
-    We say that two matrices $M_1$ and $M_2$ are \textit{equal up-to-permutation} if there exists a column permutation $\rho$ such that
+   Two matrices $M_1$ and $M_2$ are \textit{equal up-to-permutation} if there exists a column permutation $\rho$ such that
     \begin{align*}
         M_1 = \rho M_2
     \end{align*}
-    We say that $M_1 =_p M_2$
+    We denote it as $M_1 =_p M_2$
 \end{definition}
 
 \begin{remark}\label{rem:rowEchelonForm}
-    Let $k_r, k_c \in \N$ and $M\in Mat_{k_r,k_c}(\mathbb{F}_2^n)$. Let $M^T = L^TU^T$ be the $LU$ decomposition of $M^T$, then
-    \begin{align*}
-        EF(M) =_p U
-    \end{align*}
+    Let $k_r, k_c \in \N$ and $M\in Mat_{k_r,k_c}(\mathbb{F}_2^n)$. Let $M^T = L^TU^T$ be the $LU$ decomposition of $M^T$, then: $EF(M) =_p U$.
+%    \begin{align*}
+  %      EF(M) =_p U
+ %   \end{align*}
 \end{remark}
+
+\pmnote{@Luca, what does "the upper triangular of $V_{k-1}$" mean in the following proposition? is a word missing?}
+
 
 \begin{proposition}\label{prop:rowEchelonForm}
     Let $k$ be such that $1<k< \min{\left(|Z|,|E_{D_n^n}|\right)}$ it holds that
@@ -951,16 +972,19 @@ Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, bette
             & & & & z_{k}^{\alpha_{k-1}}\\
             (z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}})P_{k-1} & z_{k}^{\alpha_k}
         \end{pmatrix}
-        \end{pmatrix}
+        \end{pmatrix}.
     \end{align*}
     where $P_{k-1}$ if the inverse of the upper triangular of $V_{k-1}$: it is such that $L_{k-1}^{-1} = P_{k-1}$, where $V_{k-1} = U_{k-1}L_{k-1}$ with $EF(V_{k-1})=_p U_{k-1}$
 \end{proposition}
 \begin{proof}
-    Let $k$ be such that $1<k< \min{\left(|Z|,|E_{D_n^n}|\right)}$. The triangular composition of $V_{k-1}^T$ is
+    Let $k$ be such that $1<k< \min{\left(|Z|,|E_{D_n^n}|\right)}$. The triangular composition of $V_{k-1}^T$ is:
+    
+    \pmnote{Composition or decomposition? do you refer to the "LU" decomposition, or another one?}   
     \begin{align*}
-        V_{k-1}^T = L_{k-1}^T U_{k-1}^T \Rightarrow V_{k-1} = U_{k-1} L_{k-1} 
+        V_{k-1}^T = L_{k-1}^T U_{k-1}^T \Rightarrow V_{k-1} = U_{k-1} L_{k-1},
     \end{align*}
-    where $L_{k-1}$ is a upper triangular matrix and $U_{k-1} = EF\left(V_{k-1}\right)$ is the lower triangular matrix.
+    where $L_{k-1}$ is an upper triangular matrix and $U_{k-1} = EF\left(V_{k-1}\right)$ is the lower triangular matrix.
+    \iffalse
     \begin{align*}
         V_{k} = &
         \begin{pmatrix}
@@ -986,6 +1010,34 @@ Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, bette
             0 & 0& \cdots & 0 & 1
         \end{pmatrix}
     \end{align*}
+\fi
+\[
+V_{k} = 
+\begin{pmatrix}
+\multicolumn{4}{c}{\multirow{4}{*}{$U_{k-1}L_{k-1}$}} & z_k^{\alpha_1}\\
+& & & & z_k^{\alpha_2}\\
+& & & & \vdots\\
+& & & & z_{k}^{\alpha_{k-1}}\\
+z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}} & z_{k}^{\alpha_k}
+\end{pmatrix}
+= 
+\begin{pmatrix}
+\multicolumn{4}{c}{\multirow{4}{*}{$U_{k-1}$}} & z_k^{\alpha_1}\\
+& & & & z_k^{\alpha_2}\\
+& & & & \vdots\\
+& & & & z_{k}^{\alpha_{k-1}}\\
+(z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}})L_{k-1}^{-1} & z_{k}^{\alpha_k}
+\end{pmatrix}
+\begin{pmatrix}
+\multicolumn{4}{c}{\multirow{4}{*}{$L_{k-1}$}} & 0\\
+& & & & 0\\
+& & & & \vdots\\
+& & & & 0\\
+0 & 0& \cdots & 0 & 1
+\end{pmatrix}.
+\]
+    
+    
     Since $L_{k-1}$ is an upper triangular matrix, $ \begin{pmatrix}
             \multicolumn{4}{c}{\multirow{4}{*}{$L_{k-1}$}} & 0\\
             & & & & 0\\
@@ -1003,9 +1055,9 @@ Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, bette
             & & & & z_{k}^{\alpha_{k-1}}\\
             (z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}})L_{k-1}^{-1} & z_{k}^{\alpha_k}
         \end{pmatrix}
-        \end{pmatrix}
+        \end{pmatrix}.
     \end{align*}
-    Taking $U_{k-1} =_p EF\left(V_{k-1}\right)$ and $P_{k-1} = L_{k-1}^{-1}$
+    Taking $U_{k-1} =_p EF\left(V_{k-1}\right)$ and $P_{k-1} = L_{k-1}^{-1}$:
     \begin{align*}
         EF\left(V_{k}\right) =_p & EF
         \begin{pmatrix}
@@ -1016,7 +1068,7 @@ Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, bette
             & & & & z_{k}^{\alpha_{k-1}}\\
             (z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}})P_{k-1} & z_{k}^{\alpha_k}
         \end{pmatrix}
-        \end{pmatrix}
+        \end{pmatrix}.
     \end{align*}
 \end{proof}
 
@@ -1024,7 +1076,13 @@ Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, bette
     $P_{k-1}$ is the matrix corresponding to the history of operations applied to the columns of $V_{k-1}$ to be able to obtain $EF\left(V_{k-1}\right)$.
 \end{remark}
 
-As a consequence of Remark \ref{rem:historyOfOperations}, it can be seen that when calculating the column echelon form of the matrix $V_k$ using $P_{k-1}$, we construct the application $P_k$ which can be used to compute the column echelon form of $V_{k+1}$ in the next iteration. Remark \ref{rem:echelonFormConstructingNextP} shows this more formally.
+\pmnote{General comment: in latex put the tilda " \~~" before "ref" or "cite" such as "in Section~\ref{sec:IterativeApproach}".
+
+Even with mathematical expression the typography rules apply, capital letter at the start, point at the end, I changed it in various proofs, please do it on the full document}
+
+
+
+As a consequence of Remark~\ref{rem:historyOfOperations}, it can be seen that when calculating the column echelon form of the matrix $V_k$ using $P_{k-1}$, we construct the application $P_k$ which can be used to compute the column echelon form of $V_{k+1}$ in the next iteration. Remark \ref{rem:echelonFormConstructingNextP} shows this more formally.
 
 \begin{remark}\label{rem:echelonFormConstructingNextP}
     \begin{align*}
@@ -1050,11 +1108,18 @@ As a consequence of Remark \ref{rem:historyOfOperations}, it can be seen that wh
     \end{align*}
 \end{remark}
 
-Algorithm \ref{alg:AlgOnF0}, shows the procedure to calculate the degree of the minimal degree non-zero-annihilator with degree $\geq 1$ restricted to $S\subseteq \mathbb{F}_2^n$ of a function $f^{(o)} \in \{f, f+ 1\}$, while Algorithm \ref{alg:fullAlg3ForAIRestrictesSetOpt} shows the full procedure to determine the restricted algebraic immunity of $f$ in $S$, calling Algorithm \ref{alg:AlgOnF0} for $f$ and $f+ 1$ in parallel.\\
+
+
+\pmnote{What is algorithm "4.2", it should be 2 and 4 isn't it? Try to find a way to not have "Algorithm 3", since it is only a part of Algorithm 2, it should be with no number (except if you need this subpart to have its own name and reference).}
+
+Algorithm~\ref{alg:AlgOnF0} shows the procedure to calculate the degree of the minimal degree non-zero-annihilator 
+%with degree $\geq 1$ 
+restricted to $S\subseteq \mathbb{F}_2^n$ of a function $f^{(o)} \in \{f, f+ 1\}$, while Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} shows the full procedure to determine the restricted algebraic immunity of $f$ in $S$, calling Algorithm~\ref{alg:AlgOnF0} for $f$ and $f+ 1$ in parallel.
+
 Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} which triggers the same process as Algorithm~\ref{alg:AlgOnF0}, but applies it sequentially to $f$ and $f + 1$, to avoid waiting for both processes to complete simultaneously. This function is triggered only when $\mathrm{supp}(f) \cap S$ and $\mathrm{supp}(f + 1) \cap S$ differ significantly in cardinality, as in such cases, the probability of one of the two processes terminating quickly is high.
 
 \begin{algorithm}\label{alg:AlgOnF0}
-	\caption{Algorithm to find the degree of the minimum-degree $S$-non-zero-annihilator of a function $f^{(o)}$}\label{alg:MinDegreeSnonZeroAnnihilatorIterative}
+	\caption{Algorithm to find the degree of the minimum-degree $S$-non-zero-annihilator of a function $f^{(o)}$ \label{alg:MinDegreeSnonZeroAnnihilatorIterative}}
 	\begin{algorithmic}[1]
 		\Require restricted set $S\subseteq \mathbb{F}_2^n$, $Z = supp\left(f^{(o)}\right) \cap S$ and $E = \{\alpha_1, \cdots, \alpha_{D_n^n}\}$
 		\Ensure Degree of minimal degree $S$-non-zero-annihilator of $f^{(o)}$.
@@ -1163,8 +1228,8 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 \footnotetext[5]{\textsc{vanished\_on} is a function taking as input the vector of the $ANF$ coefficient of a Boolean function $g \in \Bn{n}$ and a point $z$ on which to evaluate the corresponding Boolean function $g$. If $g$ vanished is $z$ it returns $True$ otherwise it returns $False$. }
 \footnotetext[6]{See Remark \ref{rem:permutationClarification}}
 
-\begin{algorithm}[H]\label{alg:fullAlg3ForAIRestrictesSetOpt}
-    \caption{Algorithm to compute the algebraic immunity of a function $f\in \Bn{n}$ restricted to $S$}
+\begin{algorithm}[H]
+    \caption{Algorithm to compute the algebraic immunity of a function $f\in \Bn{n}$ restricted to $S$ \label{alg:fullAlg3ForAIRestrictesSetOpt}}
     \begin{algorithmic}[1]
         \Require $x\in \mathbb{F}_2^{2^n}$ evaluation of the truth table of $f\in \Bn{n}$ and the restricted set $S\subseteq \mathbb{F}_2^n$.
 		\Ensure $\AI_S(f)$
