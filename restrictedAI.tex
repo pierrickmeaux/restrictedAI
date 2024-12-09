@@ -544,15 +544,15 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 		\begin{align*}\label{eq:degreesHashTable}
 		D^{\leq n_{max}} =  \{\left(i,D^{n} \right)\}_{0 \leq i \leq n_{max}} =  \{\left(i, \{ \left(j, D_i^j\right)\}_{0\leq j \leq \lceil{i/2}\rceil} \right)\}_{0 \leq i \leq n_{max}}
 		\end{align*}
-		In Algorithm \ref{alg:RMApproach}, we therefore use the function \textsc{read\_values\_from\_file}, to read to two pre-computed hash tables from the files where they have been pre-stored before the execution of the algorithm.
-		\item The procedure \textsc{find\_deg\_smallest\_S\_annihilator} in \ref{alg:RMApproach} is done in parallel for $f$ and $f+ 1$ with the additional condition that if one of the two branches returns the value of $1$, the other branch is stopped, without having to wait for it to finish.
+		In Algorithm ~\ref{alg:RMApproach}, we therefore use the function \textsc{read\_values\_from\_file}, to read to two pre-computed hash tables from the files where they have been pre-stored before the execution of the algorithm.
+		\item The procedure \textsc{find\_deg\_smallest\_S\_annihilator} in ~\ref{alg:RMApproach} is done in parallel for $f$ and $f+ 1$ with the additional condition that if one of the two branches returns the value of $1$, the other branch is stopped, without having to wait for it to finish.
 	\end{enumerate}	
 \end{remark}
 
 
-\begin{algorithm}\label{alg:RMApproach}
+\begin{algorithm}
 %	\caption{Algorithm to find the algebraic immunity of a function $f$ on the restricted set $S\subseteq \mathbb{F}_2^n$.}
-	\caption{Algebraic immunity of $f$ restricted to the set $S$, Reed-Muller method.}
+	\caption{Algebraic immunity of $f$ restricted to the set $S$, Reed-Muller method. \label{alg:RMApproach}}
 	\begin{algorithmic}[1]
 		\Require $x\in \mathbb{F}_2^{2^n}$ evaluation of the truth table of $f\in \Bn{n}$ and the restricted set $S\subseteq \mathbb{F}_2^n$.
 		\Ensure $\AI_S(f)$
@@ -1108,18 +1108,14 @@ As a consequence of Remark~\ref{rem:historyOfOperations}, it can be seen that wh
     \end{align*}
 \end{remark}
 
-
-
-\pmnote{What is algorithm "4.2", it should be 2 and 4 isn't it? Try to find a way to not have "Algorithm 3", since it is only a part of Algorithm 2, it should be with no number (except if you need this subpart to have its own name and reference).}
-
-Algorithm~\ref{alg:AlgOnF0} shows the procedure to calculate the degree of the minimal degree non-zero-annihilator 
+Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} shows the procedure to calculate the degree of the minimal degree non-zero-annihilator 
 %with degree $\geq 1$ 
-restricted to $S\subseteq \mathbb{F}_2^n$ of a function $f^{(o)} \in \{f, f+ 1\}$, while Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} shows the full procedure to determine the restricted algebraic immunity of $f$ in $S$, calling Algorithm~\ref{alg:AlgOnF0} for $f$ and $f+ 1$ in parallel.
+restricted to $S\subseteq \mathbb{F}_2^n$ of a function $f^{(o)} \in \{f, f+ 1\}$, while Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} shows the full procedure to determine the restricted algebraic immunity of $f$ in $S$, calling Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} for $f$ and $f+ 1$ in parallel.
 
-Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} which triggers the same process as Algorithm~\ref{alg:AlgOnF0}, but applies it sequentially to $f$ and $f + 1$, to avoid waiting for both processes to complete simultaneously. This function is triggered only when $\mathrm{supp}(f) \cap S$ and $\mathrm{supp}(f + 1) \cap S$ differ significantly in cardinality, as in such cases, the probability of one of the two processes terminating quickly is high.
+Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} which triggers the same process as Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative}, but applies it sequentially to $f$ and $f + 1$, to avoid waiting for both processes to complete simultaneously. This function is triggered only when $\mathrm{supp}(f) \cap S$ and $\mathrm{supp}(f + 1) \cap S$ differ significantly in cardinality, as in such cases, the probability of one of the two processes terminating quickly is high.
 
-\begin{algorithm}\label{alg:AlgOnF0}
-	\caption{Algorithm to find the degree of the minimum-degree $S$-non-zero-annihilator of a function $f^{(o)}$ \label{alg:MinDegreeSnonZeroAnnihilatorIterative}}
+\begin{algorithm}
+	\caption{Algorithm to find the degree of the minimum-degree $S$-non-zero-annihilator of a function $f^{(o)}$.}\label{alg:MinDegreeSnonZeroAnnihilatorIterative}
 	\begin{algorithmic}[1]
 		\Require restricted set $S\subseteq \mathbb{F}_2^n$, $Z = supp\left(f^{(o)}\right) \cap S$ and $E = \{\alpha_1, \cdots, \alpha_{D_n^n}\}$
 		\Ensure Degree of minimal degree $S$-non-zero-annihilator of $f^{(o)}$.
@@ -1210,7 +1206,7 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 
 \begin{remark}\label{rem:permutationClarification}
     To keep the pseudocode in line with the theory, the elements in the vector or sets are often parsed by name instead of by index, namely let $Z = (z_1, z_2, \cdots, z_k)$ we consider that $Z[i-1] = z_i$.\\
-    Therefore, we have to clarify our notation in the case in which two vector elements get swapped. In the case of Algorithm \ref{alg:AlgOnF0}, we consider that the swap generates a new vector with the name of the variables adapted with their index position in the vector to keep satisfying the condition $Z[i-1] = z_{i}$. Meaning that 
+    Therefore, we have to clarify our notation in the case in which two vector elements get swapped. In the case of Algorithm \ref{alg:MinDegreeSnonZeroAnnihilatorIterative}, we consider that the swap generates a new vector with the name of the variables adapted with their index position in the vector to keep satisfying the condition $Z[i-1] = z_{i}$. Meaning that 
     \begin{align*}
         \mbox{\textsc{swap}}(z_i, z_j) \rightarrow (z_{\sigma(1)}, \cdots, z_{\sigma(i)}, \cdots, z_{\sigma(j)}, \cdots, z_{\sigma(k)}) = Z^{'} = (z^{'}_1, \cdots, z^{'}_i, \cdots, z^{'}_j, \cdots, z^{'}_k)
     \end{align*}
@@ -1408,7 +1404,7 @@ The table \lbnote{reference to table} shows the average values plotted in Figure
 \end{figure}
 \newpage
 
-\section{Determination of \texorpdfstring{$AI_k$}{AIk} of published Boolean functions}
+\subsection{Determination of \texorpdfstring{$AI_k$}{AIk} of published Boolean functions}
 In this section, we calculate the $AI_k$s of the published function ~\cite{Mat:ZJZQ23} and ~\cite{AMC:DalMal23} for $n=8$ and $16$ variables. Table \ref{table:publiedFunctions} shows these results.% and Figures \ref{fig:DM24}  and \ref{fig:ZS23} and Tables \ref{table:DM24} and \ref{table:ZS23} provide details for each function.\\
 We see that ~\cite{AMC:DalMal23} is more secure than ~\cite{Mat:ZJZQ23} since it has a better $AI_k$s for both $n=8$ and $n=16$. in particular
 \begin{description}
