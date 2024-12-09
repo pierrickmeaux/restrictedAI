@@ -1119,7 +1119,6 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 	\begin{algorithmic}[1]
 		\Require restricted set $S\subseteq \mathbb{F}_2^n$, $Z = supp\left(f^{(o)}\right) \cap S$ and $E = \{\alpha_1, \cdots, \alpha_{D_n^n}\}$
 		\Ensure Degree of minimal degree $S$-non-zero-annihilator of $f^{(o)}$.
-		\State
 		\State $V\gets (1)$;
 		\State $ops \gets [\ ]$;
 		\State $k \gets 2$;
@@ -1144,6 +1143,8 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 		\State $vanishingFlag \gets False$;
 		\State \textbf{break};
 		\EndIf
+        \EndFor
+        \If{$vanishingFlag = True$}
 		\ForAll{$z_c \in S\backslash Z$}
 		\State $vanishCheckOnS \gets \mbox{\textsc{vanishes\_on}}(\hat{g}, z)$;
 		\If{$vanishCheckOnS = False$}
@@ -1152,21 +1153,21 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 		\EndFor
 		\State $V\gets V_{previous}$;
 		\State $\mbox{\textsc{remove}}(E, \alpha_i)$;
-		\State \textbf{continue};
-		\EndFor
+		\State \textbf{continue}; \CommentSty{// Go to the next iteration.}
+        \Else
 		\State $zIndex \gets k+nonVanishingPointIndex$;
 		\State $Z \gets \mbox{\textsc{swap}}(z_{k+1}, z_{zIndex})$\footnotemark;
-		\State $ops\gets ops\ ||\ ops_k$;
+		\EndIf
+        \State $ops\gets ops\ ||\ ops_k$;
 		\State $k\gets k+1$;
 		\EndIf
 		\EndWhile
-		\State \CommentSty{// The algorithm continues in the next page: Algorithm \ref{alg:continueationMinDegreeSnonZeroAnnihilatorIterative}.}
+		\State \CommentSty{// The algorithm continues in the next page.}
 		\algstore{algo}
 	\end{algorithmic}
 \end{algorithm}
 \newpage
 \begin{algorithm}
-	\caption{Continuation of Algorithm \ref{alg:MinDegreeSnonZeroAnnihilatorIterative}.}\label{alg:continueationMinDegreeSnonZeroAnnihilatorIterative}
 	\begin{algorithmic}
 		\algrestore{algo}
 		\State $S, ops_S \gets \mbox{\textsc{EF}}\left(
