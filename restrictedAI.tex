@@ -88,10 +88,29 @@ Two ordering relations in $\mathbb{F}_2^n$ are used: the \textit{lexicographic} 
 \pmnote{ In the following the coordinates are written from n to 1, and from 1 to n in the other definitions. Is there a particular reason?}\\
 \lbnote{Normally, the coordinates of an element in $\mathbb{F}_2^n$ are now written from n to 1 everywhere. But I will double-check this.}
 
+\pmnote{I find it strange to count from $n$ to $1$ instead of from $1$ to $n$ if there is no specified reason.}
+
+\pmnote{I did not understand why you introduced a permutation to define the orders, I add a definition of order in the following, could you complete it for the graded lex? (in that case the definition + the itemize could replace Definition 2,3 and 4)
+	
+	Note that "leftmost nonzero entry of the vector difference $\alpha-\beta$ is positive" is not consistent when we take elements in $\F_2^n=( \{0,1\}^n, \oplus, \odot )$ since "-", and "negative" are not well defined on Boolean vectors.
+	
+
+
+\begin{definition}[Order]\label{def:order}
+	A binary relation $\preceq$	on a set $X$ is called partial order if $\preceq$ is reflexive, transitive and antisymmetric. Moreover, $\preceq$ is a total order if for all $a,b\in X$ it holds $a\preceq b$ or $b \preceq a$.
+	
+\end{definition}
+
+We give two examples of orders on $n$-length binary strings, more examples can be found in \eg~\cite{FUN:SteWil12}:
+\begin{itemize}
+	\item Lexicographic, given $a,b \in \F_2^n$ as $a=a_1,\ldots, a_n$ and $b=b_1,\ldots,b_n$, $a\preceq b$ if and only if  $a_i<b_i$ on the first index $i\in [1,n]$ such that $a_i\ne b_i$, or $a=b$.
+	\item Graded lexicographic.
+\end{itemize}
+}
+
 
 \begin{definition}[Lexicographic order]
-	Let $\alpha = (\alpha_n, \alpha_{n-1}, \cdots, \alpha_1) \in \mathbb{F}_2^n$ and $\beta = (\beta_n, \beta_{n-1}, \cdots, \beta_1) \in \mathbb{F}_2^n$.\\	
-	
+	Let $\alpha = (\alpha_n, \alpha_{n-1}, \cdots, \alpha_1) \in \mathbb{F}_2^n$ and $\beta = (\beta_n, \beta_{n-1}, \cdots, \beta_1) \in \mathbb{F}_2^n$.	
 	The \textit{lexicographic} ordering relation on $\mathbb{F}_2^n$ is a ordering relation $<_{lex}$ on $\mathbb{F}_2^n$ such that $\beta <_{lex} \alpha$ if the leftmost nonzero entry of the vector difference $\alpha-\beta$ is positive.
 \end{definition}
 
@@ -197,9 +216,30 @@ The (algebraic) degree of $f$, denoted $\degg(f)$ is: \[\degg(f)=\
 	\end{align*}
 \end{definition}
 
+
+\pmnote{ I propose the following change (to not focus on the order, if accepted we adapt to see how to introduce $f_S$):
+
+
+\begin{definition}[Truth table]\label{def:trutthTable}
+	Let $f\in \Bn{n}$ be a Boolean function, its truth table is the Boolean vector defined as:
+\begin{align*}
+TT(f) \in \F_2^{2^n},\  TT(f) = \left(f(0_n), \dots, f(1_n)\right).
+\end{align*}	
+	When $f$ is restricted to a subset $S\subseteq \F_2^n$ written as and $S = \{a_1, a_2, \cdots, a_{|S|}\}$, the truth table of $f$ restricted to $S$ refers to the vector $\left(f(a_1), f(a_2), \dots, f(a_{|S|})\right)$.
+
+If not specified otherwise, the (restricted) truth table follows the lexicographic order.	
+	
+	
+\end{definition}
+	
+}
+
+
+
 \begin{remark}
     We consider the set $X$ in definition \ref{def:trutthTable} to be in lexicographic order, in such a way that $X = Lex\left(dom(f)\right)$.
 \end{remark}
+
 
 \begin{definition}[Restriction of $f$ on $S$]
 	Let $f$ be a Boolean function and $S\subseteq \mathbb{F}_2^n$, the restriction of $f$ on $S$ is given by the function $f_S$ whose truth table is
