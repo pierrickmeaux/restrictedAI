@@ -1137,16 +1137,17 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 		\State $k \gets kernel\left(V\right).base()$;
 		\State $\hat{g} \gets k[0]$;
 		\State $nonVanishingPointIndex, vanishingFlag \gets Null, True$;
-		\ForAll{$z\in Z\backslash Z_k$}
-		\State $vanishCheck, NonVanishingPointIndex \gets \mbox{\textsc{vanishes\_on}}(\hat{g}, z)$\footnotemark;
+		\ForAll{$z_{idx} \in (Z \backslash Z_k)$}
+		\State $vanishCheck \gets \mbox{\textsc{vanishes\_on}}(\hat{g}, z_{idx})$\footnotemark;
 		\If{$vanishCheck = False$}
 		\State $vanishingFlag \gets False$;
+        \State $nonVanishingPointIndex \gets idx$
 		\State \textbf{break};
 		\EndIf
         \EndFor
         \If{$vanishingFlag = True$}
 		\ForAll{$z_c \in S\backslash Z$}
-		\State $vanishCheckOnS \gets \mbox{\textsc{vanishes\_on}}(\hat{g}, z)$;
+		\State $vanishCheckOnS \gets \mbox{\textsc{vanishes\_on}}(\hat{g}, z_c)$;
 		\If{$vanishCheckOnS = False$}
 		\State \Return $w_H\left(\alpha_i\right)$;
 		\EndIf
