@@ -186,6 +186,18 @@ The (algebraic) degree of $f$, denoted $\degg(f)$ is: \[\degg(f)=\
 
 
 \pmnote{ I propose the following change (to not focus on the order, if accepted we adapt to see how to introduce $f_S$):
+
+\begin{definition}[Truth table]
+	Let $f\in \Bn{n}$ be a Boolean function, its truth table is the Boolean vector defined as:
+\begin{align*}
+TT(f) \in \F_2^{2^n},\  TT(f) = \left(f(0_n), \dots, f(1_n)\right).
+\end{align*}	
+	When $f$ is the restriction to a subset $S\subseteq \F_2^n$ written as and $S = \{a_1, a_2, \cdots, a_{|S|}\}$, the truth table of $f$ restricted to $S$ refers to the vector $\left(f(a_1), f(a_2), \dots, f(a_{|S|})\right)$.
+
+If not specified otherwise, the (restricted) truth table follows the lexicographic order.	
+	
+	
+\end{definition}
 }
 
 \lbnote{ I have removed the definition on the restriction of $S$ and updated the Definition \ref{def:trutthTable} to contain the notation $f_S$. What do you think about this?}
@@ -195,7 +207,7 @@ The (algebraic) degree of $f$, denoted $\degg(f)$ is: \[\degg(f)=\
 \begin{align*}
 TT(f) \in \F_2^{2^n},\  TT(f) = \left(f(0_n), \dots, f(1_n)\right).
 \end{align*}	
-	Denoting by $f_S$, the restriction of $f$ to a subset $S\subseteq \F_2^n$ written as and $S = \{a_1, a_2, \cdots, a_{|S|}\}$, the truth table of $f_S$ restricted to $S$ refers to the vector $\left(f(a_1), f(a_2), \dots, f(a_{|S|})\right)$.
+	Denoting by $f_S$, the restriction of $f$ to a subset $S\subseteq \F_2^n$ written as and $S = \{a_1, a_2, \cdots, a_{|S|}\}$, the truth table of $f_S$ refers to the vector $\left(f(a_1), f(a_2), \dots, f(a_{|S|})\right)$.
 
 If not specified otherwise, the (restricted) truth table follows the lexicographic order.	
 	
