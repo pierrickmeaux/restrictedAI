@@ -87,15 +87,14 @@ For two functions $f$ and $g$ we denote by $\hd(f,g)$ the Hamming distance betwe
 Let $n\in \N^*$
 Two ordering relations in $\mathbb{F}_2^n$ are used: the \textit{lexicographic} and the \textit{graded lex} order.
 
-\pmnote{ In the following the coordinates are written from n to 1, and from 1 to n in the other definitions. Is there a particular reason?}\\
-\lbnote{Normally, the coordinates of an element in $\mathbb{F}_2^n$ are now written from n to 1 everywhere. But I will double-check this.}
-
-\pmnote{I find it strange to count from $n$ to $1$ instead of from $1$ to $n$ if there is no specified reason.}
-
 \pmnote{I did not understand why you introduced a permutation to define the orders, I add a definition of order in the following, could you complete it for the graded lex? (in that case the definition + the itemize could replace Definition 2,3 and 4)
 	
 	Note that "leftmost nonzero entry of the vector difference $\alpha-\beta$ is positive" is not consistent when we take elements in $\F_2^n=( \{0,1\}^n, \oplus, \odot )$ since "-", and "negative" are not well defined on Boolean vectors.
-	
+}
+
+
+\lbnote{I have removed the the definition of lexicographical and graded lex that I had added before and used your definition to which I have added the greded lex. I have added the lex and glex subscript to the orders to be able to use the $\preceq_{lex}$ in the $\preceq_{glex}$
+}
 
 
 \begin{definition}[Order]\label{def:order}
@@ -105,42 +104,9 @@ Two ordering relations in $\mathbb{F}_2^n$ are used: the \textit{lexicographic} 
 
 We give two examples of orders on $n$-length binary strings, more examples can be found in \eg~\cite{FUN:SteWil12}:
 \begin{itemize}
-	\item Lexicographic, given $a,b \in \F_2^n$ as $a=a_1,\ldots, a_n$ and $b=b_1,\ldots,b_n$, $a\preceq b$ if and only if  $a_i<b_i$ on the first index $i\in [1,n]$ such that $a_i\ne b_i$, or $a=b$.
-	\item Graded lexicographic.
+	\item Lexicographic, given $a,b \in \F_2^n$ as $a=a_1,\ldots, a_n$ and $b=b_1,\ldots,b_n$, $a\preceq_{lex} b$ if and only if  $a_i<b_i$ on the first index $i\in [1,n]$ such that $a_i\ne b_i$, or $a=b$.
+	\item Graded lexicographic, given $a,b \in \F_2^n$ as $a=a_1,\ldots, a_n$ and $b=b_1,\ldots,b_n$, $a\preceq_{glex} b$ if $w_H(a) < w_H(b)$ or $w_H(a) = w_H(b)$ and $a a\preceq_{lex}  b$
 \end{itemize}
-}
-
-
-\begin{definition}[Lexicographic order]
-	Let $\alpha = (\alpha_n, \alpha_{n-1}, \cdots, \alpha_1) \in \mathbb{F}_2^n$ and $\beta = (\beta_n, \beta_{n-1}, \cdots, \beta_1) \in \mathbb{F}_2^n$.	
-	The \textit{lexicographic} ordering relation on $\mathbb{F}_2^n$ is a ordering relation $<_{lex}$ on $\mathbb{F}_2^n$ such that $\beta <_{lex} \alpha$ if the leftmost nonzero entry of the vector difference $\alpha-\beta$ is positive.
-\end{definition}
-
-\begin{definition}[Graded Lex order]
-	Let $\alpha = (\alpha_n, \alpha_{n-1}, \cdots, \alpha_1) \in \mathbb{F}_2^n$ and $\beta = (\beta_n, \beta_{n-1}, \cdots, \beta_1) \in \mathbb{F}_2^n$.\\
-	The \textit{graded lex} ordering relation on $\mathbb{F}_2^n$ is a ordering relation $<_{grlex}$ on $\mathbb{F}_2^n$ such that
-	We say $\beta <_{grlex} \alpha$ if
-	\begin{align*}
-	w_H(\beta) < w_H(\alpha) \mbox{ or }  \left(w_H(\beta) = w_H(\alpha) \mbox{ and } \beta <_{lex} \alpha\right)
-	\end{align*}
-\end{definition}
-
-\begin{definition}[Ordering relation on a set]
-	We define the function 
-	\begin{align*}
-	Ord: S = \{s_1, s_2, \cdots, s_{|S|}\} \subseteq \mathbb{F}_2^n \mapsto \left(s_{\sigma(s)}\right)_{s\in S} = \left(s_{\sigma(1)}, s_{\sigma(2)}, \cdots, s_{\sigma(|S|)}\right)
-	\end{align*}
-	where $\sigma$ is the permutation assigning the index of an element of the ordered vector by the ordering $Ord$, to the index of the element in the original set $S$, i.e. $\sigma$ is such that 
-	\begin{align*}
-	s_{\sigma(i)} <_{ord} s_{\sigma(j)} \mbox{ for } i<j
-	\end{align*}
-    In particular, we define the \textit{lexicographical set order relation}, by the function 
-    $$Lex: S = \{s_1, s_2, \cdots, s_{|S|}\} \subseteq \mathbb{F}_2^n \mapsto \left(s_{\sigma(s)}\right)_{s\in S} = \left(s_{\sigma(1)}, s_{\sigma(2)}, \cdots, s_{\sigma(|S|)}\right)$$
-    where $\sigma$ is such that $s_{\sigma(i)} \leq_{lex} s_{\sigma(j)}$ for $i<j$\\
-    and the \textit{Graded Lex set order relation} by the function 
-    $$GrLex: S = \{s_1, s_2, \cdots, s_{|S|}\} \subseteq \mathbb{F}_2^n \mapsto \left(s_{\sigma(s)}\right)_{s\in S} = \left(s_{\sigma(1)}, s_{\sigma(2)}, \cdots, s_{\sigma(|S|)}\right)$$
-    where $\sigma$ is such that $s_{\sigma(i)} <_{grlex} s_{\sigma(j)}$ for $i<j$.
-\end{definition}
 
 \subsection{Boolean functions, cryptographic criteria, and weightwise properties}
 In this section, we recall fundamental concepts concerning Boolean functions and their weightwise properties, which are utilized throughout this article. For a more comprehensive introduction to Boolean functions and their cryptographic parameters, we recommend consulting the book by Carlet~\cite{Carlet20},
@@ -220,35 +186,25 @@ The (algebraic) degree of $f$, denoted $\degg(f)$ is: \[\degg(f)=\
 
 
 \pmnote{ I propose the following change (to not focus on the order, if accepted we adapt to see how to introduce $f_S$):
+}
 
+\lbnote{ I have removed the definition on the restriction of $S$ and updated the Definition \ref{def:trutthTable} to contain the notation $f_S$. What do you think about this?}
 
 \begin{definition}[Truth table]\label{def:trutthTable}
 	Let $f\in \Bn{n}$ be a Boolean function, its truth table is the Boolean vector defined as:
 \begin{align*}
 TT(f) \in \F_2^{2^n},\  TT(f) = \left(f(0_n), \dots, f(1_n)\right).
 \end{align*}	
-	When $f$ is restricted to a subset $S\subseteq \F_2^n$ written as and $S = \{a_1, a_2, \cdots, a_{|S|}\}$, the truth table of $f$ restricted to $S$ refers to the vector $\left(f(a_1), f(a_2), \dots, f(a_{|S|})\right)$.
+	Denoting by $f_S$, the restriction of $f$ to a subset $S\subseteq \F_2^n$ written as and $S = \{a_1, a_2, \cdots, a_{|S|}\}$, the truth table of $f_S$ restricted to $S$ refers to the vector $\left(f(a_1), f(a_2), \dots, f(a_{|S|})\right)$.
 
 If not specified otherwise, the (restricted) truth table follows the lexicographic order.	
 	
 	
 \end{definition}
-	
-}
-
-
 
 \begin{remark}
-    We consider the set $X$ in definition \ref{def:trutthTable} to be in lexicographic order, in such a way that $X = Lex\left(dom(f)\right)$.
+    We consider the truth table given in Definition \ref{def:trutthTable} to be ordered in lexicographical order.
 \end{remark}
-
-
-\begin{definition}[Restriction of $f$ on $S$]
-	Let $f$ be a Boolean function and $S\subseteq \mathbb{F}_2^n$, the restriction of $f$ on $S$ is given by the function $f_S$ whose truth table is
-	\begin{align*}
-	TT(f_S) = Lex\left(\left(f(u)\right)_{u\in S}\right)
-	\end{align*}
-\end{definition}
 
 
 \begin{definition}[Algebraic immunity and restricted algebraic immunity] \label{def:ai}
@@ -667,7 +623,7 @@ We begin with definitions and remarks necessary to introduce the general idea of
 \end{definition}
 
 \begin{remark}\label{rem:subsetOfReedMuller}
-Let $E = GrLex(\{\alpha_2, \alpha_2, \cdots, \alpha_{D_d^n}\})$ be such that $x^E$ is the set of all monomials with degree at most $d$ ordered by the graded lex order. 
+Let $E = (\{\alpha_2, \alpha_2, \cdots, \alpha_{D_d^n}\})$ be such that $x^E$ is the set of all monomials with degree at most $d$ ordered by the graded lex order. 
     We remark the following:
     %The following remarks are made
     \begin{itemize}
@@ -971,14 +927,14 @@ Remark~\ref{rem:rowEchelonForm} and Proposition~\ref{prop:rowEchelonForm} provid
         \end{pmatrix}
         \end{pmatrix}.
     \end{align*}
-    where $P_{k-1}$ if the inverse of the upper triangular of $V_{k-1}$: it is such that $U_{k-1}^{-1} = P_{k-1}$, where $V_{k-1} = L_{k-1}U_{k-1}$ with $EF(V_{k-1})=_p L_{k-1}$
+    where $P_{k-1}$ is such that $U_{k-1}^{-1} = P_{k-1}$, where $V_{k-1} = L_{k-1}U_{k-1}$ with $EF(V_{k-1})=_p L_{k-1}$
 \end{proposition}
 \begin{proof}
-    Let $k$ be such that $1<k< \min{\left(|Z|,|E_{D_n^n}|\right)}$. The $LU$-decomposition of $V_k$ is  
+    Let $k$ be such that $1<k< \min{\left(|Z|,|E_{D_n^n}|\right)}$. The $LU$-decomposition of $V_{k-1}$ is  
     \begin{align*}
         V_{k-1} = L_{k-1} U_{k-1},
     \end{align*}
-    where $L_{k-1}$ is an upper triangular matrix and $L_{k-1} = EF\left(V_{k-1}\right)$ is the lower triangular matrix.
+    where $U_{k-1}$ is an upper triangular matrix and $L_{k-1} = EF\left(V_{k-1}\right)$ is the lower triangular matrix.
     \iffalse
     \begin{align*}
         V_{k} = &
