@@ -951,14 +951,11 @@ Remark~\ref{rem:rowEchelonForm} and Proposition~\ref{prop:rowEchelonForm} provid
 \end{definition}
 
 \begin{remark}\label{rem:rowEchelonForm}
-    Let $k_r, k_c \in \N$ and $M\in Mat_{k_r,k_c}(\mathbb{F}_2^n)$. Let $M^T = L^TU^T$ be the $LU$ decomposition of $M^T$, then: $EF(M) =_p U$.
+    Let $k_r, k_c \in \N$ and $M\in Mat_{k_r,k_c}(\mathbb{F}_2^n)$. Let $M = L\cdot U$ where $L$ a lower triangular matrix and $U$ is an upper triangular matrix, then: $EF(M) =_p L$.
 %    \begin{align*}
   %      EF(M) =_p U
  %   \end{align*}
 \end{remark}
-
-\pmnote{@Luca, what does "the upper triangular of $V_{k-1}$" mean in the following proposition? is a word missing?}
-
 
 \begin{proposition}\label{prop:rowEchelonForm}
     Let $k$ be such that $1<k< \min{\left(|Z|,|E_{D_n^n}|\right)}$ it holds that
@@ -974,16 +971,14 @@ Remark~\ref{rem:rowEchelonForm} and Proposition~\ref{prop:rowEchelonForm} provid
         \end{pmatrix}
         \end{pmatrix}.
     \end{align*}
-    where $P_{k-1}$ if the inverse of the upper triangular of $V_{k-1}$: it is such that $L_{k-1}^{-1} = P_{k-1}$, where $V_{k-1} = U_{k-1}L_{k-1}$ with $EF(V_{k-1})=_p U_{k-1}$
+    where $P_{k-1}$ if the inverse of the upper triangular of $V_{k-1}$: it is such that $U_{k-1}^{-1} = P_{k-1}$, where $V_{k-1} = L_{k-1}U_{k-1}$ with $EF(V_{k-1})=_p L_{k-1}$
 \end{proposition}
 \begin{proof}
-    Let $k$ be such that $1<k< \min{\left(|Z|,|E_{D_n^n}|\right)}$. The triangular composition of $V_{k-1}^T$ is:
-    
-    \pmnote{Composition or decomposition? do you refer to the "LU" decomposition, or another one?}   
+    Let $k$ be such that $1<k< \min{\left(|Z|,|E_{D_n^n}|\right)}$. The $LU$-decomposition of $V_k$ is  
     \begin{align*}
-        V_{k-1}^T = L_{k-1}^T U_{k-1}^T \Rightarrow V_{k-1} = U_{k-1} L_{k-1},
+        V_{k-1} = L_{k-1} U_{k-1},
     \end{align*}
-    where $L_{k-1}$ is an upper triangular matrix and $U_{k-1} = EF\left(V_{k-1}\right)$ is the lower triangular matrix.
+    where $L_{k-1}$ is an upper triangular matrix and $L_{k-1} = EF\left(V_{k-1}\right)$ is the lower triangular matrix.
     \iffalse
     \begin{align*}
         V_{k} = &
@@ -1014,7 +1009,7 @@ Remark~\ref{rem:rowEchelonForm} and Proposition~\ref{prop:rowEchelonForm} provid
 \[
 V_{k} = 
 \begin{pmatrix}
-\multicolumn{4}{c}{\multirow{4}{*}{$U_{k-1}L_{k-1}$}} & z_k^{\alpha_1}\\
+\multicolumn{4}{c}{\multirow{4}{*}{$L_{k-1}U_{k-1}$}} & z_k^{\alpha_1}\\
 & & & & z_k^{\alpha_2}\\
 & & & & \vdots\\
 & & & & z_{k}^{\alpha_{k-1}}\\
@@ -1022,14 +1017,14 @@ z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}} & z_{k}^{\alp
 \end{pmatrix}
 = 
 \begin{pmatrix}
-\multicolumn{4}{c}{\multirow{4}{*}{$U_{k-1}$}} & z_k^{\alpha_1}\\
+\multicolumn{4}{c}{\multirow{4}{*}{$L_{k-1}$}} & z_k^{\alpha_1}\\
 & & & & z_k^{\alpha_2}\\
 & & & & \vdots\\
 & & & & z_{k}^{\alpha_{k-1}}\\
-(z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}})L_{k-1}^{-1} & z_{k}^{\alpha_k}
+(z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}})U_{k-1}^{-1} & z_{k}^{\alpha_k}
 \end{pmatrix}
 \begin{pmatrix}
-\multicolumn{4}{c}{\multirow{4}{*}{$L_{k-1}$}} & 0\\
+\multicolumn{4}{c}{\multirow{4}{*}{$U_{k-1}$}} & 0\\
 & & & & 0\\
 & & & & \vdots\\
 & & & & 0\\
@@ -1038,8 +1033,8 @@ z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}} & z_{k}^{\alp
 \]
     
     
-    Since $L_{k-1}$ is an upper triangular matrix, $ \begin{pmatrix}
-            \multicolumn{4}{c}{\multirow{4}{*}{$L_{k-1}$}} & 0\\
+    Since $U_{k-1}$ is an upper triangular matrix, $ \begin{pmatrix}
+            \multicolumn{4}{c}{\multirow{4}{*}{$U_{k-1}$}} & 0\\
             & & & & 0\\
             & & & & \vdots\\
             & & & & 0\\
@@ -1049,15 +1044,15 @@ z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}} & z_{k}^{\alp
         EF\left(V_{k}\right) =_p & EF
         \begin{pmatrix}
         \begin{pmatrix}
-            \multicolumn{4}{c}{\multirow{4}{*}{$U_{k-1}$}} & z_k^{\alpha_1}\\
+            \multicolumn{4}{c}{\multirow{4}{*}{$L_{k-1}$}} & z_k^{\alpha_1}\\
             & & & & z_k^{\alpha_2}\\
             & & & & \vdots\\
             & & & & z_{k}^{\alpha_{k-1}}\\
-            (z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}})L_{k-1}^{-1} & z_{k}^{\alpha_k}
+            (z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}})U_{k-1}^{-1} & z_{k}^{\alpha_k}
         \end{pmatrix}
         \end{pmatrix}.
     \end{align*}
-    Taking $U_{k-1} =_p EF\left(V_{k-1}\right)$ and $P_{k-1} = L_{k-1}^{-1}$:
+    Taking $L_{k-1} =_p EF\left(V_{k-1}\right)$ and $P_{k-1} = U_{k-1}^{-1}$:
     \begin{align*}
         EF\left(V_{k}\right) =_p & EF
         \begin{pmatrix}
