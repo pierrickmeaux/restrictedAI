@@ -1257,7 +1257,8 @@ Therefore, we have to take a different approach for $m > 2$ by generating a cert
 
 \subsubsection{Determination of the full distribution for \texorpdfstring{m=2}{m=2}}
 For $m=2 \Rightarrow n = 4$, it is possible to determine the full probability distribution from Definition \ref{def:distAIk} without using the random sampling strategy.\\
-The resulting plots can be found on Fig \ref{fig:dullDist} and Fig \ref{fig:averagesFullDist}. % and the corresponding data in Table \ref{table:averagesFullDist} and Table \ref{table:probFullDist}.
+The resulting plots can be found on Fig \ref{fig:dullDist} and Fig \ref{fig:averagesFullDist}. 
+%and the corresponding data in Table \ref{table:averagesFullDist} and Table \ref{table:probFullDist}.
 
 \begin{figure}[ht]
     \centering
@@ -1278,58 +1279,6 @@ The resulting plots can be found on Fig \ref{fig:dullDist} and Fig \ref{fig:aver
     \label{fig:dullDist}
 \end{figure}
 
-\begin{comment}
-\begin{table}[ht]
-    \centering
-    \begin{minipage}{0.45\textwidth}
-        \centering
-       \begin{tabular}{rrr}
-\toprule
- $k$ &  $AI_k(f)=d$ &  $p\left(AI_K(f) = d\right)$ \\
-\midrule
-   0 &            0 &                          1.0 \\
-   0 &            1 &                          0.0 \\
-   0 &            2 &                          0.0 \\
-   \hline
-   1 &            0 &                          0.0 \\
-   1 &            1 &                          1.0 \\
-   1 &            2 &                          0.0 \\
-   \hline
-   2 &            0 &                          0.0 \\
-   2 &            1 &                          1.0 \\
-   2 &            2 &                          0.0 \\
-   \hline
-   3 &            0 &                          0.0 \\
-   3 &            1 &                          1.0 \\
-   3 &            2 &                          0.0 \\
-   \hline
-   4 &            0 &                          1.0 \\
-   4 &            1 &                          0.0 \\
-   4 &            2 &                          0.0 \\
-\bottomrule
-\end{tabular}
-        \caption{Probability distribution of $AI_k$ for $n=4$, $m=2$}
-        \label{table:probFullDist}
-    \end{minipage}\hfill
-    \begin{minipage}{0.45\textwidth}
-        \centering
-        \begin{tabular}{rrr}
-\toprule
- $k$ &  $\mathbb{E}[T(AI_k)]$ &  $\mathbb{E}[AI_k]$ \\
-\midrule
-   0 &               0.000038 &                 0.0 \\
-   1 &               0.055785 &                 1.0 \\
-   2 &               0.062083 &                 1.0 \\
-   3 &               0.067631 &                 1.0 \\
-   4 &               0.000105 &                 0.0 \\
-\bottomrule
-\end{tabular}
-        \caption{Average execution time and $AI_k$ for $n=4$, $m=2$}
-        \label{table:averagesFullDist}
-    \end{minipage}
-\end{table}
-\end{comment}
-
 \subsubsection{Random Sampling}
 In practice, the random sampling is done by generating a set $\Omega_k = \{\omega_1^{(k)}, \cdots, \omega_{|\Omega|}^{(k)}\}$ of $|\Omega|$ number of random balanced sub-truth tables for each slice $E_{k,n}$. Then, for each slice $E_{k,n}$ the $AI_k$ is calculated with each restricted set in $\Omega_k$ and the number of times a particular $AI_k$ is computed is counted.\\
 Depending on the value of $m$ and the chosen sample size, the number of sub-truth tables generated may be too large to fit in memory simultaneously. Therefore, it is essential to avoid storing all elements in memory at once. Instead, we should process them one by one, either by computing sequentially or by using iterators.\\ 
@@ -1346,8 +1295,7 @@ The following procedure is done for each slice $E_{k,n}$.
 \end{enumerate}
 
 \textbf{Results for $n=8$ and sample size$=2^{15}$}\\
-Figure \ref{fig:probDist32768} represent the $AI_K$ distribution and Figure \ref{fig:averages32768} $AI_k$ average values.\\
-The table \lbnote{reference to table} shows the average values plotted in Figure \ref{fig:averages32768} and the average execution times and table \lbnote{Reference to table} shows the data of the probability distribution plotted in Figure \ref{fig:probDist32768}.
+Figure \ref{fig:probDist32768} represent the $AI_K$ distribution and Figure \ref{fig:averages32768} $AI_k$ average values.
 
 \begin{figure}[ht]
     \centering
@@ -1367,7 +1315,50 @@ The table \lbnote{reference to table} shows the average values plotted in Figure
     \caption{Mean $AI_k$ and probability distribution of $AI_k$ with sampling size $23768$ of Boolean function of $n=8$ variable}
     \label{fig:main2}
 \end{figure}
-\newpage
+
+The average execution times for the $AI_k$ distributions with $n=8$ and $n=16$ may be found in tables ~\ref{table:averagesFullDist} and ~\ref{table:averages32768}.\\
+\lbnote{Update Table ~\ref{table:averagesFullDist} and ~\ref{table:averages32768} after running the version with the Rust pkg.}
+
+\begin{table}[ht]
+    \centering
+\begin{minipage}{0.45\textwidth}
+    \centering
+    \begin{tabular}{rrr}
+        \toprule
+        $k$ &  $\mathbb{E}[T(AI_k)]$ &  $\mathbb{E}[AI_k]$ \\
+        \midrule
+        0 &               0.000038 &                 0.0 \\
+        1 &               0.055785 &                 1.0 \\
+        2 &               0.062083 &                 1.0 \\
+        3 &               0.067631 &                 1.0 \\
+        4 &               0.000105 &                 0.0 \\
+        \bottomrule
+    \end{tabular}
+    \caption{Average execution time and $AI_k$ for $n=4$, $m=2$}
+    \label{table:averagesFullDist}
+\end{minipage}
+\hfill
+\begin{minipage}{0.45\textwidth}
+        \centering
+        \begin{tabular}{rrr}
+\toprule
+ $k$ &  $\mathbb{E}[T(AI_k)]$ &  $\mathbb{E}[AI_k]$ \\
+\midrule
+   0 &               0.000077 &            0.000000 \\
+   1 &               0.056558 &            1.000000 \\
+   2 &               0.079638 &            1.953949 \\
+   3 &               0.166060 &            2.016144 \\
+   4 &               0.180384 &            2.874725 \\
+   5 &               0.137634 &            2.016327 \\
+   6 &               0.080762 &            1.951599 \\
+   7 &               0.058244 &            1.000000 \\
+   8 &               0.000217 &            0.000000 \\
+\bottomrule
+\end{tabular}
+        \caption{Average execution time and $AI_k$ for $n=8$, $m=3$ and $\mbox{sampleSize}=32768$}
+        \label{table:averages32768}
+    \end{minipage}
+\end{table}
 
 \subsection{Determination of \texorpdfstring{$AI_k$}{AIk} of published Boolean functions}
 In this section, we calculate the $AI_k$s of the published function ~\cite{Mat:ZJZQ23} and ~\cite{AMC:DalMal23} for $n=8$ and $16$ variables. Table \ref{table:publiedFunctions} shows these results.% and Figures \ref{fig:DM24}  and \ref{fig:ZS23} and Tables \ref{table:DM24} and \ref{table:ZS23} provide details for each function.\\
@@ -1400,6 +1391,8 @@ $n$ & $AI_0$ & $AI_1$ & $AI_2$ & $AI_3$ & $AI_4$ & $AI_5$ & $AI_6$ & $AI_7$ & $A
 \end{tabular}
 }
 \end{table}
+\lbnote{Update the execution times after running the updated version with the Rust pkg.}\\
+The maximum execution times for ~\cite{AMC:DalMal23} and ~\cite{Mat:ZJZQ23} with $n=8$ occur with $k=4$ and are $0.154$ and $0.179$ seconds, respectively. For $n=16$, ~\cite{AMC:DalMal23} has a maximum execution time with $k=7$ of $126$ seconds, while ~\cite{Mat:ZJZQ23} has a maximum execution time with $k=9$ of $238.984$ seconds.
 
 \begin{comment}
 \begin{figure}[ht]
