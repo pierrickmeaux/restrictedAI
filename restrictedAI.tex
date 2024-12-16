@@ -21,7 +21,7 @@
 \begin{document}
 	
 \setcounter{page}{1}
-	\title{Title}
+	\title{Computing the restricted algebraic immunity, and application to WPB functions. }
 
 	
 	\titlerunning{title}
@@ -55,7 +55,7 @@
 	\begin{abstract}
 
 		
-\keywords{Boolean functions, Weightwise perfectly balanced functions, Cryptographic criteria.}		
+\keywords{Boolean functions, Restricted algebraic immunity, Weightwise perfectly balanced functions.}		
 		
 	\end{abstract}
 
@@ -79,34 +79,12 @@ For a vector $v\in \F_2^n$ we use $\w(v)$ to denote its Hamming weight $\w(v)=|\
 For two vectors $v$ and $w$ in $\F_2^n$ we denote by $\hd(v,w)$ the Hamming distance between $v$ and $w$, that is, $\hd(v,w)=\w(v+w)$. 
 For two functions $f$ and $g$ we denote by $\hd(f,g)$ the Hamming distance between their vectors of values.
 
+\pmnote{I changed "ordering" into "order", the mathematical notion is known under this name.
+
+@Luca, use the macro already in the header, for $\AIk{k}$ and $\WPB{m}$ for example, it allows to have it written the same way in the whole document.}
 
 
-
-\subsection{Ordering relations on \texorpdfstring{$\mathbb{F}_2^n$}{F\_2^n}}
-
-Let $n\in \N^*$
-Two ordering relations in $\mathbb{F}_2^n$ are used: the \textit{lexicographic} and the \textit{graded lex} order.
-
-\pmnote{I did not understand why you introduced a permutation to define the orders, I add a definition of order in the following, could you complete it for the graded lex? (in that case the definition + the itemize could replace Definition 2,3 and 4)
-	
-	Note that "leftmost nonzero entry of the vector difference $\alpha-\beta$ is positive" is not consistent when we take elements in $\F_2^n=( \{0,1\}^n, \oplus, \odot )$ since "-", and "negative" are not well defined on Boolean vectors.
-}
-
-
-\lbnote{I have removed the the definition of lexicographical and graded lex that I had added before and used your definition to which I have added the greded lex. I have added the lex and glex subscript to the orders to be able to use the $\preceq_{lex}$ in the $\preceq_{glex}$
-}
-
-
-\begin{definition}[Order]\label{def:order}
-	A binary relation $\preceq$	on a set $X$ is called partial order if $\preceq$ is reflexive, transitive and antisymmetric. Moreover, $\preceq$ is a total order if for all $a,b\in X$ it holds $a\preceq b$ or $b \preceq a$.
-	
-\end{definition}
-
-We give two examples of orders on $n$-length binary strings, more examples can be found in \eg~\cite{FUN:SteWil12}:
-\begin{itemize}
-	\item Lexicographic, given $a,b \in \F_2^n$ as $a=a_1,\ldots, a_n$ and $b=b_1,\ldots,b_n$, $a\preceq_{lex} b$ if and only if  $a_i<b_i$ on the first index $i\in [1,n]$ such that $a_i\ne b_i$, or $a=b$.
-	\item Graded lexicographic, given $a,b \in \F_2^n$ as $a=a_1,\ldots, a_n$ and $b=b_1,\ldots,b_n$, $a\preceq_{glex} b$ if $w_H(a) < w_H(b)$ or $w_H(a) = w_H(b)$ and $a a\preceq_{lex}  b$
-\end{itemize}
+%\subsection{Order relations on \texorpdfstring{$\mathbb{F}_2^n$}{F\_2^n}}
 
 \subsection{Boolean functions, cryptographic criteria, and weightwise properties}
 In this section, we recall fundamental concepts concerning Boolean functions and their weightwise properties, which are utilized throughout this article. For a more comprehensive introduction to Boolean functions and their cryptographic parameters, we recommend consulting the book by Carlet~\cite{Carlet20},
@@ -166,7 +144,7 @@ Subsequently, we introduce key cryptographic criteria for these functions, inclu
 
 \begin{definition}[Algebraic Normal Form (ANF) and degree]\label{def:anf}
 We call Algebraic Normal Form of a Boolean function $f$ its $n$-variable polynomial representation over $\F_2$ (\ie belonging to $\F_2[x_1,\dots,x_n]/(x_1^2+x_1,\dots,x_n^2+x_n)$):
-	\[f(x_1,\dots,x_n)= \sum_{I \subseteq [1,n]} a_I \left( \prod_{i \in I} x_i \right) \]%x_1,\dots,x_n=\sum_{I \subseteq [1,n]} a_I x^I,\]
+	\[f(x_1,\dots,x_n)= \sum_{I \subseteq [1,n]} a_I \left( \prod_{i \in I} x_i \right), \]%x_1,\dots,x_n=\sum_{I \subseteq [1,n]} a_I x^I,\]
 	where $a_I\in \F_2$. 
 %The (algebraic) degree of $f$, denoted $\degg(f)$ is: \[\degg(f):=\left\{\begin{array}{l}
 %	\max_{I\subseteq [1,n]}\{ |I|\, | \, a_I=1\}  \text{ if $f$ is not null}\\
@@ -176,47 +154,43 @@ The (algebraic) degree of $f$, denoted $\degg(f)$ is: \[\degg(f)=\
 \max_{I\subseteq [1,n]}\{ |I|\, | \, a_I=1\}  \text{ if $f$ is not null},0  \text{ otherwise}.\]
 \end{definition}	
 
-\begin{definition}[Truth table]\label{def:trutthTable}
-	Let $f\in \Bn{n}$ be a Boolean function, and $X = dom(f) = \{x_1, x_2, \cdots, x_{|X|}\}$ it's domain ordered in lexicographical order.\\
-	The truth table of the Boolean function $f$ is the function $TT$ defines as
-	\begin{align*}
-	TT: \Bn{n} \rightarrow \mathbb{F}_2^{2^n},\  f \mapsto \left(f(x_i)\right)_{1\leq i \leq |X|} = \left(f(x_1), f(x_2), \cdots, f(x_{|X|})\right)
-	\end{align*}
-\end{definition}
+
+We also recall the concept of order on $\F_2^n$, as it will be utilized in the algorithms involving Boolean functions.
+
+%Let $n\in \N^*$
+%Two order relations in $\mathbb{F}_2^n$ are used: the \textit{lexicographic} and the \textit{graded lex} order.
 
 
-\pmnote{ I propose the following change (to not focus on the order, if accepted we adapt to see how to introduce $f_S$):
-
-\begin{definition}[Truth table]
-	Let $f\in \Bn{n}$ be a Boolean function, its truth table is the Boolean vector defined as:
-\begin{align*}
-TT(f) \in \F_2^{2^n},\  TT(f) = \left(f(0_n), \dots, f(1_n)\right).
-\end{align*}	
-	When $f$ is the restriction to a subset $S\subseteq \F_2^n$ written as and $S = \{a_1, a_2, \cdots, a_{|S|}\}$, the truth table of $f$ restricted to $S$ refers to the vector $\left(f(a_1), f(a_2), \dots, f(a_{|S|})\right)$.
-
-If not specified otherwise, the (restricted) truth table follows the lexicographic order.	
-	
+\begin{definition}[Order]\label{def:order}
+	A binary relation $\preceq$	on a set $X$ is called partial order if $\preceq$ is reflexive, transitive and antisymmetric. 
+	Moreover, $\preceq$ is a total order if for all $a,b\in X$ it holds $a\preceq b$ or $b \preceq a$.
 	
 \end{definition}
-}
 
-\lbnote{ I have removed the definition on the restriction of $S$ and updated the Definition \ref{def:trutthTable} to contain the notation $f_S$. What do you think about this?}
+We give two examples of orders on $n$-length binary strings, more examples can be found in \eg~\cite{FUN:SteWil12}:
+\begin{itemize}
+	\item Lexicographic, given $a,b \in \F_2^n$ as $a=a_1,\ldots, a_n$ and $b=b_1,\ldots,b_n$, $a\preceq_{lex} b$ if and only if  $a_i<b_i$ on the first index $i\in [1,n]$ such that $a_i\ne b_i$, or $a=b$.
+	\item Graded lexicographic, given $a,b \in \F_2^n$ as $a=a_1,\ldots, a_n$ and $b=b_1,\ldots,b_n$, $a\preceq_{glex} b$ if $w_H(a) < w_H(b)$ or $w_H(a) = w_H(b)$ and $ a\preceq_{lex}  b$
+\end{itemize}
+
+
+
 
 \begin{definition}[Truth table]\label{def:trutthTable}
 	Let $f\in \Bn{n}$ be a Boolean function, its truth table is the Boolean vector defined as:
 \begin{align*}
 TT(f) \in \F_2^{2^n},\  TT(f) = \left(f(0_n), \dots, f(1_n)\right).
 \end{align*}	
-	Denoting by $f_S$, the restriction of $f$ to a subset $S\subseteq \F_2^n$ written as and $S = \{a_1, a_2, \cdots, a_{|S|}\}$, the truth table of $f_S$ refers to the vector $\left(f(a_1), f(a_2), \dots, f(a_{|S|})\right)$.
+	Denoting by $f_S$ the restriction of $f$ to a subset $S\subseteq \F_2^n$ written as $S = \{a_1, a_2, \cdots, a_{|S|}\}$, the truth table of $f_S$ refers to the vector $\left(f(a_1), f(a_2), \dots, f(a_{|S|})\right)$.
 
 If not specified otherwise, the (restricted) truth table follows the lexicographic order.	
-	
-	
+		
 \end{definition}
 
-\begin{remark}
-    We consider the truth table given in Definition \ref{def:trutthTable} to be ordered in lexicographical order.
-\end{remark}
+%\begin{remark}
+%    We consider the truth table given in Definition \ref{def:trutthTable} to be ordered in lexicographical order.
+%\end{remark}
+
 
 
 \begin{definition}[Algebraic immunity and restricted algebraic immunity] \label{def:ai}
@@ -478,7 +452,7 @@ Let $r,n\in\N^*$ with $r\leq n$. Let $G_{r,n}$ be the generator matrix of the Re
 	\hat{a} \cdot G_{r,n}^{f_S,S} & = \left(\sum_{i=1}^{D_r^n}a_i f_S(u_1)(G_{r,n}^S)_{i,1}, \sum_{i=1}^{D_r^n}a_i f_S(u_2)(G_{r,n}^S)_{i,2}, \cdots, \sum_{i=1}^{D_r^n}a_i f_S(u_n)(G_{r,n}^S)_{i,n}\right)     \\
 	& =  \left(f_S(u_1) \sum_{i=1}^{D_r^n}a_i (G_{r,n}^S)_{i,1}, f_S(u_2) \sum_{i=1}^{D_r^n}a_i (G_{r,n}^S)_{i,2}, \cdots, f_S(u_n) \sum_{i=1}^{D_r^n}a_i (G_{r,n}^S)_{i,n}\right) \\
 	& = \left(f_S(u_1) g(u_1), f_S(u_2) g(u_2), \cdots, f_S(u_n) g(u_n)\right)                                                                                      \\
-	& = f_S \cdot g
+	& = f_S \cdot g.
 	\end{aligned}
 	\end{equation}
 	
@@ -486,13 +460,15 @@ Let $r,n\in\N^*$ with $r\leq n$. Let $G_{r,n}$ be the generator matrix of the Re
 \end{remark}
 
 \begin{proposition}\label{prop:compareranks}
-	Let $Z = supp\left(f^{(o)}\right) \cap S$.
-	If $rank\left(G^{f_{Z}^{(o)},S}_{r.n}\right) < rank(G^{S}_{r.n})$, then $f^{(o)}$ admits a $S$-non-zero-annihilator of degree at most $r$.
+	Let $Z = \supp\left(f^{(o)}\right) \cap S$.
+	If $\text{rank}\left(G^{f_{Z}^{(o)},S}_{r.n}\right) < \text{rank}(G^{S}_{r.n})$, then $f^{(o)}$ admits a $S$-non-zero-annihilator of degree at most $r$.
 \end{proposition}
 \begin{proof}
-	Since $D_r^n = rank(G^{f^{(o)}_S,S}_{r.n}) + |Ker(G^{f^{(o)}_S,S}_{r.n})| =  rank(G^{S}_{r.n}) + |Ker(G^{S}_{r.n})|$, we have that
-	$rank(G^{f_S^{(o)},S}_{r.n}) < rank(G^{S}_{r.n}) \iff |Ker(G^{f_S^{(o)},S}_{r.n})| > |Ker(G^{S}_{r.n})|$. Therefore $\exists v\in Ker(G^{f_S^{(o)},S}_{r.n}) \mbox{ such that }v\not\in Ker(G^{S}_{r.n})$. Hence, it exists a Boolean function $g$ of degree $r$, given by $v \cdot G_{r,n}$, which is such that $v \cdot G_{r,n}\neq 0$ and $v \cdot G_{r,n}^{S}\neq 0$, but $(g \cdot f_S^{(o)})_S = v \cdot G_{r,n}^{f_S^{(o)},S} = 0$.\\
-	Since $rank\left(G_{r,n}^{f_S^{(o)}, S}\right) = rank\left(G_{r,n}^{f^{(o)}, S}\right)$, $rank(G^{f^{(o)},S}_{r.n}) < rank(G^{S}_{r.n}) \Rightarrow rank(G^{f_Z^{(o)},S}_{r.n}) < rank(G^{S}_{r.n})$ and hence the condition $rank(G^{f_Z^{(o)},S}_{r.n}) < rank(G^{S}_{r.n})$ is enough to justify the existence of such $v$ giving the $S$-non-zero-annihilator $g$.
+	Since $D_r^n = \text{rank}(G^{f^{(o)}_S,S}_{r.n}) + |\text{Ker}(G^{f^{(o)}_S,S}_{r.n})| =  \text{rank}(G^{S}_{r.n}) + |\text{Ker}(G^{S}_{r.n})|$, we have that
+	$\text{rank}(G^{f_S^{(o)},S}_{r.n}) < \text{rank}(G^{S}_{r.n}) \iff |\text{Ker}(G^{f_S^{(o)},S}_{r.n})| > |\text{Ker}(G^{S}_{r.n})|$. 
+	Therefore $\exists v\in \text{Ker}(G^{f_S^{(o)},S}_{r.n}) \mbox{ such that }v\not\in \text{Ker}(G^{S}_{r.n})$. 
+	Hence, it exists a Boolean function $g$ of degree $r$, given by $v \cdot G_{r,n}$, which is such that $v \cdot G_{r,n}\neq 0$ and $v \cdot G_{r,n}^{S}\neq 0$, but $(g \cdot f_S^{(o)})_S = v \cdot G_{r,n}^{f_S^{(o)},S} = 0$.\\
+	Since $\text{rank}\left(G_{r,n}^{f_S^{(o)}, S}\right) = \text{rank}\left(G_{r,n}^{f^{(o)}, S}\right)$, $\text{rank}(G^{f^{(o)},S}_{r.n}) < \text{rank}(G^{S}_{r.n}) \Rightarrow \text{rank}(G^{f_Z^{(o)},S}_{r.n}) < \text{rank}(G^{S}_{r.n})$ and hence the condition $\text{rank}(G^{f_Z^{(o)},S}_{r.n}) < \text{rank}(G^{S}_{r.n})$ is enough to justify the existence of such $v$ giving the $S$-non-zero-annihilator $g$.
 \end{proof}
 
 Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the restricted algebraic immunity of a function $f$ of $n$ variables on the subset $S$. We give additional details:
@@ -640,7 +616,7 @@ Let $E = (\{\alpha_2, \alpha_2, \cdots, \alpha_{D_d^n}\})$ be such that $x^E$ is
     %The following remarks are made
     \begin{itemize}
         \item $V_{E,Z} = G_{d,n}^{f_{Z},S}$.
-        \item Let $E^{*}\subset E$, ordered by graded lex ordering. $V_{Z,E^{*}}$ is a sub-matrix of $G_{d,n}^{f_Z, S}$.
+        \item Let $E^{*}\subset E$, ordered by graded lex order. $V_{Z,E^{*}}$ is a sub-matrix of $G_{d,n}^{f_Z, S}$.
     \end{itemize}
 \end{remark}
 
@@ -844,7 +820,7 @@ Since $(\hat{\epsilon}, 0)$  cannot be in \( \text{ker}(V_{k+1}) \), the only po
 
 
 \begin{remark}
-    Notice that the definition of $V^{'}_{k+1}$ in Proposition~\ref{prop:swappingElementOfZToReduceKer}, does not conflict with Definition~\ref{def:inductiveConstructionOfV}, s constructing the sequence $(V_{k})_k$ does not require a specific ordering of the elements in the support $Z$.   
+    Notice that the definition of $V^{'}_{k+1}$ in Proposition~\ref{prop:swappingElementOfZToReduceKer}, does not conflict with Definition~\ref{def:inductiveConstructionOfV}, s constructing the sequence $(V_{k})_k$ does not require a specific order of the elements in the support $Z$.   
 \end{remark}
 
 
@@ -887,7 +863,12 @@ Since $(\hat{\epsilon}, 0)$  cannot be in \( \text{ker}(V_{k+1}) \), the only po
 
 \subsection{Using column echelon form matrices of the previous steps}\label{subsubsection:optEchelonForm}
 
-
+\pmnote{Two questions to answer here:
+	\begin{itemize}
+		\item	What is the interest of using the echelon form?
+	\item Where does the reader can read it, or see the impact of this part?
+	\end{itemize}
+ }
 
 
 \begin{definition}[Column Echelon form]
@@ -1232,32 +1213,39 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 \footnotetext[8]{\textsc{construct\_monomials} generates all monomials up to the gree $d$ with $n$ variables. $E_{D_n^n}$ may also be pre-computed and the function \textsc{construct\_monomials} removed from the algorithm.}
 
 \section{Applications to WAPB functions}
-In this section, we apply the algorithms to the weightwise perfectly balanced (WPB) Boolean functions with the intent to study their algebraic immunity restricted to subsets of constant Hamming weight. In particular, we determine the probability distributions of the $AI_k$ of WPB functions and we compute the $AI_k$ of some WPB Boolean functions already studied.
+In this section, we apply the algorithms to the weightwise perfectly balanced (WPB) Boolean functions with the intent to study their algebraic immunity restricted to subsets of constant Hamming weight. In particular, we determine the probability distributions of the $\AIk{k}$ of WPB functions and we compute the $\AIk{k}$ of some WPB Boolean functions already studied.
 
-\subsection{Determination of \texorpdfstring{$AI_k$}{AIk} distribution of WPB functions}
-Similarly to what has been done in ~\cite{Latin:GinMea23} for the weightwise non-linearity $NL_k$, we determine the discrete probability distribution of the $AI_k$ of weightwise perfectly balanced Boolean functions, describing the probability of a function $f\in WPB_{2^n}$ of having a certain algebraic immunity restricted on the slice $E_{k,n}$. A more formal definition in given Definition \ref{def:distAIk} below.
+\subsection{Determination of $\AIk{k}$ distribution of WPB functions}
+%Similarly to what has been done in~\cite{Latin:GinMea23} for the weightwise non-linearity $NL_k$, we determine the discrete probability distribution of the $\AIk{k}$ of weightwise perfectly balanced Boolean functions, describing the probability of a function $f\in \WPB{m}$ of having a certain algebraic immunity restricted on the slice $\Ekn{k}{n}$. A more formal definition in given Definition~\ref{def:distAIk} below
+
+
+
+Similar to the approach in~\cite{Latin:GinMea23} for analyzing the weightwise nonlinearity $\NLk{k}$, we determine the discrete probability distribution of $\AIk{k}$ for weightwise perfectly balanced Boolean functions. 
+This distribution describes the probability that a function $f \in \WPB{m}$ has a specific algebraic immunity restricted to the slice $\Ekn{k}{n}$. 
+A formal definition is provided in Definition~\ref{def:distAIk}:
 
 \begin{definition}\label{def:distAIk}
-    Let $m \in \N^*$, $n = 2^m$ and $k \in [1,n-1]$. Similarly to ~\cite{Latin:GinMea23}, we define the discrete probability distribution of $AI_k$ as
+    Let $m \in \N^*$, $n = 2^m$ and $k \in [1,n-1]$, we define the discrete probability distribution of $\AIk{k}$ as:
     \begin{align*}
-        p_{AI_k}(x) = \frac{\bigg|\{f\in WPB_m\  |\  AI_k(f) = x\}\bigg|}{|WPB_m|}
+        p_{\AIk{k}}(x) = \frac{\bigg|\{f\in \WPB{m}\  |\  \AIk{k}(f) = x\}\bigg|}{|\WPB{m}|}.
     \end{align*}
 \end{definition}
 
-We aim to determine this distribution for $m = 2, 3$, and $4$. However, the number of due of $WPB$ functions increases fast with the growth of $m$, making this computation infeasible for $m > 2$. In fact, as stated in ~\cite{Latin:GinMea23}, $|WPB_2| = 720$, while $|WPB_3| > 2^{243}$ and $|WPB_4| > 2^{65452}$.\\
-Therefore, we have to take a different approach for $m > 2$ by generating a certain number of samples from the set $WPB_m$ and calculating the probability over it. The larger the sample size we select, the better we approximate the distribution \ref{def:distAIk}.
+We aim to determine this distribution for $m = 2, 3$, and $4$. 
+However, the number of due of WPB functions increases fast with the growth of $m$, making this computation infeasible for $m > 2$. In fact, as stated in ~\cite{Latin:GinMea23}, $|\WPB{2}| = 720$, while $|\WPB{3}| > 2^{243}$ and $|\WPB{4}| > 2^{65452}$.\\
+Therefore, we have to take a different approach for $m > 2$ by generating a certain number of samples from the set $\WPB{m}$ and calculating the probability over it. The larger the sample size we select, the better we approximate the distribution.
 
 \begin{definition}
-    We define the $AI_k$ distribution over a sample $\Omega$ as
+    We define the $\AIk{k}$ distribution over a sample $\Omega$ as:
     \begin{align*}
-        p_{\Omega, AI_k}(x) =  \frac{\bigg|\{f\in \Omega\ |\  AI_k(f) = x\}\bigg|}{|\Omega|}
+        p_{\Omega,\AIk{k} }(x) =  \frac{\bigg|\{f\in \Omega\ | \  \AIk{k}(f) = x\}\bigg|}{|\Omega|}
     \end{align*}
 \end{definition}
 
 
 \subsubsection{Determination of the full distribution for \texorpdfstring{m=2}{m=2}}
-For $m=2 \Rightarrow n = 4$, it is possible to determine the full probability distribution from Definition \ref{def:distAIk} without using the random sampling strategy.\\
-The resulting plots can be found on Fig \ref{fig:dullDist} and Fig \ref{fig:averagesFullDist}. 
+For $m=2 \Rightarrow n = 4$, it is possible to determine the full probability distribution from Definition~\ref{def:distAIk} without using the random sampling strategy. 
+The resulting plots can be found on Figure~\ref{fig:dullDist} and Figure~\ref{fig:averagesFullDist}. 
 %and the corresponding data in Table \ref{table:averagesFullDist} and Table \ref{table:probFullDist}.
 
 \begin{figure}[ht]
@@ -1294,15 +1282,16 @@ The following procedure is done for each slice $E_{k,n}$.
     \item Divide each value in the hash table by $|\Omega|$.
 \end{enumerate}
 
-\textbf{Results for $n=8$ and sample size$=2^{15}$}\\
-Figure \ref{fig:probDist32768} represent the $AI_K$ distribution and Figure \ref{fig:averages32768} $AI_k$ average values.
+\noindent
+\textbf{Results for $n=8$ and sample size$=2^{15}$}.
+Figure~\ref{fig:probDist32768} represents the $\AIk{k}$ distribution and Figure~\ref{fig:averages32768} $\AIk{k}$ average values.
 
 \begin{figure}[ht]
     \centering
     \begin{minipage}[b]{0.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/WPB_3_sample_size_32768_dist.png}
-        \caption{Mean $AI_k$}
+        \caption{Mean $\AIk{k}$}
         \label{fig:averages32768}
     \end{minipage}
     \hfill
@@ -1312,7 +1301,7 @@ Figure \ref{fig:probDist32768} represent the $AI_K$ distribution and Figure \ref
         \caption{Probability distribution of $AI_k$}
         \label{fig:probDist32768}
     \end{minipage}
-    \caption{Mean $AI_k$ and probability distribution of $AI_k$ with sampling size $23768$ of Boolean function of $n=8$ variable}
+    \caption{Mean $\AIk{k}$ and probability distribution of $\AIk{k}$ with sampling size $23768$ of Boolean function of $n=8$ variable}
     \label{fig:main2}
 \end{figure}
 
@@ -1334,7 +1323,7 @@ The average execution times for the $AI_k$ distributions with $n=8$ and $n=16$ m
         4 &               0.000105 &                 0.0 \\
         \bottomrule
     \end{tabular}
-    \caption{Average execution time and $AI_k$ for $n=4$, $m=2$}
+    \caption{Average execution time and $\AIk{k}$ for $n=4$, $m=2$}
     \label{table:averagesFullDist}
 \end{minipage}
 \hfill
@@ -1355,14 +1344,14 @@ The average execution times for the $AI_k$ distributions with $n=8$ and $n=16$ m
    8 &               0.000217 &            0.000000 \\
 \bottomrule
 \end{tabular}
-        \caption{Average execution time and $AI_k$ for $n=8$, $m=3$ and $\mbox{sampleSize}=32768$}
+        \caption{Average execution time and $\AIk{k}$ for $n=8$, $m=3$ and $\mbox{sampleSize}=32768$}
         \label{table:averages32768}
     \end{minipage}
 \end{table}
 
 \subsection{Determination of \texorpdfstring{$AI_k$}{AIk} of published Boolean functions}
-In this section, we calculate the $AI_k$s of the published function ~\cite{Mat:ZJZQ23} and ~\cite{AMC:DalMal23} for $n=8$ and $16$ variables. Table \ref{table:publiedFunctions} shows these results.% and Figures \ref{fig:DM24}  and \ref{fig:ZS23} and Tables \ref{table:DM24} and \ref{table:ZS23} provide details for each function.\\
-We see that ~\cite{AMC:DalMal23} is more secure than ~\cite{Mat:ZJZQ23} since it has a better $AI_k$s for both $n=8$ and $n=16$. in particular
+In this section, we calculate the $\AIk{k}$s of the published function~\cite{Mat:ZJZQ23} and~\cite{AMC:DalMal23} for $n=8$ and $16$ variables. Table \ref{table:publiedFunctions} shows these results.% and Figures \ref{fig:DM24}  and \ref{fig:ZS23} and Tables \ref{table:DM24} and \ref{table:ZS23} provide details for each function.\\
+We see that~\cite{AMC:DalMal23} is more secure than~\cite{Mat:ZJZQ23} since it has a better $\AIk{k}$s for both $n=8$ and $n=16$. in particular
 \begin{description}
     \item[n=8] ~\cite{Mat:ZJZQ23} has a constant $AI_k$ of $2$ for $k\in [2,7]$, while ~\cite{AMC:DalMal23} has a $AI_k$ of $3$ for $k=5$
     \item[n=16] ~\cite{Mat:ZJZQ23} has a constant $AI_k$ of $2$, $k\in [2,14]$, while ~\cite{AMC:DalMal23} has a $AI_k$ of $3$ for $k=5,7,9$ and $11$.
