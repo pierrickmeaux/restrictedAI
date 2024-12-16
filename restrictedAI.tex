@@ -65,7 +65,24 @@
 
 \pmnote{recall here the main idea of finding AI and rank of Reed Muller code, maybe re-read the explanation in "Extreme algebraic attacks"}
 
-\lbnote{example}
+\pmnote{intro in 2 parts
+\begin{itemize}
+	\item computing AI, computing on subsets (interest FLIP~\cite{EC:MJSC16}, EAA~\cite{eprint:MeaWan24}). 
+	Formalize the algorithms used in this case.
+	
+	\item WPB functions, introduced in~\cite{TOSC:CarMeaRot17}, got some interest, many families, parameters studied, almost nothing on AIk so far.
+\end{itemize}
+
+
+}
+
+
+Algebraic attack~\cite{EC:CouMei03}
+
+better complexity~\cite{EC:ACGKMR06}
+
+also algorithm~\cite{FSE:DidTil06}
+
 
 
 
@@ -446,7 +463,7 @@ Let $r,n\in\N^*$ with $r\leq n$. Let $G_{r,n}$ be the generator matrix of the Re
 \end{definition}
 
 \begin{remark}\label{rem:gfMatrix}
-	Let $g \in \Bn{n}$ a Boolean function of degree $r\leq n$ and $\hat{a} = \left(a_I\right)_{\substack{I \subseteq [1,n] \\ deg\left(x^I\right) \leq r}}$ be the vector of the coefficients of the $ANF$ of $g$, as a consequence of the construction of $G_{r,n}^{f,S}$, we have that
+	Let $g \in \Bn{n}$ a Boolean function of degree $r\leq n$ and $\hat{a} = \left(a_I\right)_{\substack{I \subseteq [1,n] \\ deg\left(x^I\right) \leq r}}$ be the vector of the coefficients of the ANF of $g$, as a consequence of the construction of $G_{r,n}^{f,S}$, we have that
 	\begin{equation}
 	\begin{aligned}
 	\hat{a} \cdot G_{r,n}^{f_S,S} & = \left(\sum_{i=1}^{D_r^n}a_i f_S(u_1)(G_{r,n}^S)_{i,1}, \sum_{i=1}^{D_r^n}a_i f_S(u_2)(G_{r,n}^S)_{i,2}, \cdots, \sum_{i=1}^{D_r^n}a_i f_S(u_n)(G_{r,n}^S)_{i,n}\right)     \\
@@ -1056,7 +1073,7 @@ Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} shows the procedure to
 %with degree $\geq 1$ 
 restricted to $S\subseteq \mathbb{F}_2^n$ of a function $f^{(o)} \in \{f, f+ 1\}$, while Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} shows the full procedure to determine the restricted algebraic immunity of $f$ in $S$, calling Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} for $f$ and $f+ 1$ in parallel.
 
-Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} which triggers the same process as Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative}, but applies it sequentially to $f$ and $f + 1$, to avoid waiting for both processes to complete simultaneously. This function is triggered only when $\mathrm{supp}(f) \cap S$ and $\mathrm{supp}(f + 1) \cap S$ differ significantly in cardinality, as in such cases, the probability of one of the two processes terminating quickly is high.
+Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} which triggers the same process as Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative}, but applies it sequentially to $f$ and $f + 1$, to avoid waiting for both processes to complete simultaneously. This function is triggered only when $\supp(f) \cap S$ and $\supp(f + 1) \cap S$ differ significantly in cardinality, as in such cases, the probability of one of the two processes terminating quickly is high.
 
 \begin{algorithm}
 	\caption{Algorithm to find the degree of the minimum-degree $S$-non-zero-annihilator of a function $f^{(o)}$.}\label{alg:MinDegreeSnonZeroAnnihilatorIterative}
@@ -1253,60 +1270,71 @@ The resulting plots can be found on Figure~\ref{fig:dullDist} and Figure~\ref{fi
     \begin{minipage}[b]{0.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/WPB_2_sample_size_full_dist.png}
-        \caption{Mean $AI_k$}
+        \caption{Mean of $\AIk{k}$ over $\WPB{2}$.}
         \label{fig:averagesFullDist}
     \end{minipage}
     \hfill
     \begin{minipage}[b]{0.5\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/WPB_2_sample_size_full_dist_prob.png}
-        \caption{Probability distribution of $AI_k$}
+        \caption{Probability distribution of $\AIk{k}$  over $\WPB{2}$.}
         \label{fig:probFullDist}
     \end{minipage}
-    \caption{Mean $AI_k$ and probability distribution of $AI_k$ from Definition \ref{def:distAIk} of Boolean functions the family $WPB_2$ variable}
+    \caption{Mean of $\AIk{k}$ and probability distribution of $\AIk{k}$ from Definition~\ref{def:distAIk} of $4$-variable WPB functions.}
     \label{fig:dullDist}
 \end{figure}
 
 \subsubsection{Random Sampling}
-In practice, the random sampling is done by generating a set $\Omega_k = \{\omega_1^{(k)}, \cdots, \omega_{|\Omega|}^{(k)}\}$ of $|\Omega|$ number of random balanced sub-truth tables for each slice $E_{k,n}$. Then, for each slice $E_{k,n}$ the $AI_k$ is calculated with each restricted set in $\Omega_k$ and the number of times a particular $AI_k$ is computed is counted.\\
-Depending on the value of $m$ and the chosen sample size, the number of sub-truth tables generated may be too large to fit in memory simultaneously. Therefore, it is essential to avoid storing all elements in memory at once. Instead, we should process them one by one, either by computing sequentially or by using iterators.\\ 
+In practice, random sampling is performed by generating a set $\Omega_k = \{\omega_1^{(k)}, \cdots, \omega_{|\Omega|}^{(k)}\}$ consisting of $|\Omega|$ random balanced sub-truth tables for each slice$ \Ekn{k}{n}$. 
+Then, for each slice $\Ekn{k}{n}$, the $\AIk{k}$ is computed for each restricted set in $\Omega_k$ the frequency of each particular $\AIk{k}$ value is recorded.
+Depending on the value of $m$ and the chosen sample size, the number of sub-truth tables generated may be too large to fit in memory simultaneously. 
+To address this, it is crucial to avoid storing all elements in memory at once. 
+Instead, they should be processed one by one, either by computing sequentially or by using iterators.
 
-The following procedure is done for each slice $E_{k,n}$.
+
+
+
+
+The following procedure is done for each slice $\Ekn{k}{n}$:
 \begin{enumerate}
-    \item Initialize a hash table of all possible values of $AI_k$
-    \item For each sub-truth table in $\omega_i^{(k)} \in \Omega_k$ ($\omega_i^{(k)}$ is either generated on the fly by an iterator or by having the source code for the generation of $\omega_i^{(k)}$ in this loop.)
+    \item Initialize a hash table of all possible values of $\AIk{k}$.
+    \item For each sub-truth table in $\omega_i^{(k)} \in \Omega_k$ (note that $\omega_i^{(k)}$ is either generated on the fly by an iterator or by having the source code for the generation of $\omega_i^{(k)}$ in this loop):
     \begin{enumerate}
-        \item Run Algorithm \ref{alg:fullAlg3ForAIRestrictesSetOpt} with $S=\omega_i^{(k)}$\label{enum:stepOfapplicationEnum}\\
-        \item Increment the value in the hash table corresponding to the output of the previous step
+        \item Run Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} with $S=\omega_i^{(k)}$\label{enum:stepOfapplicationEnum}.
+        \item Increment the value in the hash table corresponding to the output of the previous step.
     \end{enumerate}
     \item Divide each value in the hash table by $|\Omega|$.
 \end{enumerate}
 
 \noindent
 \textbf{Results for $n=8$ and sample size$=2^{15}$}.
-Figure~\ref{fig:probDist32768} represents the $\AIk{k}$ distribution and Figure~\ref{fig:averages32768} $\AIk{k}$ average values.
+Figure~\ref{fig:probDist32768} represents the $\AIk{k}$ distribution and Figure~\ref{fig:averages32768} the average values. 
+The average execution times for the $\AIk{k}$ distributions with $n=8$ and $n=16$ is displayed in tables~\ref{table:averagesFullDist} and ~\ref{table:averages32768}.
+
+\lbnote{Update Table ~\ref{table:averagesFullDist} and ~\ref{table:averages32768} after running the version with the Rust pkg.}
+
+\pmnote{add some comment on the results in 4 and 8 variables.}
 
 \begin{figure}[ht]
     \centering
     \begin{minipage}[b]{0.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/WPB_3_sample_size_32768_dist.png}
-        \caption{Mean $\AIk{k}$}
+        \caption{Estimated mean of $\AIk{k}$ over $\WPB{3}$}
         \label{fig:averages32768}
     \end{minipage}
     \hfill
     \begin{minipage}[b]{0.5\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/WPB_3_sample_size_32768_dist_prob.png}
-        \caption{Probability distribution of $AI_k$}
+        \caption{Eptimated Probability distribution of $\AIk{k}$ over $\WPB{3}$.}
         \label{fig:probDist32768}
     \end{minipage}
-    \caption{Mean $\AIk{k}$ and probability distribution of $\AIk{k}$ with sampling size $23768$ of Boolean function of $n=8$ variable}
+    \caption{Estimated mean of $\AIk{k}$ and probability distribution of $\AIk{k}$ over $8$-variable WPB functions, with $23768$ samples}
     \label{fig:main2}
 \end{figure}
 
-The average execution times for the $AI_k$ distributions with $n=8$ and $n=16$ may be found in tables ~\ref{table:averagesFullDist} and ~\ref{table:averages32768}.\\
-\lbnote{Update Table ~\ref{table:averagesFullDist} and ~\ref{table:averages32768} after running the version with the Rust pkg.}
+
 
 \begin{table}[ht]
     \centering
@@ -1349,22 +1377,45 @@ The average execution times for the $AI_k$ distributions with $n=8$ and $n=16$ m
     \end{minipage}
 \end{table}
 
-\subsection{Determination of \texorpdfstring{$AI_k$}{AIk} of published Boolean functions}
-In this section, we calculate the $\AIk{k}$s of the published function~\cite{Mat:ZJZQ23} and~\cite{AMC:DalMal23} for $n=8$ and $16$ variables. Table \ref{table:publiedFunctions} shows these results.% and Figures \ref{fig:DM24}  and \ref{fig:ZS23} and Tables \ref{table:DM24} and \ref{table:ZS23} provide details for each function.\\
-We see that~\cite{AMC:DalMal23} is more secure than~\cite{Mat:ZJZQ23} since it has a better $\AIk{k}$s for both $n=8$ and $n=16$. in particular
-\begin{description}
-    \item[n=8] ~\cite{Mat:ZJZQ23} has a constant $AI_k$ of $2$ for $k\in [2,7]$, while ~\cite{AMC:DalMal23} has a $AI_k$ of $3$ for $k=5$
-    \item[n=16] ~\cite{Mat:ZJZQ23} has a constant $AI_k$ of $2$, $k\in [2,14]$, while ~\cite{AMC:DalMal23} has a $AI_k$ of $3$ for $k=5,7,9$ and $11$.
-\end{description}
+\subsection{Determination of $\AIk{k}$ of known WPB families}
 
-\begin{table}[ht]
-\caption{$AI_k$ of ~\cite{AMC:DalMal23} and ~\cite{Mat:ZJZQ23} with $m=3 \Rightarrow n=8$ and $m=4 \Rightarrow n=16$}\label{table:publiedFunctions}
-\resizebox{\textwidth}{!}{
+In this section, we determine the $\AIk{k}$s of the function introduced in~\cite{Mat:ZJZQ23} and in~\cite{AMC:DalMal23} for $n=8$ and $16$ variables.
+
+
+The results are summarized in Table~\ref{table:publiedFunctions}. 
+The function from~\cite{AMC:DalMal23} would resist better to algebraic attacks (with constant Hamming weight inputs) than the one from~\cite{Mat:ZJZQ23}, as it achieves higher $\AIk{k}$ values for both $n = 8$ and $ n = 16$. Specifically:
+\begin{itemize}
+\item $n=8$. 
+The function in~\cite{Mat:ZJZQ23} has a constant$\AIk{k}$ of $2$ for $k \in [2, 7]$, whereas the function in~\cite{AMC:DalMal23} achieves an $\AIk{5}$ of $3$.
+
+\item $n=16$. 
+The function in~\cite{Mat:ZJZQ23} again has a constant $\AIk{k}$ of $2$ for $k \in [2, 14]$. 
+In contrast, the function in~\cite{AMC:DalMal23} achieves an $\AIk{k}$ of $3$ for $k = 5, 7, 9,$ and $11$.
+\end{itemize}
+
+%Table~\ref{table:publiedFunctions} shows these results. 
+%We see that~\cite{AMC:DalMal23} is more secure than~\cite{Mat:ZJZQ23} since it has a better $\AIk{k}$s for both $n=8$ and $n=16$. In particular
+%\begin{description}
+%	\item[n=8] ~\cite{Mat:ZJZQ23} has a constant $AI_k$ of $2$ for $k\in [2,7]$, while ~\cite{AMC:DalMal23} has a $AI_k$ of $3$ for $k=5$
+%	\item[n=16] ~\cite{Mat:ZJZQ23} has a constant $AI_k$ of $2$, $k\in [2,14]$, while ~\cite{AMC:DalMal23} has a $AI_k$ of $3$ for $k=5,7,9$ and $11$.
+%\end{description}
+
+The maximum execution times for~\cite{AMC:DalMal23} and~\cite{Mat:ZJZQ23} with $n=8$ occur with $k=4$ and are $0.154$ and $0.179$ seconds, respectively. For $n=16$, ~\cite{AMC:DalMal23} has a maximum execution time with $k=7$ of $126$ seconds, while~\cite{Mat:ZJZQ23} has a maximum execution time with $k=9$ of $238.984$ seconds. 
+
+
+
+
+
+\begin{table}[h]
+\center
+%\renewcommand{\tabcolsep}{0.5pt}	
+\caption{$\AIk{k}$ of the construction from~\cite{AMC:DalMal23} and from~\cite{Mat:ZJZQ23} with $m=3$ ($n=8$) and $m=4$ ($n=16$).\label{table:publiedFunctions}}
+%\resizebox{\textwidth}{!}{
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 \hline
 \multicolumn{18}{|c|}{~\cite{AMC:DalMal23}} \\
 \hline
-$n$ & $AI_0$ & $AI_1$ & $AI_2$ & $AI_3$ & $AI_4$ & $AI_5$ & $AI_6$ & $AI_7$ & $AI_8$ & $AI_9$ & $AI_{10}$ & $AI_{11}$ & $AI_{12}$ & $AI_{13}$ & $AI_{14}$ & $AI_{15}$ & $AI_{16}$ \\
+$n$, $k$ & $0$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$ & $11$ & $12$ & $13$ & $14$ & $15$ & $16$ \\
 \hline
 8 & 0 & 1 & 1 & 2 & 2 & 2 & 2 & 1 & 1 &  0 &  &  &  &  &  &  &  \\
 16 & 0 & 1 & 1 & 2 & 2 & 3 & 2 & 3 & 2 &  3 & 2 & 3 & 2 & 2 & 1 & 1 & 0 \\
@@ -1372,16 +1423,48 @@ $n$ & $AI_0$ & $AI_1$ & $AI_2$ & $AI_3$ & $AI_4$ & $AI_5$ & $AI_6$ & $AI_7$ & $A
 \hline
 \multicolumn{18}{|c|}{~\cite{Mat:ZJZQ23}} \\
 \hline
-$n$ & $AI_0$ & $AI_1$ & $AI_2$ & $AI_3$ & $AI_4$ & $AI_5$ & $AI_6$ & $AI_7$ & $AI_8$ & $AI_9$ & $AI_{10}$ & $AI_{11}$ & $AI_{12}$ & $AI_{13}$ & $AI_{14}$ & $AI_{15}$ & $AI_{16}$ \\
+$n$, $k$ & $0$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$ & $11$ & $12$ & $13$ & $14$ & $15$ & $16$ \\
 \hline
 8 & 0 & 1 & 2 & 2 & 2 & 2 & 2 & 2 & 1 &  0 &  &  &  &  &  &  &  \\
 16 & 0 & 1 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2  & 2 & 2 & 2 & 2 & 2 & 1 & 0 \\
 \hline
 \end{tabular}
-}
+
 \end{table}
+
+
 \lbnote{Update the execution times after running the updated version with the Rust pkg.}\\
-The maximum execution times for ~\cite{AMC:DalMal23} and ~\cite{Mat:ZJZQ23} with $n=8$ occur with $k=4$ and are $0.154$ and $0.179$ seconds, respectively. For $n=16$, ~\cite{AMC:DalMal23} has a maximum execution time with $k=7$ of $126$ seconds, while ~\cite{Mat:ZJZQ23} has a maximum execution time with $k=9$ of $238.984$ seconds.
+
+
+\pmnote{Add a summary table in 8 and one 16 variables with:
+
+\begin{itemize}
+	\item the values for~\cite{AMC:DalMal23}, for~\cite{Mat:ZJZQ23}, for~\cite{eprint:Meaux24} the best field order function
+	\item the estimated average from the computations
+	\item the maximum we observe
+	\item the bound given by~\cite{TOSC:CarMeaRot17} recalled in Remark 4.
+\end{itemize}
+
+}
+
+\begin{table}[h]
+	\center 
+%	\renewcommand{\tabcolsep}{0.5pt}	
+	\begin{tabular}{|c| c|c|c|c|c|}
+		\hline
+		Function &  $\AIk{2}$ & $\AIk{3}$ & $\AIk{4}$ &  $\AIk{5}$ & $\AIk{6}$  \\ \hline 
+		Field order~\cite{eprint:Meaux24} &$ 1$& $2$& $2$& $2$ &$2$ \\	\hline
+		Upper bound & $0$ &  $0$ & $0$  &  $0$ & $0$ \\	\hline
+	
+		
+	\end{tabular}
+	\caption{$\AIk{k}$ of WPB functions in $8$ variables.}
+	\label{tab:WPB8}
+\end{table}
+
+
+
+
 
 \begin{comment}
 \begin{figure}[ht]
