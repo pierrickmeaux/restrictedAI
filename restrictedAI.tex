@@ -502,9 +502,9 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 		\end{align*}
 		and store it in a file.\\
 		Similarly, we can also pre-compute and store a second hash table, containing all the $D^n$s such that $n \leq n_{max}$. Such hash table is
-		\begin{align*}\label{eq:degreesHashTable}
+		\begin{align}\label{eq:degreesHashTable}
 		D^{\leq n_{max}} =  \{\left(i,D^{n} \right)\}_{0 \leq i \leq n_{max}} =  \{\left(i, \{ \left(j, D_i^j\right)\}_{0\leq j \leq \lceil{i/2}\rceil} \right)\}_{0 \leq i \leq n_{max}}
-		\end{align*}
+		\end{align}
 		In Algorithm ~\ref{alg:RMApproach}, we therefore use the function \textsc{read\_values\_from\_file}, to read to two pre-computed hash tables from the files where they have been pre-stored before the execution of the algorithm.
 		\item The procedure \textsc{find\_deg\_smallest\_S\_annihilator} in ~\ref{alg:RMApproach} is done in parallel for $f$ and $f+ 1$ with the additional condition that if one of the two branches returns the value of $1$, the other branch is stopped, without having to wait for it to finish.
 	\end{enumerate}	
@@ -1232,6 +1232,12 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 \section{Applications to WPB functions}
 In this section, we apply the algorithms to the weightwise perfectly balanced (WPB) Boolean functions with the intent to study their algebraic immunity restricted to subsets of constant Hamming weight. In particular, we determine the probability distributions of the $\AIk{k}$ of WPB functions and we compute the $\AIk{k}$ of some WPB Boolean functions already studied.
 
+\subsection{Comparison between Algorithm \ref{alg:RMApproach} and Algorithm \ref{alg:fullAlg3ForAIRestrictesSetOpt} on WAPB functions}
+In this section, we compare the execution times of Algorithm \ref{alg:RMApproach} and Algorithm \ref{alg:fullAlg3ForAIRestrictesSetOpt} by running both algorithms on multiple $WAPB$ functions restricted to the largest set $E_{\lceil{n/2}\rceil,n}$, with different numbers of variables. Specifically, the experiment id done by running the algorithms with the number of variables $n$ going from $1$ to $10$. For both algorithms, if $n \leq 4$, we calculate the average over the $AI_{\lceil{n/2}\rceil}$ of all $WAPB$ functions of $n$ variables, whereas for $n > 4$, we calculate the average over the $AI_{\lceil{n/2}\rceil}$ of a random sample of 1,000 $WAPB$ functions.\\
+Figure \ref{fig:comparisonPlotFullSet} shows the mean execution time per value of $n$ of the two algorithms.
+Table \ref{table:timeComplexityComparisonFullSet} shows the data plotted in Figure \ref{fig:comparisonPlotFullSet}. $T\left(D^{\leq n_{max}}\right) = T\left(D^{\leq 10}\right)$ indicates the necessary time to pre-compute all the necessary Reed-Muller codes generator matrices following Equation \eqref{eq:degreesHashTable}: recall that it is the necessary time to compute the sequence $\left(G_{n,n}\right)_{n\in [1,8=n_{max}]}$, not just the generator matrix $G_{n,n}$ for the current iteration $n$.\\
+We notice in fact that $T\left(D^{\leq 10}\right)$ is constant, that is because that computation occurs before beginning the experiment since it is expected that the Algorithm \ref{alg:RMApproach} is able to run for any number of variable $n$ up to an upper bound $n_{max}$, without having to compute the Reed-Muller code for it.
+
 \subsection{Determination of $\AIk{k}$ distribution of WPB functions}
 %Similarly to what has been done in~\cite{Latin:GinMea23} for the weightwise non-linearity $NL_k$, we determine the discrete probability distribution of the $\AIk{k}$ of weightwise perfectly balanced Boolean functions, describing the probability of a function $f\in \WPB{m}$ of having a certain algebraic immunity restricted on the slice $\Ekn{k}{n}$. A more formal definition in given Definition~\ref{def:distAIk} below
 
@@ -1613,7 +1619,7 @@ $n$, $k$ & $0$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$ & $1
     \caption{$AI_k$ and execution times of ~\cite{Mat:ZJZQ23} with $m=3 \Rightarrow n=8$ and $m=4 \Rightarrow n=16$}\label{table:ZS23}
 \end{table}
 \end{comment}
-
+5
 \section{Conclusion and open questions}
 
 %\section{Acknowledgments}
