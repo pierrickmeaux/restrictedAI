@@ -1224,7 +1224,7 @@ We notice in fact that $T\left(G^{\leq 12}\right)$ is constant, that is because 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.7\textwidth]{images/plot_10000.png}
-    \caption{Average time execution per number of variables of Algorithms~\ref{alg:RMApproach} and \ref{alg:fullAlg3ForAIRestrictesSetOpt} over $10^4$ random WAPB functions on the set $E_{\lceil{n/2}\rceil,n}$.}\label{fig:compTimePlot}
+    \caption{Average time execution per number of variables of Algorithms~\ref{alg:RMApproach} and \ref{alg:fullAlg3ForAIRestrictesSetOpt} over $10^4$ random WAPB functions on the set $E_{\lceil{n/2}\rceil,n}$. $T\left(G^{\leq 12}\right)$ gives the time of the pre-computation of the sequence of all Reed-Muller matrices up to $G_{12,12}$.}\label{fig:compTimePlot}
 \end{figure}
 
 The pre-computation times of $G^{\leq n_{max}}$ for Algorithm~\ref{alg:RMApproach} are given in the Table~\ref{table:preComputationTimes}.
@@ -1235,7 +1235,7 @@ The pre-computation times of $G^{\leq n_{max}}$ for Algorithm~\ref{alg:RMApproac
 \toprule
     $G^{\leq 1}$  & $G^{\leq 2}$  &$G^{\leq 3}$  & $G^{\leq 4}$  & $G^{\leq 5}$  & $G^{\leq 6}$  & $G^{\leq 7}$  &$G^{\leq 8}$ & $G^{\leq 9}$ & $G^{\leq 10}$ & $G^{\leq 11}$  & $G^{\leq 12}$ \\
     \midrule
-     0.0126 & 0.0042 & 0.0017 & 0.004 & 0.0149 & 0.0470 & 0.1938 & 0.806& 3.5456& 14.9168& 65.5014 & 279.0221\\
+     0.0126 & 0.0042 & 0.0017 & 0.004 & 0.0149 & 0.0470 & 0.1938 & 0.806& 3.5456& 14.9168& 65.5014 & 276.2263\\
      \bottomrule
 \end{tabular}
 \caption{Pre-computation time for $G^{n_{max}}$ for $n_{max}$ from $1$ to $12$.}\label{table:preComputationTimes}
