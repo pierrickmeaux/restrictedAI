@@ -1216,12 +1216,32 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 In this section, we apply the algorithms to the weightwise perfectly balanced (WPB) Boolean functions with the intent to study their algebraic immunity restricted to subsets of constant Hamming weight. In particular, we determine the probability distributions of the $\AIk{k}$ of WPB functions and we compute the $\AIk{k}$ of some WPB Boolean functions already studied.
 
 \subsection{Comparison between Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} on WAPB functions}
-In this section, we compare the execution times of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} by running both algorithms on multiple $WAPB$ functions restricted to the largest set $E_{\lceil{n/2}\rceil,n}$, with different numbers of variables. Specifically, the experiment id done by running the algorithms with the number of variables $n$ going from $1$ to $10$. For both algorithms, if $n \leq 4$, we calculate the average over the $AI_{\lceil{n/2}\rceil}$ of all $WAPB$ functions of $n$ variables, whereas for $n > 4$, we calculate the average over the $AI_{\lceil{n/2}\rceil}$ of a random sample of 1,000 $WAPB$ functions.\\
-Figure~\ref{fig:comparisonPlotFullSet} shows the mean execution time per value of $n$ of the two algorithms.
-Table~\ref{table:timeComplexityComparisonFullSet} shows the data plotted in Figure~\ref{fig:comparisonPlotFullSet}. $T\left(D^{\leq n_{max}}\right) = T\left(D^{\leq 10}\right)$ indicates the necessary time to pre-compute all the necessary Reed-Muller codes generator matrices following Equation \eqref{eq:degreesHashTable}: recall that it is the necessary time to compute the sequence $\left(G_{n,n}\right)_{n\in [1,8=n_{max}]}$, not just the generator matrix $G_{n,n}$ for the current iteration $n$.\\
-We notice in fact that $T\left(D^{\leq 10}\right)$ is constant, that is because that computation occurs before beginning the experiment since it is expected that the Algorithm~\ref{alg:RMApproach} is able to run for any number of variable $n$ up to an upper bound $n_{max}$, without having to compute the Reed-Muller code for it.\\
+In this section, we compare the execution times of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} by running both algorithms on multiple $WAPB$ functions restricted to the largest set $E_{\lceil{n/2}\rceil,n}$, with different numbers of variables. Specifically, the experiment id done by running the algorithms with the number of variables $n$ going from $1$ to $12$. For both algorithms, if $n \leq 4$, we calculate the average over the $\AIk{\lceil{n/2}\rceil}$ of all $WAPB$ functions of $n$ variables, whereas for $n > 4$, we calculate the average over the $\AIk{\lceil{n/2}\rceil}$ of a random sample of $10^4$ WAPB functions.\\
+Figure~\ref{fig:compTimePlot} shows the mean execution time per value of $n$ of the two algorithms.
+$T\left(G^{\leq n_{max}}\right) = T\left(G^{\leq 12} \right)$ indicates the necessary time to pre-compute all the necessary Reed-Muller codes generator matrices following Equation \eqref{eq:matricesHashTable}: recall that it is the necessary time to compute the sequence $\left(G_{n,n}\right)_{n\in [1,12=n_{max}]}$, not just the generator matrix $G_{n,n}$ for the current iteration $n$.\\
+We notice in fact that $T\left(G^{\leq 12}\right)$ is constant, that is because that computation occurs before beginning the experiment since it is expected that the Algorithm~\ref{alg:RMApproach} is able to run for any number of variable $n$ up to an upper bound $n_{max}$, without having to compute the Reed-Muller code for it.
 
-The pre-computation times of $D^{\geq n_{max}}$ for Algorithm ~\ref{alg:RMApproach} are given in the table below
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/plot_10000.png}
+    \caption{Average time execution per number of variables of Algorithms~\ref{alg:RMApproach} and \ref{alg:fullAlg3ForAIRestrictesSetOpt} over $10^4$ random WAPB functions on the set $E_{\lceil{n/2}\rceil,n}$.}\label{fig:compTimePlot}
+\end{figure}
+
+The pre-computation times of $G^{\leq n_{max}}$ for Algorithm~\ref{alg:RMApproach} are given in the Table~\ref{table:preComputationTimes}.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+\toprule
+    $G^{\leq 1}$  & $G^{\leq 2}$  &$G^{\leq 3}$  & $G^{\leq 4}$  & $G^{\leq 5}$  & $G^{\leq 6}$  & $G^{\leq 7}$  &$G^{\leq 8}$ & $G^{\leq 9}$ & $G^{\leq 10}$ & $G^{\leq 11}$  & $G^{\leq 12}$ \\
+    \midrule
+     0.0126 & 0.0042 & 0.0017 & 0.004 & 0.0149 & 0.0470 & 0.1938 & 0.806& 3.5456& 14.9168& 65.5014 & 279.0221\\
+     \bottomrule
+\end{tabular}
+\caption{Pre-computation time for $G^{n_{max}}$ for $n_{max}$ from $1$ to $12$.}\label{table:preComputationTimes}
+\end{table}
+
+From Figure~\ref{fig:compTimePlot}, it can be seen that Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} performs better than Algorithm~\ref{alg:RMApproach}, even without considering the pre-computation time of $G^{\leq n_{max}}$ and $D^{\leq n_{max}}$ required for Algorithm~\ref{alg:RMApproach}. Moreover, we note that Algorithm~\ref{alg:RMApproach} cannot be used for $n \geq 12$, as the pre-computation would result in excessive complexity, unlike Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt}, which can handle larger values of $n$.
 
 \subsection{Determination of $\AIk{k}$ distribution of WPB functions}
 %Similarly to what has been done in~\cite{Latin:GinMea23} for the weightwise non-linearity $NL_k$, we determine the discrete probability distribution of the $\AIk{k}$ of weightwise perfectly balanced Boolean functions, describing the probability of a function $f\in \WPB{m}$ of having a certain algebraic immunity restricted on the slice $\Ekn{k}{n}$. A more formal definition in given Definition~\ref{def:distAIk} below
