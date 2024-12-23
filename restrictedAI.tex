@@ -1227,6 +1227,7 @@ We notice in fact that $T\left(G^{\leq 12}\right)$ is constant, that is because 
     \caption{Average time execution per number of variables of Algorithms~\ref{alg:RMApproach} and \ref{alg:fullAlg3ForAIRestrictesSetOpt} over $10^4$ random WAPB functions on the set $E_{\lceil{n/2}\rceil,n}$. $T\left(G^{\leq 12}\right)$ gives the time of the pre-computation of the sequence of all Reed-Muller matrices up to $G_{12,12}$.}\label{fig:compTimePlot}
 \end{figure}
 
+\lbnote{Add the data point for $n=12$ in the plot of Figure~\ref{fig:compTimePlot}. Also correct the title: $G^{\leq 12}$ instead of $G^{\leq 11}$.}\\
 The pre-computation times of $G^{\leq n_{max}}$ for Algorithm~\ref{alg:RMApproach} are given in the Table~\ref{table:preComputationTimes}.
 
 \begin{table}[ht]
@@ -1331,17 +1332,17 @@ The average execution times for the $\AIk{k}$ distributions with $n=8$ and $n=16
     \begin{minipage}[b]{0.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/WPB_3_sample_size_32768_dist.png}
-        \caption{Estimated mean of $\AIk{k}$ over $\WPB{3}$}
+        \caption{Estimated average of $\AIk{k}$ over $\WPB{3}$}
         \label{fig:averages32768}
     \end{minipage}
     \hfill
     \begin{minipage}[b]{0.5\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/WPB_3_sample_size_32768_dist_prob.png}
-        \caption{Eptimated Probability distribution of $\AIk{k}$ over $\WPB{3}$.}
+        \caption{Estimated Probability distribution of $\AIk{k}$ over $\WPB{3}$.}
         \label{fig:probDist32768}
     \end{minipage}
-    \caption{Estimated mean of $\AIk{k}$ and probability distribution of $\AIk{k}$ over $8$-variable WPB functions, with $23768$ samples}
+    \caption{Estimated average of $\AIk{k}$ and probability distribution of $\AIk{k}$ over $8$-variable WPB functions, with $23768$ samples}
     \label{fig:main2}
 \end{figure}
 
@@ -1411,7 +1412,7 @@ In contrast, the function in~\cite{AMC:DalMal23} achieves an $\AIk{k}$ of $3$ fo
 %	\item[n=16] ~\cite{Mat:ZJZQ23} has a constant $AI_k$ of $2$, $k\in [2,14]$, while ~\cite{AMC:DalMal23} has a $AI_k$ of $3$ for $k=5,7,9$ and $11$.
 %\end{description}
 
-The maximum execution times for~\cite{AMC:DalMal23} and~\cite{Mat:ZJZQ23} with $n=8$ occur with $k=4$ and are $0.154$ and $0.179$ seconds, respectively. For $n=16$, ~\cite{AMC:DalMal23} has a maximum execution time with $k=7$ of $126$ seconds, while~\cite{Mat:ZJZQ23} has a maximum execution time with $k=9$ of $238.984$ seconds. 
+The maximum execution times for~\cite{AMC:DalMal23} and~\cite{Mat:ZJZQ23} with $n=8$ occur with $k=4$ and are around $0.114343$ and $0.114290$ seconds, respectively. For $n=16$, ~\cite{AMC:DalMal23} has a maximum execution time with $k=7$ of $100.941$ seconds, while~\cite{Mat:ZJZQ23} has a maximum execution time with $k=8$ of $149.542$ seconds. 
 
 
 
@@ -1442,10 +1443,6 @@ $n$, $k$ & $0$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$ & $1
 \end{tabular}
 
 \end{table}
-
-
-\lbnote{Update the execution times after running the updated version with the Rust pkg.}\\
-
 
 \pmnote{Add a summary table in 8 and one 16 variables with:
 
