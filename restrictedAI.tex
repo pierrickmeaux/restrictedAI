@@ -850,7 +850,7 @@ Since $(\hat{\epsilon}, 0)$  cannot be in \( \text{ker}(V_{k+1}) \), the only po
         & & & & z_{k}^{\alpha_{2}}\\
         & & & & \vdots\\
         & & & & z_{k}^{\alpha_{k-1}}\\
-        z_{1}^{\alpha_{k+1}} & z_{2}^{\alpha_{k+1}}& \cdots & z_{k}^{\alpha_{k+1}} & z_{k}^{\alpha_{k+1}}
+        z_{1}^{\alpha_{k+1}} & z_{2}^{\alpha_{k+1}}& \cdots & z_{k-1}^{\alpha_{k+1}} & z_{k}^{\alpha_{k+1}}
     \end{pmatrix}.
     \end{align*}
     Then, either $\hat{g}_k \not\in \text{ker}(V_{E^{*}_{k+1}, Z_k})$, or $\hat{g}_k$ is the only element (aside from $\hat{0}$) in the right kernel of $V_{E_{k+1}^{*}, Z_k}$. Hence:
@@ -1216,7 +1216,7 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 In this section, we apply the algorithms to the weightwise perfectly balanced (WPB) Boolean functions with the intent to study their algebraic immunity restricted to subsets of constant Hamming weight. In particular, we determine the probability distributions of the $\AIk{k}$ of WPB functions and we compute the $\AIk{k}$ of some WPB Boolean functions already studied.
 
 \subsection{Comparison between Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} on WAPB functions}
-In this section, we compare the execution times of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} by running both algorithms on multiple $WAPB$ functions restricted to the largest set $E_{\lceil{n/2}\rceil,n}$, with different numbers of variables. Specifically, the experiment id done by running the algorithms with the number of variables $n$ going from $1$ to $12$. For both algorithms, if $n \leq 4$, we calculate the average over the $\AIk{\lceil{n/2}\rceil}$ of all $WAPB$ functions of $n$ variables, whereas for $n > 4$, we calculate the average over the $\AIk{\lceil{n/2}\rceil}$ of a random sample of $10^4$ WAPB functions.\\
+In this section, we compare the execution times of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} by running both algorithms on multiple WAPB functions restricted to the largest set $E_{\lceil{n/2}\rceil,n}$, with different numbers of variables. Specifically, the experiment is done by running the algorithms with the number of variables $n$ going from $1$ to $12$. For both algorithms, if $n \leq 4$, we calculate the average over the $\AIk{\lceil{n/2}\rceil}$ of all functions in $\WAPB{\log_2{(n)}}$, whereas for $n > 4$, we calculate the average over the $\AIk{\lceil{n/2}\rceil}$ of a random sample of $10^4$ $\WAPB{\log_2{(n)}}$ functions.\\
 Figure~\ref{fig:compTimePlot} shows the mean execution time per value of $n$ of the two algorithms.
 $T\left(G^{\leq n_{max}}\right) = T\left(G^{\leq 12} \right)$ indicates the necessary time to pre-compute all the necessary Reed-Muller codes generator matrices following Equation \eqref{eq:matricesHashTable}: recall that it is the necessary time to compute the sequence $\left(G_{n,n}\right)_{n\in [1,12=n_{max}]}$, not just the generator matrix $G_{n,n}$ for the current iteration $n$.\\
 We notice in fact that $T\left(G^{\leq 12}\right)$ is constant, that is because that computation occurs before beginning the experiment since it is expected that the Algorithm~\ref{alg:RMApproach} is able to run for any number of variable $n$ up to an upper bound $n_{max}$, without having to compute the Reed-Muller code for it.\\
@@ -1225,7 +1225,7 @@ The measurement for $n = 12$ is not shown in the plot for clarity due to the lar
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.7\textwidth]{images/plot_10000.png}
-    \caption{Average time execution per number of variables of Algorithms~\ref{alg:RMApproach} and \ref{alg:fullAlg3ForAIRestrictesSetOpt} over $10^4$ random WAPB functions on the set $E_{\lceil{n/2}\rceil,n}$. $T\left(G^{\leq 12}\right)$ gives the time of the pre-computation of the sequence of all Reed-Muller matrices up to $G_{12,12}$.}\label{fig:compTimePlot}
+    \caption{Average time execution per number of variables of Algorithms~\ref{alg:RMApproach} and \ref{alg:fullAlg3ForAIRestrictesSetOpt} over $10^4$ random $\WAPB{\log_2{(n)}}$ functions on the set $E_{\lceil{n/2}\rceil,n}$. $T\left(G^{\leq 12}\right)$ gives the time of the pre-computation of the sequence of all Reed-Muller matrices up to $G_{12,12}$.}\label{fig:compTimePlot}
 \end{figure}
 
 The pre-computation times of $G^{\leq n_{max}}$ for Algorithm~\ref{alg:RMApproach} are given in the Table~\ref{table:preComputationTimes}.
@@ -1239,7 +1239,7 @@ The pre-computation times of $G^{\leq n_{max}}$ for Algorithm~\ref{alg:RMApproac
      0.0126 & 0.0042 & 0.0017 & 0.004 & 0.0149 & 0.0470 & 0.1938 & 0.806& 3.5456& 14.9168& 65.5014 & 276.2263\\
      \bottomrule
 \end{tabular}
-\caption{Pre-computation time for $G^{n_{max}}$ for $n_{max}$ from $1$ to $12$.}\label{table:preComputationTimes}
+\caption{Pre-computation time for $G^{\leq n_{max}}$ for $n_{max}$ from $1$ to $12$.}\label{table:preComputationTimes}
 \end{table}
 
 From Figure~\ref{fig:compTimePlot}, it can be seen that Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} performs better than Algorithm~\ref{alg:RMApproach} for $n < 12$, even without accounting for the pre-computation time of $G^{\leq n_{max}}$ and $D^{\leq n_{max}}$ required by Algorithm~\ref{alg:RMApproach}. For $n = 12$, Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} still outperforms Algorithm~\ref{alg:RMApproach}, provided the pre-computation time for Algorithm~\ref{alg:RMApproach} is excluded.  
@@ -1250,7 +1250,7 @@ The reasons for this behavior are as follows:
     \item Algorithm~\ref{alg:RMApproach} makes heavy use of the \textit{SageMath} library, whereas Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} utilizes a custom \textit{Python} library implemented in \textit{Rust}. Since \textit{SageMath} is generally more efficient than a custom \textit{Rust} implementation, the differences in library usage contribute to the observed performance disparities.
 \end{itemize}
 
-Finally, we note that Algorithm~\ref{alg:RMApproach} cannot be used for $n \geq 12$, as the pre-computation would result in excessive complexity. In contrast, Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} can handle larger values of $n$.\\
+Finally, we note that Algorithm~\ref{alg:RMApproach} cannot be used for $n > 12$, as the pre-computation would result in excessive complexity. In contrast, Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} can handle larger values of $n$.\\
 
 
 \subsection{Determination of $\AIk{k}$ distribution of WPB functions}
@@ -1319,7 +1319,7 @@ Instead, they should be processed one by one, either by computing sequentially o
 The following procedure is done for each slice $\Ekn{k}{n}$:
 \begin{enumerate}
     \item Initialize a hash table of all possible values of $\AIk{k}$.
-    \item For each sub-truth table in $\omega_i^{(k)} \in \Omega_k$ (note that $\omega_i^{(k)}$ is either generated on the fly by an iterator or by having the source code for the generation of $\omega_i^{(k)}$ in this loop):
+    \item For each sub-truth table in $\omega_i^{(k)} \in \Omega_k$ (note that $\omega_i^{(k)}$ is either generated on the fly by an iterator or by having the source code for the generation of $\omega_i^{(k)}$ in this loop)\footnotemark:
     \begin{enumerate}
         \item Run Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} with $S=\omega_i^{(k)}$\label{enum:stepOfapplicationEnum}.
         \item Increment the value in the hash table corresponding to the output of the previous step.
@@ -1331,6 +1331,8 @@ The following procedure is done for each slice $\Ekn{k}{n}$:
 \textbf{Results for $n=8$ and sample size$=2^{15}$}.
 Figure~\ref{fig:probDist32768} represents the $\AIk{k}$ distribution and Figure~\ref{fig:averages32768} the average values. 
 The average execution times for the $\AIk{k}$ distributions with $n=4$ and $n=8$ is displayed in tables~\ref{table:averagesFullDist} and ~\ref{table:averages32768}.
+
+\footnotetext[9]{Step $2$ may be executed in parallel on the $\omega_i^{(k)}$s.}
 
 \pmnote{add some comment on the results in 4 and 8 variables.}
 
