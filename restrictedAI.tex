@@ -1425,6 +1425,58 @@ The function in~\cite{Mat:ZJZQ23} again has a constant $\AIk{k}$ of $2$ for $k \
 In contrast, the function in~\cite{AMC:DalMal23} achieves an $\AIk{k}$ of $3$ for $k = 5, 7, 9,$ and $11$.
 \end{itemize}
 
+\begin{comment}
+         k  AIk      T(AIk))
+0    0    0     0.001554
+1    1    1     0.082262
+2    2    2     0.116928
+3    3    2     0.430792
+4    4    3    15.745253
+5    5    3    49.327970
+6    6    4  1206.439115
+7    7    4  1843.476104
+8    8    5  3742.250973
+9    9    4  1893.035234
+10  10    4  1241.073732
+11  11    3    54.754863
+12  12    3    11.322006
+13  13    2     0.450872
+14  14    2     0.104357
+15  15    1     0.068833
+16  16    0     0.001492
+     k  AIk      T(AIk))
+0    0    0     0.001554
+1    1    1     0.082262
+2    2    2     0.116928
+3    3    2     0.430792
+4    4    3    15.745253
+5    5    3    49.327970
+6    6    4  1206.439115
+7    7    4  1843.476104
+8    8    5  3742.250973
+9    9    4  1893.035234
+10  10    4  1241.073732
+11  11    3    54.754863
+12  12    3    11.322006
+13  13    2     0.450872
+14  14    2     0.104357
+15  15    1     0.068833
+16  16    0     0.001492
+
+
+   k  AIk   T(AIk))
+0  0    0  0.000015
+1  1    1  0.028831
+2  2    2  0.024380
+3  3    2  0.026922
+4  4    3  0.032067
+5  5    2  0.027336
+6  6    2  0.026930
+7  7    1  0.023427
+8  8    0  0.000028
+
+
+\end{comment}
 %Table~\ref{table:publiedFunctions} shows these results. 
 %We see that~\cite{AMC:DalMal23} is more secure than~\cite{Mat:ZJZQ23} since it has a better $\AIk{k}$s for both $n=8$ and $n=16$. In particular
 %\begin{description}
@@ -1438,7 +1490,7 @@ The maximum execution times for~\cite{AMC:DalMal23} and~\cite{Mat:ZJZQ23} with $
 \begin{table}[h]
 \center
 %\renewcommand{\tabcolsep}{0.5pt}	
-\caption{$\AIk{k}$ of the construction from~\cite{AMC:DalMal23} and from~\cite{Mat:ZJZQ23} with $m=3$ ($n=8$) and $m=4$ ($n=16$).\label{table:publiedFunctions}}
+\caption{$\AIk{k}$ of the construction from~\cite{AMC:DalMal23}, from~\cite{Mat:ZJZQ23} and from~\cite{CC:TangLiu19} with $m=3$ ($n=8$) and $m=4$ ($n=16$).\label{table:publiedFunctions}}
 %\resizebox{\textwidth}{!}{
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 \hline
@@ -1456,6 +1508,13 @@ $n$, $k$ & $0$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$ & $1
 \hline
 8 & 0 & 1 & 2 & 2 & 2 & 2 & 2 & 2 & 0 &  &  &  &  &  &  &  &  \\
 16 & 0 & 1 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2  & 2 & 2 & 2 & 2 & 2 & 1 & 0 \\
+\hline
+\multicolumn{18}{|c|}{~\cite{CC:TangLiu19}} \\
+\hline
+$n$, $k$ & $0$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$ & $11$ & $12$ & $13$ & $14$ & $15$ & $16$ \\
+\hline
+8 & 0 & 1 & 2 & 2 & 3 & 2 & 2 & 1 & 0 &  &  &  &  &  &  &  &  \\
+16 & 0 & 1 & 2 & 2 & 3 & 3 & 4 & 4 & 5 & 4  & 4 & 3 & 3 & 2 & 2 & 1 & 0 \\
 \hline
 \end{tabular}
 
@@ -1477,8 +1536,9 @@ We provide the same table for functions in $16$ variables in Table~\ref{tab:WPB1
 	\begin{tabular}{|c| c|c|c|c|c|}
 		\hline
 		Function &  $\AIk{2}$ & $\AIk{3}$ & $\AIk{4}$ &  $\AIk{5}$ & $\AIk{6}$  \\ \hline 
-		\cite{AMC:DalMal23} & $1$ &  $2$ & $2$  &  $2$ & $2$ \\ \hline
+		\cite{AMC:DalMal23} & $1$ &  $2$ & $2$  &  $2$ & $1$ \\ \hline
 		\cite{Mat:ZJZQ23} & $2$ &  $2$ & $2$  &  $2$ & $2$ \\ \hline
+        \cite{CC:TangLiu19} & $2$ &  $2$ & $3$  &  $2$ & $2$ \\ \hline
 		Estimated average & $1.95$ &  $2.02$ & $2.87$  &  $2.02$ & $1.95$ \\ \hline
 		Field order~\cite{eprint:Meaux24} &$ 1$& $2$& $3$& $2$ &$2$ \\	\hline
 		Upper bound & $2$ &  $3$ & $3$  &  $3$ & $2$ \\	\hline
@@ -1499,8 +1559,10 @@ We provide the same table for functions in $16$ variables in Table~\ref{tab:WPB1
 		
 \cite{AMC:DalMal23}		&$ 1$& $2$& $2$& $3$ &$2$ & $3$ &$2$ &$3$ &$2$ &$3$ &$2$ &$1$
 	 &0 \\ \hline
-\cite{Mat:ZJZQ23}		&$ 1$& $2$& $2$& $2$ &$2$ & $2$ &$2$ &$2$ &$2$ &$2$ &$2$ &$2$
-&$2$ \\ \hline	 
+\cite{Mat:ZJZQ23}		&$ 2$& $2$& $2$& $2$ &$2$ & $2$ &$2$ &$2$ &$2$ &$2$ &$2$ &$2$
+&$2$ \\ \hline
+\cite{CC:TangLiu19}		&$ 2$& $2$& $3$& $3$ &$4$ & $4$ &$5$ &$4$ &$4$ &$3$ &$3$ &$2$
+&$2$ \\ \hline	
 		Estimated average &$ 0$& $0$& $0$& $0$ &$0$ & 0 &0 &0 &0 &0 &0 &0 &0 \\ \hline
 %2 3 4 4 5 6 6 6 5 4 3 2 2		
 		Field order~\cite{eprint:Meaux24} &$ 2$& $3$& $4$& $4$ &$5$ & $6$ &$6$ &$6$ &$5$ &$4$ &$3$ &$2$ &$2$ \\	\hline
