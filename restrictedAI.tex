@@ -1216,6 +1216,8 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 In this section, we apply the algorithms to the weightwise perfectly balanced (WPB) Boolean functions with the intent to study their algebraic immunity restricted to subsets of constant Hamming weight. In particular, we determine the probability distributions of the $\AIk{k}$ of WPB functions and we compute the $\AIk{k}$ of some WPB Boolean functions already studied.
 
 \subsection{Comparison between Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} on WAPB functions}
+\lbnote{Re-run the comparison with the new version of Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt}? Is the comparison still valid of do we first have to replace \textit{SageMath} method with \textit{Rust} methods in Algorithm~\ref{alg:RMApproach} first?}
+
 In this part, we compare the execution times of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} by running both algorithms on multiple WAPB functions restricted to the largest set $E_{\lceil{n/2}\rceil,n}$, with different numbers of variables. 
 Specifically, the experiment is done by running the algorithms with the number of variables $n$ going from $1$ to $12$. For both algorithms, if $n \leq 4$, we calculate the average over the $\AIk{\lceil{n/2}\rceil}$ of all functions in $\WAPB{n}$, whereas for $n > 4$, we calculate the average over the $\AIk{\lceil{n/2}\rceil}$ of a random sample of $10^4$ $\WAPB{n}$ functions.
 
@@ -1412,17 +1414,16 @@ For $n=8$, there are WPB functions with different restricted $\AIk{k}$, for exam
 
 \subsection{Determination of $\AIk{k}$ of known WPB families}
 In this part, we determine the $\AIk{k}$s of the function introduced in~\cite{Mat:ZJZQ23},~\cite{AMC:DalMal23},~\cite{CC:TangLiu19} and in~\cite{EPRINT:CarMeaRot17} for $n=8$ and $16$ variables.
-    
-\lbnote{@Luca, update the text according to the new results}\\
-The results are summarized in Table~\ref{table:publiedFunctions}. 
-The function from~\cite{AMC:DalMal23} would resist better to algebraic attacks (with constant Hamming weight inputs) than the one from~\cite{Mat:ZJZQ23}, as it achieves higher $\AIk{k}$ values for both $n = 8$ and $ n = 16$. Specifically:
+
+The results are summarized in Table~\ref{table:publiedFunctions}.\\
+Of the four WPB functions, the one in ~\cite{CC:TangLiu19} is the one that would resist the best to algebraic attacks (with constant Hamming weight inputs), as it achieves higher $\AIk{k}$ values for both $n = 8$ and $ n = 16$. In contrast, the one in~\cite{Mat:ZJZQ23}, would be the least resistant, as it has the overall lower $\AIk{k}$ for both $n=8$ and $n=16$. Specifically:
 \begin{itemize}
 \item $n=8$. 
-The function in~\cite{Mat:ZJZQ23} has a constant $\AIk{k}$ of $2$ for $k \in [2, 7]$, whereas the function in~\cite{AMC:DalMal23} achieves an $\AIk{5}$ of $3$.
+The function in~\cite{Mat:ZJZQ23} has a constant $\AIk{k}$ of $2$ for $k \in [2, 6]$ and the functions in~\cite{EPRINT:CarMeaRot17} a constant $\AIk{k}$ of $2$ for $k \in [3, 6]$, whereas the functions in~\cite{AMC:DalMal23} and in~\cite{CC:TangLiu19} achieve an $\AIk{4}$ of $3$.
 
 \item $n=16$. 
 The function in~\cite{Mat:ZJZQ23} again has a constant $\AIk{k}$ of $2$ for $k \in [2, 14]$. 
-In contrast, the function in~\cite{AMC:DalMal23} achieves an $\AIk{k}$ of $3$ for $k = 5, 7, 9,$ and $11$.
+In contrast, the function in~\cite{CC:TangLiu19} achieves an $\AIk{k}$ of $3$ for $k = 4,5,11$ and $12$, an $\AIk{k}$ of $4$ for $k = 6,7,9$ and $10$ and an $\AIk{k}$ of $5$ for $k=8$. The functions~\cite{AMC:DalMal23} and in~\cite{EPRINT:CarMeaRot17}, both reach an $\AIk{k}$ of $3$ but for $k\in [4,12]$ and $k\in [5,13]$ respectively.
 \end{itemize}
 
 \begin{comment}
@@ -1483,6 +1484,7 @@ In contrast, the function in~\cite{AMC:DalMal23} achieves an $\AIk{k}$ of $3$ fo
 %	\item[n=8] ~\cite{Mat:ZJZQ23} has a constant $AI_k$ of $2$ for $k\in [2,7]$, while ~\cite{AMC:DalMal23} has a $AI_k$ of $3$ for $k=5$
 %	\item[n=16] ~\cite{Mat:ZJZQ23} has a constant $AI_k$ of $2$, $k\in [2,14]$, while ~\cite{AMC:DalMal23} has a $AI_k$ of $3$ for $k=5,7,9$ and $11$.
 %\end{description}
+\lbnote{@Luca, update the execution time according to the new results}\\
 
 The maximum execution times for~\cite{AMC:DalMal23} and~\cite{Mat:ZJZQ23} with $n=8$ occur with $k=4$ and are around $0.290166$ and $0.114290$ seconds, respectively. For $n=16$, ~\cite{AMC:DalMal23} has a maximum execution time with $k=7$ of $100.941$ seconds, while~\cite{Mat:ZJZQ23} has a maximum execution time with $k=8$ of $149.542$ seconds. 
 
@@ -1506,7 +1508,7 @@ $n$, $k$ & $0$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$ & $1
 \hline
 $n$, $k$ & $0$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$ & $11$ & $12$ & $13$ & $14$ & $15$ & $16$ \\
 \hline
-8 & 0 & 1 & 2 & 2 & 2 & 2 & 2 & 2 & 0 &  &  &  &  &  &  &  &  \\
+8 & 0 & 1 & 2 & 2 & 2 & 2 & 2 & 1 & 0 &  &  &  &  &  &  &  &  \\
 16 & 0 & 1 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2  & 2 & 2 & 2 & 2 & 2 & 1 & 0 \\
 \hline
 \multicolumn{18}{|c|}{~\cite{CC:TangLiu19}} \\
@@ -1612,7 +1614,7 @@ We provide the same table for functions in $16$ variables in Table~\ref{tab:WPB1
 &$2$ \\ \hline	
 \cite{EPRINT:CarMeaRot17}		&$1$& $2$& $2$& $3$ &$3$ & $3$ &$3$ &$3$ &$3$ &$3$ &$3$ &$3$
 &$2$ \\ \hline	
-		Estimated average &$ 0$& $0$& $0$& $0$ &$0$ & 0 &0 &0 &0 &0 &0 &0 &0 \\ \hline
+		Estimated average &$ 2$& $2.99$& $3.89$& $0$ &$0$ & 0 &0 &0 &0 &0 &0 &0 &0 \\ \hline
 %2 3 4 4 5 6 6 6 5 4 3 2 2		
 		Field order~\cite{eprint:Meaux24} &$ 2$& $3$& $4$& $4$ &$5$ & $6$ &$6$ &$6$ &$5$ &$4$ &$3$ &$2$ &$2$ \\	\hline
 		Upper bound &$ 2$& $3$& $4$& $5$ &$5$ & $6$ &$6$ &$6$ &$5$ &$5$ &$4$ &$3$ &$2$  \\	\hline
