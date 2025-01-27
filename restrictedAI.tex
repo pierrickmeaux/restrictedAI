@@ -1196,8 +1196,8 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
         \State
 
         \State $E_{D_n^n} \leftarrow \mbox{\textsc{construct\_monomials}}(n=n, d=n)$\footnotemark;
-        \State $r\gets \frac{Z}{Z_c}$\;
-        \If{$1/ratio < r < ratio$}
+        \State $r\gets \frac{|Z|}{|Z_c|}$ \textbf{if} $|Z| \geq |Z_c|$ \textbf{else} $\frac{|Z_c|}{|Z|}$;
+        \If{$r < ratio$}
             \State $immunity_f, immunity_{f+1} \leftarrow ($\\
 		$\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(Z=Z, E=E_{D_n^n}, S=S)$\\
 		$\ |\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(Z=Z_c, E=E_{D_n^n}, S=S)$\\
@@ -1411,9 +1411,9 @@ For $n=8$, there are WPB functions with different restricted $\AIk{k}$, for exam
 \end{table}
 
 \subsection{Determination of $\AIk{k}$ of known WPB families}
-
-In this part, we determine the $\AIk{k}$s of the function introduced in~\cite{Mat:ZJZQ23} and in~\cite{AMC:DalMal23} for $n=8$ and $16$ variables.
-
+In this part, we determine the $\AIk{k}$s of the function introduced in~\cite{Mat:ZJZQ23},~\cite{AMC:DalMal23},~\cite{CC:TangLiu19} and in~\cite{EPRINT:CarMeaRot17} for $n=8$ and $16$ variables.
+    
+\lbnote{@Luca, update the text according to the new results}\\
 The results are summarized in Table~\ref{table:publiedFunctions}. 
 The function from~\cite{AMC:DalMal23} would resist better to algebraic attacks (with constant Hamming weight inputs) than the one from~\cite{Mat:ZJZQ23}, as it achieves higher $\AIk{k}$ values for both $n = 8$ and $ n = 16$. Specifically:
 \begin{itemize}
@@ -1484,13 +1484,13 @@ In contrast, the function in~\cite{AMC:DalMal23} achieves an $\AIk{k}$ of $3$ fo
 %	\item[n=16] ~\cite{Mat:ZJZQ23} has a constant $AI_k$ of $2$, $k\in [2,14]$, while ~\cite{AMC:DalMal23} has a $AI_k$ of $3$ for $k=5,7,9$ and $11$.
 %\end{description}
 
-The maximum execution times for~\cite{AMC:DalMal23} and~\cite{Mat:ZJZQ23} with $n=8$ occur with $k=4$ and are around $0.114343$ and $0.114290$ seconds, respectively. For $n=16$, ~\cite{AMC:DalMal23} has a maximum execution time with $k=7$ of $100.941$ seconds, while~\cite{Mat:ZJZQ23} has a maximum execution time with $k=8$ of $149.542$ seconds. 
+The maximum execution times for~\cite{AMC:DalMal23} and~\cite{Mat:ZJZQ23} with $n=8$ occur with $k=4$ and are around $0.290166$ and $0.114290$ seconds, respectively. For $n=16$, ~\cite{AMC:DalMal23} has a maximum execution time with $k=7$ of $100.941$ seconds, while~\cite{Mat:ZJZQ23} has a maximum execution time with $k=8$ of $149.542$ seconds. 
 
 
 \begin{table}[h]
 \center
 %\renewcommand{\tabcolsep}{0.5pt}	
-\caption{$\AIk{k}$ of the construction from~\cite{AMC:DalMal23}, from~\cite{Mat:ZJZQ23} and from~\cite{CC:TangLiu19} with $m=3$ ($n=8$) and $m=4$ ($n=16$).\label{table:publiedFunctions}}
+\caption{$\AIk{k}$ of the construction from~\cite{AMC:DalMal23}, from~\cite{Mat:ZJZQ23}, from~\cite{CC:TangLiu19} and from~\cite{EPRINT:CarMeaRot17} with $m=3$ ($n=8$) and $m=4$ ($n=16$).\label{table:publiedFunctions}}
 %\resizebox{\textwidth}{!}{
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 \hline
@@ -1498,8 +1498,8 @@ The maximum execution times for~\cite{AMC:DalMal23} and~\cite{Mat:ZJZQ23} with $
 \hline
 $n$, $k$ & $0$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$ & $11$ & $12$ & $13$ & $14$ & $15$ & $16$ \\
 \hline
-8 & 0 & 1 & 1 & 2 & 2 & 2 & 1 & 1 & 0 &  &  &  &  &  &  &  &  \\
-16 & 0 & 1 & 1 & 2 & 2 & 3 & 2 & 3 & 2 &  3 & 2 & 3 & 2 & 2 & 1 & 1 & 0 \\
+8 & 0 & 1 & 1 & 2 & 3 & 2 & 2 & 1 & 0 &  &  &  &  &  &  &  &  \\
+16 & 0 & 1 & 1 & 2 & 3 & 3 & 3 & 3 & 3 &  3 & 3 & 3 & 3 & 2 & 2 & 1 & 0 \\
 \hline
 \hline
 \multicolumn{18}{|c|}{~\cite{Mat:ZJZQ23}} \\
@@ -1516,9 +1516,55 @@ $n$, $k$ & $0$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$ & $1
 8 & 0 & 1 & 2 & 2 & 3 & 2 & 2 & 1 & 0 &  &  &  &  &  &  &  &  \\
 16 & 0 & 1 & 2 & 2 & 3 & 3 & 4 & 4 & 5 & 4  & 4 & 3 & 3 & 2 & 2 & 1 & 0 \\
 \hline
+\multicolumn{18}{|c|}{~\cite{EPRINT:CarMeaRot17}} \\
+\hline
+$n$, $k$ & $0$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$ & $11$ & $12$ & $13$ & $14$ & $15$ & $16$ \\
+\hline
+8 & 0 & 1 & 1 & 2 & 2 & 2 & 2 & 1 & 0 &  &  &  &  &  &  &  &  \\
+16 & 0 & 1 & 1 & 2 & 2 & 3 & 3 & 3 & 3 & 3  & 3 & 3 & 3 & 3 & 2 & 1 & 0 \\
+\hline
 \end{tabular}
-
 \end{table}
+
+\begin{comment}
+    CMR 
+     k  AIk     T(AIk))
+0    0    0    0.001819
+1    1    1    0.095101
+2    2    1    0.122937
+3    3    2    0.255394
+4    4    2    2.210416
+5    5    3   12.893202
+6    6    3  154.228709
+7    7    3  220.404948
+8    8    3  244.587410
+9    9    3  214.994536
+10  10    3  145.543845
+11  11    3   77.741631
+12  12    3   31.918017
+13  13    3    0.696021
+14  14    2    0.101702
+15  15    1    0.068077
+16  16    0    0.001445
+     k  AIk     T(AIk))
+0    0    0    0.001819
+1    1    1    0.095101
+2    2    1    0.122937
+3    3    2    0.255394
+4    4    2    2.210416
+5    5    3   12.893202
+6    6    3  154.228709
+7    7    3  220.404948
+8    8    3  244.587410
+9    9    3  214.994536
+10  10    3  145.543845
+11  11    3   77.741631
+12  12    3   31.918017
+13  13    3    0.696021
+14  14    2    0.101702
+15  15    1    0.068077
+16  16    0    0.001445
+\end{comment}
 
 \pmnote{@Luca, could you update me when you have the estimated averages? 
 
@@ -1539,6 +1585,7 @@ We provide the same table for functions in $16$ variables in Table~\ref{tab:WPB1
 		\cite{AMC:DalMal23} & $1$ &  $2$ & $2$  &  $2$ & $1$ \\ \hline
 		\cite{Mat:ZJZQ23} & $2$ &  $2$ & $2$  &  $2$ & $2$ \\ \hline
         \cite{CC:TangLiu19} & $2$ &  $2$ & $3$  &  $2$ & $2$ \\ \hline
+        \cite{EPRINT:CarMeaRot17} & $1$ &  $2$ & $2$  &  $2$ & $2$ \\ \hline
 		Estimated average & $1.95$ &  $2.02$ & $2.87$  &  $2.02$ & $1.95$ \\ \hline
 		Field order~\cite{eprint:Meaux24} &$ 1$& $2$& $3$& $2$ &$2$ \\	\hline
 		Upper bound & $2$ &  $3$ & $3$  &  $3$ & $2$ \\	\hline
@@ -1557,11 +1604,13 @@ We provide the same table for functions in $16$ variables in Table~\ref{tab:WPB1
 		\hline
 		Function &  $\AIk{2}$ & $\AIk{3}$ & $\AIk{4}$ &  $\AIk{5}$ & $\AIk{6}$ &  $\AIk{7}$ & $\AIk{8}$ & $\AIk{9}$ &  $\AIk{10}$ & $\AIk{11}$ &  $\AIk{12}$ & $\AIk{13}$ & $\AIk{14}$ \\ \hline 
 		
-\cite{AMC:DalMal23}		&$ 1$& $2$& $2$& $3$ &$2$ & $3$ &$2$ &$3$ &$2$ &$3$ &$2$ &$1$
+\cite{AMC:DalMal23}		&$ 1$& $2$& $3$& $3$ &$3$ & $3$ &$3$ &$3$ &$3$ &$3$ &$2$ &$2$
 	 &0 \\ \hline
 \cite{Mat:ZJZQ23}		&$ 2$& $2$& $2$& $2$ &$2$ & $2$ &$2$ &$2$ &$2$ &$2$ &$2$ &$2$
 &$2$ \\ \hline
 \cite{CC:TangLiu19}		&$ 2$& $2$& $3$& $3$ &$4$ & $4$ &$5$ &$4$ &$4$ &$3$ &$3$ &$2$
+&$2$ \\ \hline	
+\cite{EPRINT:CarMeaRot17}		&$1$& $2$& $2$& $3$ &$3$ & $3$ &$3$ &$3$ &$3$ &$3$ &$3$ &$3$
 &$2$ \\ \hline	
 		Estimated average &$ 0$& $0$& $0$& $0$ &$0$ & 0 &0 &0 &0 &0 &0 &0 &0 \\ \hline
 %2 3 4 4 5 6 6 6 5 4 3 2 2		
@@ -1724,7 +1773,46 @@ We provide the same table for functions in $16$ variables in Table~\ref{tab:WPB1
     \caption{$AI_k$ and execution times of ~\cite{Mat:ZJZQ23} with $m=3 \Rightarrow n=8$ and $m=4 \Rightarrow n=16$}\label{table:ZS23}
 \end{table}
 \end{comment}
-5
+
+\begin{comment}
+    CMR 
+     k  AIk     T(AIk))
+0    0    0    0.001819
+1    1    1    0.095101
+2    2    1    0.122937
+3    3    2    0.255394
+4    4    2    2.210416
+5    5    3   12.893202
+6    6    3  154.228709
+7    7    3  220.404948
+8    8    3  244.587410
+9    9    3  214.994536
+10  10    3  145.543845
+11  11    3   77.741631
+12  12    3   31.918017
+13  13    3    0.696021
+14  14    2    0.101702
+15  15    1    0.068077
+16  16    0    0.001445
+     k  AIk     T(AIk))
+0    0    0    0.001819
+1    1    1    0.095101
+2    2    1    0.122937
+3    3    2    0.255394
+4    4    2    2.210416
+5    5    3   12.893202
+6    6    3  154.228709
+7    7    3  220.404948
+8    8    3  244.587410
+9    9    3  214.994536
+10  10    3  145.543845
+11  11    3   77.741631
+12  12    3   31.918017
+13  13    3    0.696021
+14  14    2    0.101702
+15  15    1    0.068077
+16  16    0    0.001445
+\end{comment}
 \section{Conclusion and open questions}
 
 %\section{Acknowledgments}
