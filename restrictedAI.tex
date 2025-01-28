@@ -1335,6 +1335,7 @@ The following procedure is done for each slice $\Ekn{k}{n}$:
     \item Divide each value in the hash table by $|\Omega|$.
 \end{enumerate}
 
+\lbnote{Re-runt the AIk distibutions for $n=4$ and $n=8$ and update the times in the tables \ref{table:averagesFullDist} and \ref{table:averages32768}. }\\
 \noindent
 \textbf{Results for $n=8$ and sample size$=2^{15}$}.
 Figure~\ref{fig:probDist32768} represents the $\AIk{k}$ distribution and Figure~\ref{fig:averages32768} the average values. 
@@ -1363,7 +1364,7 @@ For $n=8$, there are WPB functions with different restricted $\AIk{k}$, for exam
         \caption{Estimated Probability distribution of $\AIk{k}$ over $\WPB{3}$.}
         \label{fig:probDist32768}
     \end{minipage}
-    \caption{Estimated average of $\AIk{k}$ and probability distribution of $\AIk{k}$ over $8$-variable WPB functions, with $23768$ samples.}
+    \caption{Estimated average of $\AIk{k}$ and probability distribution of $\AIk{k}$ over $8$-variable WPB functions, with $2^{15}$ samples.}
     \label{fig:main2}
 \end{figure}
 
@@ -1407,8 +1408,37 @@ For $n=8$, there are WPB functions with different restricted $\AIk{k}$, for exam
    8 &               0.000217 &            0.000000 \\ \hline
 %\bottomrule
 \end{tabular}
-        \caption{Average execution time and $\AIk{k}$ for $n=8$, $m=3$ and $\mbox{sampleSize}=32768$}
+        \caption{Average execution time and $\AIk{k}$ for $n=8$, $m=3$ and $\mbox{sampleSize}=2^{15}$}
         \label{table:averages32768}
+    \end{minipage}
+\begin{minipage}{0.45\textwidth}
+        \centering
+        \begin{tabular}{|c|c|c|}%{rrr}
+%\toprule
+\hline
+ $k$ &  $\mathbb{E}[T(AI_k)]$ &  $\mathbb{E}[AI_k]$ \\ \hline
+%\midrule
+   0 & $0.000010$ & $0.000000$\\ \hline
+   1 & $0.334046$ & $1.000000$\\ \hline
+   2 & $0.342011$ & $2.000000$\\ \hline
+   3 & $0.408244$ & $2.976562$\\ \hline
+   4 & $4.011003$ & $3.872070$\\ \hline
+   5 & $91.810299$ & $4.369141$\\ \hline
+   6 & $636.368421$ & $5.000000$\\ \hline
+   7 &  & \\ \hline
+   8 &  & \\ \hline
+   9 &  & \\ \hline
+   10 & & \\ \hline
+   11 & & \\ \hline
+   12 & $5.229858$ & $3.865234$ \\ \hline
+   13 & $0.426482$ & $2.990234$\\ \hline
+   14 & $0.353760$ & $2.000000$ \\ \hline
+   15 & $0.344984$ & $1.000000$ \\ \hline
+   16 & $0.000015$ & $0.000000$ \\ \hline
+%\bottomrule
+\end{tabular}
+        \caption{Average execution time and $\AIk{k}$ for $n=16$, $m=4$ and $\mbox{sampleSize}=2^{10}$}
+        \label{table:averages16VarsSampleSize1023}
     \end{minipage}
 \end{table}
 
@@ -1502,7 +1532,6 @@ $n$, $k$ & $0$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$ & $1
 \hline
 8 & 0 & 1 & 1 & 2 & 3 & 2 & 2 & 1 & 0 &  &  &  &  &  &  &  &  \\
 16 & 0 & 1 & 1 & 2 & 3 & 3 & 3 & 3 & 3 &  3 & 3 & 3 & 3 & 2 & 2 & 1 & 0 \\
-\hline
 \hline
 \multicolumn{18}{|c|}{~\cite{Mat:ZJZQ23}} \\
 \hline
@@ -1614,7 +1643,7 @@ We provide the same table for functions in $16$ variables in Table~\ref{tab:WPB1
 &$2$ \\ \hline	
 \cite{EPRINT:CarMeaRot17}		&$1$& $2$& $2$& $3$ &$3$ & $3$ &$3$ &$3$ &$3$ &$3$ &$3$ &$3$
 &$2$ \\ \hline	
-		Estimated average &$ 2$& $2.99$& $3.89$& $0$ &$0$ & 0 &0 &0 &0 &0 &0 &0 &0 \\ \hline
+		Estimated average &$2.00$& $2.99$& $3.89$& $4.37$ &$5.00$ & 0 &0 &0 &0 &0 &$3.87$ &$2.99$ &$2.00$ \\ \hline
 %2 3 4 4 5 6 6 6 5 4 3 2 2		
 		Field order~\cite{eprint:Meaux24} &$ 2$& $3$& $4$& $4$ &$5$ & $6$ &$6$ &$6$ &$5$ &$4$ &$3$ &$2$ &$2$ \\	\hline
 		Upper bound &$ 2$& $3$& $4$& $5$ &$5$ & $6$ &$6$ &$6$ &$5$ &$5$ &$4$ &$3$ &$2$  \\	\hline
