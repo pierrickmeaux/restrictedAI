@@ -19,44 +19,44 @@
 \usepackage{placeins}
 
 \begin{document}
-	
+
 \setcounter{page}{1}
 	\title{Computing the restricted algebraic immunity, and application to WPB functions. }
 
-	
+
 	\titlerunning{title}
-	
-	
-%\if\anon=1	
+
+
+%\if\anon=1
 	\author{
 		\mbox{Luca Bonnamino, Pierrick M\'eaux}%\inst{1}
 	}
-	
+
 	\authorrunning{L. Bonnamino, P. M\'eaux}
-	
+
 	\institute{
 	Luxembourg university, Luxembourg\\
-		\email{pierrick.meaux@uni.lu}		
+		\email{pierrick.meaux@uni.lu}
 	}
-	
+
 %\fi
-	
-	
-	
+
+
+
 	%----------------------------------------------------------------
 	\maketitle
 
 
 %\institute{
 %	University of Luxembourg, Luxembourg\\
-%	\email{pierrick.meaux@uni.lu}		
-%}	
-	
+%	\email{pierrick.meaux@uni.lu}
+%}
+
 	\begin{abstract}
 
-		
-\keywords{Boolean functions, Restricted algebraic immunity, Weightwise (almost) perfectly balanced functions.}		
-		
+
+\keywords{Boolean functions, Restricted algebraic immunity, Weightwise (almost) perfectly balanced functions.}
+
 	\end{abstract}
 
 
@@ -67,9 +67,9 @@
 
 \pmnote{intro in 2 parts
 \begin{itemize}
-	\item computing AI, computing on subsets (interest FLIP~\cite{EC:MJSC16}, EAA~\cite{eprint:MeaWan24}). 
+	\item computing AI, computing on subsets (interest FLIP~\cite{EC:MJSC16}, EAA~\cite{eprint:MeaWan24}).
 	Formalize the algorithms used in this case.
-	
+
 	\item WPB functions, introduced in~\cite{TOSC:CarMeaRot17}, got some interest, many families, parameters studied, almost nothing on AIk so far.
 \end{itemize}
 
@@ -78,9 +78,9 @@
 
 %%%%%%draft intro, to write better
 
-Since the introduction of the algebraic attack on filtered LFSR~\cite{EC:CouMei03} in 2003, the algebraic immunity has been an important property to consider for the security of streamciphers. 
+Since the introduction of the algebraic attack on filtered LFSR~\cite{EC:CouMei03} in 2003, the algebraic immunity has been an important property to consider for the security of streamciphers.
 %unsure
-The notion itself has been widely studed (example), such as algorithms regarding its complexity. 
+The notion itself has been widely studed (example), such as algorithms regarding its complexity.
 
 
 
@@ -99,44 +99,44 @@ also algorithm~\cite{FSE:DidTil06}
 \section{Preliminaries}\label{sec:prelim}
 
 
-For readability, we use the notation $+$ instead of 
-$\oplus$ to denote the addition in $\F_2$, and $\sum$ instead of $\bigoplus$. 
-In addition to classic notations, we denote by $ [a,b] $ the subset of all integers between $a$ and $b$: $\{a, a+1, \ldots,b\}$. 
-For a vector $v\in \F_2^n$ we use $\w(v)$ to denote its Hamming weight $\w(v)=|\{ i \in [1,n] \, | \, v_i=1 \}|$. 
-For two vectors $v$ and $w$ in $\F_2^n$ we denote by $\hd(v,w)$ the Hamming distance between $v$ and $w$, that is, $\hd(v,w)=\w(v+w)$. 
+For readability, we use the notation $+$ instead of
+$\oplus$ to denote the addition in $\F_2$, and $\sum$ instead of $\bigoplus$.
+In addition to classic notations, we denote by $ [a,b] $ the subset of all integers between $a$ and $b$: $\{a, a+1, \ldots,b\}$.
+For a vector $v\in \F_2^n$ we use $\w(v)$ to denote its Hamming weight $\w(v)=|\{ i \in [1,n] \, | \, v_i=1 \}|$.
+For two vectors $v$ and $w$ in $\F_2^n$ we denote by $\hd(v,w)$ the Hamming distance between $v$ and $w$, that is, $\hd(v,w)=\w(v+w)$.
 For two functions $f$ and $g$ we denote by $\hd(f,g)$ the Hamming distance between their vectors of values.
 
 %\subsection{Order relations on \texorpdfstring{$\mathbb{F}_2^n$}{F\_2^n}}
 
 \subsection{Boolean functions, cryptographic criteria, and weightwise properties}
 In this section, we recall fundamental concepts concerning Boolean functions and their weightwise properties, which are utilized throughout this article. For a more comprehensive introduction to Boolean functions and their cryptographic parameters, we recommend consulting the book by Carlet~\cite{Carlet20},
-%consulting for instance the book by Carlet~\cite{Carlet20}, 
+%consulting for instance the book by Carlet~\cite{Carlet20},
 and for insights into weightwise properties—also known as properties on the slices—the article by~\cite{TOSC:CarMeaRot17}.
-We denote by $\Ekn{k}{n}$ the set $\{x\in \F_2^n \, | \, \w(x)=k \}$ for $k \in [0,n]$, referring to it as a slice of the Boolean hypercube (of dimension $n$). 
+We denote by $\Ekn{k}{n}$ the set $\{x\in \F_2^n \, | \, \w(x)=k \}$ for $k \in [0,n]$, referring to it as a slice of the Boolean hypercube (of dimension $n$).
 Consequently, the Boolean hypercube is divided into $n+1$ slices, where the elements share the same Hamming weight.
 %and the article~{TOSC:CarMeaRot17} for insights into weightwise properties, also known as properties on the slices. We denote $\Ekn{k}{n}$ as the set $\{x\in \F_2^n , | , \w(x)=k \}$ for $k \in [0,n]$, referring to it as a slice of the Boolean hypercube (of dimension $n$). Consequently, the Boolean hypercube is divided into $n+1$ slices where the elements share the same Hamming weight.
 
 
 \begin{definition}[Boolean Function]\label{def:bool_f}
-	A Boolean function $f$ in $n$ variables is a function from $\F_2^n$ to $\F_2$. 
+	A Boolean function $f$ in $n$ variables is a function from $\F_2^n$ to $\F_2$.
 	The set of all Boolean functions in $n$ variables is denoted by $\BN$.%, and we denote $\BN^*$ the set without the null function.
 \end{definition}
 
 
-When a property or a definition is restricted to a slice, we denote it by using the subscript $k$. 
-For example, for an $n$-variable Boolean function $f$ we denote its support $\supp(f)=\{x\in \F_2^n \, | \, f(x)=1  \}$. 
+When a property or a definition is restricted to a slice, we denote it by using the subscript $k$.
+For example, for an $n$-variable Boolean function $f$ we denote its support $\supp(f)=\{x\in \F_2^n \, | \, f(x)=1  \}$.
 %Furthermore, we denote by $\suppk{k}(f)$ its support restricted to a slice, that is $\supp(f)\cap \Ekn{k}{n}$.
 Furthermore, we denote by $\suppk{k}(f)$ the support of $f$ restricted to a slice, which is defined as $\supp(f)\cap \Ekn{k}{n}$.
 
 
 \begin{definition}[Balancedness]\label{def:balancedness}
-	A Boolean function $f\in \BN$ is called balanced if $|\supp(f)|=2^{n-1}=|\supp(f+1)|$. 
-	
+	A Boolean function $f\in \BN$ is called balanced if $|\supp(f)|=2^{n-1}=|\supp(f+1)|$.
+
 	For $k\in [0,n]$ the function is said balanced on the slice $k$ if $||\suppk{k}(f)|-|\suppk{k}(f+1)| |\le 1$. In particular when $|\Ekn{k}{n}|$ is even $|\suppk{k}(f)|=|\suppk{k}(f+1)|=|\Ekn{k}{n}|/2$.
 \end{definition}
 
 %\begin{definition}[Weightwise Perfectly Balanced Function (WPB)]\label{def:WPB}
-%	Let $m\in \N^*$ and $f$ be a Boolean function in $n=2^m$ variables. 
+%	Let $m\in \N^*$ and $f$ be a Boolean function in $n=2^m$ variables.
 %	The function $f$ is called weightwise perfectly balanced (WPB) if, for every $k\in[n-1]$, $f$ is balanced on the slice $k$, that is $\forall k \in [1,n-1], |\suppk{k}(f)|=\binom{n}{k}/2$, and:
 %	\[f(0,\dots,0)=0,\quad \text{ and } \quad f(1,\dots,1)=1.\]
 %	The set of WPB functions in $2^m$ variables is denoted $\WPB{m}$.
@@ -146,35 +146,35 @@ Using the notion of restricted balancedness we can define the weightwise (almost
 
 \begin{definition}[Weightwise (Almost) Perfectly Balanced Function (WPB and WAPB)]\label{def:WAPB}
 	Let $m\in \N^*$ and $f$ be a Boolean function in $n=2^m$ variables. It will be called weightwise perfectly balanced (WPB) if, for every $k\in[1,n-1]$, $f$ is balanced on the slice $k$, that is $\forall k \in [1,n-1], |\suppk{k}(f)|=\binom{n}{k}/2$, and:
-	\[f(0,\cdots,0)=0,\quad \text{ and } f(1,\cdots,1)=1.\]	
+	\[f(0,\cdots,0)=0,\quad \text{ and } f(1,\cdots,1)=1.\]
 	The set of WPB functions in $2^m$ variables is denoted $\WPB{m}$.
-	
-	When $n$ is not a power of $2$, other weights than $k=0$ and $n$ can lead to slices of odd cardinality, we call $f\in \Bn{n}$ weightwise almost perfectly balanced (WAPB) if: 
+
+	When $n$ is not a power of $2$, other weights than $k=0$ and $n$ can lead to slices of odd cardinality, we call $f\in \Bn{n}$ weightwise almost perfectly balanced (WAPB) if:
 	\[|\suppk{k}(f)|= \left \{
 	\begin{array}{l l}
 	|\Ekn{k}{n}|/2  & \text{ if } |\Ekn{k}{n}| \text{ is even, } \\
 	(|\Ekn{k}{n}|\pm 1)/2  & \text{ if }  |\Ekn{k}{n}| \text{ is odd.}
 	\end{array}\right.\]
-	The set of WAPB functions in $n$ variables is denoted $\WAPB{n}$.		
+	The set of WAPB functions in $n$ variables is denoted $\WAPB{n}$.
 \end{definition}
 
 
 
 %We define other important notions to study Boolean functions, the algebraic normal form and the Walsh transform. Then we introduce important cryptographic criteria for these functions, the (weightwise) algebraic immunity and (weightwise) nonlinearity.
-We define additional crucial concepts for studying Boolean functions, namely the algebraic normal form and the Walsh transform. 
+We define additional crucial concepts for studying Boolean functions, namely the algebraic normal form and the Walsh transform.
 Subsequently, we introduce key cryptographic criteria for these functions, including algebraic immunity (both general and weightwise) and nonlinearity (both general and weightwise).
 
 \begin{definition}[Algebraic Normal Form (ANF) and degree]\label{def:anf}
 We call Algebraic Normal Form of a Boolean function $f$ its $n$-variable polynomial representation over $\F_2$ (\ie belonging to $\F_2[x_1,\dots,x_n]/(x_1^2+x_1,\dots,x_n^2+x_n)$):
 	\[f(x_1,\dots,x_n)= \sum_{I \subseteq [1,n]} a_I \left( \prod_{i \in I} x_i \right), \]%x_1,\dots,x_n=\sum_{I \subseteq [1,n]} a_I x^I,\]
-	where $a_I\in \F_2$. 
+	where $a_I\in \F_2$.
 %The (algebraic) degree of $f$, denoted $\degg(f)$ is: \[\degg(f):=\left\{\begin{array}{l}
 %	\max_{I\subseteq [1,n]}\{ |I|\, | \, a_I=1\}  \text{ if $f$ is not null}\\
 %	0  \text{ otherwise}.
-%	\end{array}\right.\]	
+%	\end{array}\right.\]
 The (algebraic) degree of $f$, denoted $\degg(f)$ is: \[\degg(f)=\
 \max_{I\subseteq [1,n]}\{ |I|\, | \, a_I=1\}  \text{ if $f$ is not null},0  \text{ otherwise}.\]
-\end{definition}	
+\end{definition}
 
 
 We also recall the concept of order on $\F_2^n$, as it will be utilized in the algorithms involving Boolean functions.
@@ -184,9 +184,9 @@ We also recall the concept of order on $\F_2^n$, as it will be utilized in the a
 
 
 \begin{definition}[Order]\label{def:order}
-	A binary relation $\preceq$	on a set $X$ is called partial order if $\preceq$ is reflexive, transitive and antisymmetric. 
+	A binary relation $\preceq$	on a set $X$ is called partial order if $\preceq$ is reflexive, transitive and antisymmetric.
 	Moreover, $\preceq$ is a total order if for all $a,b\in X$ it holds $a\preceq b$ or $b \preceq a$.
-	
+
 \end{definition}
 
 We give two examples of orders on $n$-length binary strings, more examples can be found in \eg~\cite{FUN:SteWil12}:
@@ -202,11 +202,11 @@ We give two examples of orders on $n$-length binary strings, more examples can b
 	Let $f\in \Bn{n}$ be a Boolean function, its truth table is the Boolean vector defined as:
 \begin{align*}
 TT(f) \in \F_2^{2^n},\  TT(f) = \left(f(0_n), \dots, f(1_n)\right).
-\end{align*}	
+\end{align*}
 	Denoting by $f_S$ the restriction of $f$ to a subset $S\subseteq \F_2^n$ written as $S = \{a_1, a_2, \cdots, a_{|S|}\}$, the truth table of $f_S$ refers to the vector $\left(f(a_1), f(a_2), \dots, f(a_{|S|})\right)$.
 
-If not specified otherwise, the (restricted) truth table follows the lexicographic order.	
-		
+If not specified otherwise, the (restricted) truth table follows the lexicographic order.
+
 \end{definition}
 
 %\begin{remark}
@@ -219,18 +219,18 @@ If not specified otherwise, the (restricted) truth table follows the lexicograph
 	The algebraic immunity of a Boolean function $f\in \Bfn{n}$, denoted as $\AI(f)$, is defined as:
 	\[ \AI(f) = \min_{g \neq 0}\{ \degg(g) \; | \; fg = 0 \; \text{or} \; (f + 1)g = 0 \}{,} \]
 	where $\degg(g)$ is the algebraic degree of $g$.
-	The function $g$ is called an annihilator of $f$ (or $f + 1$). 
+	The function $g$ is called an annihilator of $f$ (or $f + 1$).
 	%Additionally we denote $\AN(f) = \min_{g \neq 0}\{ \degg(g) \; | \; fg = 0\}$.
-	
+
 The restricted algebraic immunity of a Boolean function $f\in \Bfn{n}$ on the set $S\subset \F_2^n$, denoted as $\AI_S(f)$, is defined as:
-\[ \AI_S(f) = \min_{g \neq 0 \text{ over } S}\{ \degg(g) \; | \; fg = 0 \; \text{or} \; (f + 1)g = 0 \}{.} \]	
+\[ \AI_S(f) = \min_{g \neq 0 \text{ over } S}\{ \degg(g) \; | \; fg = 0 \; \text{or} \; (f + 1)g = 0 \}{.} \]
 For $S=\Ekn{k}{n}$ we denote $\AI_{\Ekn{k}{n}}(f)$ by $\AIk{k}(f)$ and call it weightwise algebraic immunity.
-	
-	
+
+
 \end{definition}
 
 \begin{remark}
-    Let $f\in \Bn{n}$. We use the notation $f^{(o)}$ referring to either $f$ or $f + 1$ when the same process or result applies to any of them. 
+    Let $f\in \Bn{n}$. We use the notation $f^{(o)}$ referring to either $f$ or $f + 1$ when the same process or result applies to any of them.
     In particular, $f^{(o)} \in \{f, f + 1\}$.
 \end{remark}
 
@@ -243,36 +243,36 @@ For $S=\Ekn{k}{n}$ we denote $\AI_{\Ekn{k}{n}}(f)$ by $\AIk{k}(f)$ and call it w
 	Let $f\in \Bn{n}$, $S \subset \F_2^n$, its Walsh transform restricted to $S$ at $a \in \F_2^n$ is defined as:
 	\[  \wt{f,S} (a) := \sum_{x\in S} (-1)^{f(x)+ax}.\]
 	For $S=\Ekn{k}{n}$ we denote $\wt{f,\Ekn{k}{n}} (a)$ by $\wtk{f}{k}(a)$.%, and for $a= 0_{n}$ we denote $\wtk{f}{k}(a)$ as $\wtk{f}{k}(0)$.
-	
+
 \end{definition}
 
 \begin{Prop}[WAPB functions and restricted Walsh transform]\label{prop:WAPBWalsh}
-	
+
 Let $n\in \N^*$, $f\in \Bn{n}$ is WAPB if and only if:
-\[\forall k \in [0,n], \, \wtk{f}{k}(0_n)=   
+\[\forall k \in [0,n], \, \wtk{f}{k}(0_n)=
 \left \{
 \begin{array}{l l}
 0  & \text{ if } |\Ekn{k}{n}| \text{ is even, } \\
 \pm 1 & \text{ if }  |\Ekn{k}{n}| \text{ is odd.}
-\end{array}\right. \] 
+\end{array}\right. \]
 If $n=2^m$ with $m\in \N^*$, $f\in \Bn{n}$ is WPB if and only if:
-\[\wtk{f}{0}(0_n)=1, \quad \wtk{f}{n}(0_n)=-1, \text{ and } \quad \forall k \in [1,n-1] \,  \wtk{f}{k}(0_n)=0. \] 
-	
+\[\wtk{f}{0}(0_n)=1, \quad \wtk{f}{n}(0_n)=-1, \text{ and } \quad \forall k \in [1,n-1] \,  \wtk{f}{k}(0_n)=0. \]
+
 \end{Prop}
 
 \begin{definition}[Nonlinearity and weightwise nonlinearity] \label{def:nl}
 	The nonlinearity $\NL(f)$ of a Boolean function $f\in \BN$, where $n$ is a positive integer, is the minimum Hamming distance between $f$ and all the affine functions in $\BN$:
 	\[ \NL(f) = \min_{g,\, \degg(g)\leq 1} \{ \hd(f,g) \}{,} \]
-	where $g(x)=a\cdot x+\varepsilon$, $a\in \F_2^n, \varepsilon\in \F_2$. 
+	where $g(x)=a\cdot x+\varepsilon$, $a\in \F_2^n, \varepsilon\in \F_2$.
 	%	(where $\cdot$ is an inner product in $\F_2^n$, any choice of inner product will give the same value of $\NL(f)$)
 	%For $n$ even the functions at maximal distance from the affine functions (the ones with maximal $\NL$, that is $2^{n-1} -2^{n/2-1}$) are called bent functions.
-	
+
 	The nonlinearity can also be defined from the Walsh transform:
 	\[ \NL(f) = 2^{n-1}- \frac{1}{2} \max_{a\in \F_2^n}{|\wt{f}(a)|}. \]
-	
-	
-	For $k\in [0,n]$ we denote $\NLk{k}$ the nonlinearity on the slice $k$, the minimum Hamming distance between $f$ restricted to $\Ekn{k}{n}$ and the restrictions to $\Ekn{k}{n}$ of affine functions over $\F_2^n$. 
-	Accordingly: 
+
+
+	For $k\in [0,n]$ we denote $\NLk{k}$ the nonlinearity on the slice $k$, the minimum Hamming distance between $f$ restricted to $\Ekn{k}{n}$ and the restrictions to $\Ekn{k}{n}$ of affine functions over $\F_2^n$.
+	Accordingly:
 	\[\NLk{k}(f)=\min_{g,\, \degg(g)\leq 1} |\suppk{k}(f+g)|.\]
 	%	We refer to the global weightwise nonlinearity of $f$ as $\gnlk(f)=\sum_{k=0}^{n}\NLk{k}(f)$.
 \end{definition}
@@ -287,13 +287,13 @@ If $n=2^m$ with $m\in \N^*$, $f\in \Bn{n}$ is WPB if and only if:
 
 %\subsection{Symmetric Functions}
 
-%The $n$-variable \emph{Boolean symmetric functions} are those that are constant on each slice $\Ekn{k}{n}$ for $k\in [0,n]$. 
+%The $n$-variable \emph{Boolean symmetric functions} are those that are constant on each slice $\Ekn{k}{n}$ for $k\in [0,n]$.
 %This class has been assiduously studied in the context of cryptography, see \eg {IEEE:Carlet04,IEEE:CanVid05,INDO:BraPre05,DM:SarMai07,IEEE:QFLW09,CCDS:Meaux21,IEEE:CarMea21}.
-%  The set of $n$-variable symmetric functions is denoted $\SYM{n}$.and $|\SYM{n}|=2^{n+1}$. 
+%  The set of $n$-variable symmetric functions is denoted $\SYM{n}$.and $|\SYM{n}|=2^{n+1}$.
 %In this article we mainly consider two families of symmetric functions, which are both bases of the symmetric functions:
 
 %\begin{definition}[Elementary symmetric functions]
-%Let $i\in [0,n]$, the elementary symmetric function of degree $i$ in $n$ variables, denoted $\sigma_{i,n}$, is the function which ANF contains all monomials of degree $i$ and no monomials of other degrees. 
+%Let $i\in [0,n]$, the elementary symmetric function of degree $i$ in $n$ variables, denoted $\sigma_{i,n}$, is the function which ANF contains all monomials of degree $i$ and no monomials of other degrees.
 %\end{definition}
 %\begin{definition}[Slice indicator functions]
  %Let $k\in [0,n]$, the indicator function of the slice of weight $k$ is defined as:
@@ -302,14 +302,14 @@ If $n=2^m$ with $m\in \N^*$, $f\in \Bn{n}$ is WPB if and only if:
 %We recall that bent functions are those Boolean functions achieving maximal nonlinearity.
 
 %\begin{Prop}[Nonlinearity of $\sigma_{2,n}$]\label{prop:sigmaTwoBent}
-%	Let $n\in \N^*$ even, the elementary symmetric function $\sigma_{2,n}=\sum_{1\le i<j\le n}x_ix_j$ is bent, \ie 
+%	Let $n\in \N^*$ even, the elementary symmetric function $\sigma_{2,n}=\sum_{1\le i<j\le n}x_ix_j$ is bent, \ie
 %	$\NL(\sigma_{2,n})=2^{n-1}-2^{n/2-1}$.
 %\end{Prop}
 
 
 %\begin{Prop}[Weightwise restricted Walsh transform and addition of symmetric function (~{INDO:GinMea22}, Proposition $4$)]\label{prop:AddSym}
 %	Let $n\in \N^*$, $k\in [0,n]$ and $f \in \Bn{n}$, the following holds on $f+\phikn{k}{n}$
-%	\[\forall a\in \F_2^n, \forall i\in [0,n]\setminus \{k\}, \wtk{f+\phikn{k}{n}}{i}(a)=\wtk{f}{i}(a),\text{ and } \wtk{f+\phikn{k}{n}}{k}(a)=-\wtk{f}{i}(a).\]	
+%	\[\forall a\in \F_2^n, \forall i\in [0,n]\setminus \{k\}, \wtk{f+\phikn{k}{n}}{i}(a)=\wtk{f}{i}(a),\text{ and } \wtk{f+\phikn{k}{n}}{k}(a)=-\wtk{f}{i}(a).\]
 %\end{Prop}
 
 
@@ -320,7 +320,7 @@ If $n=2^m$ with $m\in \N^*$, $f\in \Bn{n}$ is WPB if and only if:
 We use Krawtchouk polynomials and some of their properties to prove one of our results, we give the necessary preliminaries here and refer to \eg ~{book:MacSlo78} for more details.
 
 \begin{definition}[Krawtchouk Polynomials]\label{def:Kraw}
-	The Krawtchouk polynomial of degree $k$, with $0\leq k\leq n$ is given by: $ \displaystyle \kraw{k}{\ell}{n}=\sum_{j=0}^{k} (-1)^j \binom{\ell}{j} \binom{n-\ell}{k-j}$. 
+	The Krawtchouk polynomial of degree $k$, with $0\leq k\leq n$ is given by: $ \displaystyle \kraw{k}{\ell}{n}=\sum_{j=0}^{k} (-1)^j \binom{\ell}{j} \binom{n-\ell}{k-j}$.
 	%	Krawtchouk polynomials are characterized by the generating series: $ \displaystyle (1+z)^{n-x} (1-z)^x=\sum_{k=0}^\infty \kraw{k}{x}{n} z^k$.
 \end{definition}
 
@@ -359,7 +359,7 @@ We use Krawtchouk polynomials and some of their properties to prove one of our r
     \begin{align*}
         x^{u} = \prod_{i=1}^n x_i^{u_i}.
     \end{align*}
-    
+
     Let $E = \{\alpha_1, \alpha_2, \cdots, \alpha_k\} \subseteq \mathbb{F}_2^n$, we denote by $x^E = \{x^{\alpha_1}, x^{\alpha_2}, \cdots, x^{\alpha_k}\}$ the set of all monomials associated to $E$.
 \end{definition}
 
@@ -370,7 +370,7 @@ We use Krawtchouk polynomials and some of their properties to prove one of our r
 
 
 \begin{definition}[RM generator matrix]\label{rmGenerator}
-	Let $X$ be the set of the $2^n$ elements in $\F_2^n$ in lexicographical order and $P_{r,n} = \{\ u\in \mathbb{F}_2^n \mid w_H(u) \leq r\}$ the set of all the elements of $\F_2^n$ with Hamming weight smaller than or equal to $r$. 
+	Let $X$ be the set of the $2^n$ elements in $\F_2^n$ in lexicographical order and $P_{r,n} = \{\ u\in \mathbb{F}_2^n \mid w_H(u) \leq r\}$ the set of all the elements of $\F_2^n$ with Hamming weight smaller than or equal to $r$.
 	The generator matrix $G_{r,n}\in Mat_{D_r^n,2^n}$ is defined as
 	\begin{align*}
 %	\left(G_{r,n}\right)_{i,j} = x_j^{u_i}, \ x_j \in Lex\left(X\right),\ u_i \in P_{r,n}
@@ -410,7 +410,7 @@ We use Krawtchouk polynomials and some of their properties to prove one of our r
 
 \section{Computing the restricted AI from punctured) generator matrices of Reed-Muller codes}\label{sec:RMapproach}
 
-In this section we provide an algorithm to compute the algebraic immunity of a Boolean function restricted on a general subset $S \subseteq \mathbb{F}_2^n$. 
+In this section we provide an algorithm to compute the algebraic immunity of a Boolean function restricted on a general subset $S \subseteq \mathbb{F}_2^n$.
 
 %%The idea behind the algorithm is to construct the systems of equations for $S_1^r \hat{=}g_1^r*f_S (x)= \hat{0}$ and $S_2^r\hat{=}g_2^r (f\oplus 1)_S (x) = \hat{0}$ for $x$ being in $\mathbb{F}_2^n$ and $g_1^r$ and $g_2^r$ being two Boolean functions of an algebraic degree $r$.
 %The idea behind the algorithm is to check if the systems of equations $S_1^r \hat{=}g_1^r*f_S (x)= \hat{0}$ or $S_2^r\hat{=}g_2^r (f\oplus 1)_S (x) = \hat{0}$ admit a non null solution, for $x$ in $\F_2^n$ and $g_1^r$ and $g_2^r$ two Boolean functions of algebraic degree at most $r$. The check is done by checking if the rank of the punctured RM matrices is smaller than expected.
@@ -418,9 +418,9 @@ In this section we provide an algorithm to compute the algebraic immunity of a B
 %Instead, if $f$ is constant in $S$, the algorithm returns $0$, as justified by Proposition~\ref{prop:constantFs}.
 
 
-The algorithm aims to determine whether the systems of equations $S_1^r \hat{=}g_1^r*f_S (x)= \hat{0}$ or $S_2^r\hat{=}g_2^r (f+ 1)_S (x) = \hat{0}$ admit a non-zero solution for $x \in \F_2^n$, where $g_1^r$ and $ g_2^r$ are Boolean functions of algebraic degree at most $ r$. 
+The algorithm aims to determine whether the systems of equations $S_1^r \hat{=}g_1^r*f_S (x)= \hat{0}$ or $S_2^r\hat{=}g_2^r (f+ 1)_S (x) = \hat{0}$ admit a non-zero solution for $x \in \F_2^n$, where $g_1^r$ and $ g_2^r$ are Boolean functions of algebraic degree at most $ r$.
 This is achieved by examining whether the rank of one of the punctured Reed-Muller (RM) matrices is smaller than one with the columns corresponding to the entire $S$.
-If $f$ is non-constant on $S$, the algorithm searches for the existence of either $g_1^r$ solving $S_1^r$ or $g_2^r$ solving $S_2^r$, where neither function vanishes over the entire set \( S \). 
+If $f$ is non-constant on $S$, the algorithm searches for the existence of either $g_1^r$ solving $S_1^r$ or $g_2^r$ solving $S_2^r$, where neither function vanishes over the entire set \( S \).
 If such solutions \( g_1^r \) or \( g_2^r \) do not exist, new systems \( S_1^{r+1} \) and \( S_2^{r+1} \) are considered (through bigger matrices), and the search for solutions \( g_1^{r+1} \) and \( g_2^{r+1} \) continues. This iterative process is repeated until either an annihilator of \( f \) or \( f + 1 \) is found or an upper bound \( r + \delta \) is reached. The procedure for \( f_S \) and \( (f + 1)_S \) is carried out in parallel.
 Conversely, if \( f \) is constant on \( S \), the algorithm terminates and returns \( 0 \), as justified by Proposition~\ref{prop:constantFs}.
 
@@ -433,25 +433,25 @@ Conversely, if \( f \) is constant on \( S \), the algorithm terminates and retu
 \begin{proof}
 	First, we show the reverse implication.
 	We suppose that $f\in \BN$ is constant on $S$, either $f(x) = 0$ for all $x\in S$, or $f(x) = 1$ for all $x\in S$.
-	If $f$ is not null everywhere but $f(x) = 0\ \forall x \in  S$, then the constant function $g(x) = 1$ is not zero on all $S$, and is it such that $g(x)f(x) = 0$ for all $x\in S$. 
+	If $f$ is not null everywhere but $f(x) = 0\ \forall x \in  S$, then the constant function $g(x) = 1$ is not zero on all $S$, and is it such that $g(x)f(x) = 0$ for all $x\in S$.
 	Similarly, if for all $x\in S$ $f(x) = 1$, the same argument can be used for the function $f+ 1$ on $S$.
-	
+
 	Then, we show the direct implication.
 	We suppose that a function $g\in \BN$ is an $S$-non-zero-annihilator of $f$ of degree $0$. Then,
 	$g \neq 0$ and $\deg(g) = 0 \Rightarrow g = 1$, therefore since $g$ annihilates $f$ in $S$,  $g(x) f(x) = 0$ for all $x \in S$, resulting in $f(x)g(x) = f(x) = 0$.
-	Similarly, if $g$ annihilates $f+ 1$ on $S$ instead of $f$, we have that $g(x)(f(x) + 1) = 0$ implying that $f+ 1 = 0 \Rightarrow f(x) = 1$ for all $x\in S$. 
+	Similarly, if $g$ annihilates $f+ 1$ on $S$ instead of $f$, we have that $g(x)(f(x) + 1) = 0$ implying that $f+ 1 = 0 \Rightarrow f(x) = 1$ for all $x\in S$.
 %	\underline{Direct implication $\Rightarrow$}\\
 %	Suppose that $f\in \BN$ is constant in $S$, either this function $f$ is such that $f(x) = 0$ for all $x\in S$, or $f(x) = 1$ for all $x\in S$.\\
-%	If it the case that $f$ is not null everywhere but $f(x) = 0\ \forall S$, then it exists the function $g(x) = 1$ which is not zero in all $S$, but is it such that $g(x)f(x) = 0$ for all $x\in S$.\\ 
+%	If it the case that $f$ is not null everywhere but $f(x) = 0\ \forall S$, then it exists the function $g(x) = 1$ which is not zero in all $S$, but is it such that $g(x)f(x) = 0$ for all $x\in S$.\\
 %	If on the other hand, $f(x) = 1$ for all $x\in S$, the same argument can be used but annihilating the function $f\oplus 1$ on $S$.\\
 %	\underline{Inverse implication $\Leftarrow$}\\
 %	Suppose that a function $g\in \mathbb{BF}_n$ is an $S$-non-zero-annihilator of $f$ of degree $0$.\\
 %	$g \neq 0$ and $deg(g) = 1 \Rightarrow g = 1$, therefore since $g$ annihilates $f$ in $S$,  $g(x) f(x) = 0$ for all $x \in S$, resulting in $f(x)g(x) = f(x) = 0$ .\\
-%	In the same way, if on the other hand, $g$ annihilates $f\oplus 1$ on $S$ instead of $f$, we have that $g(x)(f(x) \oplus 1) = 0$ implying that $f\oplus 1 = 0 \Rightarrow f(x) = 1$ for all $x\in S$. 
+%	In the same way, if on the other hand, $g$ annihilates $f\oplus 1$ on $S$ instead of $f$, we have that $g(x)(f(x) \oplus 1) = 0$ implying that $f\oplus 1 = 0 \Rightarrow f(x) = 1$ for all $x\in S$.
 \end{proof}
 
 
-The matrices corresponding to systems of equations $S_1^r$ and $S_2^r$ are constructed by extracting the $S$-$f$-generator and the $S$-$(f+1)$-generator given by Definition~\ref{def:generatorsS}, by extracting them from the Reed-Muller generator matrix where we only consider the columns corresponding to elements in $S$. 
+The matrices corresponding to systems of equations $S_1^r$ and $S_2^r$ are constructed by extracting the $S$-$f$-generator and the $S$-$(f+1)$-generator given by Definition~\ref{def:generatorsS}, by extracting them from the Reed-Muller generator matrix where we only consider the columns corresponding to elements in $S$.
 This is justified by Remark~\ref{rem:gfMatrix}.
 
 
@@ -477,7 +477,7 @@ Let $r,n\in\N^*$ with $r\leq n$. Let $G_{r,n}$ be the generator matrix of the Re
 	& = f_S \cdot g.
 	\end{aligned}
 	\end{equation}
-	
+
 	Therefore, solving $ \hat{a} \cdot G_{r,n}^{f_S,S} = 0$ is equivalent to solving $f_S \cdot g = 0$, or in other words, finding the kernel of $G_{r,n}^{f_S,S}$ is equivalent to finding all annihilators of $f$ restricted to $S$ of degree up to $r$.
 \end{remark}
 
@@ -487,8 +487,8 @@ Let $r,n\in\N^*$ with $r\leq n$. Let $G_{r,n}$ be the generator matrix of the Re
 \end{proposition}
 \begin{proof}
 	Since $D_r^n = \text{rank}(G^{f^{(o)}_S,S}_{r.n}) + |\text{Ker}(G^{f^{(o)}_S,S}_{r.n})| =  \text{rank}(G^{S}_{r.n}) + |\text{Ker}(G^{S}_{r.n})|$, we have that
-	$\text{rank}(G^{f_S^{(o)},S}_{r.n}) < \text{rank}(G^{S}_{r.n}) \iff |\text{Ker}(G^{f_S^{(o)},S}_{r.n})| > |\text{Ker}(G^{S}_{r.n})|$. 
-	Therefore $\exists v\in \text{Ker}(G^{f_S^{(o)},S}_{r.n}) \mbox{ such that }v\not\in \text{Ker}(G^{S}_{r.n})$. 
+	$\text{rank}(G^{f_S^{(o)},S}_{r.n}) < \text{rank}(G^{S}_{r.n}) \iff |\text{Ker}(G^{f_S^{(o)},S}_{r.n})| > |\text{Ker}(G^{S}_{r.n})|$.
+	Therefore $\exists v\in \text{Ker}(G^{f_S^{(o)},S}_{r.n}) \mbox{ such that }v\not\in \text{Ker}(G^{S}_{r.n})$.
 	Hence, it exists a Boolean function $g$ of degree $r$, given by $v \cdot G_{r,n}$, which is such that $v \cdot G_{r,n}\neq 0$ and $v \cdot G_{r,n}^{S}\neq 0$, but $(g \cdot f_S^{(o)})_S = v \cdot G_{r,n}^{f_S^{(o)},S} = 0$.\\
 	Since $\text{rank}\left(G_{r,n}^{f_S^{(o)}, S}\right) = \text{rank}\left(G_{r,n}^{f^{(o)}, S}\right)$, $\text{rank}(G^{f^{(o)},S}_{r.n}) < \text{rank}(G^{S}_{r.n}) \Rightarrow \text{rank}(G^{f_Z^{(o)},S}_{r.n}) < \text{rank}(G^{S}_{r.n})$ and hence the condition $\text{rank}(G^{f_Z^{(o)},S}_{r.n}) < \text{rank}(G^{S}_{r.n})$ is enough to justify the existence of such $v$ giving the $S$-non-zero-annihilator $g$.
 \end{proof}
@@ -512,7 +512,7 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 		\end{align}
 		In Algorithm ~\ref{alg:RMApproach}, we therefore use the function \textsc{read\_values\_from\_file}, to read to two pre-computed hash tables from the files where they have been pre-stored before the execution of the algorithm.
 		\item The procedure \textsc{find\_deg\_smallest\_S\_annihilator} in ~\ref{alg:RMApproach} is done in parallel for $f$ and $f+ 1$ with the additional condition that if one of the two branches returns the value of $1$, the other branch is stopped, without having to wait for it to finish.
-	\end{enumerate}	
+	\end{enumerate}
 \end{remark}
 
 
@@ -522,7 +522,7 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 	\begin{algorithmic}[1]
 		\Require $x\in \mathbb{F}_2^{2^n}$ evaluation of the truth table of $f\in \Bn{n}$ and the restricted set $S\subseteq \mathbb{F}_2^n$.
 		\Ensure $\AI_S(f)$
-		
+
 		\Function{find\_deg\_smallest\_S\_annihilator}{$G_{n,n}^{f_Z^{(o)},S}, G_{d,n}^{S}, D^n$}
 		\State $r \gets 0$;
 		\State $i \gets 0$;
@@ -542,7 +542,7 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 		\EndWhile
 		\EndFunction
 		\State
-		
+
 		\If{\textsc{is\_constant}$(x)$}
 		\Return $0$
 		\EndIf
@@ -588,9 +588,9 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 %We start with definitions and remarks to be able to introduce the general idea of the algorithm.
 
 
-In this section, we present an algorithm (Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative}) to determine the algebraic immunity restricted to a set $S \subseteq \mathbb{F}_2^n$ with improved time and space complexity compared to the method presented in Section~\ref{sec:RMapproach}. 
+In this section, we present an algorithm (Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative}) to determine the algebraic immunity restricted to a set $S \subseteq \mathbb{F}_2^n$ with improved time and space complexity compared to the method presented in Section~\ref{sec:RMapproach}.
 
-The core idea is to iteratively construct the objects $G_{r,n}^{f_{supp\left(f\right) \cap S},S}$ and $G_{r,n}^{\left(f+ 1\right)_{supp\left(f+ 1\right) \cap S},S}$ for varying $r$, increasing the size of the matrix by one row per iteration while minimizing computations. 
+The core idea is to iteratively construct the objects $G_{r,n}^{f_{supp\left(f\right) \cap S},S}$ and $G_{r,n}^{\left(f+ 1\right)_{supp\left(f+ 1\right) \cap S},S}$ for varying $r$, increasing the size of the matrix by one row per iteration while minimizing computations.
 This approach checks for the existence of annihilators dynamically, rather than extracting them from a large, pre-computed Reed-Muller generator matrix restricted to $S$. The method extends the approach of~\cite{EC:ACGKMR06} for determining the standard algebraic immunity.
 As with Algorithm~\ref{alg:RMApproach}, this procedure returns $0$ if the function $f$ is constant on $S$. Hence, we focus on explaining the case of determining $\AI_S(f)$ for functions such that $\AI_S(f) \geq 1$. (The full algorithm, however, also addresses functions with null $\AI_S$.)
 
@@ -604,9 +604,9 @@ We begin with definitions and remarks necessary to introduce the general idea of
     \begin{align*}
         \left(V_{E,Z}\right)_{i,j} = z_j^{\alpha_i} \quad \forall i\in[1,k_E] \mbox{ and } j\in[1, k_Z].
     \end{align*}
-    
+
     %\begin{align*}
-    %    V_{E,Z} = 
+    %    V_{E,Z} =
     %    \begin{pmatrix}
     %        z_1^{\alpha_1} & z_2^{\alpha_1} & \cdots & z_{k_Z}^{\alpha_1} \\
     %        z_1^{\alpha_2} & z_2^{\alpha_2} & \cdots & z_{k_Z}^{\alpha_2} \\
@@ -622,7 +622,7 @@ We begin with definitions and remarks necessary to introduce the general idea of
         \left(V_{E_i,Z_j}\right)_{n,l} = z_l^{\alpha_n} \quad \forall n\in[1,i] \mbox{ and } l\in[1, j].
     \end{align*}
     %\begin{align*}
-    %    V_{E_i,Z_j} = 
+    %    V_{E_i,Z_j} =
     %    \begin{pmatrix}
     %        z_1^{\alpha_1} & z_2^{\alpha_1} & \cdots & z_j^{\alpha_{i}} \\
     %        z_1^{\alpha_2} & z_2^{\alpha_2} & \cdots & z_j^{\alpha_{i}} \\
@@ -633,7 +633,7 @@ We begin with definitions and remarks necessary to introduce the general idea of
 \end{definition}
 
 \begin{remark}\label{rem:subsetOfReedMuller}
-Let $E = (\{\alpha_2, \alpha_2, \cdots, \alpha_{D_d^n}\})$ be such that $x^E$ is the set of all monomials with degree at most $d$ ordered by the graded lex order. 
+Let $E = (\{\alpha_2, \alpha_2, \cdots, \alpha_{D_d^n}\})$ be such that $x^E$ is the set of all monomials with degree at most $d$ ordered by the graded lex order.
     We remark the following:
     %The following remarks are made
     \begin{itemize}
@@ -646,7 +646,7 @@ Let $E = (\{\alpha_2, \alpha_2, \cdots, \alpha_{D_d^n}\})$ be such that $x^E$ is
  %   Let $i\geq 1$. We have that if $1< i+1 \leq \min{\left(|Z|, |E_{D_n^n}|\right)}$, $V_{Z_{i+1}, E_{i+1}}$ can be computed as
  Let $i\geq 1$. If $1< i+1 \leq \min{\left(|Z|, |E_{D_n^n}|\right)}$, then $V_{Z_{i+1}, E_{i+1}}$ can be computed as
     \begin{align*}
-        V_{E_{i+1}, Z_{i+1}} = 
+        V_{E_{i+1}, Z_{i+1}} =
         \begin{pmatrix}
         \multicolumn{4}{c}{\multirow{4}{*}{$V_{E_{i}, Z_{i}}$}} & z_{i+1}^{\alpha_{1}}\\
         & & & & z_{i+1}^{\alpha_{2}}\\
@@ -661,7 +661,7 @@ Let $E = (\{\alpha_2, \alpha_2, \cdots, \alpha_{D_d^n}\})$ be such that $x^E$ is
 \begin{definition}[Sequence of $V_k$ matrices]\label{def:inductiveConstructionOfV}
     As a consequence of Remark~\ref{rem:squareConstruction}, we define the sequence of sub-matrices $\left(V_k\right)_{k\in [1,D_{\lceil{n/2}\rceil-1}^n]}$ by
     \begin{align*}
-        V_k = 
+        V_k =
         \begin{cases}
             \begin{pmatrix}
         \multicolumn{4}{c}{\multirow{4}{*}{$V_{k-1}$}} & z_k^{\alpha_{1}}\\
@@ -686,7 +686,7 @@ Let $E = (\{\alpha_2, \alpha_2, \cdots, \alpha_{D_d^n}\})$ be such that $x^E$ is
 
 
 
-With Definition~\ref{def:tVandermonde} and Remark~\ref{rem:subsetOfReedMuller} in mind, we describe the algorithm's procedure as follows. 
+With Definition~\ref{def:tVandermonde} and Remark~\ref{rem:subsetOfReedMuller} in mind, we describe the algorithm's procedure as follows.
 Let \( Z = \text{supp}\left(f^{(o)}\right) \cap S \), and let \( 1 \leq i \leq |Z| \). If the function \( f \) is not constant on \( S \), the algorithm begins by constructing the matrix \( V_{E_i, Z_i} \) and searches for functions vanishing on the set \( Z_i \) by identifying vectors corresponding to the elements of the kernel of \( V_{E_i, Z_i} \).
 If such functions exist, the procedure checks whether any of them are also annihilators restricted to \( S \) for the full function \( f^{(o)} \). This is done by verifying that they vanish on all elements of \( Z \) but not on all elements of \( S \). If such an annihilator is found, the algorithm returns the degree of the last monomial added, \( x^{\alpha_i} \). Otherwise, it increments the index \( i \), constructs the next matrix following Definition~\ref{def:inductiveConstructionOfV}, and continues until a solution is found or all square matrices up to \( V_{E_i, |Z|} \) have been constructed and tested.
 If no annihilator is found after all the elements of \( Z \) have been added, the algorithm iteratively adds new monomials and generates the matrices \( V_{E_i, Z} \) and \( S_{E_i, S_i} \). It then returns the degree of the monomial \( x^{\alpha_i} \) if \( \text{rank}\left(V_{E_i, Z}\right) < \text{rank}\left(S_{E_i, S_i}\right) \). Following point~\ref{item:Item1RemOnAlg} in Remark~\ref{rem:remarksOnAlg}, if this condition is not satisfied at step \( i \), the iteration continues until \( \text{rank}\left(S_{E_i, S_i}\right) > |S| / 2 \).
@@ -702,11 +702,11 @@ Indeed, if for some \( i \), \( \text{rank}\left(V_{E_i, Z}\right) < \text{rank}
 %Propositions \ref{prop:swappingElementOfZToReduceKer}, \ref{prop:upperBoundOnRightKernel} and \ref{prop:constructionOfNextVRemovingAlphai} provide justifications for this claim.
 
 
-In the procedure described, we aim to identify at least one element from a vector space that satisfies certain required conditions (corresponding to an annihilator, not trivial on $S$), while maintaining the algorithm's desired efficiency. 
-Since this vector space can potentially be too large, we address this issue as follows: if we find an element \( \hat{g}_k \) in the right kernel of \( V_k \) that does not vanish on \( Z \), we re-order the vector \( Z \) by swapping the element \( z_{k+1} \) with the element that does not vanish in \( \hat{g}_k \). 
+In the procedure described, we aim to identify at least one element from a vector space that satisfies certain required conditions (corresponding to an annihilator, not trivial on $S$), while maintaining the algorithm's desired efficiency.
+Since this vector space can potentially be too large, we address this issue as follows: if we find an element \( \hat{g}_k \) in the right kernel of \( V_k \) that does not vanish on \( Z \), we re-order the vector \( Z \) by swapping the element \( z_{k+1} \) with the element that does not vanish in \( \hat{g}_k \).
 This ensures that such elements of the kernel of \( V_k \) do not propagate into the kernel of subsequent matrices.
 
-Furthermore, if an element of the kernel of \( V_k \) is found that vanishes on all of \( Z \) and \( S \), the monomial \( \alpha_k \) is dropped. 
+Furthermore, if an element of the kernel of \( V_k \) is found that vanishes on all of \( Z \) and \( S \), the monomial \( \alpha_k \) is dropped.
 The matrix \( V_{k+1} \) is then constructed by replacing the row corresponding to the monomial \( \alpha_k \) with one corresponding to the monomial \( \alpha_{k+1} \).
 This procedure guarantees that the cardinality of the kernel of \( V_k \) is upper-bounded by \( 1 \) for all \( k \leq |Z| \).
 Propositions~\ref{prop:swappingElementOfZToReduceKer}, ~\ref{prop:upperBoundOnRightKernel}, and ~\ref{prop:constructionOfNextVRemovingAlphai} provide formal justifications for these claims.
@@ -715,11 +715,11 @@ Propositions~\ref{prop:swappingElementOfZToReduceKer}, ~\ref{prop:upperBoundOnRi
 
 
 \begin{proposition}\label{prop:swappingElementOfZToReduceKer}
-    Let $k < \min\{(|Z|, |E_{D_n^n}|\}$ and let $V_k$ constructed following Definition~\ref{def:inductiveConstructionOfV}. 
-    Suppose $\text{ker}(V_k) = \langle \hat{g}_k \rangle=\langle (\epsilon_1, \epsilon_2, \dots, \epsilon_k) \rangle $ and let $g_k\in \Bn{n}$ be the Boolean function having $\hat{g}_k$ as ANF. 
+    Let $k < \min\{(|Z|, |E_{D_n^n}|\}$ and let $V_k$ constructed following Definition~\ref{def:inductiveConstructionOfV}.
+    Suppose $\text{ker}(V_k) = \langle \hat{g}_k \rangle=\langle (\epsilon_1, \epsilon_2, \dots, \epsilon_k) \rangle $ and let $g_k\in \Bn{n}$ be the Boolean function having $\hat{g}_k$ as ANF.
     Furthermore, assume there exists a $z_{k+j}$, for $j\geq 1$ such that $g_k(z_{k+j}) = 1$. Then, the matrix $V^{'}_{k+1}$ constructed as:
     \begin{align*}
-        V^{'}_{k+1} = 
+        V^{'}_{k+1} =
         \begin{pmatrix}
         \multicolumn{4}{c}{\multirow{4}{*}{$V_{k}$}} & z_{k+j}^{\alpha_{1}}\\
         & & & & z_{k+j}^{\alpha_{2}}\\
@@ -731,10 +731,10 @@ Propositions~\ref{prop:swappingElementOfZToReduceKer}, ~\ref{prop:upperBoundOnRi
     is such that $(\epsilon_1, \epsilon_2, \dots, \epsilon_k, 0) \not\in \text{ker}(V^{'}_{k+1})$.
 \end{proposition}
 \begin{proof}
-	
+
 	    Suppose \( \text{ker}(V_k) = \langle \hat{g}_k \rangle = \langle (\epsilon_1, \epsilon_2, \dots, \epsilon_k) \rangle \), and that there exists \( j \geq 1 \) such that \( g_k(z_{k+j}) = 1 \), but it is also such that \( (\epsilon_1, \epsilon_2, \dots, \epsilon_k, 0) \in \text{ker}(V'_{k+1}) \).
 
-  
+
 If \( (\epsilon_1, \epsilon_2, \dots, \epsilon_k, 0) \in \text{ker}(V'_{k+1}) \), then \( (\epsilon_1, \epsilon_2, \dots, \epsilon_k, 0) \cdot V'_{k+1} = \hat{0} \). Specifically, the last equation in the system of equations described by \( (\epsilon_1, \epsilon_2, \dots, \epsilon_k, 0) \cdot V'_{k+1} = \hat{0} \) is:
    \[
 \epsilon_1 z_{k+j}^{\alpha_1} + \cdots + \epsilon_k z_{k+j}^{\alpha_k} + 0 \cdot z_{k+j}^{\alpha_{k+1}} = \epsilon_1 z_{k+j}^{\alpha_1} + \cdots + \epsilon_k z_{k+j}^{\alpha_k} = 0.
@@ -744,7 +744,7 @@ If \( (\epsilon_1, \epsilon_2, \dots, \epsilon_k, 0) \in \text{ker}(V'_{k+1}) \)
  %   \end{align}
 However, from our hypothesis, we have:
 \[
-g_k(z_{k+j}) = 1 \iff g_k(z_{k+j}) = 
+g_k(z_{k+j}) = 1 \iff g_k(z_{k+j}) =
 (\epsilon_1, \epsilon_2, \dots, \epsilon_k)
 \begin{pmatrix}
 z_{k+j}^{\alpha_1} \\
@@ -754,7 +754,7 @@ z_{k+j}^{\alpha_k}
 \end{pmatrix}
 = \epsilon_1 z_{k+j}^{\alpha_1} + \cdots + \epsilon_k z_{k+j}^{\alpha_k} = 1.
 \]
-This contradiction shows that it cannot be the case that \( (\epsilon_1, \dots, \epsilon_k, 0) \) is in the kernel of \( V'_{k+1} \).   
+This contradiction shows that it cannot be the case that \( (\epsilon_1, \dots, \epsilon_k, 0) \) is in the kernel of \( V'_{k+1} \).
 
 \end{proof}
 
@@ -763,8 +763,8 @@ This contradiction shows that it cannot be the case that \( (\epsilon_1, \dots, 
 %    The sequences of matrices $(V_k)_k$ using the construction given in Proposition \ref{prop:swappingElementOfZToReduceKer}, ensure that
 %    \begin{align*}
 %        dim\left(ker\left(V_k\right)\right) \leq 1\quad \forall k \in [1, |Z|]
-%    \end{align*}   
-    The sequence of matrices \( (V_k)_k \), constructed as described in Proposition~\ref{prop:swappingElementOfZToReduceKer}, ensures that:    
+%    \end{align*}
+    The sequence of matrices \( (V_k)_k \), constructed as described in Proposition~\ref{prop:swappingElementOfZToReduceKer}, ensures that:
     \[
     \text{dim}\left(\text{ker}\left(V_k\right)\right) \leq 1, \quad \forall k \in [1, |Z|].
     \]
@@ -776,39 +776,39 @@ This contradiction shows that it cannot be the case that \( (\epsilon_1, \dots, 
         \item Induction step. We suppose that $\text{dim}( \text{ker}(V_k))\le 1$. We show that $\text{dim}( \text{ker}(V_{k+1}))\le 1$.
         \begin{itemize}
             \item If $\text{dim}( \text{ker}(V_k))= 0$, adding a new row and column to form $V_{k+1}$ can increase the kernel by at most $1$. Hence, $\text{dim}( \text{ker}(V_{k+1}))\le 1$.
-            \item %If $\text{dim}( \text{ker}(V_k))= 1$, 
-            %let $\hat{x} = \left(\hat{\epsilon}, 0 \right)$ where $\hat{\epsilon}$ is in $\text{ker}(V_k)$.            
-            If $\text{dim}( \text{ker}(V_k))= 1$, let $\hat{z}$ be an element of $\text{ker}\left(V_{k+1}\right)$. 
+            \item %If $\text{dim}( \text{ker}(V_k))= 1$,
+            %let $\hat{x} = \left(\hat{\epsilon}, 0 \right)$ where $\hat{\epsilon}$ is in $\text{ker}(V_k)$.
+            If $\text{dim}( \text{ker}(V_k))= 1$, let $\hat{z}$ be an element of $\text{ker}\left(V_{k+1}\right)$.
             Then either:
             \begin{itemize}
-            	\item  \( \hat{z} = (\hat{\epsilon}, 0) \):  
+            	\item  \( \hat{z} = (\hat{\epsilon}, 0) \):
 \[
 \hat{z} \cdot V_{k+1} = 0 \implies \hat{\epsilon} \cdot V_k = 0 \implies \hat{\epsilon} \in \text{ker}(V_k).
 \]
 By Proposition~\ref{prop:swappingElementOfZToReduceKer}, \( \hat{\epsilon} \) can only be a trivial solution.
 
-\item \( \hat{z} = (\hat{y}, 1) \), where \( \hat{y} \in \mathbb{F}_2^k \):          
+\item \( \hat{z} = (\hat{y}, 1) \), where \( \hat{y} \in \mathbb{F}_2^k \):
 In this case $\hat{z} \cdot V_{k+1} = 0$ implies:
 \begin{equation}\label{Eq:eq1}
  \hat{y}  \cdot V_{k} + (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}}) = 0 \iff \hat{y} \cdot V_{k} = (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}}),
 \end{equation}
-and 
+and
 \begin{equation}\label{Eq:eq2}
 \hat{y} \cdot (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T + z_{k+1}^{\alpha_{k+1}} = 0 \iff \hat{y} \cdot (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T = z_{k+1}^{\alpha_{k+1}}.
-\end{equation}	
+\end{equation}
 %\[
-%\hat{z} \cdot V_{k+1} = 0 \implies 
+%\hat{z} \cdot V_{k+1} = 0 \implies
 %\begin{aligned}
 %& \text{Eq1: } \hat{y} \cdot V_k = (z_1^{\alpha_{k+1}}, \dots, z_k^{\alpha_{k+1}}), \\
 %& \text{Eq2: } (z_{k+1}^{\alpha_1}, \dots, z_{k+1}^{\alpha_k})^T \hat{y} = z_{k+1}^{\alpha_{k+1}}.\\
 %\end{aligned}
-%\]    
+%\]
 %               \begin{align*}
 %Eq1: & \hat{y}  \cdot V_{k} + (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}}) = 0 \iff \hat{y} \cdot V_{k} = (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}})\\
-% Eq2: & (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} + z_{k+1}^{\alpha_{k+1}} = 0 \iff (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} = z_{k+1}^{\alpha_{k+1}} 
+% Eq2: & (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} + z_{k+1}^{\alpha_{k+1}} = 0 \iff (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} = z_{k+1}^{\alpha_{k+1}}
 %                \end{align*}
         \end{itemize}
-            
+
 %            , we have that either $\hat{z} = (\hat{\epsilon}, 0)$ or $z = (\hat{y}, 1)$ with $\hat{y}$ being an element of $\mathbb{F}_2^{k}$.\\
 %            \begin{itemize}
 %                \item if $\hat{z} = (\hat{\epsilon}, 0)$ we have that
@@ -819,13 +819,13 @@ and
 %                \item if $\hat{z} = (\hat{y}, 1)$ with $\hat{y} \in \mathbb{F}_2^k$, we have that $\hat{z} \cdot V_{k+1} = 0$, hence
 %                \begin{align*}
 %                        Eq1: & \hat{y}  \cdot V_{k} + (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}}) = 0 \iff \hat{y} \cdot V_{k} = (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}})\\
-%                        Eq2: & (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} + z_{k+1}^{\alpha_{k+1}} = 0 \iff (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} = z_{k+1}^{\alpha_{k+1}} 
+%                        Eq2: & (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} + z_{k+1}^{\alpha_{k+1}} = 0 \iff (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} = z_{k+1}^{\alpha_{k+1}}
 %                \end{align*}
 
 
-Since $\text{dim}(\text{ker}(V_k)) = 1$, $\text{rank}(V_k) = k-1$. Hence, there exists at most one particular solution $\hat{y}_p$ for Equation~\ref{Eq:eq1}. 
+Since $\text{dim}(\text{ker}(V_k)) = 1$, $\text{rank}(V_k) = k-1$. Hence, there exists at most one particular solution $\hat{y}_p$ for Equation~\ref{Eq:eq1}.
 If \( \hat{y}_p \) also solves Equation~\ref{Eq:eq2}, then \( \hat{y}_p \) is in \( \ker(V_{k+1}) \).
- 
+
 \end{itemize}
 Since $(\hat{\epsilon}, 0)$  cannot be in \( \text{ker}(V_{k+1}) \), the only possible element in \( \text{ker}(V_{k+1}) \) is \( \hat{y}_p \), if it exists. Therefore, \( \text{dim}(\text{ker}(V_{k+1})) \leq 1 \).
         \end{itemize}
@@ -842,7 +842,7 @@ Since $(\hat{\epsilon}, 0)$  cannot be in \( \text{ker}(V_{k+1}) \), the only po
 
 
 \begin{remark}
-    Notice that the definition of $V^{'}_{k+1}$ in Proposition~\ref{prop:swappingElementOfZToReduceKer}, does not conflict with Definition~\ref{def:inductiveConstructionOfV}, s constructing the sequence $(V_{k})_k$ does not require a specific order of the elements in the support $Z$.   
+    Notice that the definition of $V^{'}_{k+1}$ in Proposition~\ref{prop:swappingElementOfZToReduceKer}, does not conflict with Definition~\ref{def:inductiveConstructionOfV}, s constructing the sequence $(V_{k})_k$ does not require a specific order of the elements in the support $Z$.
 \end{remark}
 
 
@@ -850,11 +850,11 @@ Since $(\hat{\epsilon}, 0)$  cannot be in \( \text{ker}(V_{k+1}) \), the only po
 
 \begin{proposition}\label{prop:constructionOfNextVRemovingAlphai}
     Let $\text{ker}(V_{E_k, Z_k}) =  \langle \hat{g}_k \rangle = \langle (\epsilon_1, \dots, \epsilon_k) \rangle$, where the corresponding Boolean function $g_k\in \Bn{n}$ satisfies $g_k(x) = 0,\ \forall x\in Z$, but satisfies a $y\in S$ such that $g_k(y) = 1$.
-    
-    Define $E^{*} = (\alpha_1, \alpha_2, \dots, \alpha_{k-1}, \alpha_{k+1})$ , a vector constructed from $E_k$ by replacing the last element $\alpha_{k}$ with $\alpha_{k+1}$. 
-    Let $V_{k+1} = V_{E^{*}_{k+1}, Z_k}$ be the matrix defined by replacing the monomial $\alpha_k$ in $V_{E_k, Z_k}$, with the monomial $\alpha_{k+1}$: 
+
+    Define $E^{*} = (\alpha_1, \alpha_2, \dots, \alpha_{k-1}, \alpha_{k+1})$ , a vector constructed from $E_k$ by replacing the last element $\alpha_{k}$ with $\alpha_{k+1}$.
+    Let $V_{k+1} = V_{E^{*}_{k+1}, Z_k}$ be the matrix defined by replacing the monomial $\alpha_k$ in $V_{E_k, Z_k}$, with the monomial $\alpha_{k+1}$:
     \begin{align*}
-        V_{E^{*}_{k+1}, Z_{k}} = 
+        V_{E^{*}_{k+1}, Z_{k}} =
         \begin{pmatrix}
         \multicolumn{4}{c}{\multirow{4}{*}{$E_{k-1}, V_{Z_{k-1}}$}} & z_{k}^{\alpha_{1}}\\
         & & & & z_{k}^{\alpha_{2}}\\
@@ -865,15 +865,15 @@ Since $(\hat{\epsilon}, 0)$  cannot be in \( \text{ker}(V_{k+1}) \), the only po
     \end{align*}
     Then, either $\hat{g}_k \not\in \text{ker}(V_{E^{*}_{k+1}, Z_k})$, or $\hat{g}_k$ is the only element (aside from $\hat{0}$) in the right kernel of $V_{E_{k+1}^{*}, Z_k}$. Hence:
     \begin{align*}
-        \text{dim}\left(\text{ker}(V_{E^{*}_{k+1}, Z_k})\right)\leq 1. 
+        \text{dim}\left(\text{ker}(V_{E^{*}_{k+1}, Z_k})\right)\leq 1.
     \end{align*}
 
 \end{proposition}
 \begin{proof}
 
-    Proposition~\ref{prop:swappingElementOfZToReduceKer} ensures that the kernel of $V_{E^{*}_{k+1}, Z_{k}}$ does not contain elements derived from the kernel of $V_{ E_{k-1}, Z_{k-1}}$. 
+    Proposition~\ref{prop:swappingElementOfZToReduceKer} ensures that the kernel of $V_{E^{*}_{k+1}, Z_{k}}$ does not contain elements derived from the kernel of $V_{ E_{k-1}, Z_{k-1}}$.
     Therefore, $V_{E_{k-1}, Z_{k-1}}$ can be treated as a full-rank matrix.
-    Modifying the last row of a matrix that contains a full-rank sub-matrix does not increase the size of the kernel. This is because the first $k$ entries of the elements in the kernel of $V_{E_k, Z_k }$ and $V_{E^{*}_{k+1}, Z_k}$ are the same, with the only difference arising from the last row. 
+    Modifying the last row of a matrix that contains a full-rank sub-matrix does not increase the size of the kernel. This is because the first $k$ entries of the elements in the kernel of $V_{E_k, Z_k }$ and $V_{E^{*}_{k+1}, Z_k}$ are the same, with the only difference arising from the last row.
     Since this row is the only one that can introduce linear dependence, the dimension of the kernel of $V_{ E^{*}_{k+1}, Z_k}$ is bounded by $1$.
 \end{proof}
 
@@ -889,8 +889,8 @@ At the iteration \(k\), the matrix  \(V_k\) already contains all the columns of 
 
 \begin{definition}[Column Echelon form]
     Let $k_r,k_c\in \N^*$ and $M \in Mat_{k_r,k_c}$.
-    % be a matrix of $k_r$ rows and $k_c$ columns. 
-    We denote by $EF: Mat_{k_r,k_c} \rightarrow Mat_{k_r,k_c}$, the function transforming a matrix to its column echelon form.    
+    % be a matrix of $k_r$ rows and $k_c$ columns.
+    We denote by $EF: Mat_{k_r,k_c} \rightarrow Mat_{k_r,k_c}$, the function transforming a matrix to its column echelon form.
 \end{definition}
 
 %For each iteration $k$ of the algorithm, the matrix $V_k$ already contains the sub-matrix $V_{k-1}$. It is therefore possible to compute the column echelon form of $V_{k-1}$ and use it to compute the column echelon form of $V_{k}$. In such a way, the matrix $V_k$ would already contain the sub-matrix $EF(V_{k-1})$ which is already in column echelon form, allowing to reduce the number of steps needed to compute the rank of $V_k$.\\
@@ -899,10 +899,10 @@ At the iteration \(k\), the matrix  \(V_k\) already contains all the columns of 
 
 
 
-For each iteration \( k \) of the algorithm, the matrix \( V_k \) already includes the sub-matrix \( V_{k-1} \). Thus, it is possible to compute the column echelon form of \( V_{k-1} \) and use it to derive the column echelon form of \( V_k \). 
+For each iteration \( k \) of the algorithm, the matrix \( V_k \) already includes the sub-matrix \( V_{k-1} \). Thus, it is possible to compute the column echelon form of \( V_{k-1} \) and use it to derive the column echelon form of \( V_k \).
 This approach allows \( V_k \) to inherently contain \( EF(V_{k-1}) \), which is already in column echelon form, thereby reducing the computational steps required to determine the rank of \( V_k \).
-However, to apply this method effectively, careful attention must be paid during the construction of the matrix. 
-Since rows are appended to the matrix at each step, computing \( EF(V_k) \) requires keeping track of all column operations performed while computing \( EF(V_j) \) for all \( j < k \). 
+However, to apply this method effectively, careful attention must be paid during the construction of the matrix.
+Since rows are appended to the matrix at each step, computing \( EF(V_k) \) requires keeping track of all column operations performed while computing \( EF(V_j) \) for all \( j < k \).
 These operations must be applied before computing \( EF(V_k) \).
 Remark~\ref{rem:rowEchelonForm} and Proposition~\ref{prop:rowEchelonForm} provide further justification for this claim.
 
@@ -939,7 +939,7 @@ Remark~\ref{rem:rowEchelonForm} and Proposition~\ref{prop:rowEchelonForm} provid
     where $P_{k-1}$ is such that $U_{k-1}^{-1} = P_{k-1}$, where $V_{k-1} = L_{k-1}U_{k-1}$ with $EF(V_{k-1})=_p L_{k-1}$
 \end{proposition}
 \begin{proof}
-    Let $k$ be such that $1<k< \min{\left(|Z|,|E_{D_n^n}|\right)}$. The $LU$-decomposition of $V_{k-1}$ is  
+    Let $k$ be such that $1<k< \min{\left(|Z|,|E_{D_n^n}|\right)}$. The $LU$-decomposition of $V_{k-1}$ is
     \begin{align*}
         V_{k-1} = L_{k-1} U_{k-1},
     \end{align*}
@@ -954,7 +954,7 @@ Remark~\ref{rem:rowEchelonForm} and Proposition~\ref{prop:rowEchelonForm} provid
             & & & & z_{k}^{\alpha_{k-1}}\\
             z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}} & z_{k}^{\alpha_k}
         \end{pmatrix}\\
-        = &  
+        = &
         \begin{pmatrix}
             \multicolumn{4}{c}{\multirow{4}{*}{$U_{k-1}$}} & z_k^{\alpha_1}\\
             & & & & z_k^{\alpha_2}\\
@@ -972,7 +972,7 @@ Remark~\ref{rem:rowEchelonForm} and Proposition~\ref{prop:rowEchelonForm} provid
     \end{align*}
 \fi
 \[
-V_{k} = 
+V_{k} =
 \begin{pmatrix}
 \multicolumn{4}{c}{\multirow{4}{*}{$L_{k-1}U_{k-1}$}} & z_k^{\alpha_1}\\
 & & & & z_k^{\alpha_2}\\
@@ -980,7 +980,7 @@ V_{k} =
 & & & & z_{k}^{\alpha_{k-1}}\\
 z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}} & z_{k}^{\alpha_k}
 \end{pmatrix}
-= 
+=
 \begin{pmatrix}
 \multicolumn{4}{c}{\multirow{4}{*}{$L_{k-1}$}} & z_k^{\alpha_1}\\
 & & & & z_k^{\alpha_2}\\
@@ -996,8 +996,8 @@ z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}} & z_{k}^{\alp
 0 & 0& \cdots & 0 & 1
 \end{pmatrix}.
 \]
-    
-    
+
+
     Since $U_{k-1}$ is an upper triangular matrix, $ \begin{pmatrix}
             \multicolumn{4}{c}{\multirow{4}{*}{$U_{k-1}$}} & 0\\
             & & & & 0\\
@@ -1051,7 +1051,7 @@ As a consequence of Remark~\ref{rem:historyOfOperations}, it can be seen that wh
             (z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}})P_{k-1} & z_{k}^{\alpha_k}
         \end{pmatrix}
         \end{pmatrix}
-        =_p 
+        =_p
         \begin{pmatrix}
             \multicolumn{4}{c}{\multirow{4}{*}{$EF\left(V_{k-1}\right)$}} & 0\\
             & & & & 0\\
@@ -1062,8 +1062,8 @@ As a consequence of Remark~\ref{rem:historyOfOperations}, it can be seen that wh
     \end{align*}
 \end{remark}
 
-Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} shows the procedure to calculate the degree of the minimal degree non-zero-annihilator 
-%with degree $\geq 1$ 
+Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} shows the procedure to calculate the degree of the minimal degree non-zero-annihilator
+%with degree $\geq 1$
 restricted to $S\subseteq \mathbb{F}_2^n$ of a function $f^{(o)} \in \{f, f+ 1\}$, while Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} shows the full procedure to determine the restricted algebraic immunity of $f$ in $S$, calling Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} for $f$ and $f+ 1$ in parallel.
 
 Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} which triggers the same process as Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative}, but applies it sequentially to $f$ and $f + 1$, to avoid waiting for both processes to complete simultaneously. This function is triggered only when $\supp(f) \cap S$ and $\supp(f + 1) \cap S$ differ significantly in cardinality, as in such cases, the probability of one of the two processes terminating quickly is high.
@@ -1139,7 +1139,7 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 		\State $fullRank \gets False$;
 		\While{$r\leq \lfloor|S| / 2\rfloor$}
 		\If{$fullRank = False$ and $r_v != k$}
-		\State $\left(v_1, \cdots, v_{k-1}\right) \gets \mbox{\textsc{apply\_operations}}\left(\left(z_1^{\alpha_k}, \cdots, z_{k-1}^{\alpha_k}\right), ops\right)$ 
+		\State $\left(v_1, \cdots, v_{k-1}\right) \gets \mbox{\textsc{apply\_operations}}\left(\left(z_1^{\alpha_k}, \cdots, z_{k-1}^{\alpha_k}\right), ops\right)$
 		\State $V \gets \begin{pmatrix}
 			\multicolumn{5}{c}{\multirow{1}{*}{$V$}} \\
 			v_1 & v_2 & \cdots & v_{k-1} & z_{k}^{\alpha_k}
@@ -1162,7 +1162,7 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 
 \begin{remark}\label{rem:permutationClarification}
     To keep the pseudocode in line with the theory, the elements in the vector or sets are often parsed by name instead of by index, namely let $Z = (z_1, z_2, \cdots, z_k)$ we consider that $Z[i-1] = z_i$.\\
-    Therefore, we have to clarify our notation in the case in which two vector elements get swapped. In the case of Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative}, we consider that the swap generates a new vector with the name of the variables adapted with their index position in the vector to keep satisfying the condition $Z[i-1] = z_{i}$. Meaning that 
+    Therefore, we have to clarify our notation in the case in which two vector elements get swapped. In the case of Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative}, we consider that the swap generates a new vector with the name of the variables adapted with their index position in the vector to keep satisfying the condition $Z[i-1] = z_{i}$. Meaning that
     \begin{align*}
         \mbox{\textsc{swap}}(z_i, z_j) \rightarrow (z_{\sigma(1)}, \cdots, z_{\sigma(i)}, \cdots, z_{\sigma(j)}, \cdots, z_{\sigma(k)}) = Z^{'} = (z^{'}_1, \cdots, z^{'}_i, \cdots, z^{'}_j, \cdots, z^{'}_k)
     \end{align*}
@@ -1228,25 +1228,25 @@ In this section, we apply the algorithms to the weightwise perfectly balanced (W
 \subsection{Comparison between Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} on WAPB functions}
 \lbnote{Re-run the comparison with the new version of Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt}? Is the comparison still valid of do we first have to replace \textit{SageMath} method with \textit{Rust} methods in Algorithm~\ref{alg:RMApproach} first?}
 
-In this part, we compare the execution times of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} by running both algorithms on multiple WAPB functions restricted to the largest set $E_{\lceil{n/2}\rceil,n}$, with different numbers of variables. 
+In this part, we compare the execution times of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} by running both algorithms on multiple WAPB functions restricted to the largest set $E_{\lceil{n/2}\rceil,n}$, with different numbers of variables.
 Specifically, the experiment is done by running the algorithms with the number of variables $n$ going from $1$ to $12$. For both algorithms, if $n \leq 4$, we calculate the average over the $\AIk{\lceil{n/2}\rceil}$ of all functions in $\WAPB{n}$, whereas for $n > 4$, we calculate the average over the $\AIk{\lceil{n/2}\rceil}$ of a random sample of $10^4$ $\WAPB{n}$ functions.
 
 Figure~\ref{fig:compTimePlot} shows the mean execution time per value of $n$ of the two algorithms.
-We denote by $T\left(G^{\leq n_{max}}\right) = T\left(G^{\leq 12} \right)$ the necessary time to pre-compute all the necessary Reed-Muller codes generator matrices following Equation~\eqref{eq:matricesHashTable}: we recall that it is the necessary time to compute the sequence $\left(G_{n,n}\right)_{n\in [1,12=n_{max}]}$, not only the generator matrix $G_{n,n}$ for the current iteration $n$. 
-We notice in fact that $T\left(G^{\leq 12}\right)$ is constant, that is because the computation occurs before beginning the experiment since it is expected that the Algorithm~\ref{alg:RMApproach} is able to run for any number of variable $n$ up to an upper bound $n_{max}$, without having to compute the Reed-Muller code for it. 
+We denote by $T\left(G^{\leq n_{max}}\right) = T\left(G^{\leq 12} \right)$ the necessary time to pre-compute all the necessary Reed-Muller codes generator matrices following Equation~\eqref{eq:matricesHashTable}: we recall that it is the necessary time to compute the sequence $\left(G_{n,n}\right)_{n\in [1,12=n_{max}]}$, not only the generator matrix $G_{n,n}$ for the current iteration $n$.
+We notice in fact that $T\left(G^{\leq 12}\right)$ is constant, that is because the computation occurs before beginning the experiment since it is expected that the Algorithm~\ref{alg:RMApproach} is able to run for any number of variable $n$ up to an upper bound $n_{max}$, without having to compute the Reed-Muller code for it.
 The measurement for $n = 12$ is not shown in the plot for clarity due to the large gap, but the execution of Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} takes $13.354$ seconds, while Algorithm~\ref{alg:RMApproach} takes only $5.22$ seconds.
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.7\textwidth]{images/plot_10000.png}
-    \caption{Average time execution per number of variables of Algorithms~\ref{alg:RMApproach} and \ref{alg:fullAlg3ForAIRestrictesSetOpt} over $10^4$ random $\WAPB{n}$ functions on the set $E_{\lceil{n/2}\rceil,n}$. 
+    \caption{Average time execution per number of variables of Algorithms~\ref{alg:RMApproach} and \ref{alg:fullAlg3ForAIRestrictesSetOpt} over $10^4$ random $\WAPB{n}$ functions on the set $E_{\lceil{n/2}\rceil,n}$.
     $T\left(G^{\leq 12}\right)$ gives the time of the pre-computation of the sequence of all Reed-Muller matrices up to $G_{12,12}$.}\label{fig:compTimePlot}
 \end{figure}
 
 The pre-computation times of $G^{\leq n_{max}}$ for Algorithm~\ref{alg:RMApproach} are given in the Table~\ref{table:preComputationTimes}.
 \begin{table}[ht]
 \centering
-\renewcommand{\tabcolsep}{2pt}	
+\renewcommand{\tabcolsep}{2pt}
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
 %\toprule
 \hline
@@ -1259,12 +1259,12 @@ The pre-computation times of $G^{\leq n_{max}}$ for Algorithm~\ref{alg:RMApproac
 \end{tabular}
 \caption{Pre-computation time (in seconds) for $G^{\leq n_{max}}$ for $n_{max}$ from $1$ to $12$.}\label{table:preComputationTimes}
 \end{table}
-From Figure~\ref{fig:compTimePlot}, we observe that Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} performs better than Algorithm~\ref{alg:RMApproach} for $n < 12$, even without accounting for the pre-computation time of $G^{\leq n_{max}}$ and $D^{\leq n_{max}}$ required by Algorithm~\ref{alg:RMApproach}. 
-For $n = 12$, Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} still outperforms Algorithm~\ref{alg:RMApproach}, provided the pre-computation time for Algorithm~\ref{alg:RMApproach} is excluded.  
-The reasons for this behavior are as follows:  
+From Figure~\ref{fig:compTimePlot}, we observe that Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} performs better than Algorithm~\ref{alg:RMApproach} for $n < 12$, even without accounting for the pre-computation time of $G^{\leq n_{max}}$ and $D^{\leq n_{max}}$ required by Algorithm~\ref{alg:RMApproach}.
+For $n = 12$, Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} still outperforms Algorithm~\ref{alg:RMApproach}, provided the pre-computation time for Algorithm~\ref{alg:RMApproach} is excluded.
+The reasons for this behavior are as follows:
 \begin{itemize}
     \item For $n = 12$, the matrices involved are large enough that their inductive construction starts to become computationally burdensome. However, Algorithm~\ref{alg:RMApproach} performs significantly worse when the pre-computation time is taken into account. The pre-computation required for Algorithm~\ref{alg:RMApproach} is far more time-consuming than the execution-time difference observed when pre-computation is excluded, making it a less efficient option overall.
-    \item Algorithm~\ref{alg:RMApproach} makes heavy use of the \textit{SageMath} library, whereas Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} utilizes a custom \textit{Python} library implemented in \textit{Rust}. 
+    \item Algorithm~\ref{alg:RMApproach} makes heavy use of the \textit{SageMath} library, whereas Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} utilizes a custom \textit{Python} library implemented in \textit{Rust}.
     Since \textit{SageMath} is generally more efficient than a custom \textit{Rust} implementation, the differences in library usage contribute to the observed performance disparities.
 \end{itemize}
 
@@ -1276,8 +1276,8 @@ Finally, we note that Algorithm~\ref{alg:RMApproach} becomes prohibitive to use 
 
 
 
-Similar to the approach in~\cite{Latin:GinMea23} for analyzing the weightwise nonlinearity $\NLk{k}$, we determine the discrete probability distribution of $\AIk{k}$ for weightwise perfectly balanced Boolean functions. 
-This distribution describes the probability that a function $f \in \WPB{m}$ has a specific algebraic immunity restricted to the slice $\Ekn{k}{n}$. 
+Similar to the approach in~\cite{Latin:GinMea23} for analyzing the weightwise nonlinearity $\NLk{k}$, we determine the discrete probability distribution of $\AIk{k}$ for weightwise perfectly balanced Boolean functions.
+This distribution describes the probability that a function $f \in \WPB{m}$ has a specific algebraic immunity restricted to the slice $\Ekn{k}{n}$.
 A formal definition is provided in Definition~\ref{def:distAIk}:
 
 \begin{definition}\label{def:distAIk}
@@ -1287,7 +1287,7 @@ A formal definition is provided in Definition~\ref{def:distAIk}:
     \end{align*}
 \end{definition}
 
-We aim to determine this distribution for $m = 2, 3$, and $4$. 
+We aim to determine this distribution for $m = 2, 3$, and $4$.
 However, the number of due of WPB functions increases fast with the growth of $m$, making this computation infeasible for $m > 2$. In fact, as stated in ~\cite{Latin:GinMea23}, $|\WPB{2}| = 720$, while $|\WPB{3}| > 2^{243}$ and $|\WPB{4}| > 2^{65452}$.\\
 Therefore, we have to take a different approach for $m > 2$ by generating a certain number of samples from the set $\WPB{m}$ and calculating the probability over it. The larger the sample size we select, the better we approximate the distribution.
 
@@ -1300,8 +1300,8 @@ Therefore, we have to take a different approach for $m > 2$ by generating a cert
 
 
 \subsubsection{Determination of the full distribution for \texorpdfstring{m=2}{m=2}}
-For $m=2 \Rightarrow n = 4$, it is possible to determine the full probability distribution from Definition~\ref{def:distAIk} without using the random sampling strategy. 
-The resulting plots can be found on Figure~\ref{fig:dullDist} and Figure~\ref{fig:averagesFullDist}. 
+For $m=2 \Rightarrow n = 4$, it is possible to determine the full probability distribution from Definition~\ref{def:distAIk} without using the random sampling strategy.
+The resulting plots can be found on Figure~\ref{fig:dullDist} and Figure~\ref{fig:averagesFullDist}.
 %and the corresponding data in Table \ref{table:averagesFullDist} and Table \ref{table:probFullDist}.
 
 \begin{figure}[ht]
@@ -1324,10 +1324,10 @@ The resulting plots can be found on Figure~\ref{fig:dullDist} and Figure~\ref{fi
 \end{figure}
 
 \subsubsection{Random Sampling}
-In practice, random sampling is performed by generating a set $\Omega_k = \{\omega_1^{(k)}, \cdots, \omega_{|\Omega|}^{(k)}\}$ consisting of $|\Omega|$ random balanced sub-truth tables for each slice$ \Ekn{k}{n}$. 
+In practice, random sampling is performed by generating a set $\Omega_k = \{\omega_1^{(k)}, \cdots, \omega_{|\Omega|}^{(k)}\}$ consisting of $|\Omega|$ random balanced sub-truth tables for each slice$ \Ekn{k}{n}$.
 Then, for each slice $\Ekn{k}{n}$, the $\AIk{k}$ is computed for each restricted set in $\Omega_k$ the frequency of each particular $\AIk{k}$ value is recorded.
-Depending on the value of $m$ and the chosen sample size, the number of sub-truth tables generated may be too large to fit in memory simultaneously. 
-To address this, it is crucial to avoid storing all elements in memory at once. 
+Depending on the value of $m$ and the chosen sample size, the number of sub-truth tables generated may be too large to fit in memory simultaneously.
+To address this, it is crucial to avoid storing all elements in memory at once.
 Instead, they should be processed one by one, either by computing sequentially or by using iterators.
 
 
@@ -1348,12 +1348,16 @@ The following procedure is done for each slice $\Ekn{k}{n}$:
 \lbnote{Re-runt the AIk distibutions for $n=4$ and $n=8$ and update the times in the tables \ref{table:averagesFullDist} and \ref{table:averages32768}. }\\
 \noindent
 \textbf{Results for $n=8$ and sample size$=2^{15}$}.
-Figure~\ref{fig:probDist32768} represents the $\AIk{k}$ distribution and Figure~\ref{fig:averages32768} the average values. 
-The average execution times for the $\AIk{k}$ distributions with $n=4$ and $n=8$ is displayed in tables~\ref{table:averagesFullDist} and~\ref{table:averages32768}. 
-We observe that for $n=4$ all WPB functions have the same values of $\AIk{k}$, for every $k$. 
-For $n=8$, there are WPB functions with different restricted $\AIk{k}$, for example with $k=4$ we observe functions reaching the lowest value ($2$, such as families exhibited in~\cite{Latin:GinMea23}) and some reaching $3$ which is optimal for this size.
+Figure~\ref{fig:probDist32768} represents the $\AIk{k}$ distribution and Figure~\ref{fig:averages32768} the average values.
+We observe that for $n=4$ all WPB functions have the same values of $\AIk{k}$, for every $k$.
+For $n=8$, there are WPB functions with different restricted $\AIk{k}$, for example with $k=4$ we observe functions reaching the lowest value ($2$, such as families exhibited in~\cite{Latin:GinMea23}) and some reaching $3$ which is optimal for this size.\\
+\noindent
+\textbf{Results for $n=16$ and sample size$=2^{10}$}.
+Figure~\ref{fig:probDist2014} represents the $\AIk{k}$ distribution and Figure~\ref{fig:averages2014} the average values.\\
 
-%is already enough variability in the corpus of WPB functions to observe 
+The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ are $n=16$ are displayed in tables~\ref{table:averagesFullDist},~\ref{table:averages32768} and~\ref{table:averages16VarsSampleSize1024}.
+
+%is already enough variability in the corpus of WPB functions to observe
 
 \footnotetext[9]{Step $2$ may be executed in parallel on the $\omega_i^{(k)}$s.}
 
@@ -1376,6 +1380,25 @@ For $n=8$, there are WPB functions with different restricted $\AIk{k}$, for exam
     \end{minipage}
     \caption{Estimated average of $\AIk{k}$ and probability distribution of $\AIk{k}$ over $8$-variable WPB functions, with $2^{15}$ samples.}
     \label{fig:main2}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/WPB_4_sample_size_1024_average_a.png}
+        \caption{Estimated average of $\AIk{k}$ over $\WPB{4}$.}
+        \label{fig:averages2014}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/WPB_4_sample_size_1024_dist_prob_a.png}
+        \caption{Estimated Probability distribution of $\AIk{k}$ over $\WPB{4}$.}
+        \label{fig:probDist2014}
+    \end{minipage}
+    \caption{Estimated average of $\AIk{k}$ and probability distribution of $\AIk{k}$ over $8$-variable WPB functions, with $2^{10}$ samples.}
+    \label{fig:main2014}
 \end{figure}
 
 
@@ -1448,7 +1471,7 @@ For $n=8$, there are WPB functions with different restricted $\AIk{k}$, for exam
 %\bottomrule
 \end{tabular}
         \caption{Average execution time and $\AIk{k}$ for $n=16$, $m=4$ and $\mbox{sampleSize}=2^{10}$}
-        \label{table:averages16VarsSampleSize1023}
+        \label{table:averages16VarsSampleSize1024}
     \end{minipage}
 \end{table}
 
@@ -1460,14 +1483,14 @@ For $n=8$, there are WPB functions with different restricted $\AIk{k}$, for exam
 \subsection{Determination of $\AIk{k}$ of known WPB families}
 In this part, we determine the $\AIk{k}$s of the function introduced in~\cite{Mat:ZJZQ23},~\cite{AMC:DalMal23},~\cite{CC:TangLiu19} and in~\cite{TOSC:CarMeaRot17} for $n=8$ and $16$ variables.
 
-The results are summarized in Table~\ref{table:publiedFunctions}. 
+The results are summarized in Table~\ref{table:publiedFunctions}.
 Of the four WPB functions, the one in ~\cite{CC:TangLiu19} is the one that would resist the best to algebraic attacks (with constant Hamming weight inputs), as it achieves higher $\AIk{k}$ values for both $n = 8$ and $ n = 16$. In contrast, the one in~\cite{Mat:ZJZQ23}, would be the least resistant, as it has the overall lower $\AIk{k}$ for both $n=8$ and $n=16$. Specifically:
 \begin{itemize}
-\item $n=8$. 
+\item $n=8$.
 The function in~\cite{Mat:ZJZQ23} has a constant $\AIk{k}$ of $2$ for $k \in [2, 6]$ and the functions in~\cite{TOSC:CarMeaRot17} a constant $\AIk{k}$ of $2$ for $k \in [3, 6]$, whereas the functions in~\cite{AMC:DalMal23} and in~\cite{CC:TangLiu19} achieve an $\AIk{4}$ of $3$.
 
-\item $n=16$. 
-The function in~\cite{Mat:ZJZQ23} again has a constant $\AIk{k}$ of $2$ for $k \in [2, 14]$. 
+\item $n=16$.
+The function in~\cite{Mat:ZJZQ23} again has a constant $\AIk{k}$ of $2$ for $k \in [2, 14]$.
 In contrast, the function in~\cite{CC:TangLiu19} achieves an $\AIk{k}$ of $3$ for $k = 4,5,11$ and $12$, an $\AIk{k}$ of $4$ for $k = 6,7,9$ and $10$ and an $\AIk{k}$ of $5$ for $k=8$. The functions~\cite{AMC:DalMal23} and in~\cite{TOSC:CarMeaRot17}, both reach an $\AIk{k}$ of $3$ but for $k\in [4,12]$ and $k\in [5,13]$ respectively.
 \end{itemize}
 
@@ -1523,7 +1546,7 @@ In contrast, the function in~\cite{CC:TangLiu19} achieves an $\AIk{k}$ of $3$ fo
 
 
 \end{comment}
-%Table~\ref{table:publiedFunctions} shows these results. 
+%Table~\ref{table:publiedFunctions} shows these results.
 %We see that~\cite{AMC:DalMal23} is more secure than~\cite{Mat:ZJZQ23} since it has a better $\AIk{k}$s for both $n=8$ and $n=16$. In particular
 %\begin{description}
 %	\item[n=8] ~\cite{Mat:ZJZQ23} has a constant $AI_k$ of $2$ for $k\in [2,7]$, while ~\cite{AMC:DalMal23} has a $AI_k$ of $3$ for $k=5$
@@ -1531,12 +1554,12 @@ In contrast, the function in~\cite{CC:TangLiu19} achieves an $\AIk{k}$ of $3$ fo
 %\end{description}
 \lbnote{@Luca, update the execution time according to the new results}\\
 
-The maximum execution times for~\cite{AMC:DalMal23} and~\cite{Mat:ZJZQ23} with $n=8$ occur with $k=4$ and are around $0.290166$ and $0.114290$ seconds, respectively. For $n=16$, ~\cite{AMC:DalMal23} has a maximum execution time with $k=7$ of $100.941$ seconds, while~\cite{Mat:ZJZQ23} has a maximum execution time with $k=8$ of $149.542$ seconds. 
+The maximum execution times for~\cite{AMC:DalMal23} and~\cite{Mat:ZJZQ23} with $n=8$ occur with $k=4$ and are around $0.290166$ and $0.114290$ seconds, respectively. For $n=16$, ~\cite{AMC:DalMal23} has a maximum execution time with $k=7$ of $100.941$ seconds, while~\cite{Mat:ZJZQ23} has a maximum execution time with $k=8$ of $149.542$ seconds.
 
 
 \begin{table}[h]
 \center
-%\renewcommand{\tabcolsep}{0.5pt}	
+%\renewcommand{\tabcolsep}{0.5pt}
 \caption{$\AIk{k}$ of the construction from~\cite{AMC:DalMal23}, from~\cite{Mat:ZJZQ23}, from~\cite{CC:TangLiu19} and from~\cite{TOSC:CarMeaRot17} with $m=3$ ($n=8$) and $m=4$ ($n=16$).\label{table:publiedFunctions}}
 %\resizebox{\textwidth}{!}{
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
@@ -1573,7 +1596,7 @@ $n$, $k$ & $0$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$ & $1
 \end{table}
 
 \begin{comment}
-    CMR 
+    CMR
      k  AIk     T(AIk))
 0    0    0    0.001819
 1    1    1    0.095101
@@ -1612,22 +1635,22 @@ $n$, $k$ & $0$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$ & $1
 16  16    0    0.001445
 \end{comment}
 
-\pmnote{@Luca, could you update me when you have the estimated averages? 
+\pmnote{@Luca, could you update me when you have the estimated averages?
 
 After, you can complete the table and I will add some observation(We can already see a good behavior of the functions from~\cite{eprint:Meaux24}, but it might only be average)
 
 }
 
-In Table~\ref{tab:WPB8} we summarize the results on $\AIk{k}$ of WPB functions in $8$ variables obtained from this work and the state of the art. 
+In Table~\ref{tab:WPB8} we summarize the results on $\AIk{k}$ of WPB functions in $8$ variables obtained from this work and the state of the art.
 We provide the same table for functions in $16$ variables in Table~\ref{tab:WPB16}.
 
 
 \begin{table}[h]
-	\center 
-%	\renewcommand{\tabcolsep}{0.5pt}	
+	\center
+%	\renewcommand{\tabcolsep}{0.5pt}
 	\begin{tabular}{|c| c|c|c|c|c|}
 		\hline
-		Function &  $\AIk{2}$ & $\AIk{3}$ & $\AIk{4}$ &  $\AIk{5}$ & $\AIk{6}$  \\ \hline 
+		Function &  $\AIk{2}$ & $\AIk{3}$ & $\AIk{4}$ &  $\AIk{5}$ & $\AIk{6}$  \\ \hline
 		\cite{AMC:DalMal23} & $1$ &  $2$ & $2$  &  $2$ & $1$ \\ \hline
 		\cite{Mat:ZJZQ23} & $2$ &  $2$ & $2$  &  $2$ & $2$ \\ \hline
         \cite{CC:TangLiu19} & $2$ &  $2$ & $3$  &  $2$ & $2$ \\ \hline
@@ -1635,8 +1658,8 @@ We provide the same table for functions in $16$ variables in Table~\ref{tab:WPB1
 		Estimated average & $1.95$ &  $2.02$ & $2.87$  &  $2.02$ & $1.95$ \\ \hline
 		Field order~\cite{eprint:Meaux24} &$ 1$& $2$& $3$& $2$ &$2$ \\	\hline
 		Upper bound & $2$ &  $3$ & $3$  &  $3$ & $2$ \\	\hline
-	
-		
+
+
 	\end{tabular}
 	\caption{$\AIk{k}$ of WPB functions in $8$ variables.}
 	\label{tab:WPB8}
@@ -1644,26 +1667,26 @@ We provide the same table for functions in $16$ variables in Table~\ref{tab:WPB1
 
 
 \begin{table}[h]
-	\center 
+	\center
 	%	\renewcommand{\tabcolsep}{0.5pt}	0
 	\begin{tabular}{|c| c|c|c|c|c| c|c|c|c|c| c|c|c| }
 		\hline
-		Function &  $\AIk{2}$ & $\AIk{3}$ & $\AIk{4}$ &  $\AIk{5}$ & $\AIk{6}$ &  $\AIk{7}$ & $\AIk{8}$ & $\AIk{9}$ &  $\AIk{10}$ & $\AIk{11}$ &  $\AIk{12}$ & $\AIk{13}$ & $\AIk{14}$ \\ \hline 
-		
+		Function &  $\AIk{2}$ & $\AIk{3}$ & $\AIk{4}$ &  $\AIk{5}$ & $\AIk{6}$ &  $\AIk{7}$ & $\AIk{8}$ & $\AIk{9}$ &  $\AIk{10}$ & $\AIk{11}$ &  $\AIk{12}$ & $\AIk{13}$ & $\AIk{14}$ \\ \hline
+
 \cite{AMC:DalMal23}		&$ 1$& $2$& $3$& $3$ &$3$ & $3$ &$3$ &$3$ &$3$ &$3$ &$2$ &$2$
 	 &0 \\ \hline
 \cite{Mat:ZJZQ23}		&$ 2$& $2$& $2$& $2$ &$2$ & $2$ &$2$ &$2$ &$2$ &$2$ &$2$ &$2$
 &$2$ \\ \hline
 \cite{CC:TangLiu19}		&$ 2$& $2$& $3$& $3$ &$4$ & $4$ &$5$ &$4$ &$4$ &$3$ &$3$ &$2$
-&$2$ \\ \hline	
+&$2$ \\ \hline
 \cite{TOSC:CarMeaRot17}		&$1$& $2$& $2$& $3$ &$3$ & $3$ &$3$ &$3$ &$3$ &$3$ &$3$ &$3$
-&$2$ \\ \hline	
+&$2$ \\ \hline
 		Estimated average &$2.00$& $2.99$& $3.89$& $4.37$ &$5.00$ & $6.00$ &0 &0 &5.00 &$4.40$ &$3.87$ &$2.99$ &$2.00$ \\ \hline
-%2 3 4 4 5 6 6 6 5 4 3 2 2		
+%2 3 4 4 5 6 6 6 5 4 3 2 2
 		Field order~\cite{eprint:Meaux24} &$ 2$& $3$& $4$& $4$ &$5$ & $6$ &$6$ &$6$ &$5$ &$4$ &$3$ &$2$ &$2$ \\	\hline
 		Upper bound &$ 2$& $3$& $4$& $5$ &$5$ & $6$ &$6$ &$6$ &$5$ &$5$ &$4$ &$3$ &$2$  \\	\hline
-		
-		
+
+
 	\end{tabular}
 	\caption{$\AIk{k}$ of WPB functions in $16$ variables.}
 	\label{tab:WPB16}
@@ -1821,7 +1844,7 @@ We provide the same table for functions in $16$ variables in Table~\ref{tab:WPB1
 \end{comment}
 
 \begin{comment}
-    CMR 
+    CMR
      k  AIk     T(AIk))
 0    0    0    0.001819
 1    1    1    0.095101
