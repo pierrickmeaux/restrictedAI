@@ -1226,7 +1226,6 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 In this section, we apply the algorithms to the weightwise perfectly balanced (WPB) Boolean functions with the intent to study their algebraic immunity restricted to subsets of constant Hamming weight. In particular, we determine the probability distributions of the $\AIk{k}$ of WPB functions and we compute the $\AIk{k}$ of some WPB Boolean functions already studied.
 
 \subsection{Comparison between Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} on WAPB functions}
-\lbnote{Re-run the comparison with the new version of Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt}? Is the comparison still valid of do we first have to replace \textit{SageMath} method with \textit{Rust} methods in Algorithm~\ref{alg:RMApproach} first?}
 
 In this part, we compare the execution times of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} by running both algorithms on multiple WAPB functions restricted to the largest set $E_{\lceil{n/2}\rceil,n}$, with different numbers of variables. 
 Specifically, the experiment is done by running the algorithms with the number of variables $n$ going from $1$ to $12$. For both algorithms, if $n \leq 4$, we calculate the average over the $\AIk{\lceil{n/2}\rceil}$ of all functions in $\WAPB{n}$, whereas for $n > 4$, we calculate the average over the $\AIk{\lceil{n/2}\rceil}$ of a random sample of $10^4$ $\WAPB{n}$ functions.
@@ -1238,11 +1237,12 @@ The measurement for $n = 12$ is not shown in the plot for clarity due to the lar
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.7\textwidth]{images/plot_10000.png}
+    \includegraphics[width=0.7\textwidth]{images/plot_12_10000.png}
     \caption{Average time execution per number of variables of Algorithms~\ref{alg:RMApproach} and \ref{alg:fullAlg3ForAIRestrictesSetOpt} over $10^4$ random $\WAPB{n}$ functions on the set $E_{\lceil{n/2}\rceil,n}$. 
     $T\left(G^{\leq 12}\right)$ gives the time of the pre-computation of the sequence of all Reed-Muller matrices up to $G_{12,12}$.}\label{fig:compTimePlot}
 \end{figure}
 
+\lbnote{@Luca: update the comment below according to the new plot \ref{fig:compTimePlot}}\\
 The pre-computation times of $G^{\leq n_{max}}$ for Algorithm~\ref{alg:RMApproach} are given in the Table~\ref{table:preComputationTimes}.
 \begin{table}[ht]
 \centering
