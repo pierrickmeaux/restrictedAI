@@ -1233,7 +1233,6 @@ Specifically, the experiment is done by running the algorithms with the number o
 Figure~\ref{fig:compTimePlot} shows the mean execution time per value of $n$ of the two algorithms.
 We denote by $T\left(G^{\leq n_{max}}\right) = T\left(G^{\leq 12} \right)$ the necessary time to pre-compute all the necessary Reed-Muller codes generator matrices following Equation~\eqref{eq:matricesHashTable}: we recall that it is the necessary time to compute the sequence $\left(G_{n,n}\right)_{n\in [1,12=n_{max}]}$, not only the generator matrix $G_{n,n}$ for the current iteration $n$. 
 We notice in fact that $T\left(G^{\leq 12}\right)$ is constant, that is because the computation occurs before beginning the experiment since it is expected that the Algorithm~\ref{alg:RMApproach} is able to run for any number of variable $n$ up to an upper bound $n_{max}$, without having to compute the Reed-Muller code for it. 
-The measurement for $n = 12$ is not shown in the plot for clarity due to the large gap, but the execution of Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} takes $13.354$ seconds, while Algorithm~\ref{alg:RMApproach} takes only $5.22$ seconds.
 
 \begin{figure}[ht]
     \centering
@@ -1242,7 +1241,6 @@ The measurement for $n = 12$ is not shown in the plot for clarity due to the lar
     $T\left(G^{\leq 12}\right)$ gives the time of the pre-computation of the sequence of all Reed-Muller matrices up to $G_{12,12}$.}\label{fig:compTimePlot}
 \end{figure}
 
-\lbnote{@Luca: update the comment below according to the new plot \ref{fig:compTimePlot}}\\
 The pre-computation times of $G^{\leq n_{max}}$ for Algorithm~\ref{alg:RMApproach} are given in the Table~\ref{table:preComputationTimes}.
 \begin{table}[ht]
 \centering
@@ -1259,7 +1257,9 @@ The pre-computation times of $G^{\leq n_{max}}$ for Algorithm~\ref{alg:RMApproac
 \end{tabular}
 \caption{Pre-computation time (in seconds) for $G^{\leq n_{max}}$ for $n_{max}$ from $1$ to $12$.}\label{table:preComputationTimes}
 \end{table}
-From Figure~\ref{fig:compTimePlot}, we observe that Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} performs better than Algorithm~\ref{alg:RMApproach} for $n < 12$, even without accounting for the pre-computation time of $G^{\leq n_{max}}$ and $D^{\leq n_{max}}$ required by Algorithm~\ref{alg:RMApproach}. 
+From Figure~\ref{fig:compTimePlot}, we observe that Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} performs better than Algorithm~\ref{alg:RMApproach} for $n \leq 12$, even without accounting for the pre-computation time of $G^{\leq n_{max}}$ and $D^{\leq n_{max}}$ required by Algorithm~\ref{alg:RMApproach}. 
+
+\lbnote{@Luca: update the comment below according to the new plot \ref{fig:compTimePlot}}\\
 For $n = 12$, Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} still outperforms Algorithm~\ref{alg:RMApproach}, provided the pre-computation time for Algorithm~\ref{alg:RMApproach} is excluded.  
 The reasons for this behavior are as follows:  
 \begin{itemize}
