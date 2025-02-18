@@ -1453,8 +1453,8 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
    5 & $91.810299$ & $4.369141$\\ \hline
    6 & $636.368421$ & $5.000000$\\ \hline
    7 & $2838.922261$ & $6.000000$\\ \hline
-   8 &  & \\ \hline
-   9 &  & \\ \hline
+   8 & $6384.383319$ & $6.000000$\\ \hline
+   9 &  & $6.000000$\\ \hline
    10 & $732.501775$ & $5.000000$ \\ \hline
    11 & $118.963582$ & $4.396484$\\ \hline
    12 & $5.229858$ & $3.865234$ \\ \hline
@@ -1548,9 +1548,11 @@ In contrast, the function in~\cite{CC:TangLiu19} achieves an $\AIk{k}$ of $3$ fo
 %\end{description}
 
 The maximum execution times for~\cite{AMC:DalMal23}, ~\cite{Mat:ZJZQ23},~\cite{CC:TangLiu19} and~\cite{A2C:CarMea19} with $n=8$ occur with $k=4$ and are around $0.014$, $0.029$, $0.011$ and $0.012$ seconds, respectively.\\
-\lbnote{@Luca, update the execution time according to the new results for $n=16$}\\
-For $n=16$, ~\cite{AMC:DalMal23} has a maximum execution time with $k=7$ of $100.941$ seconds, while~\cite{Mat:ZJZQ23} has a maximum execution time with $k=8$ of $149.542$ seconds. 
-
+% LT19 k=8 time = 126.627561
+% ZS k=8 time = 5.898671
+% DM24 k = 9 time = 7.935819
+% CMR k = 8 time = 12.048051
+For $n=16$, the maximum execution times for~\cite{Mat:ZJZQ23},~\cite{CC:TangLiu19} and ~\cite{A2C:CarMea19} occur with $k=8$ and are $5.898671$, $126.627561$ and $12.048051$ seconds respectively. In contrast, for~\cite{AMC:DalMal23}, the maximum execution time occurs for $k=9$ and is $7.935819$ seconds.
 
 \begin{table}[h]
 \center
@@ -1676,7 +1678,7 @@ We provide the same table for functions in $16$ variables in Table~\ref{tab:WPB1
 &$2$ \\ \hline	
 \cite{TOSC:CarMeaRot17}		&$1$& $2$& $2$& $3$ &$3$ & $3$ &$3$ &$3$ &$3$ &$3$ &$3$ &$3$
 &$2$ \\ \hline	
-		Estimated average &$2.00$& $2.99$& $3.89$& $4.37$ &$5.00$ & $6.00$ &0 &0 &5.00 &$4.40$ &$3.87$ &$2.99$ &$2.00$ \\ \hline
+		Estimated average &$2.00$& $2.99$& $3.89$& $4.37$ &$5.00$ & $6.00$ &$6.00$ &$6.00$ &5.00 &$4.40$ &$3.87$ &$2.99$ &$2.00$ \\ \hline
 %2 3 4 4 5 6 6 6 5 4 3 2 2		
 		Field order~\cite{eprint:Meaux24} &$ 2$& $3$& $4$& $4$ &$5$ & $6$ &$6$ &$6$ &$5$ &$4$ &$3$ &$2$ &$2$ \\	\hline
 		Upper bound &$ 2$& $3$& $4$& $5$ &$5$ & $6$ &$6$ &$6$ &$5$ &$5$ &$4$ &$3$ &$2$  \\	\hline
