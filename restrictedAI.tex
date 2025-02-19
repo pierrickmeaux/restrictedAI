@@ -16,7 +16,11 @@
 
 \input{header.tex}
 
+\usepackage{float}
 \usepackage{placeins}
+
+
+
 
 \begin{document}
 	
@@ -1234,7 +1238,7 @@ Figure~\ref{fig:compTimePlot} shows the mean execution time per value of $n$ of 
 We denote by $T\left(G^{\leq n_{max}}\right) = T\left(G^{\leq 12} \right)$ the necessary time to pre-compute all the necessary Reed-Muller codes generator matrices following Equation~\eqref{eq:matricesHashTable}: we recall that it is the necessary time to compute the sequence $\left(G_{n,n}\right)_{n\in [1,12=n_{max}]}$, not only the generator matrix $G_{n,n}$ for the current iteration $n$. 
 We notice in fact that $T\left(G^{\leq 12}\right)$ is constant, that is because the computation occurs before beginning the experiment since it is expected that the Algorithm~\ref{alg:RMApproach} is able to run for any number of variable $n$ up to an upper bound $n_{max}$, without having to compute the Reed-Muller code for it. 
 
-\begin{figure}[ht]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{images/plot_12_10000.png}
     \caption{Average time execution per number of variables of Algorithms~\ref{alg:RMApproach} and \ref{alg:fullAlg3ForAIRestrictesSetOpt} over $10^4$ random $\WAPB{n}$ functions on the set $E_{\lceil{n/2}\rceil,n}$. 
@@ -1266,6 +1270,7 @@ Both implementations of the algorithms used to generate the plot in Figure~\ref{
 \item The computation of $G^{\leq n_{max}}$ for Algorithm~\ref{alg:RMApproach} is performed using the \textit{generator\_matrix} method of the \textit{SageMath} object \textit{BinaryReedMullerCodes}. While this computation could be more efficient if implemented in \textit{Rust}, the current overall implementation still faces scalability issues. Specifically, for $n \geq 16$, the algorithm becomes impractical because $G_{16,16}$ cannot be stored in a native \textit{Python} list or a \textit{SageMath} matrix object. However, if the entire algorithm were implemented in \textit{Rust}, it could potentially be feasible. Consequently, for larger values of $n$, Algorithm~\ref{alg:RMApproach} is not usable, while Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} remains viable.
 \end{itemize}
 
+\FloatBarrier
 \subsection{Determination of $\AIk{k}$ distribution of WPB functions}
 %Similarly to what has been done in~\cite{Latin:GinMea23} for the weightwise non-linearity $NL_k$, we determine the discrete probability distribution of the $\AIk{k}$ of weightwise perfectly balanced Boolean functions, describing the probability of a function $f\in \WPB{m}$ of having a certain algebraic immunity restricted on the slice $\Ekn{k}{n}$. A more formal definition in given Definition~\ref{def:distAIk} below
 
@@ -1323,12 +1328,7 @@ In practice, random sampling is performed by generating a set $\Omega_k = \{\ome
 Then, for each slice $\Ekn{k}{n}$, the $\AIk{k}$ is computed for each restricted set in $\Omega_k$ the frequency of each particular $\AIk{k}$ value is recorded.
 Depending on the value of $m$ and the chosen sample size, the number of sub-truth tables generated may be too large to fit in memory simultaneously. 
 To address this, it is crucial to avoid storing all elements in memory at once. 
-Instead, they should be processed one by one, either by computing sequentially or by using iterators.
-
-
-
-
-
+Instead, they should be processed one by one, either by computing sequentially or by using iterators.\\
 The following procedure is done for each slice $\Ekn{k}{n}$:
 \begin{enumerate}
     \item Initialize a hash table of all possible values of $\AIk{k}$.
@@ -1345,19 +1345,7 @@ The following procedure is done for each slice $\Ekn{k}{n}$:
 Figure~\ref{fig:probDist32768} represents the $\AIk{k}$ distribution and Figure~\ref{fig:averages32768} the average values.
 We observe that for $n=4$ all WPB functions have the same values of $\AIk{k}$, for every $k$. 
 For $n=8$, there are WPB functions with different restricted $\AIk{k}$, for example with $k=4$ we observe functions reaching the lowest value ($2$, such as families exhibited in~\cite{Latin:GinMea23}) and some reaching $3$ which is optimal for this size.\\
-\noindent
-\textbf{Results for $n=16$ and sample size$=2^{10}$}.
-Figure~\ref{fig:probDist2014} represents the $\AIk{k}$ distribution and Figure~\ref{fig:averages2014} the average values.\\
-
-The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ are $n=16$ are displayed in tables~\ref{table:averagesFullDist},~\ref{table:averages32768} and~\ref{table:averages16VarsSampleSize1024}.
-
-%is already enough variability in the corpus of WPB functions to observe 
-
-\footnotetext[9]{Step $2$ may be executed in parallel on the $\omega_i^{(k)}$s.}
-
-%\pmnote{add some comment on the results in 4 and 8 variables.}
-
-\begin{figure}[ht]
+\begin{figure}[H]
     \centering
     \begin{minipage}[b]{0.45\textwidth}
         \centering
@@ -1376,7 +1364,19 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
     \label{fig:main2}
 \end{figure}
 
-\begin{figure}[ht]
+\noindent
+\pmnote{results for n=16 here also as for 8+ some remarks}\\
+\textbf{Results for $n=16$ and sample size$=2^{10}$}.
+Figure~\ref{fig:probDist2014} represents the $\AIk{k}$ distribution and Figure~\ref{fig:averages2014} the average values.\\
+
+The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ are $n=16$ are displayed in tables~\ref{table:averagesFullDist},~\ref{table:averages32768} and~\ref{table:averages16VarsSampleSize1024}.
+
+%is already enough variability in the corpus of WPB functions to observe 
+
+\footnotetext[9]{Step $2$ may be executed in parallel on the $\omega_i^{(k)}$s.}
+
+%\pmnote{add some comment on the results in 4 and 8 variables.}
+\begin{figure}[H]
     \centering
     \begin{minipage}[b]{0.45\textwidth}
         \centering
@@ -1395,9 +1395,8 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
     \label{fig:main2014}
 \end{figure}
 
-
-
-\begin{table}[ht]
+\begin{comment}
+\begin{table}[H]
     \centering
 \begin{minipage}{0.45\textwidth}
     \centering
@@ -1453,8 +1452,8 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
    5 & $91.810299$ & $4.369141$\\ \hline
    6 & $636.368421$ & $5.000000$\\ \hline
    7 & $2838.922261$ & $6.000000$\\ \hline
-   8 &  & \\ \hline
-   9 &  & \\ \hline
+   8 & $6384.383319$ & $6.000000$\\ \hline
+   9 & $3111.118973$ & $6.000000$\\ \hline
    10 & $732.501775$ & $5.000000$ \\ \hline
    11 & $118.963582$ & $4.396484$\\ \hline
    12 & $5.229858$ & $3.865234$ \\ \hline
@@ -1468,12 +1467,81 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
         \label{table:averages16VarsSampleSize1024}
     \end{minipage}
 \end{table}
+\end{comment}
 
+\begin{table}[H]
+    \centering
+\begin{minipage}{0.45\textwidth}
+    \centering
+    \begin{tabular}{|c|c|c|}%{rrr}
+ %       \toprule
+ \hline
+        $k$ &  $\mathbb{E}[T(AI_k)]$ &  $\mathbb{E}[AI_k]$ \\ \hline
+%        \midrule
+        0 &               $0.000053$ &                 0.0 \\ \hline
+        1 &               $0.052649$ &                 1.0 \\ \hline
+        2 &               $0.048703$ &                 1.0 \\\hline
+        3 &               $0.058630$ &                 1.0 \\\hline
+        4 &               $0.000006$ &                 0.0 \\ \hline
+  %      \bottomrule
+    \end{tabular}
+    \caption{Average execution time and $\AIk{k}$ for $n=4$, $m=2$}
+    \label{table:averagesFullDist}
+\end{minipage}
+\hfill
+\begin{minipage}{0.45\textwidth}
+        \centering
+        \begin{tabular}{|c|c|c|}%{rrr}
+%\toprule
+\hline
+ $k$ &  $\mathbb{E}[T(AI_k)]$ &  $\mathbb{E}[AI_k]$ \\ \hline
+%\midrule
+   0 &               $4.768372 * 10^{-6}$ &            $0.00$ \\ \hline
+   1 &               $0.075641$ &            $1.00$ \\ \hline
+   2 &               $0.086194$ &            $1.95$ \\ \hline
+   3 &               $0.094307$ &            $2.02$ \\ \hline
+   4 &               $0.089607$ &            $2.89$ \\ \hline
+   5 &               $0.101818$ &            $2.02$ \\ \hline
+   6 &               $0.092377$ &            $1.95$ \\ \hline
+   7 &               $0.093818$ &            $1.00$ \\ \hline
+   8 &               $1.621246 * 10^{-5}$ &            $0.00$ \\ \hline
+%\bottomrule
+\end{tabular}
+        \caption{Average execution time and $\AIk{k}$ for $n=8$, $m=3$ and $\mbox{sampleSize}=2^{15}$}
+        \label{table:averages32768}
+    \end{minipage}
+\begin{minipage}{0.45\textwidth}
+        \centering
+        \begin{tabular}{|c|c|c|}%{rrr}
+%\toprule
+\hline
+ $k$ &  $\mathbb{E}[T(AI_k)]$ &  $\mathbb{E}[AI_k]$ \\ \hline
+%\midrule
+   0 & $0.000010$ & $0.00$\\ \hline
+   1 & $0.334046$ & $1.00$\\ \hline
+   2 & $0.342011$ & $2.00$\\ \hline
+   3 & $0.408244$ & $2.98$\\ \hline
+   4 & $4.011003$ & $3.87$\\ \hline
+   5 & $91.810299$ & $4.37$\\ \hline
+   6 & $636.368421$ & $5.00$\\ \hline
+   7 & $2838.922261$ & $6.00$\\ \hline
+   8 & $6384.383319$ & $6.00$\\ \hline
+   9 & $3111.118973$ & $6.00$\\ \hline
+   10 & $732.501775$ & $5.00$ \\ \hline
+   11 & $118.963582$ & $4.40$\\ \hline
+   12 & $5.229858$ & $3.87$ \\ \hline
+   13 & $0.426482$ & $2.99$\\ \hline
+   14 & $0.353760$ & $2.00$ \\ \hline
+   15 & $0.344984$ & $1.00$ \\ \hline
+   16 & $0.000015$ & $0.00$ \\ \hline
+%\bottomrule
+\end{tabular}
+        \caption{Average execution time and $\AIk{k}$ for $n=16$, $m=4$ and $\mbox{sampleSize}=2^{10}$}
+        \label{table:averages16VarsSampleSize1024}
+    \end{minipage}
+\end{table}
 
-\pmnote{results for n=16 here also as for 8+ some remarks}
-
-
-
+\FloatBarrier
 \subsection{Determination of $\AIk{k}$ of known WPB families}
 In this part, we determine the $\AIk{k}$s of the function introduced in~\cite{Mat:ZJZQ23},~\cite{AMC:DalMal23},~\cite{CC:TangLiu19} and in~\cite{TOSC:CarMeaRot17} for $n=8$ and $16$ variables.
 
@@ -1488,58 +1556,6 @@ The function in~\cite{Mat:ZJZQ23} again has a constant $\AIk{k}$ of $2$ for $k \
 In contrast, the function in~\cite{CC:TangLiu19} achieves an $\AIk{k}$ of $3$ for $k = 4,5,11$ and $12$, an $\AIk{k}$ of $4$ for $k = 6,7,9$ and $10$ and an $\AIk{k}$ of $5$ for $k=8$. The functions~\cite{AMC:DalMal23} and in~\cite{TOSC:CarMeaRot17}, both reach an $\AIk{k}$ of $3$ but for $k\in [4,12]$ and $k\in [5,13]$ respectively.
 \end{itemize}
 
-\begin{comment}
-         k  AIk      T(AIk))
-0    0    0     0.001554
-1    1    1     0.082262
-2    2    2     0.116928
-3    3    2     0.430792
-4    4    3    15.745253
-5    5    3    49.327970
-6    6    4  1206.439115
-7    7    4  1843.476104
-8    8    5  3742.250973
-9    9    4  1893.035234
-10  10    4  1241.073732
-11  11    3    54.754863
-12  12    3    11.322006
-13  13    2     0.450872
-14  14    2     0.104357
-15  15    1     0.068833
-16  16    0     0.001492
-     k  AIk      T(AIk))
-0    0    0     0.001554
-1    1    1     0.082262
-2    2    2     0.116928
-3    3    2     0.430792
-4    4    3    15.745253
-5    5    3    49.327970
-6    6    4  1206.439115
-7    7    4  1843.476104
-8    8    5  3742.250973
-9    9    4  1893.035234
-10  10    4  1241.073732
-11  11    3    54.754863
-12  12    3    11.322006
-13  13    2     0.450872
-14  14    2     0.104357
-15  15    1     0.068833
-16  16    0     0.001492
-
-
-   k  AIk   T(AIk))
-0  0    0  0.000015
-1  1    1  0.028831
-2  2    2  0.024380
-3  3    2  0.026922
-4  4    3  0.032067
-5  5    2  0.027336
-6  6    2  0.026930
-7  7    1  0.023427
-8  8    0  0.000028
-
-
-\end{comment}
 %Table~\ref{table:publiedFunctions} shows these results. 
 %We see that~\cite{AMC:DalMal23} is more secure than~\cite{Mat:ZJZQ23} since it has a better $\AIk{k}$s for both $n=8$ and $n=16$. In particular
 %\begin{description}
@@ -1548,11 +1564,13 @@ In contrast, the function in~\cite{CC:TangLiu19} achieves an $\AIk{k}$ of $3$ fo
 %\end{description}
 
 The maximum execution times for~\cite{AMC:DalMal23}, ~\cite{Mat:ZJZQ23},~\cite{CC:TangLiu19} and~\cite{A2C:CarMea19} with $n=8$ occur with $k=4$ and are around $0.014$, $0.029$, $0.011$ and $0.012$ seconds, respectively.\\
-\lbnote{@Luca, update the execution time according to the new results for $n=16$}\\
-For $n=16$, ~\cite{AMC:DalMal23} has a maximum execution time with $k=7$ of $100.941$ seconds, while~\cite{Mat:ZJZQ23} has a maximum execution time with $k=8$ of $149.542$ seconds. 
+% LT19 k=8 time = 126.627561
+% ZS k=8 time = 5.898671
+% DM24 k = 9 time = 7.935819
+% CMR k = 8 time = 12.048051
+For $n=16$, the maximum execution times for~\cite{Mat:ZJZQ23},~\cite{CC:TangLiu19} and ~\cite{A2C:CarMea19} occur with $k=8$ and are $5.898671$, $126.627561$ and $12.048051$ seconds respectively. In contrast, for~\cite{AMC:DalMal23}, the maximum execution time occurs for $k=9$ and is $7.935819$ seconds.
 
-
-\begin{table}[h]
+\begin{table}[H]
 \center
 %\renewcommand{\tabcolsep}{0.5pt}	
 \caption{$\AIk{k}$ of the construction from~\cite{AMC:DalMal23}, from~\cite{Mat:ZJZQ23}, from~\cite{CC:TangLiu19} and from~\cite{TOSC:CarMeaRot17} with $m=3$ ($n=8$) and $m=4$ ($n=16$).\label{table:publiedFunctions}}
@@ -1590,46 +1608,6 @@ $n$, $k$ & $0$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$ & $1
 \end{tabular}
 \end{table}
 
-\begin{comment}
-    CMR 
-     k  AIk     T(AIk))
-0    0    0    0.001819
-1    1    1    0.095101
-2    2    1    0.122937
-3    3    2    0.255394
-4    4    2    2.210416
-5    5    3   12.893202
-6    6    3  154.228709
-7    7    3  220.404948
-8    8    3  244.587410
-9    9    3  214.994536
-10  10    3  145.543845
-11  11    3   77.741631
-12  12    3   31.918017
-13  13    3    0.696021
-14  14    2    0.101702
-15  15    1    0.068077
-16  16    0    0.001445
-     k  AIk     T(AIk))
-0    0    0    0.001819
-1    1    1    0.095101
-2    2    1    0.122937
-3    3    2    0.255394
-4    4    2    2.210416
-5    5    3   12.893202
-6    6    3  154.228709
-7    7    3  220.404948
-8    8    3  244.587410
-9    9    3  214.994536
-10  10    3  145.543845
-11  11    3   77.741631
-12  12    3   31.918017
-13  13    3    0.696021
-14  14    2    0.101702
-15  15    1    0.068077
-16  16    0    0.001445
-\end{comment}
-
 \pmnote{@Luca, could you update me when you have the estimated averages? 
 
 After, you can complete the table and I will add some observation(We can already see a good behavior of the functions from~\cite{eprint:Meaux24}, but it might only be average)
@@ -1640,7 +1618,7 @@ In Table~\ref{tab:WPB8} we summarize the results on $\AIk{k}$ of WPB functions i
 We provide the same table for functions in $16$ variables in Table~\ref{tab:WPB16}.
 
 
-\begin{table}[h]
+\begin{table}[H]
 	\center 
 %	\renewcommand{\tabcolsep}{0.5pt}	
 	\begin{tabular}{|c| c|c|c|c|c|}
@@ -1661,7 +1639,7 @@ We provide the same table for functions in $16$ variables in Table~\ref{tab:WPB1
 \end{table}
 
 
-\begin{table}[h]
+\begin{table}[H]
 	\center 
 	%	\renewcommand{\tabcolsep}{0.5pt}	0
 	\begin{tabular}{|c| c|c|c|c|c| c|c|c|c|c| c|c|c| }
@@ -1676,7 +1654,7 @@ We provide the same table for functions in $16$ variables in Table~\ref{tab:WPB1
 &$2$ \\ \hline	
 \cite{TOSC:CarMeaRot17}		&$1$& $2$& $2$& $3$ &$3$ & $3$ &$3$ &$3$ &$3$ &$3$ &$3$ &$3$
 &$2$ \\ \hline	
-		Estimated average &$2.00$& $2.99$& $3.89$& $4.37$ &$5.00$ & $6.00$ &0 &0 &5.00 &$4.40$ &$3.87$ &$2.99$ &$2.00$ \\ \hline
+		Estimated average &$2.00$& $2.99$& $3.89$& $4.37$ &$5.00$ & $6.00$ &$6.00$ &$6.00$ &5.00 &$4.40$ &$3.87$ &$2.99$ &$2.00$ \\ \hline
 %2 3 4 4 5 6 6 6 5 4 3 2 2		
 		Field order~\cite{eprint:Meaux24} &$ 2$& $3$& $4$& $4$ &$5$ & $6$ &$6$ &$6$ &$5$ &$4$ &$3$ &$2$ &$2$ \\	\hline
 		Upper bound &$ 2$& $3$& $4$& $5$ &$5$ & $6$ &$6$ &$6$ &$5$ &$5$ &$4$ &$3$ &$2$  \\	\hline
@@ -1687,196 +1665,6 @@ We provide the same table for functions in $16$ variables in Table~\ref{tab:WPB1
 	\label{tab:WPB16}
 \end{table}
 
-
-
-
-\begin{comment}
-\begin{figure}[ht]
-    \centering
-    \begin{minipage}[b]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/DM24plot_n_8.png}
-        \caption{$AI_k$ of ~\cite{AMC:DalMal23} with $8$ variables.}
-        \label{fig:DM248}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.5\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/DM24_plot_n_16.png}
-        \caption{$AI_k$ of ~\cite{AMC:DalMal23} with $8$ variables.}
-        \label{fig:DM2416}
-    \end{minipage}
-    \caption{$AI_k$ of ~\cite{AMC:DalMal23} with $8$ and $16$ variables.}
-    \label{fig:DM24}
-\end{figure}
-\end{comment}
-
-\begin{comment}
-\begin{table}[ht]
-    \centering
-    \begin{minipage}{0.45\textwidth}
-        \centering
-       \begin{tabular}{rrr}
-\toprule
- $k$ &  $AI_k$ &  $T(AI_k)$ \\
-\midrule
- 0 &    0 & 0.000123 \\
- 1 &    1 & 0.047655 \\
- 2 &    1 & 0.051065 \\
- 3 &    2 & 0.061322 \\
- 4 &    2 & 0.154352 \\
- 5 &    2 & 0.056368 \\
- 6 &    1 & 0.056426 \\
- 7 &    1 & 0.047242 \\
- 8 &    0 & 0.000179 \\
-\bottomrule
-\end{tabular}
-        \caption{$AI_k$ of ~\cite{AMC:DalMal23} for $n=8$}\label{table:delay8}
-    \end{minipage}\hfill
-    \begin{minipage}{0.45\textwidth}
-        \centering
-        \begin{tabular}{rrr}
-\toprule
- $k$ &  $AI_k$ &    $T(AI_k)$ \\
-\midrule
- 0 &    0 &   0.002340 \\
- 1 &    1 &   0.108739 \\
- 2 &    1 &   0.340639 \\
- 3 &    2 &   1.224184 \\
- 4 &    2 &   4.905083 \\
- 5 &    3 &  45.742510 \\
- 6 &    2 &  36.582689 \\
- 7 &    3 & 126.007482 \\
- 8 &    2 &  62.031974 \\
- 9 &    3 & 122.329721 \\
-10 &    2 &  32.403677 \\
-11 &    3 &  38.583301 \\
-12 &    2 &   7.484190 \\
-13 &    2 &   1.386225 \\
-14 &    1 &   0.464174 \\
-15 &    1 &   0.130139 \\
-16 &    0 &   0.002395 \\
-\bottomrule
-\end{tabular}
-        \caption{$AI_k$ of ~\cite{AMC:DalMal23} for $m=4$ $n=2^{m}=16$}\label{table:delay16}
-    \end{minipage}
-    \caption{$AI_k$ and execution times of ~\cite{AMC:DalMal23} with $m=3 \Rightarrow n=8$ Figand $m=4 \Rightarrow n=16$}\label{table:DM24}
-\end{table}
-\end{comment}
-
-\begin{comment}
-\begin{figure}[h]
-    \centering
-    \begin{minipage}[b]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/ZS23plot_n_8.png}
-        \caption{$AI_k$ of ~\cite{Mat:ZJZQ23} with $8$ variables.}
-        \label{fig:8TL19}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.5\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/ZS23plot_n_8.png}
-        \caption{$AI_k$ of ~\cite{Mat:ZJZQ23} with $8$ variables.}
-        \label{fig:WPB16Vars}
-    \end{minipage}
-    \caption{$AI_k$ of ~\cite{Mat:ZJZQ23} with $8$ and $16$ variables.}
-    \label{fig:ZS23}
-\end{figure}
-\end{comment}
-
-\begin{comment}
-\begin{table}[h!]
-    \centering
-    \begin{minipage}{0.45\textwidth}
-        \centering
-       \begin{tabular}{rrr}
-\toprule
- $k$ &  $AI_k$ &  $T(AI_k)$ \\
-\midrule
- 0 &    0 & 0.000112 \\
- 1 &    1 & 0.065713 \\
- 2 &    2 & 0.066023 \\
- 3 &    2 & 0.081503 \\
- 4 &    3 & 0.179297 \\
- 5 &    2 & 0.076255 \\
- 6 &    2 & 0.070314 \\
- 7 &    1 & 0.069297 \\
- 8 &    0 & 0.000187 \\
-\bottomrule
-\end{tabular}
-        \caption{$AI_k$ of ~\cite{Mat:ZJZQ23} for $n=8$}\label{table:ZS238}
-    \end{minipage}\hfill
-    \begin{minipage}{0.45\textwidth}
-        \centering
-        \begin{tabular}{rrr}
-\toprule
- $k$ &  $AI_k$ &    $T(AI_k)$ \\
-\midrule
- 0 &    0 &   0.000042 \\
- 1 &    1 &   0.114860 \\
- 2 &    2 &   0.152704 \\
- 3 &    2 &   1.417250 \\
- 4 &    2 & 113.271871 \\
- 5 &    2 &   3.794986 \\
- 6 &    2 & 238.984037 \\
- 7 &    2 &   7.799990 \\
- 8 &    2 & 328.257657 \\
- 9 &    2 &   7.396375 \\
-10 &    2 & 187.716422 \\
-11 &    2 &   2.973467 \\
-12 &    2 &  65.602001 \\
-13 &    2 &   0.999994 \\
-14 &    2 &   0.155272 \\
-15 &    1 &   0.123540 \\
-16 &    0 &   0.000050 \\
-\bottomrule
-\end{tabular}
-        \caption{$AI_k$ of ~\cite{Mat:ZJZQ23} for $m=4$ $n=2^{m}=16$}\label{table:ZS2316}
-    \end{minipage}
-    \caption{$AI_k$ and execution times of ~\cite{Mat:ZJZQ23} with $m=3 \Rightarrow n=8$ and $m=4 \Rightarrow n=16$}\label{table:ZS23}
-\end{table}
-\end{comment}
-
-\begin{comment}
-    CMR 
-     k  AIk     T(AIk))
-0    0    0    0.001819
-1    1    1    0.095101
-2    2    1    0.122937
-3    3    2    0.255394
-4    4    2    2.210416
-5    5    3   12.893202
-6    6    3  154.228709
-7    7    3  220.404948
-8    8    3  244.587410
-9    9    3  214.994536
-10  10    3  145.543845
-11  11    3   77.741631
-12  12    3   31.918017
-13  13    3    0.696021
-14  14    2    0.101702
-15  15    1    0.068077
-16  16    0    0.001445
-     k  AIk     T(AIk))
-0    0    0    0.001819
-1    1    1    0.095101
-2    2    1    0.122937
-3    3    2    0.255394
-4    4    2    2.210416
-5    5    3   12.893202
-6    6    3  154.228709
-7    7    3  220.404948
-8    8    3  244.587410
-9    9    3  214.994536
-10  10    3  145.543845
-11  11    3   77.741631
-12  12    3   31.918017
-13  13    3    0.696021
-14  14    2    0.101702
-15  15    1    0.068077
-16  16    0    0.001445
-\end{comment}
 \section{Conclusion and open questions}
 
 %\section{Acknowledgments}
