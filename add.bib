@@ -146,14 +146,7 @@ pages="61--74"
   year      = {2022}
 }
 
-@Article{DCC:DalMaiSar06,
-author="Dalai, Deepak Kumar
-and Maitra, Subhamoy
-and Sarkar, Sumanta",
-title="Basic Theory in Construction of Boolean Functions with Maximum Possible Annihilator Immunity",
-journal="Designs, Codes and Cryptography",
-year="2006",
-}
+
 
 @InProceedings{ACI:ManKuLar22,
 author="Mandujano, Sara
@@ -563,20 +556,21 @@ title = {Boolean Functions for Homomorphic-Friendly Stream Ciphers}
   note =         "\url{http://eprint.iacr.org/2012/144}",
 }
 @InProceedings{C:HawRos04,
-  author =       "Philip Hawkes and
-                  Gregory G. Rose",
-  title =        "Rewriting Variables: The Complexity of Fast Algebraic Attacks on Stream Ciphers",
-  pages =        "390--406",
-  editor =       crypto04ed,
-  booktitle =    crypto04name,
-  volume =       crypto04vol,
-  address =      cryptoaddr,
-  month =        crypto04month,
-  publisher =    cryptopub,
-  series =       mylncs,
-  year =         2004,
+  author       = {Philip Hawkes and
+                  Gregory G. Rose},
+  editor       = {Matthew K. Franklin},
+  title        = {Rewriting Variables: The Complexity of Fast Algebraic Attacks on Stream
+                  Ciphers},
+  booktitle    = {Advances in Cryptology - {CRYPTO} 2004, 24th Annual International
+                  CryptologyConference, Santa Barbara, California, USA, August 15-19,
+                  2004, Proceedings},
+  series       = {Lecture Notes in Computer Science},
+  volume       = {3152},
+  pages        = {390--406},
+  publisher    = {Springer},
+  year         = {2004},
+  doi          = {10.1007/978-3-540-28628-8\_24},
 }
-
 
 @inproceedings{WIT:ClimGarReg13,
 author = {Climent, Joan-Josep and García, F.J. and Requena, Verónica},
@@ -687,17 +681,6 @@ keywords = "Symmetric Boolean function, Balancedness, Correlation immunity"
 }
 
 
-
-@article{IEEE:QFLW09,
-  author    = {Longjiang Qu and
-               Keqin Feng and
-               Feng Liu and
-               Lei Wang},
-  title     = {Constructing symmetric boolean functions with maximum algebraic immunity},
-  journal   = {{IEEE} Trans. Information Theory},
-  pages     = {2406--2412},
-  year      = {2009},
-}
 
 
 @Article{LiQi07,
@@ -1966,33 +1949,81 @@ pages="269--280",
 
 
 @InProceedings{C:Courtois03,
-  author =       "Nicolas Courtois",
-  title =        "Fast Algebraic Attacks on Stream Ciphers with Linear Feedback",
-  pages =        "176--194",
-  editor =       crypto03ed,
-  booktitle =    crypto03name,
-  volume =       crypto03vol,
-  address =      cryptoaddr,
-  month =        crypto03month,
-  publisher =    cryptopub,
-  series =       mylncs,
-  year =         2003,
+  author       = {Nicolas T. Courtois},
+  editor       = {Dan Boneh},
+  title        = {Fast Algebraic Attacks on Stream Ciphers with Linear Feedback},
+  booktitle    = {Advances in Cryptology - {CRYPTO} 2003, 23rd Annual International
+                  Cryptology Conference, Santa Barbara, California, USA, August 17-21,
+                  2003, Proceedings},
+  series       = {Lecture Notes in Computer Science},
+  volume       = {2729},
+  pages        = {176--194},
+  publisher    = {Springer},
+  year         = {2003},
+  doi          = {10.1007/978-3-540-45146-4\_11},
 }
+
 
 @InProceedings{FSE:Armknecht04,
-  author =       "Frederik Armknecht",
-  title =        "Improving Fast Algebraic Attacks",
-  pages =        "65--82",
-  editor =       fse04ed,
-  booktitle =    fse04name,
-  volume =       fse04vol,
-  address =      fse04addr,
-  month =        fse04month,
-  publisher =    fsepub,
-  series =       mylncs,
-  year =         2004,
+  author       = {Frederik Armknecht},
+  editor       = {Bimal K. Roy and
+                  Willi Meier},
+  title        = {Improving Fast Algebraic Attacks},
+  booktitle    = {Fast Software Encryption, 11th International Workshop, {FSE} 2004,
+                  Delhi, India, February 5-7, 2004, Revised Papers},
+  series       = {Lecture Notes in Computer Science},
+  volume       = {3017},
+  pages        = {65--82},
+  publisher    = {Springer},
+  year         = {2004},
+  doi          = {10.1007/978-3-540-25937-4\_5},
 }
 
+@article{AMC:DM24,
+author = {Deepak Kumar Dalai and Krishna Mallick},
+title = {A class of weightwise almost perfectly balanced {B}oolean functions},
+journal = {Advances in Mathematics of Communications},
+volume = {18},
+number = {2},
+pages = {480--504},
+year = {2024}
+}
+
+@article{eprint:DalMalMea24,
+  author       = {Deepak Kumar Dalai and
+                  Krishna Mallick and
+                  Pierrick M{\'{e}}aux},
+  title        = {Weightwise Almost Perfectly Balanced Functions, Construction From
+                  {A} Permutation Group Action View},
+  journal      = {{IACR} Cryptol. ePrint Arch.},
+  pages        = {2068},
+  year         = {2024},
+  url          = {https://eprint.iacr.org/2024/2068},
+}
+
+@article{SAC:Meaux24,
+  author       = {Pierrick M{\'{e}}aux},
+  title        = {Weightwise (almost) perfectly balanced functions based on total orders},
+  journal      = {{IACR} Cryptol. ePrint Arch.},
+  pages        = {647},
+  year         = {2024},
+  url          = {https://eprint.iacr.org/2024/647},
+  note         = {(to appear at SAC 2024)}
+}
+
+
+@article{CCDS:GinMea24,
+  author       = {Agnese Gini and
+                  Pierrick M{\'{e}}aux},
+  title        = {\emph{S}\({}_{\mbox{0}}\)-equivalence classes, a new direction to
+                  find better weightwise perfectly balanced functions, and more},
+  journal      = {Cryptogr. Commun.},
+  volume       = {16},
+  number       = {6},
+  pages        = {1211--1234},
+  year         = {2024},
+  doi          = {10.1007/S12095-024-00719-W},
+}
 
 
 @inproceedings{armknecht2006efficient,
@@ -2044,6 +2075,20 @@ pages="269--280",
   publisher =    iciscpub,
   series =       mylncs,
   year =         2003,
+}
+
+
+@InProceedings{EC:MeiPasCar04,
+author="Meier, Willi
+and Pasalic, Enes
+and Carlet, Claude",
+editor="Cachin, Christian and Camenisch, Jan L.",
+title="Algebraic Attacks and Decomposition of Boolean Functions",
+booktitle="Advances in Cryptology - EUROCRYPT 2004",
+year="2004",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="474--491"
 }
 
 @InProceedings{EC:MeiSta88,
@@ -2750,6 +2795,44 @@ series = {ASIA CCS '23}
   note         = {to appear at Selected Area in Cryptography 2024},
 }
 
+
+@article{IEEE:Didier06,
+  author       = {F. Didier},
+  title        = {A New Upper Bound on the Block Error Probability After Decoding Over
+                  the Erasure Channel},
+  journal      = {{IEEE} Trans. Inf. Theory},
+  volume       = {52},
+  number       = {10},
+  pages        = {4496--4503},
+  year         = {2006},
+  doi          = {10.1109/TIT.2006.881719},
+}
+
+
+@inproceedings{ISIT:Carlet07,
+  author       = {Claude Carlet},
+  title        = {Constructing balanced functions with optimum algebraic immunity},
+  booktitle    = {{IEEE} International Symposium on Information Theory, {ISIT} 2007,
+                  Nice, France, June 24-29, 2007},
+  pages        = {451--455},
+  publisher    = {{IEEE}},
+  year         = {2007},
+  doi          = {10.1109/ISIT.2007.4557094},
+}
+
+
+@article{AMC:CarMer13,
+  author       = {Claude Carlet and
+                  Brahim Merabet},
+  title        = {Asymptotic lower bound on the algebraic immunity of random balanced
+                  multi-output Boolean functions},
+  journal      = {Adv. Math. Commun.},
+  volume       = {7},
+  number       = {2},
+  pages        = {197--217},
+  year         = {2013},
+  doi          = {10.3934/AMC.2013.7.197},
+}
 
 @InProceedings{FSE:DidTil06,
   author       = {Fr{\'{e}}d{\'{e}}ric Didier and

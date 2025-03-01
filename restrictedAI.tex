@@ -58,8 +58,14 @@
 	
 	\begin{abstract}
 
+
+
+
+a
+
+
 		
-\keywords{Boolean functions, Restricted algebraic immunity, Weightwise (almost) perfectly balanced functions.}		
+\keywords{Boolean functions, Algebraic immunity, Restricted algebraic immunity, Weightwise (almost) perfectly balanced functions.}		
 		
 	\end{abstract}
 
@@ -67,37 +73,78 @@
 
 \section{Introduction}
 
-\pmnote{recall here the main idea of finding AI and rank of Reed Muller code, maybe re-read the explanation in "Extreme algebraic attacks"}
-
-\pmnote{intro in 2 parts
-\begin{itemize}
-	\item computing AI, computing on subsets (interest FLIP~\cite{EC:MJSC16}, EAA~\cite{eprint:MeaWan24}). 
-	Formalize the algorithms used in this case.
-	
-	\item WPB functions, introduced in~\cite{TOSC:CarMeaRot17}, got some interest, many families, parameters studied, almost nothing on AIk so far.
-\end{itemize}
-
-
-}
 
 %%%%%%draft intro, to write better
 
-Since the introduction of the algebraic attack on filtered LFSR~\cite{EC:CouMei03} in 2003, the algebraic immunity has been an important property to consider for the security of streamciphers. 
-%unsure
-The notion itself has been widely studed (example), such as algorithms regarding its complexity. 
+%Since the introduction of the algebraic attack on filtered LFSR~\cite{EC:CouMei03} in 2003, the algebraic immunity has been an important property to consider for the security of stream ciphers. 
+%As defined in~\cite{EC:MeiPasCar04}, the algebraic immunity is the minimum degree of a non trivial annihilator of a Boolean function $f$ or of its complement $1+f$. 
+%It corresponds to the degree of the algebraic system an adversary can derive from the keystream in the context of filtered LFSR since only affine mappings are performed before the application of the nonlinear filter $f$. 
+%The algebraic immunity is then very important in these contexts of affine updates followed by a filter, as shown also in~\cite{SIAM:AppLov18} on Goldreich's pseudorandom generator~\cite{Goldreich00} or on (improved) filtered permutators~\cite{EC:MJSC16,INDO:MCJS19}. 
+%Studying the algebraic immunity \eg ~\cite{IEEE:Didier06,AMC:CarMer13,DAM:Meaux22} or building functions optimizing this parameter \eg ~\cite{DCC:DalMaiSar06,ISIT:Carlet07,AC:CarFen08,IEEE:QFLW09,IEEE:ZCSH11,DCC:TuDen11} has been an important line of research in the area of Boolean functions used in cryptography.
+
+
+Since the introduction of algebraic attacks on filtered LFSRs~\cite{EC:CouMei03} in 2003, Algebraic Immunity (AI) has become a crucial property to consider in the security of stream ciphers. 
+As defined in~\cite{EC:MeiPasCar04}, algebraic immunity refers to the minimum degree of a nontrivial annihilator of a Boolean function $f$ or its complement $1+f$. 
+In the context of filtered LFSRs, algebraic immunity directly corresponds to the degree of the algebraic system an adversary can derive from the keystream, since only affine mappings occur before the application of the nonlinear filter $f$. 
+Consequently, algebraic immunity plays a key role in settings where affine updates are followed by a filtering function, as demonstrated in~\cite{SIAM:AppLov18} for Goldreich's pseudorandom generator~\cite{Goldreich00} and for (improved) filtered permutators~\cite{EC:MJSC16,INDO:MCJS19}. 
+%Research on algebraic immunity has followed two main directions: analyzing its properties~\cite{IEEE:Didier06,AMC:CarMer13,DAM:Meaux22} and constructing Boolean functions that optimize this parameter~\cite{DCC:DalMaiSar06,ISIT:Carlet07,AC:CarFen08,IEEE:QFLW09,IEEE:ZCSH11,DCC:TuDen11}. These efforts have significantly contributed to the study of Boolean functions in cryptographic applications.
+Studying algebraic immunity (\eg \cite{IEEE:Didier06,AMC:CarMer13,DAM:Meaux22}) or constructing Boolean functions that optimize this parameter (\eg \cite{DCC:DalMaiSar06,ISIT:Carlet07,AC:CarFen08,IEEE:QFLW09,IEEE:ZCSH11,DCC:TuDen11}) has been an important line of research in the area of Boolean functions used in cryptography.
+
+%%
+
+
+In this work, we focus on the computation of this parameter, specifically on a generalization of it.  
+The complexity of computing the algebraic immunity of a Boolean function has been investigated in various works (\eg \cite{EC:CouMei03,EC:ACGKMR06,C:HawRos04,FSE:DidTil06}).  
+One approach, which to our knowledge has rarely been formally articulated and is often considered folklore, relies on submatrices of generator matrices of the Reed-Muller code. 
+We briefly recall its theoretical foundation here. 
+The truth table of an $n$-variable Boolean function of degree at most $r$ can be identified with a codeword of the Reed-Muller code $RM(r,n)$, where each codeword's element corresponds to the evaluation of a function at an element of $\F_2^n$.  
+Thus, by puncturing the Reed-Muller code of order $r$, keeping only the elements $x$ such that $f(x) = 1$, one obtains the code of the products of $f$ with functions of degree at most $r$. 
+The dimension of this code equals that of the Reed-Muller code of order $r$ if and only if $f$ does not admit a nonzero annihilator of degree at most $d$.  
+%
+The most efficient algorithm for computing the AI is the iterative method introduced in~\cite{EC:ACGKMR06}. 
+Rather than constructing submatrices of the generator matrix of a Reed-Muller code for successive values of $d$, this algorithm builds them incrementally by adding one row and one column at a time. 
+Using the same theoretical foundation as the initial approach, a rank drop in the constructed matrices indicates the existence of an annihilator. 
+This iterative process improves computational efficiency, and specific operations designed to reduce the cost of updating successive matrices improve the initial time complexity from $\mathcal{O}(\binom{n}{\AI(f)}^\omega)$ (where $\AI(f)$ denotes the AI of $f$) with $\omega = 3$ to a value closer to $2$~\cite{EC:ACGKMR06,C:HawRos04}. 
+
+In this work, we focus on a generalization of algebraic immunity, namely the restricted algebraic immunity, introduced in~\cite{TOSC:CarMeaRot17}.  
+This property considers a subset $S \subset \F_2^n$ and corresponds to the minimal degree of an annihilator $g$ that annihilates $f$ or $f+1$ over the entire set $S$ but is not identically zero on $S$. 
+More formally, it is defined as:
+\[
+\AI_S(f) = \min_g\left(\degg(g) \mid fg = 0 \text{ or } g(f+1) = 0, \text{ and } \exists x \in S \text{ such that } g(x) = 1 \right).
+\]
+In this setting, classical algebraic immunity corresponds to the special case where $S = \F_2^n$.  
+Since neither the Reed-Muller approach nor the iterative method has been fully formalized and described for this generalization, we address this gap by establishing the key properties that ensure the correctness of the adapted algorithms for restricted algebraic immunity. Additionally, we provide corresponding algorithms and code implementations.  
+
+
+%In Section~\ref{sec:RMapproach} we formalize the Reed-Muller approach, and in Section~\ref{sec:IterativeApproach} we handle the iterative method, highlighting the difficult theoretical and practical parts appearing when implementing this technique on restricted sets. 
+%Variants of the algebraic attack such as fast algebraic attacks~\cite{C:Courtois03,FSE:Armknecht04} or attack using monomials of extreme degrees~\cite{eprint:MeaWan24} lead to compute parameters in a similar fashion as the restricted algebraic immunity, accordingly we hope this work to be of help for further works.
+
+In Section~\ref{sec:RMapproach}, we formalize the Reed-Muller approach, and in Section~\ref{sec:IterativeApproach}, we analyze the iterative method, emphasizing the theoretical and practical challenges that arise when applying this technique to restricted sets. 
+Variants of the algebraic attack, such as fast algebraic attacks~\cite{C:Courtois03,FSE:Armknecht04} and attacks leveraging monomials of extreme degrees~\cite{eprint:MeaWan24}, require computing parameters in a manner similar to restricted algebraic immunity. 
+Accordingly, we hope that this work will be useful for further research in these directions.
 
 
 
+%%
 
 
+%Then, we perform some experiments with our algorithms. First we compare the practical efficiency of the two main approaches, in term of timing and memory required. For the comparison we consider the algebraic immunity restricted to a slice of $\F_2^n$, that is, a set $\Ekn{k}{n}$ consisting of all binary vectors of length $n$ and Hamming weight $k$. 
+%These sets, and the functions balanced on all these sets, Weightwise (Almost) Perfectly Balanced (W(A)PB) functions have received noticeable attention since the introduction of the restricted criteria in~\cite{TOSC:CarMeaRot17}. 
+%The slices form a partition appearing frequently in cryptographic works (\eg with the Hamming weight model in side channe analysis, fixed input weight in FLIP~\cite{EC:MJSC16}), the WAPB functions in particular are thoroughly studied. 
+%A line of work considers the construction of such objects~\cite{TOSC:CarMeaRot17,CC:TangLiu19,DCC:LiuMes19	DAM:LiSu20,CC:MesSu21,DAM:ZhuSu22,CEC:MPJDL22,ACI:ManKuLar22,INDO:GinMea22,CC:MSLZ22,DAM:GuoSu22,DAM:ZLCQZ23,AMC:ZhangSu23,Mat:ZJZQ23,ASIACCS:YCL+23,CCDS:GinMea24,AMC:DalMal23,eprint:Meaux24,eprint:DalMalMea24}, while another one studies the relevant cryptographic parameters of such functions: the nonlinearity~\cite{DAM:GinMea22} restricted to the slices, the nonlinearity~\cite{C2SI:GinMea23} and the algebraic immunity~\cite{Latin:GinMea23}.
+%In this article we progress on the algebraic immunity restricted to the slices, called $\AI_k$ on WPB functions, important for contexts when the Hamming weight of the input of a function can be guessed. 
+%In Section~\ref{subsec:AIkWPB} we study the distribution of the $\AI_k$ of the WPB functions in $4$, $8$ and even $16$ variables. 
+%In Section~\ref{subsec:AIkknownFam} we determine the $\AIk{k}$ of several families that have been introduced in previous works.
 
-Algebraic attack~\cite{EC:CouMei03}
 
-better complexity~\cite{EC:ACGKMR06}
+Next, we perform experiments with our algorithms. 
+First, we compare the practical efficiency of the two main approaches in terms of both runtime and memory usage. 
+For this comparison, we consider algebraic immunity restricted to a slice of $\F_2^n$, specifically a set $\Ekn{k}{n}$ consisting of all binary vectors of length $n$ with Hamming weight $k$.  
+These sets, as well as functions that are balanced on all such sets, known as Weightwise (Almost) Perfectly Balanced (W(A)PB) functions, have attracted considerable attention since the introduction of restricted criteria in~\cite{TOSC:CarMeaRot17}.  
+Slices of $\F_2^n$ frequently appear in cryptographic research, notably in contexts such as the Hamming weight model in side-channel analysis and the fixed input weight setting in FLIP~\cite{EC:MJSC16}. 
+In particular, WAPB functions have been extensively studied, with research focusing primarily on two aspects. The first is the construction of such functions, which has been explored in various works~\cite{TOSC:CarMeaRot17,CC:TangLiu19,DCC:LiuMes19,DAM:LiSu20,CC:MesSu21,DAM:ZhuSu22,CEC:MPJDL22,ACI:ManKuLar22,INDO:GinMea22,CC:MSLZ22,DAM:GuoSu22,DAM:ZLCQZ23,AMC:ZhangSu23,Mat:ZJZQ23,ASIACCS:YCL+23,CCDS:GinMea24,AMC:DalMal23,eprint:Meaux24,eprint:DalMalMea24}. The second is the study of their cryptographic properties, including nonlinearity restricted to slices~\cite{DAM:GinMea22}, overall nonlinearity~\cite{C2SI:GinMea23}, and algebraic immunity~\cite{Latin:GinMea23}.  
 
-also algorithm~\cite{FSE:DidTil06}
-
-
+In this work, we further investigate algebraic immunity restricted to slices, denoted as $\AI_k$, particularly in the context of WAPB functions, which are relevant when the Hamming weight of a function’s input can be inferred. In Section~\ref{subsec:AIkWPB}, we analyze the distribution of $\AI_k$ for WPB functions with 4, 8, and even 16 variables. Then, in Section~\ref{subsec:AIkknownFam}, we determine the values of $\AIk{k}$ for several families of functions introduced in previous works.  
 
 
 \section{Preliminaries}\label{sec:prelim}
@@ -412,7 +459,7 @@ We use Krawtchouk polynomials and some of their properties to prove one of our r
 
 
 
-\section{Computing the restricted AI from punctured) generator matrices of Reed-Muller codes}\label{sec:RMapproach}
+\section{Computing the restricted AI from (punctured) generator matrices of Reed-Muller codes}\label{sec:RMapproach}
 
 In this section we provide an algorithm to compute the algebraic immunity of a Boolean function restricted on a general subset $S \subseteq \mathbb{F}_2^n$. 
 
@@ -1271,7 +1318,7 @@ Both implementations of the algorithms used to generate the plot in Figure~\ref{
 \end{itemize}
 
 \FloatBarrier
-\subsection{Determination of $\AIk{k}$ distribution of WPB functions}
+\subsection{Determination of $\AIk{k}$ distribution of WPB functions}\label{subsec:AIkWPB}
 %Similarly to what has been done in~\cite{Latin:GinMea23} for the weightwise non-linearity $NL_k$, we determine the discrete probability distribution of the $\AIk{k}$ of weightwise perfectly balanced Boolean functions, describing the probability of a function $f\in \WPB{m}$ of having a certain algebraic immunity restricted on the slice $\Ekn{k}{n}$. A more formal definition in given Definition~\ref{def:distAIk} below
 
 
@@ -1542,7 +1589,7 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
 \end{table}
 
 \FloatBarrier
-\subsection{Determination of $\AIk{k}$ of known WPB families}
+\subsection{Determination of $\AIk{k}$ of known WPB families}\label{subsec:AIkknownFam}
 In this part, we determine the $\AIk{k}$s of the function introduced in~\cite{Mat:ZJZQ23},~\cite{AMC:DalMal23},~\cite{CC:TangLiu19} and in~\cite{TOSC:CarMeaRot17} for $n=8$ and $16$ variables.
 
 The results are summarized in Table~\ref{table:publiedFunctions}. 
@@ -1563,12 +1610,12 @@ In contrast, the function in~\cite{CC:TangLiu19} achieves an $\AIk{k}$ of $3$ fo
 %	\item[n=16] ~\cite{Mat:ZJZQ23} has a constant $AI_k$ of $2$, $k\in [2,14]$, while ~\cite{AMC:DalMal23} has a $AI_k$ of $3$ for $k=5,7,9$ and $11$.
 %\end{description}
 
-The maximum execution times for~\cite{AMC:DalMal23}, ~\cite{Mat:ZJZQ23},~\cite{CC:TangLiu19} and~\cite{A2C:CarMea19} with $n=8$ occur with $k=4$ and are around $0.014$, $0.029$, $0.011$ and $0.012$ seconds, respectively.\\
+The maximum execution times for~\cite{AMC:DalMal23}, ~\cite{Mat:ZJZQ23},~\cite{CC:TangLiu19} and~\cite{TOSC:CarMeaRot17} with $n=8$ occur with $k=4$ and are around $0.014$, $0.029$, $0.011$ and $0.012$ seconds, respectively.\\
 % LT19 k=8 time = 126.627561
 % ZS k=8 time = 5.898671
 % DM24 k = 9 time = 7.935819
 % CMR k = 8 time = 12.048051
-For $n=16$, the maximum execution times for~\cite{Mat:ZJZQ23},~\cite{CC:TangLiu19} and ~\cite{A2C:CarMea19} occur with $k=8$ and are $5.898671$, $126.627561$ and $12.048051$ seconds respectively. In contrast, for~\cite{AMC:DalMal23}, the maximum execution time occurs for $k=9$ and is $7.935819$ seconds.
+For $n=16$, the maximum execution times for~\cite{Mat:ZJZQ23},~\cite{CC:TangLiu19} and ~\cite{TOSC:CarMeaRot17} occur with $k=8$ and are $5.898671$, $126.627561$ and $12.048051$ seconds respectively. In contrast, for~\cite{AMC:DalMal23}, the maximum execution time occurs for $k=9$ and is $7.935819$ seconds.
 
 \begin{table}[H]
 \center
