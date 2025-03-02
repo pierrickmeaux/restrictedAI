@@ -1667,11 +1667,10 @@ $n$, $k$ & $0$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$ & $1
 \end{table}
 
 
-\pmnote{rephrase}
 
-In Table~\ref{tab:WPB8} we summarize the results on $\AIk{k}$ of WPB functions in $8$ variables obtained from this work and the state of the art. 
-We provide the same table for functions in $16$ variables in Table~\ref{tab:WPB16}. 
-We observe that most of the families studied have lower weightwise AI than a random WPB function, unless the field order construction~\cite{eprint:Meaux24}.
+In Table~\ref{tab:WPB8}, we summarize the results on $\AIk{k}$ for WPB functions with $8$ variables, including both our findings and those from the state of the art.  
+Similarly, Table~\ref{tab:WPB16} presents the corresponding results for functions with $16$ variables.  
+We observe that most of the studied families exhibit lower weightwise algebraic immunity than a randomly chosen WPB function, with the exception of the field order construction~\cite{eprint:Meaux24}.  
 
 
 \begin{table}[H]
@@ -1723,13 +1722,21 @@ We observe that most of the families studied have lower weightwise AI than a ran
 
 %\section{Conclusion and open questions}
 \section{Conclusion}
-\pmnote{to rephrase}
 
-In this article we formalized the main theoretical arguments and provided the algorithms to compute the restricted algebraic immunity over any set $S \subset \F_2^n$, using the Reed-Muller and the iterative approach.
-We compared the complexity of our algorithms in practice, and showed the iterative approach is more performant. Then, we used our results to compute or estimate for the first time the distribution of the $\AI_k$ of WPB functions in $4$, $8$ and $16$ variables. 
-Moreover we determined the $\AI_k$ of various family of WPB functions exhibited in former works, and show that most of them perform worse than a random WPB function relatively to this parameter.
 
-We hope formalizing the theoretical background and providing algorithms and implementations for the computation of the restricted algebraic immunity will be useful for further research and implementation of variants of the algebraic attack. 
+%In this article we formalized the main theoretical arguments and provided the algorithms to compute the restricted algebraic immunity over any set $S \subset \F_2^n$, using the Reed-Muller and the iterative approach.
+%We compared the complexity of our algorithms in practice, and showed the iterative approach is more performant. Then, we used our results to compute or estimate for the first time the distribution of the $\AI_k$ of WPB functions in $4$, $8$ and $16$ variables. 
+%Moreover we determined the $\AI_k$ of various family of WPB functions exhibited in former works, and show that most of them perform worse than a random WPB function relatively to this parameter.
+
+%We hope formalizing the theoretical background and providing algorithms and implementations for the computation of the restricted algebraic immunity will be useful for further research and implementation of variants of the algebraic attack. 
+
+
+In this article, we formalized the main theoretical foundations and provided algorithms for computing restricted algebraic immunity over any set $S \subset \F_2^n$, using both the Reed-Muller and iterative approaches. 
+We compared the practical complexity of these algorithms and showed that the iterative approach is more efficient. 
+Additionally, we applied our methods to compute or estimate, for the first time, the distribution of $\AI_k$ for WPB functions with $4$, $8$, and $16$ variables. 
+Furthermore, we determined the values of $\AI_k$ for various families of WPB functions introduced in previous works and showed that, in most cases, these functions exhibit lower weightwise algebraic immunity than a randomly chosen WPB function.  
+
+By formalizing the theoretical background and providing both algorithms and implementations for computing restricted algebraic immunity, we hope this work will contribute to further research and the practical implementation of algebraic attack variants.  
 
 
 
