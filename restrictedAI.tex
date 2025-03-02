@@ -1398,7 +1398,7 @@ The following procedure is done for each slice $\Ekn{k}{n}$:
 \textbf{Results for $n=8$ and sample size$=2^{15}$}.
 Figure~\ref{fig:probDist32768} represents the $\AIk{k}$ distribution and Figure~\ref{fig:averages32768} the average values.
 We observe that for $n=4$ all WPB functions have the same values of $\AIk{k}$, for every $k$. 
-For $n=8$, there are WPB functions with different restricted $\AIk{k}$, for example with $k=4$ we observe functions reaching the lowest value ($2$, such as families exhibited in~\cite{Latin:GinMea23}) and some reaching $3$ which is optimal for this size.\\
+For $n=8$, there are WPB functions with different restricted $\AIk{k}$, for example with $k=4$ we observe functions reaching the lowest value ($2$, such as families exhibited in~\cite{Latin:GinMea23}) and some reaching $3$ which is optimal for this size.
 \begin{figure}[H]
     \centering
     \begin{minipage}[b]{0.45\textwidth}
@@ -1419,9 +1419,13 @@ For $n=8$, there are WPB functions with different restricted $\AIk{k}$, for exam
 \end{figure}
 
 \noindent
-\pmnote{results for n=16 here also as for 8+ some remarks}\\
+\pmnote{results for n=16 here also as for 8+ some remarks
+
+@ Luca, do you have a table version of Figure 9? I do not manage to identify the curve to give observations.}
+
 \textbf{Results for $n=16$ and sample size$=2^{10}$}.
-Figure~\ref{fig:probDist2014} represents the $\AIk{k}$ distribution and Figure~\ref{fig:averages2014} the average values.\\
+Figure~\ref{fig:probDist2014} represents the $\AIk{k}$ distribution and Figure~\ref{fig:averages2014} the average values.
+We observe that there are WPB functions with different restricted $\AIk{k}$ for this value of $n$, and that for the central values ok $k$, most sampled functions reach the optimal value of $\AIk{k}$.
 
 The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ are $n=16$ are displayed in tables~\ref{table:averagesFullDist},~\ref{table:averages32768} and~\ref{table:averages16VarsSampleSize1024}.
 
@@ -1662,14 +1666,12 @@ $n$, $k$ & $0$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$ & $1
 \end{tabular}
 \end{table}
 
-\pmnote{@Luca, could you update me when you have the estimated averages? 
 
-After, you can complete the table and I will add some observation(We can already see a good behavior of the functions from~\cite{eprint:Meaux24}, but it might only be average)
-
-}
+\pmnote{rephrase}
 
 In Table~\ref{tab:WPB8} we summarize the results on $\AIk{k}$ of WPB functions in $8$ variables obtained from this work and the state of the art. 
-We provide the same table for functions in $16$ variables in Table~\ref{tab:WPB16}.
+We provide the same table for functions in $16$ variables in Table~\ref{tab:WPB16}. 
+We observe that most of the families studied have lower weightwise AI than a random WPB function, unless the field order construction~\cite{eprint:Meaux24}.
 
 
 \begin{table}[H]
@@ -1719,10 +1721,22 @@ We provide the same table for functions in $16$ variables in Table~\ref{tab:WPB1
 	\label{tab:WPB16}
 \end{table}
 
-\section{Conclusion and open questions}
+%\section{Conclusion and open questions}
+\section{Conclusion}
+\pmnote{to rephrase}
 
-%\section{Acknowledgments}
-%Pierrick Méaux was supported by the ERC Advanced Grant no. 787390.
+In this article we formalized the main theoretical arguments and provided the algorithms to compute the restricted algebraic immunity over any set $S \subset \F_2^n$, using the Reed-Muller and the iterative approach.
+We compared the complexity of our algorithms in practice, and showed the iterative approach is more performant. Then, we used our results to compute or estimate for the first time the distribution of the $\AI_k$ of WPB functions in $4$, $8$ and $16$ variables. 
+Moreover we determined the $\AI_k$ of various family of WPB functions exhibited in former works, and show that most of them perform worse than a random WPB function relatively to this parameter.
+
+We hope formalizing the theoretical background and providing algorithms and implementations for the computation of the restricted algebraic immunity will be useful for further research and implementation of variants of the algebraic attack. 
+
+
+
+
+
+\section{Acknowledgments}
+Pierrick Méaux was supported by the ERC Advanced Grant no. 787390.
 
 
 
