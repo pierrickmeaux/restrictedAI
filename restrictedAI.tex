@@ -1326,6 +1326,8 @@ Both implementations of the algorithms used to generate the plot in Figure~\ref{
 \item The computation of $G^{\leq n_{max}}$ for Algorithm~\ref{alg:RMApproach} is performed using the \textit{generator\_matrix} method of the \textit{SageMath} object \textit{BinaryReedMullerCodes}. While this computation could be more efficient if implemented in \textit{Rust}, the current overall implementation still faces scalability issues. Specifically, for $n \geq 16$, the algorithm becomes impractical because $G_{16,16}$ cannot be stored in a native \textit{Python} list or a \textit{SageMath} matrix object. However, if the entire algorithm were implemented in \textit{Rust}, it could potentially be feasible. Consequently, for larger values of $n$, Algorithm~\ref{alg:RMApproach} is not usable, while Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} remains viable.
 \end{itemize}
 
+The source code for the implementation of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt}, along with the probability distributions and the values of $\AIk{k}$ for the published functions, can be found in the \url{https://github.com/LucaBonamino/restricted_algebraic_immunity}.
+
 \FloatBarrier
 \subsection{Determination of $\AIk{k}$ distribution of WPB functions}\label{subsec:AIkWPB}
 %Similarly to what has been done in~\cite{Latin:GinMea23} for the weightwise non-linearity $NL_k$, we determine the discrete probability distribution of the $\AIk{k}$ of weightwise perfectly balanced Boolean functions, describing the probability of a function $f\in \WPB{m}$ of having a certain algebraic immunity restricted on the slice $\Ekn{k}{n}$. A more formal definition in given Definition~\ref{def:distAIk} below
@@ -1632,7 +1634,8 @@ IMO the horizontal view is easier to read and would be easier to avoid blank par
  %           16 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00  \\
  %           \bottomrule
  %       \end{tabular}
- 
+
+ \resizebox{\textwidth}{!}{
  \begin{tabular}{r|rrrrrrrrrrrrrrrrr}
  	\toprule
  	$p(x)$, $k$ & 0  & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9  & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
@@ -1646,11 +1649,74 @@ IMO the horizontal view is easier to read and would be easier to avoid blank par
  	6  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 & 1.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
  	\bottomrule
  \end{tabular}
+ }
  
  
     \end{subtable}
 
 \end{table}
+
+\begin{comment}
+\begin{table}[H]
+    \centering
+    \caption{Transposed Average Execution Time and $\AIk{k}$ for Different Cases}
+    \label{table:transposed_averages}
+
+    \begin{subtable}[t]{0.8\textwidth}
+        \centering
+        \caption{Transposed results for $n=4$, $m=2$}
+        \label{table:transposed_averages_n4}
+        \renewcommand{\arraystretch}{1.2}
+        \begin{tabular}{r|ccccc}
+            \toprule
+            $k$ & 0 & 1 & 2 & 3 & 4 \\
+            \midrule
+            $\mathbb{E}[T(AI_k)]$ & $0.000053$ & $0.052649$ & $0.048703$ & $0.058630$ & $0.000006$ \\
+            $\mathbb{E}[AI_k]$     & $0.00$     & $1.00$     & $1.00$     & $1.00$     & $0.00$ \\
+            \bottomrule
+        \end{tabular}
+    \end{subtable}
+
+    \vspace{1em} % Add space between tables
+
+    \begin{subtable}[t]{0.9\textwidth}
+        \centering
+        \caption{Transposed results for $n=8$, $m=3$, $\mbox{sampleSize}=2^{15}$}
+        \label{table:transposed_averages_n8}
+        \renewcommand{\arraystretch}{1.2}
+        \resizebox{\textwidth}{!}{ % Resize to fit within page width
+        \begin{tabular}{r|ccccccccc}
+            \toprule
+            $k$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
+            \midrule
+            $\mathbb{E}[T(AI_k)]$ & $4.768\!\times\!10^{-6}$ & $0.075641$ & $0.086194$ & $0.094307$ & $0.089607$ & $0.101818$ & $0.092377$ & $0.093818$ & $1.621\!\times\!10^{-5}$ \\
+            $\mathbb{E}[AI_k]$     & $0.00$     & $1.00$     & $1.95$     & $2.02$     & $2.89$     & $2.02$     & $1.95$     & $1.00$     & $0.00$ \\
+            \bottomrule
+        \end{tabular}
+        }
+    \end{subtable}
+
+    \vspace{1em} % Add space between tables
+
+    \begin{subtable}[t]{0.9\textwidth}
+        \centering
+        \caption{Transposed results for $n=16$, $m=4$, $\mbox{sampleSize}=2^{10}$}
+        \label{table:transposed_averages_n16}
+        \renewcommand{\arraystretch}{1.2}
+        \resizebox{\textwidth}{!}{ % Resize to fit within page width
+        \begin{tabular}{r|cccccccccccccccccc}
+            \toprule
+            $k$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
+            \midrule
+            $\mathbb{E}[T(AI_k)]$ & $0.000010$ & $0.334046$ & $0.342011$ & $0.408244$ & $4.011003$ & $91.810299$ & $636.368421$ & $2838.922261$ & $6384.383319$ & $3111.118973$ & $732.501775$ & $118.963582$ & $5.229858$ & $0.426482$ & $0.353760$ & $0.344984$ & $0.000015$ \\
+            $\mathbb{E}[AI_k]$     & $0.00$     & $1.00$     & $2.00$     & $2.98$     & $3.87$     & $4.37$     & $5.00$     & $6.00$     & $6.00$     & $6.00$     & $5.00$     & $4.40$     & $3.87$     & $2.99$     & $2.00$     & $1.00$     & $0.00$ \\
+            \bottomrule
+        \end{tabular}
+        }
+    \end{subtable}
+
+\end{table}
+\end{comment}
 
 \begin{table}[H]
     \centering
@@ -1890,8 +1956,7 @@ Pierrick Méaux was supported by the ERC Advanced Grant no. 787390.
 \fi
 
 %\newpage
-\appendix
-\section{Source code}
-The source code for the implementation of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt}, along with the probability distributions and the values of $\AIk{k}$ for the published functions, can be found in the \url{https://github.com/LucaBonamino/restricted_algebraic_immunity}.
+% \appendix
+
 
 \end{document}
