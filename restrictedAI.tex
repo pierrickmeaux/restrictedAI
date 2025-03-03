@@ -1530,8 +1530,6 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
 \end{comment}
 
 
-\pmnote{@Luca, I transposed the tables to some space. There are some mistakes in the tables, (columns of zeros whereas the sum of the probabilities equals one. Can you correct it, and give a more appropriate title for Table 2?)}
-
 \pmnote{@Luca, could you slightly reduce the margins in Table 2 to have the part c to  not end in the margin? (otherwise, we could drop the .00 precision for k=0,1,15 and 16 where we know the probability without needing to compute.) 
 
 IMO the horizontal view is easier to read and would be easier to avoid blank parts of half a page. If you agree, do the same modification for the 3 tables for the execution time. Moreover, having the same shape of tables in all the article seems better cof coherence. Since in the other tables the elements are centered and there are lines and columns delimiting the table, it is better to do the same on Table 2. }
@@ -1540,7 +1538,7 @@ IMO the horizontal view is easier to read and would be easier to avoid blank par
 
 \begin{table}[H]
     \centering
-    \caption{Probability distribution tables.}
+    \caption{$\AI{k}$ probability distribution of $\WPB{2}$, $\WPB{3}$ and $\WPB{4}$ functions.}
     \label{table:probability_distributions}
     
     \begin{subtable}[t]{0.4\textwidth}
@@ -1595,11 +1593,11 @@ IMO the horizontal view is easier to read and would be easier to avoid blank par
 	\toprule
 	$p(x)$, $k$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
 	\midrule
-	0 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
-	1 & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
-	2 & 0.00 & 0.00 & 1.00 & 0.02 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
-	3 & 0.00 & 0.00 & 0.00 & 0.98 & 0.13 & 0.00 & 0.00 & 0.00 & 0.00 \\
-	4 & 0.00 & 0.00 & 0.00 & 0.00 & 0.87 & 0.63 & 0.00 & 0.00 & 0.00 \\
+	0 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 \\
+	1 & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.05 & 1.00 & 0.00 \\
+	2 & 0.00 & 0.00 & 1.00 & 0.98 & 0.00 & 0.98 & 0.95 & 0.00 & 0.00 \\
+	3 & 0.00 & 0.00 & 0.00 & 0.02 & 0.13 & 0.02 & 0.00 & 0.00 & 0.00 \\
+	4 & 0.00 & 0.00 & 0.00 & 0.00 & 0.87 & 0.00 & 0.00 & 0.00 & 0.00 \\
 	\bottomrule
 \end{tabular}    
     \end{subtable}
@@ -1639,7 +1637,7 @@ IMO the horizontal view is easier to read and would be easier to avoid blank par
  	\toprule
  	$p(x)$, $k$ & 0  & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9  & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
  	\midrule
- 	0  & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 & 0.00 & 1.00 \\
+ 	0  & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 \\
  	1  & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 & 0.00 \\
  	2  & 0.00 & 0.00 & 1.00 & 0.02 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.01 & 1.00 & 0.00 & 0.00 \\
  	3  & 0.00 & 0.00 & 0.00 & 0.98 & 0.13 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.13 & 0.99 & 0.00 & 0.00 & 0.00 \\
