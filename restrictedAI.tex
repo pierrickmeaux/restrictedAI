@@ -116,7 +116,7 @@ Using the same theoretical foundation as the initial approach, a rank drop in th
 This iterative process improves computational efficiency, and specific operations designed to reduce the cost of updating successive matrices improve the initial time complexity from $\mathcal{O}(\binom{n}{\AI(f)}^\omega)$ (where $\AI(f)$ denotes the AI of $f$) with $\omega = 3$ to a value closer to $2$~\cite{EC:ACGKMR06,C:HawRos04}. 
 
 In this work, we focus on a generalization of algebraic immunity, namely the restricted algebraic immunity, introduced in~\cite{TOSC:CarMeaRot17}.  
-This property considers a subset $S \subset \F_2^n$ and corresponds to the minimal degree of an annihilator $g$ that annihilates $f$ or $f+1$ over the entire set $S$ but is not identically zero on $S$. 
+This property considers a subset $S \subseteq \F_2^n$ and corresponds to the minimal degree of an annihilator $g$ that annihilates $f$ or $f+1$ over the entire set $S$ but is not identically zero on $S$. 
 More formally, it is defined as:
 \[
 \AI_S(f) = \min_g\left(\degg(g) \mid fg = 0 \text{ or } g(f+1) = 0, \text{ and } \exists x \in S \text{ such that } g(x) = 1 \right).
@@ -1532,12 +1532,6 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
 \end{comment}
 
 
-\pmnote{@Luca, could you slightly reduce the margins in Table 2 to have the part c to  not end in the margin? (otherwise, we could drop the .00 precision for k=0,1,15 and 16 where we know the probability without needing to compute.) 
-
-IMO the horizontal view is easier to read and would be easier to avoid blank parts of half a page. If you agree, do the same modification for the 3 tables for the execution time. Moreover, having the same shape of tables in all the article seems better cof coherence. Since in the other tables the elements are centered and there are lines and columns delimiting the table, it is better to do the same on Table 2. }
-
-
-
 \begin{table}[H]
     \centering
     \caption{$\AI{k}$ probability distribution of $\WPB{2}$, $\WPB{3}$ and $\WPB{4}$ functions.}
@@ -1656,16 +1650,15 @@ IMO the horizontal view is easier to read and would be easier to avoid blank par
 
 \end{table}
 
-\begin{comment}
 \begin{table}[H]
     \centering
-    \caption{Transposed Average Execution Time and $\AIk{k}$ for Different Cases}
+    \caption{Averages execution times and $\AI{k}$ of $\WPB{2}$, $\WPB{3}$ and $\WPB{4}$ functions.}
     \label{table:transposed_averages}
 
     \begin{subtable}[t]{0.8\textwidth}
         \centering
-        \caption{Transposed results for $n=4$, $m=2$}
-        \label{table:transposed_averages_n4}
+        \caption{Average execution time and $\AIk{k}$ for $n=4$, $m=2$}
+        \label{table:averagesFullDist}
         \renewcommand{\arraystretch}{1.2}
         \begin{tabular}{r|ccccc}
             \toprule
@@ -1681,15 +1674,15 @@ IMO the horizontal view is easier to read and would be easier to avoid blank par
 
     \begin{subtable}[t]{0.9\textwidth}
         \centering
-        \caption{Transposed results for $n=8$, $m=3$, $\mbox{sampleSize}=2^{15}$}
-        \label{table:transposed_averages_n8}
+        \caption{Average execution time and $\AIk{k}$ for $n=8$, $m=3$ and $\mbox{sampleSize}=2^{15}$}
+        \label{table:averages32768}
         \renewcommand{\arraystretch}{1.2}
         \resizebox{\textwidth}{!}{ % Resize to fit within page width
         \begin{tabular}{r|ccccccccc}
             \toprule
             $k$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
             \midrule
-            $\mathbb{E}[T(AI_k)]$ & $4.768\!\times\!10^{-6}$ & $0.075641$ & $0.086194$ & $0.094307$ & $0.089607$ & $0.101818$ & $0.092377$ & $0.093818$ & $1.621\!\times\!10^{-5}$ \\
+            $\mathbb{E}[T(AI_k)]$ & $4.768\!\times\!10^{-6}$ & $0.0756$ & $0.086$ & $0.094$ & $0.090$ & $0.102$ & $0.0924$ & $0.093818$ & $1.621\!\times\!10^{-5}$ \\
             $\mathbb{E}[AI_k]$     & $0.00$     & $1.00$     & $1.95$     & $2.02$     & $2.89$     & $2.02$     & $1.95$     & $1.00$     & $0.00$ \\
             \bottomrule
         \end{tabular}
@@ -1698,26 +1691,25 @@ IMO the horizontal view is easier to read and would be easier to avoid blank par
 
     \vspace{1em} % Add space between tables
 
-    \begin{subtable}[t]{0.9\textwidth}
+    \begin{subtable}[t]{1.1\textwidth}
         \centering
-        \caption{Transposed results for $n=16$, $m=4$, $\mbox{sampleSize}=2^{10}$}
-        \label{table:transposed_averages_n16}
+        \caption{Average execution time and $\AIk{k}$ for $n=16$, $m=4$ and $\mbox{sampleSize}=2^{10}$}
+        \label{table:averages16VarsSampleSize1024}
         \renewcommand{\arraystretch}{1.2}
         \resizebox{\textwidth}{!}{ % Resize to fit within page width
         \begin{tabular}{r|cccccccccccccccccc}
             \toprule
             $k$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
             \midrule
-            $\mathbb{E}[T(AI_k)]$ & $0.000010$ & $0.334046$ & $0.342011$ & $0.408244$ & $4.011003$ & $91.810299$ & $636.368421$ & $2838.922261$ & $6384.383319$ & $3111.118973$ & $732.501775$ & $118.963582$ & $5.229858$ & $0.426482$ & $0.353760$ & $0.344984$ & $0.000015$ \\
+            $\mathbb{E}[T(AI_k)]$ & $0.10 * 10^{-4}$ & $0.334$ & $0.342$ & $0.41$ & $4.01$ & $91.81$ & $636.37$ & $2838.92$ & $6384.38$ & $3111.12$ & $732.50$ & $118.96$ & $5.23$ & $0.43$ & $0.35$ & $0.35$ & $0.15*10^{-4}$ \\
             $\mathbb{E}[AI_k]$     & $0.00$     & $1.00$     & $2.00$     & $2.98$     & $3.87$     & $4.37$     & $5.00$     & $6.00$     & $6.00$     & $6.00$     & $5.00$     & $4.40$     & $3.87$     & $2.99$     & $2.00$     & $1.00$     & $0.00$ \\
             \bottomrule
         \end{tabular}
         }
     \end{subtable}
-
 \end{table}
-\end{comment}
 
+\begin{comment}
 \begin{table}[H]
     \centering
 \begin{minipage}{0.45\textwidth}
@@ -1789,6 +1781,7 @@ IMO the horizontal view is easier to read and would be easier to avoid blank par
         \label{table:averages16VarsSampleSize1024}
     \end{minipage}
 \end{table}
+\end{comment}
 
 \FloatBarrier
 \subsection{Determination of $\AIk{k}$ of known WPB families}\label{subsec:AIkknownFam}
@@ -1922,7 +1915,7 @@ We observe that most of the studied families exhibit lower weightwise algebraic 
 %We hope formalizing the theoretical background and providing algorithms and implementations for the computation of the restricted algebraic immunity will be useful for further research and implementation of variants of the algebraic attack. 
 
 
-In this article, we formalized the main theoretical foundations and provided algorithms for computing restricted algebraic immunity over any set $S \subset \F_2^n$, using both the Reed-Muller and iterative approaches. 
+In this article, we formalized the main theoretical foundations and provided algorithms for computing restricted algebraic immunity over any set $S \subseteq \F_2^n$, using both the Reed-Muller and iterative approaches. 
 We compared the practical complexity of these algorithms and showed that the iterative approach is more efficient. 
 Additionally, we applied our methods to compute or estimate, for the first time, the distribution of $\AI_k$ for WPB functions with $4$, $8$, and $16$ variables. 
 Furthermore, we determined the values of $\AI_k$ for various families of WPB functions introduced in previous works and showed that, in most cases, these functions exhibit lower weightwise algebraic immunity than a randomly chosen WPB function.  
