@@ -1419,17 +1419,17 @@ For $n=8$, there are WPB functions with different restricted $\AIk{k}$, for exam
     \label{fig:main2}
 \end{figure}
 
-\noindent
-\pmnote{results for n=16 here also as for 8+ some remarks
+%\noindent
+%\pmnote{results for n=16 here also as for 8+ some remarks
 
-@ Luca, do you have a table version of Figure 9? I do not manage to identify the curve to give observations.}\\
-\lbnote{Tables added in Table~\ref{table:probability_distributions}.}
+%@ Luca, do you have a table version of Figure 9? I do not manage to identify the curve to give observations.}\\
+%\lbnote{Tables added in Table~\ref{table:probability_distributions}.}
 
 \textbf{Results for $n=16$ and sample size$=2^{10}$}.
 Figure~\ref{fig:probDist2014} represents the $\AIk{k}$ distribution, Table~\ref{table:probabilityDistributionn16} shows the corresponding values and Figure~\ref{fig:averages2014} the average values.
-We observe that there are WPB functions with different restricted $\AIk{k}$ for this value of $n$, and that for the central values ok $k$, most sampled functions reach the optimal value of $\AIk{k}$.
+We observe that there are WPB functions with different restricted $\AIk{k}$ for this value of $n$, and that for the central values ok $k$, all functions we sampled reach the optimal value of $\AIk{k}$.
 
-The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ are $n=16$ are displayed in tables~\ref{table:averagesFullDist},~\ref{table:averages32768} and~\ref{table:averages16VarsSampleSize1024}.
+The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ are $n=16$ are displayed in Tables~\ref{table:averagesFullDist},~\ref{table:averages32768} and~\ref{table:averages16VarsSampleSize1024}.
 
 %is already enough variability in the corpus of WPB functions to observe 
 
@@ -1529,81 +1529,127 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
 \end{table}
 \end{comment}
 
+
+\pmnote{@Luca, I transposed the tables to some space. There are some mistakes in the tables, (columns of zeros whereas the sum of the probabilities equals one. Can you correct it, and give a more appropriate title for Table 2?)}
+
+\pmnote{@Luca, could you slightly reduce the margins in Table 2 to have the part c to  not end in the margin? (otherwise, we could drop the .00 precision for k=0,1,15 and 16 where we know the probability without needing to compute.) 
+
+IMO the horizontal view is easier to read and would be easier to avoid blank parts of half a page. If you agree, do the same modification for the 3 tables for the execution time. Moreover, having the same shape of tables in all the article seems better cof coherence. Since in the other tables the elements are centered and there are lines and columns delimiting the table, it is better to do the same on Table 2. }
+
+
+
 \begin{table}[H]
     \centering
     \caption{Probability distribution tables.}
     \label{table:probability_distributions}
     
-    \begin{subtable}[t]{0.45\textwidth}
+    \begin{subtable}[t]{0.4\textwidth}
         \centering
         \caption{Probability distribution $p_{\AIk{k}}$ for $n=4$, $m=2$.}
         \label{table:probabilityDistributionn4}
         \renewcommand{\arraystretch}{1.2} % Improve readability
-        \begin{tabular}{r|rrr}
-            \toprule
-            $k$, $p(x)$ & 0 & 1 & 2 \\
-            \midrule
-            0  & 1.00 & 0.00 & 0.00 \\
-            1  & 0.00 & 1.00 & 0.00 \\
-            2  & 0.00 & 0.00 & 1.00 \\
-            3  & 0.00 & 0.00 & 0.02 \\
-            4  & 0.00 & 0.00 & 0.00 \\
-            \bottomrule
-        \end{tabular}
+     %   \begin{tabular}{r|rrr}
+      %      \toprule
+       %     $k$, $p(x)$ & 0 & 1 & 2 \\
+        %    \midrule
+         %   0  & 1.00 & 0.00 & 0.00 \\
+          %  1  & 0.00 & 1.00 & 0.00 \\
+           % 2  & 0.00 & 0.00 & 1.00 \\
+            %3  & 0.00 & 0.00 & 0.02 \\
+            %4  & 0.00 & 0.00 & 0.00 \\
+            %\bottomrule
+       % \end{tabular}
+    \begin{tabular}{r|rrrrr}
+    	\toprule
+    	$p(x)$, $k$ & 0 & 1 & 2 & 3 & 4 \\
+    	\midrule
+    	0 & 1.00 & 0.00 & 0.00 & 0.00 & 1.00 \\
+    	1 & 0.00 & 1.00 & 0.00 & 1.00 & 0.00 \\
+    	2 & 0.00 & 0.00 & 1.00 & 0.00 & 0.00 \\
+    	\bottomrule
+    \end{tabular}
     \end{subtable}%
     \hfill
-    \begin{subtable}[t]{0.45\textwidth}
+    \begin{subtable}[t]{0.55\textwidth}
         \centering
         \caption{Probability distribution $p_{\Omega, \AIk{k}}$ for $n=8$, $m=3$, $\Omega = 2^{15}$.}
         \label{table:probabilityDistributionn8}
         \renewcommand{\arraystretch}{1.2}
-        \begin{tabular}{r|rrrrr}
-            \toprule
-            $k$, $p(x)$ & 0 & 1 & 2 & 3 & 4 \\
-            \midrule
-            0  & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
-            1  & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 \\
-            2  & 0.00 & 0.00 & 1.00 & 0.00 & 0.00 \\
-            3  & 0.00 & 0.00 & 0.02 & 0.98 & 0.00 \\
-            4  & 0.00 & 0.00 & 0.00 & 0.13 & 0.87 \\
-            5  & 0.00 & 0.00 & 0.00 & 0.00 & 0.63 \\
-            6  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
-            7  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
-            8  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
-            \bottomrule
-        \end{tabular}
+%        \begin{tabular}{r|rrrrr}
+%            \toprule
+%            $k$, $p(x)$ & 0 & 1 & 2 & 3 & 4 \\
+%            \midrule
+%            0  & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
+%            1  & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 \\
+%            2  & 0.00 & 0.00 & 1.00 & 0.00 & 0.00 \\
+%            3  & 0.00 & 0.00 & 0.02 & 0.98 & 0.00 \\
+%            4  & 0.00 & 0.00 & 0.00 & 0.13 & 0.87 \\
+%            5  & 0.00 & 0.00 & 0.00 & 0.00 & 0.63 \\
+%            6  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
+%            7  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
+%            8  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
+%            \bottomrule
+%        \end{tabular}
+    
+\begin{tabular}{r|rrrrrrrrr}
+	\toprule
+	$p(x)$, $k$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
+	\midrule
+	0 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
+	1 & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
+	2 & 0.00 & 0.00 & 1.00 & 0.02 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
+	3 & 0.00 & 0.00 & 0.00 & 0.98 & 0.13 & 0.00 & 0.00 & 0.00 & 0.00 \\
+	4 & 0.00 & 0.00 & 0.00 & 0.00 & 0.87 & 0.63 & 0.00 & 0.00 & 0.00 \\
+	\bottomrule
+\end{tabular}    
     \end{subtable}
 
     \vspace{1em} % Add some space between rows of tables
 
-    \begin{subtable}[t]{0.9\textwidth}
+    \begin{subtable}[t]{1\textwidth}
         \centering
         \caption{Probability distribution $p_{\Omega, \AIk{k}}$ for $n=16$, $m=4$, $\Omega = 2^{10}$.}
         \label{table:probabilityDistributionn16}
         \renewcommand{\arraystretch}{1.2}
-        \begin{tabular}{r|rrrrrrrrr}
-            \toprule
-            $k$, $p(x)$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
-            \midrule
-            0  & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
-            1  & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
-            2  & 0.00 & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
-            3  & 0.00 & 0.00 & 0.02 & 0.98 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
-            4  & 0.00 & 0.00 & 0.00 & 0.13 & 0.87 & 0.00 & 0.00 & 0.00 & 0.00 \\
-            5  & 0.00 & 0.00 & 0.00 & 0.00 & 0.63 & 0.37 & 0.00 & 0.00 & 0.00 \\
-            6  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 \\
-            7  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 & 0.00 & 0.00 \\
-            8  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 & 0.00 & 0.00 \\
-            9  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 & 0.00 & 0.00 \\
-            10 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 \\
-            11 & 0.00 & 0.00 & 0.00 & 0.00 & 0.60 & 0.40 & 0.00 & 0.00 & 0.00 \\
-            12 & 0.00 & 0.00 & 0.00 & 0.13 & 0.87 & 0.00 & 0.00 & 0.00 & 0.00 \\
-            13 & 0.00 & 0.00 & 0.01 & 0.99 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
-            14 & 0.00 & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
-            15 & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
-            16 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
-            \bottomrule
-        \end{tabular}
+ %       \begin{tabular}{r|rrrrrrr}
+ %           \toprule
+ %           $k$, $p(x)$ & 0 & 1 & 2 & 3 & 4 & 5 & 6  \\
+ %           \midrule
+ %           0  & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00  \\
+ %           1  & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00  \\
+ %           2  & 0.00 & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00  \\
+ %           3  & 0.00 & 0.00 & 0.02 & 0.98 & 0.00 & 0.00 & 0.00 \\
+ %           4  & 0.00 & 0.00 & 0.00 & 0.13 & 0.87 & 0.00 & 0.00 \\
+ %           5  & 0.00 & 0.00 & 0.00 & 0.00 & 0.63 & 0.37 & 0.00 \\
+ %           6  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 & 0.00  \\
+ %           7  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00  \\
+ %           8  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00  \\
+ %           9  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00  \\
+ %           10 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 & 0.00  \\
+ %           11 & 0.00 & 0.00 & 0.00 & 0.00 & 0.60 & 0.40 & 0.00  \\
+ %           12 & 0.00 & 0.00 & 0.00 & 0.13 & 0.87 & 0.00 & 0.00  \\
+ %           13 & 0.00 & 0.00 & 0.01 & 0.99 & 0.00 & 0.00 & 0.00  \\
+ %           14 & 0.00 & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00  \\
+ %           15 & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00  \\
+ %           16 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00  \\
+ %           \bottomrule
+ %       \end{tabular}
+ 
+ \begin{tabular}{r|rrrrrrrrrrrrrrrrr}
+ 	\toprule
+ 	$p(x)$, $k$ & 0  & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9  & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
+ 	\midrule
+ 	0  & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 & 0.00 & 1.00 \\
+ 	1  & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 & 0.00 \\
+ 	2  & 0.00 & 0.00 & 1.00 & 0.02 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.01 & 1.00 & 0.00 & 0.00 \\
+ 	3  & 0.00 & 0.00 & 0.00 & 0.98 & 0.13 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.13 & 0.99 & 0.00 & 0.00 & 0.00 \\
+ 	4  & 0.00 & 0.00 & 0.00 & 0.00 & 0.87 & 0.63 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.60 & 0.87 & 0.00 & 0.00 & 0.00 & 0.00 \\
+ 	5  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.37 & 1.00 & 0.00 & 0.00 & 0.00 & 1.00 & 0.40 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
+ 	6  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 & 1.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
+ 	\bottomrule
+ \end{tabular}
+ 
+ 
     \end{subtable}
 
 \end{table}
@@ -1848,6 +1894,6 @@ Pierrick Méaux was supported by the ERC Advanced Grant no. 787390.
 %\newpage
 \appendix
 \section{Source code}
-The source code for the implementation of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt}, along with the probability distributions and the values of $\AIk{k}$ for the published function, can be found in the \url{https://github.com/LucaBonamino/restricted_algebraic_immunity}.
+The source code for the implementation of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt}, along with the probability distributions and the values of $\AIk{k}$ for the published functions, can be found in the \url{https://github.com/LucaBonamino/restricted_algebraic_immunity}.
 
 \end{document}
