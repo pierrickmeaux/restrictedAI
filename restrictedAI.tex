@@ -470,7 +470,7 @@ We use Krawtchouk polynomials and some of their properties to prove one of our r
 
 \section{Computing the restricted AI from (punctured) generator matrices of Reed-Muller codes}\label{sec:RMapproach}
 
-In this section we provide an algorithm to compute the algebraic immunity of a Boolean function restricted on a general subset $S \subseteq \mathbb{F}_2^n$. 
+In this section we provide an algorithm to compute the algebraic immunity of a Boolean function restricted on a general subset $S \subset \mathbb{F}_2^n$. 
 
 %%The idea behind the algorithm is to construct the systems of equations for $S_1^r \hat{=}g_1^r*f_S (x)= \hat{0}$ and $S_2^r\hat{=}g_2^r (f\oplus 1)_S (x) = \hat{0}$ for $x$ being in $\mathbb{F}_2^n$ and $g_1^r$ and $g_2^r$ being two Boolean functions of an algebraic degree $r$.
 %The idea behind the algorithm is to check if the systems of equations $S_1^r \hat{=}g_1^r*f_S (x)= \hat{0}$ or $S_2^r\hat{=}g_2^r (f\oplus 1)_S (x) = \hat{0}$ admit a non null solution, for $x$ in $\F_2^n$ and $g_1^r$ and $g_2^r$ two Boolean functions of algebraic degree at most $r$. The check is done by checking if the rank of the punctured RM matrices is smaller than expected.
@@ -497,7 +497,7 @@ Conversely, if \( f \) is constant on \( S \), the algorithm terminates and retu
 	Similarly, if for all $x\in S$ $f(x) = 1$, the same argument can be used for the function $f+ 1$ on $S$.
 	
 	Then, we show the direct implication.
-	We suppose that a function $g\in \BN$ is an $S$-non-zero-annihilator of $f$ of degree $0$. Then,
+	We suppose that a function $g\in \BN$ is a non-zero-annihilator of $f$ restricted to $S$ of degree $0$. Then,
 	$g \neq 0$ and $\deg(g) = 0 \Rightarrow g = 1$, therefore since $g$ annihilates $f$ in $S$,  $g(x) f(x) = 0$ for all $x \in S$, resulting in $f(x)g(x) = f(x) = 0$.
 	Similarly, if $g$ annihilates $f+ 1$ on $S$ instead of $f$, we have that $g(x)(f(x) + 1) = 0$ implying that $f+ 1 = 0 \Rightarrow f(x) = 1$ for all $x\in S$. 
 %	\underline{Direct implication $\Rightarrow$}\\
@@ -543,14 +543,14 @@ Let $r,n\in\N^*$ with $r\leq n$. Let $G_{r,n}$ be the generator matrix of the Re
 
 \begin{proposition}\label{prop:compareranks}
 	Let $Z = \supp\left(f^{(o)}\right) \cap S$.
-	If $\text{rank}\left(G^{f_{Z}^{(o)},S}_{r.n}\right) < \text{rank}(G^{S}_{r.n})$, then $f^{(o)}$ admits a $S$-non-zero-annihilator of degree at most $r$.
+	If $\text{rank}\left(G^{f_{Z}^{(o)},S}_{r.n}\right) < \text{rank}(G^{S}_{r.n})$, then $f^{(o)}$ admits a non-zero-annihilator restricted to $S$ of degree at most $r$.
 \end{proposition}
 \begin{proof}
 	Since $D_r^n = \text{rank}(G^{f^{(o)}_S,S}_{r.n}) + |\text{Ker}(G^{f^{(o)}_S,S}_{r.n})| =  \text{rank}(G^{S}_{r.n}) + |\text{Ker}(G^{S}_{r.n})|$, we have that
 	$\text{rank}(G^{f_S^{(o)},S}_{r.n}) < \text{rank}(G^{S}_{r.n}) \iff |\text{Ker}(G^{f_S^{(o)},S}_{r.n})| > |\text{Ker}(G^{S}_{r.n})|$. 
 	Therefore $\exists v\in \text{Ker}(G^{f_S^{(o)},S}_{r.n}) \mbox{ such that }v\not\in \text{Ker}(G^{S}_{r.n})$. 
 	Hence, it exists a Boolean function $g$ of degree $r$, given by $v \cdot G_{r,n}$, which is such that $v \cdot G_{r,n}\neq 0$ and $v \cdot G_{r,n}^{S}\neq 0$, but $(g \cdot f_S^{(o)})_S = v \cdot G_{r,n}^{f_S^{(o)},S} = 0$.\\
-	Since $\text{rank}\left(G_{r,n}^{f_S^{(o)}, S}\right) = \text{rank}\left(G_{r,n}^{f^{(o)}, S}\right)$, $\text{rank}(G^{f^{(o)},S}_{r.n}) < \text{rank}(G^{S}_{r.n}) \Rightarrow \text{rank}(G^{f_Z^{(o)},S}_{r.n}) < \text{rank}(G^{S}_{r.n})$ and hence the condition $\text{rank}(G^{f_Z^{(o)},S}_{r.n}) < \text{rank}(G^{S}_{r.n})$ is enough to justify the existence of such $v$ giving the $S$-non-zero-annihilator $g$.
+	Since $\text{rank}\left(G_{r,n}^{f_S^{(o)}, S}\right) = \text{rank}\left(G_{r,n}^{f^{(o)}, S}\right)$, $\text{rank}(G^{f^{(o)},S}_{r.n}) < \text{rank}(G^{S}_{r.n}) \Rightarrow \text{rank}(G^{f_Z^{(o)},S}_{r.n}) < \text{rank}(G^{S}_{r.n})$ and hence the condition $\text{rank}(G^{f_Z^{(o)},S}_{r.n}) < \text{rank}(G^{S}_{r.n})$ is enough to justify the existence of such $v$ giving the non-zero-annihilator $g$ of $f^{o}$ restricted to $S$.
 \end{proof}
 
 Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the restricted algebraic immunity of a function $f$ of $n$ variables on the subset $S$. We give additional details:
@@ -558,7 +558,7 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 \begin{remark}~\label{rem:remarksOnAlg}
 %	We have the following remarks
 	\begin{enumerate}
-		\item ~\cite{TOSC:CarMeaRot17} established that the upper bound of $AI_s(f)$ for any Boolean function $f$ and any set $S\subseteq \mathbb{F}_2^n$, is the smallest integer $r$ such that $\left(G_{r,n}^n\right) > |S| / 2$. As a consequence, the search of the annihilator for $f$ and $f+ 1$ in our algorithm terminates once $rank\left(G_{r,n}^S\right) > \lfloor{|S| / 2}\rfloor$.\label{item:Item1RemOnAlg}
+		\item ~\cite{TOSC:CarMeaRot17} established that the upper bound of $AI_s(f)$ for any Boolean function $f$ and any set $S\subset \mathbb{F}_2^n$, is the smallest integer $r$ such that $\left(G_{r,n}^n\right) > |S| / 2$. As a consequence, the search of the annihilator for $f$ and $f+ 1$ in our algorithm terminates once $rank\left(G_{r,n}^S\right) > \lfloor{|S| / 2}\rfloor$.\label{item:Item1RemOnAlg}
 		\item The generator matrix of a Reed-Muller code does not depend on the Boolean function. It is therefore possible to pre-compute and store the generator matrices of all Reed-Muller codes with $r$ and $n$ smaller than some maximum values $r_{max}$ and $n_{max}$.
 		This suggests that we can pre-compute $G_{r_{max}, n_{max}}$ for some fixed $n_{max}$ and $r_{max = n_{max}}$, and extract all others $G_{r,n}$ for $r \leq r_{max}$ and $n \leq n_{max}$ from it.
 		We therefore pre-compute the hash table
@@ -580,7 +580,7 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 %	\caption{Algorithm to find the algebraic immunity of a function $f$ on the restricted set $S\subseteq \mathbb{F}_2^n$.}
 	\caption{Algebraic immunity of $f$ restricted to the set $S$, Reed-Muller method. \label{alg:RMApproach}}
 	\begin{algorithmic}[1]
-		\Require $x\in \mathbb{F}_2^{2^n}$ evaluation of the truth table of $f\in \Bn{n}$ and the restricted set $S\subseteq \mathbb{F}_2^n$.
+		\Require $x\in \mathbb{F}_2^{2^n}$ evaluation of the truth table of $f\in \Bn{n}$ and the restricted set $S\subset \mathbb{F}_2^n$.
 		\Ensure $\AI_S(f)$
 		
 		\Function{find\_deg\_smallest\_S\_annihilator}{$G_{n,n}^{f_Z^{(o)},S}, G_{d,n}^{S}, D^n$}
@@ -648,7 +648,7 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 %We start with definitions and remarks to be able to introduce the general idea of the algorithm.
 
 
-In this section, we present an algorithm (Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative}) to determine the algebraic immunity restricted to a set $S \subseteq \mathbb{F}_2^n$ with improved time and space complexity compared to the method presented in Section~\ref{sec:RMapproach}. 
+In this section, we present an algorithm (Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative}) to determine the algebraic immunity restricted to a set $S \subset \mathbb{F}_2^n$ with improved time and space complexity compared to the method presented in Section~\ref{sec:RMapproach}. 
 
 The core idea is to iteratively construct the objects $G_{r,n}^{f_{supp\left(f\right) \cap S},S}$ and $G_{r,n}^{\left(f+ 1\right)_{supp\left(f+ 1\right) \cap S},S}$ for varying $r$, increasing the size of the matrix by one row per iteration while minimizing computations. 
 This approach checks for the existence of annihilators dynamically, rather than extracting them from a large, pre-computed Reed-Muller generator matrix restricted to $S$. The method extends the approach of~\cite{EC:ACGKMR06} for determining the standard algebraic immunity.
@@ -689,7 +689,7 @@ We begin with definitions and remarks necessary to introduce the general idea of
     %        \vdots & \vdots & \ddots & \vdots \\
     %        z_{1}^{\alpha_i} & z_{2}^{\alpha_i} & \cdots & z_{j}^{\alpha_i}
     %    \end{pmatrix}
-    Similarly, we define the matrices $S_{E,S}$ and $S_{E_i, S_j}$ as the T-Vandermonde sub-matrices corresponding to the elements of the set $S\subseteq \mathbb{F}_2^n$.
+    Similarly, we define the matrices $S_{E,S}$ and $S_{E_i, S_j}$ as the T-Vandermonde sub-matrices corresponding to the elements of the set $S\subset \mathbb{F}_2^n$.
 \end{definition}
 
 \begin{remark}\label{rem:subsetOfReedMuller}
@@ -1124,15 +1124,15 @@ As a consequence of Remark~\ref{rem:historyOfOperations}, it can be seen that wh
 
 Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} shows the procedure to calculate the degree of the minimal degree non-zero-annihilator 
 %with degree $\geq 1$ 
-restricted to $S\subseteq \mathbb{F}_2^n$ of a function $f^{(o)} \in \{f, f+ 1\}$, while Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} shows the full procedure to determine the restricted algebraic immunity of $f$ in $S$, calling Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} for $f$ and $f+ 1$ in parallel.
+restricted to $S\subset \mathbb{F}_2^n$ of a function $f^{(o)} \in \{f, f+ 1\}$, while Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} shows the full procedure to determine the restricted algebraic immunity of $f$ in $S$, calling Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} for $f$ and $f+ 1$ in parallel.
 
 Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} which triggers the same process as Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative}, but applies it sequentially to $f$ and $f + 1$, to avoid waiting for both processes to complete simultaneously. This function is triggered only when $\supp(f) \cap S$ and $\supp(f + 1) \cap S$ differ significantly in cardinality, as in such cases, the probability of one of the two processes terminating quickly is high.
 
 \begin{algorithm}
-	\caption{Algorithm to find the degree of the minimum-degree $S$-non-zero-annihilator of a function $f^{(o)}$.}\label{alg:MinDegreeSnonZeroAnnihilatorIterative}
+	\caption{Algorithm to find the degree of the minimum-degree non-zero-annihilator restricted on $S$ of a function $f^{(o)}$.}\label{alg:MinDegreeSnonZeroAnnihilatorIterative}
 	\begin{algorithmic}[1]
-		\Require restricted set $S\subseteq \mathbb{F}_2^n$, $Z = supp\left(f^{(o)}\right) \cap S$ and $E = \{\alpha_1, \cdots, \alpha_{D_n^n}\}$
-		\Ensure Degree of minimal degree $S$-non-zero-annihilator of $f^{(o)}$.
+		\Require restricted set $S\subset \mathbb{F}_2^n$, $Z = supp\left(f^{(o)}\right) \cap S$ and $E = \{\alpha_1, \cdots, \alpha_{D_n^n}\}$
+		\Ensure Degree of minimal degree non-zero-annihilator restricted on $S$ of $f^{(o)}$.
 		\State $V\gets (1)$;
 		\State $ops \gets [\ ]$;
 		\State $k \gets 2$;
@@ -1192,10 +1192,10 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 		s_{1}^{\alpha_k} &  s_{2}^{\alpha_k} & \cdots & s_{|S|}^{\alpha_{k}}\\
 		\end{pmatrix}\right)$;
 		\State $r \gets rank(S)$;
-		\If{$tank(V)<r$ }
+		\If{$rank(V)<r$ }
 		\State \Return $w_H\left(\alpha_k\right)$;
 		\EndIf
-		\State $r_V \gets rabk(V)$;
+		\State $r_V \gets rank(V)$;
 		\State $fullRank \gets False$;
 		\While{$r\leq \lfloor|S| / 2\rfloor$}
 		\If{$fullRank = False$ and $r_v != k$}
@@ -1243,7 +1243,7 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 \begin{algorithm}[H]
     \caption{Algorithm to compute the algebraic immunity of a function $f\in \Bn{n}$ restricted to $S$ \label{alg:fullAlg3ForAIRestrictesSetOpt}}
     \begin{algorithmic}[1]
-        \Require $x\in \mathbb{F}_2^{2^n}$ evaluation of the truth table of $f\in \Bn{n}$ and the restricted set $S\subseteq \mathbb{F}_2^n$.
+        \Require $x\in \mathbb{F}_2^{2^n}$ evaluation of the truth table of $f\in \Bn{n}$ and the restricted set $S\subset \mathbb{F}_2^n$.
 		\Ensure $\AI_S(f)$
         \State
 
@@ -1266,8 +1266,8 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
         \State
 
         \State $E_{D_n^n} \leftarrow \mbox{\textsc{construct\_monomials}}(n=n, d=n)$\footnotemark;
-        \State $r\gets \frac{|Z|}{|Z_c|}$ \textbf{if} $|Z| \geq |Z_c|$ \textbf{else} $\frac{|Z_c|}{|Z|}$;
-        \If{$r < ratio$}
+        \State $r\gets \frac{|Z|}{|Z_c|}$ \textbf{if} $|Z| < |Z_c|$ \textbf{else} $\frac{|Z_c|}{|Z|}$;
+        \If{$r \geq ratio$}
             \State $immunity_f, immunity_{f+1} \leftarrow ($\\
 		$\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(Z=Z, E=E_{D_n^n}, S=S)$\\
 		$\ |\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(Z=Z_c, E=E_{D_n^n}, S=S)$\\
@@ -1279,8 +1279,8 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
     \end{algorithmic}
 \end{algorithm}
 
-\footnotetext[7]{The implementation of the function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} is similar to the function \textsc{find\_deg\_smallest\_S\_annihilator} described in Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} with the difference that the degree of the minimal degree restricted non-zero annihilator of $f$ or of $f+ 1$ is found sequentially instead of in parallel.}
-\footnotetext[8]{\textsc{construct\_monomials} generates all monomials up to the gree $d$ with $n$ variables. $E_{D_n^n}$ may also be pre-computed and the function \textsc{construct\_monomials} removed from the algorithm.}
+\footnotetext[7]{\textsc{construct\_monomials} generates all monomials up to the gree $d$ with $n$ variables. $E_{D_n^n}$ may also be pre-computed and the function \textsc{construct\_monomials} removed from the algorithm.}
+\footnotetext[8]{The implementation of the function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} is similar to the function \textsc{find\_deg\_smallest\_S\_annihilator} described in Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} with the difference that the degree of the minimal degree restricted non-zero annihilator of $f$ or of $f+ 1$ is found sequentially instead of in parallel.}
 
 \section{Experiments and applications to W(A)PB functions}
 In this section, we apply the algorithms to the weightwise perfectly balanced (WPB) Boolean functions with the intent to study their algebraic immunity restricted to subsets of constant Hamming weight. In particular, we determine the probability distributions of the $\AIk{k}$ of WPB functions and we compute the $\AIk{k}$ of some WPB Boolean functions already studied.
@@ -1357,8 +1357,7 @@ Therefore, we have to take a different approach for $m > 2$ by generating a cert
 
 \subsubsection{Determination of the full distribution for \texorpdfstring{m=2}{m=2}}
 For $m=2 \Rightarrow n = 4$, it is possible to determine the full probability distribution from Definition~\ref{def:distAIk} without using the random sampling strategy. 
-The resulting plots can be found on Figure~\ref{fig:dullDist} and Figure~\ref{fig:averagesFullDist}. 
-%and the corresponding data in Table \ref{table:averagesFullDist} and Table \ref{table:probFullDist}.
+The resulting plots can be found on Figure~\ref{fig:dullDist} and Figure~\ref{fig:averagesFullDist} while the corresponding probability distribution table is presented in Table~\ref{table:probabilityDistributionn4}. 
 
 \begin{figure}[ht]
     \centering
@@ -1818,7 +1817,7 @@ We compared the practical complexity of these algorithms and showed that the ite
 Additionally, we applied our methods to compute or estimate, for the first time, the distribution of $\AI_k$ for WPB functions with $4$, $8$, and $16$ variables. 
 Furthermore, we determined the values of $\AI_k$ for various families of WPB functions introduced in previous works and showed that, in most cases, these functions exhibit lower weightwise algebraic immunity than a randomly chosen WPB function.  
 
-By formalizing the theoretical background and providing both algorithms and implementations for computing restricted algebraic immunity, we hope this work will contribute to further research and the practical implementation of algebraic attack variants.  
+By formalizing the theoretical background and providing both algorithms and implementations for computing restricted algebraic immunity, we hope this work will contribute to further research and the practical implementation of algebraic attack variants. 
 
 
 
