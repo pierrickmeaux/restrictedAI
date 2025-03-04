@@ -1283,7 +1283,8 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 \footnotetext[8]{The implementation of the function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} is similar to the function \textsc{find\_deg\_smallest\_S\_annihilator} described in Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} with the difference that the degree of the minimal degree restricted non-zero annihilator of $f$ or of $f+ 1$ is found sequentially instead of in parallel.}
 
 \section{Experiments and applications to W(A)PB functions}
-In this section, we apply the algorithms to the weightwise perfectly balanced (WPB) Boolean functions with the intent to study their algebraic immunity restricted to subsets of constant Hamming weight. In particular, we determine the probability distributions of the $\AIk{k}$ of WPB functions and we compute the $\AIk{k}$ of some WPB Boolean functions already studied.
+In this section, we apply the algorithms to the weightwise perfectly balanced (WPB) Boolean functions with the intent to study their algebraic immunity restricted to subsets of constant Hamming weight. In particular, we determine the probability distributions of the $\AIk{k}$ of WPB functions and we compute the $\AIk{k}$ of some WPB Boolean functions already studied. 
+The source code for the implementation of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt}, along with the probability distributions and the values of $\AIk{k}$ for the published functions, can be found in the \url{https://github.com/LucaBonamino/restricted_algebraic_immunity}.
 
 \subsection{Comparison between Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} on WAPB functions}
 
@@ -1326,7 +1327,6 @@ Both implementations of the algorithms used to generate the plot in Figure~\ref{
 \item The computation of $G^{\leq n_{max}}$ for Algorithm~\ref{alg:RMApproach} is performed using the \textit{generator\_matrix} method of the \textit{SageMath} object \textit{BinaryReedMullerCodes}. While this computation could be more efficient if implemented in \textit{Rust}, the current overall implementation still faces scalability issues. Specifically, for $n \geq 16$, the algorithm becomes impractical because $G_{16,16}$ cannot be stored in a native \textit{Python} list or a \textit{SageMath} matrix object. However, if the entire algorithm were implemented in \textit{Rust}, it could potentially be feasible. Consequently, for larger values of $n$, Algorithm~\ref{alg:RMApproach} is not usable, while Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} remains viable.
 \end{itemize}
 
-The source code for the implementation of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt}, along with the probability distributions and the values of $\AIk{k}$ for the published functions, can be found in the \url{https://github.com/LucaBonamino/restricted_algebraic_immunity}.
 
 \FloatBarrier
 \subsection{Determination of $\AIk{k}$ distribution of WPB functions}\label{subsec:AIkWPB}
@@ -1534,7 +1534,7 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
 
 \begin{table}[H]
     \centering
-    \caption{$\AI{k}$ probability distribution of $\WPB{2}$, $\WPB{3}$ and $\WPB{4}$ functions.}
+    \caption{$\AIk{k}$ probability distribution of $\WPB{2}$, $\WPB{3}$ and $\WPB{4}$.}
     \label{table:probability_distributions}
     
     \begin{subtable}[t]{0.4\textwidth}
