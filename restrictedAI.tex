@@ -602,24 +602,17 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 		\EndWhile
 		\EndFunction
 		\State
-		
-		\If{\textsc{is\_constant}$(x)$}
-		\Return $0$
+
+        \State $Z = supp(x)\cap S$;
+        \State $Z_c = supp(x+1) \cap S$;
+		\If{$Z = \emptyset$ of $Z_c = \emptyset$}
+		\Return $0$;
 		\EndIf
+        \State
 		\State $m_{max}, D^{\leq n_{max}}\gets \mbox{\textsc{read\_values\_from\_file}}()$;
 		\State $G_{n,n}\gets m_{max}[n]$;
 		\State $D^n \gets D^{\leq n_{max}}[n]$;
-		\State $G_{rows,n}^{f_Z,S}, G_{rows,n}^{(f+ 1)_Z,S}, G_{n,n}^S \gets [\ ], [\ ], [\ ]$;
-		\For {$i \gets 0$ to $2^n-1$ }
-		\If{$i\in S$}
-		\State $G_{rows,n}^{S} \gets G_{rows,n}^{S}\ ||\ G_{n,n}[:][i]$;
-		\If{$x[i] = 1$}
-		\State $G_{rows,n}^{f_S,S} \gets G_{rows,n}^{f_S,S}\ ||\ G_{n,n}[:][i]$;
-		\Else
-		\State $G_{rows,n}^{(f+ 1)_S,S} \gets G_{rows,n}^{(f+ 1)_S,S} || G_{n,n}[:][i]$;
-		\EndIf
-		\EndIf
-		\EndFor
+        \State $G_{rows,n}^{f_Z,S}, G_{rows,n}^{(f+ 1)_Z,S}, G_{n,n}^S \gets \textsc{construct\_restricted\_generator\_matrices}(G_{n,n},x,S)$\footnotemark\;
 		\State $immunity_f, immunity_{f+1} \leftarrow ($\\
 		$\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(G_{rows,n}^{f_Z,S}, G_{n,n}^S,D^{n})$\\
 		$\ |\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(G_{rows,n}^{(f+ 1)_Z,S}, G_{n,n}^S, D^{n})$\\
@@ -629,7 +622,8 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 \end{algorithm}
 
 \footnotetext[1]{The symbol $||$ is used as row-concatenation of matrices, meaning that $C = A||B$ is the matrix constructed by appending all the row of the matrix $B$ to the matrix $A$.}
-\footnotetext[2]{The function \textsc{min} takes care of $null$ values $\mbox{\textsc{min}}(immunity_f, null) = immunity_f$ and $\mbox{\textsc{min}}(null, immunity_{f+1}) = immunity_{f+1}$.}
+\footnotetext[2]{\textsc{construct\_restricted\_generator\_matrices} is a function extracting $G_{n,n}^{f_{supp(f)\cap S},S}$, $G_{n,n}^{f_{supp(f+1)\cap S},S}$ and $G_{n,n}^{S}$ from the full Reed-Muller code generator matrix $G_{n,n}$ following Definition \ref{def:generatorsS}.}
+\footnotetext[3]{The function \textsc{min} takes care of $null$ values $\mbox{\textsc{min}}(immunity_f, null) = immunity_f$ and $\mbox{\textsc{min}}(null, immunity_{f+1}) = immunity_{f+1}$.}
 
 
 
@@ -1196,16 +1190,14 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 		\State \Return $w_H\left(\alpha_k\right)$;
 		\EndIf
 		\State $r_V \gets rank(V)$;
-		\State $fullRank \gets False$;
 		\While{$r\leq \lfloor|S| / 2\rfloor$}
-		\If{$fullRank = False$ and $r_v != k$}
+		\If{$r_V < k$}
 		\State $\left(v_1, \cdots, v_{k-1}\right) \gets \mbox{\textsc{apply\_operations}}\left(\left(z_1^{\alpha_k}, \cdots, z_{k-1}^{\alpha_k}\right), ops\right)$ 
 		\State $V \gets \begin{pmatrix}
 			\multicolumn{5}{c}{\multirow{1}{*}{$V$}} \\
 			v_1 & v_2 & \cdots & v_{k-1} & z_{k}^{\alpha_k}
 		\end{pmatrix}$;
 		\State $r_V \gets rank(V)$;
-		\State $fullRank \gets True$;
 		\EndIf
 		\State $\left(v_1, \cdots, v_{k-1}\right) \gets \mbox{\textsc{apply\_operations}}\left(\left(s_1^{\alpha_k}, \cdots, s_{k-1}^{\alpha_k}\right), ops_S\right)$;
 		\State $S \gets \begin{pmatrix}
@@ -1235,10 +1227,10 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
     \end{align*}
 \end{remark}
 
-\footnotetext[3]{\textsc{apply\_operations} is a function taking a vector and the list of column operations described by $P_{k-1}$ in Remark~\ref{rem:historyOfOperations}}
-\footnotetext[4]{The implementation of \textsc{EF\_last\_col} is different from the implementation of \textsc{EF}, as it uses the fact that it only needs to column-echelon the last row and column added instead of the full matrix. }
-\footnotetext[5]{\textsc{vanished\_on} is a function taking as input the vector of the $ANF$ coefficient of a Boolean function $g \in \Bn{n}$ and a point $z$ on which to evaluate the corresponding Boolean function $g$. If $g$ vanishes in $z$, it returns $True$ otherwise it returns $False$. }
-\footnotetext[6]{See Remark~\ref{rem:permutationClarification}}
+\footnotetext[4]{\textsc{apply\_operations} is a function taking a vector and the list of column operations described by $P_{k-1}$ in Remark~\ref{rem:historyOfOperations}}
+\footnotetext[5]{The implementation of \textsc{EF\_last\_col} is different from the implementation of \textsc{EF}, as it uses the fact that it only needs to column-echelon the last row and column added instead of the full matrix. }
+\footnotetext[6]{\textsc{vanished\_on} is a function taking as input the vector of the $ANF$ coefficient of a Boolean function $g \in \Bn{n}$ and a point $z$ on which to evaluate the corresponding Boolean function $g$. If $g$ vanishes in $z$, it returns $True$ otherwise it returns $False$. }
+\footnotetext[7]{See Remark~\ref{rem:permutationClarification}}
 
 \begin{algorithm}[H]
     \caption{Algorithm to compute the algebraic immunity of a function $f\in \Bn{n}$ restricted to $S$ \label{alg:fullAlg3ForAIRestrictesSetOpt}}
@@ -1246,21 +1238,9 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
         \Require $x\in \mathbb{F}_2^{2^n}$ evaluation of the truth table of $f\in \Bn{n}$ and the restricted set $S\subseteq \mathbb{F}_2^n$.
 		\Ensure $\AI_S(f)$
         \State
-
-        \State $Z \leftarrow []$;
-        \State $Z_c \leftarrow []$;
-        \For{$k \leftarrow 0$ \textbf{to} $2^n-1$}{
-            \If{$k \not\in S$}
-                \State \textbf{continue}\;
-            \EndIf
-            \If{$x[k] = 1$}
-                \State $Z \gets Z || \left(x[k]\right)_2$;
-            \Else
-                \State $Z_c \gets Z_c || \left(x[k]\right)_2$;
-            \EndIf
-        }
-        \EndFor
-        \If {$Z = [\ ]$ or $Z_c = [\ ]$}
+        \State $Z \gets supp(x)\cap S$;
+        \State $Z_c \gets supp(x+1) \cap S$;
+        \If {$Z = \emptyset$ or $Z_c = \emptyset$}
             \State \Return $0$;
         \EndIf
         \State
@@ -1279,8 +1259,8 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
     \end{algorithmic}
 \end{algorithm}
 
-\footnotetext[7]{\textsc{construct\_monomials} generates all monomials up to the degree $d$ with $n$ variables. $E_{D_n^n}$ may also be pre-computed and the function \textsc{construct\_monomials} removed from the algorithm.}
-\footnotetext[8]{The implementation of the function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} is similar to the function \textsc{find\_deg\_smallest\_S\_annihilator} described in Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} with the difference that the degree of the minimal-degree non-zero annihilator of $f$ or of $f+ 1$ restricted on $S$, is found sequentially instead of in parallel.}
+\footnotetext[8]{\textsc{construct\_monomials} generates all monomials up to the degree $d$ with $n$ variables. $E_{D_n^n}$ may also be pre-computed and the function \textsc{construct\_monomials} removed from the algorithm.}
+\footnotetext[9]{The implementation of the function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} is similar to the function \textsc{find\_deg\_smallest\_S\_annihilator} described in Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} with the difference that the degree of the minimal-degree non-zero annihilator of $f$ or of $f+ 1$ restricted on $S$, is found sequentially instead of in parallel.}
 
 \section{Experiments and applications to W(A)PB functions}
 In this section, we apply the algorithms to the weightwise perfectly balanced (WPB) Boolean functions with the intent to study their algebraic immunity restricted to subsets of constant Hamming weight. In particular, we determine the probability distributions of the $\AIk{k}$ of WPB functions and we compute the $\AIk{k}$ of some WPB Boolean functions already studied. 
@@ -1433,7 +1413,7 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
 
 %is already enough variability in the corpus of WPB functions to observe 
 
-\footnotetext[9]{Step $2$ may be executed in parallel on the $\omega_i^{(k)}$s.}
+\footnotetext[10]{Step $2$ may be executed in parallel on the $\omega_i^{(k)}$s.}
 
 %\pmnote{add some comment on the results in 4 and 8 variables.}
 \begin{figure}[H]
