@@ -612,10 +612,10 @@ Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the res
 		\State $m_{max}, D^{\leq n_{max}}\gets \mbox{\textsc{read\_values\_from\_file}}()$;
 		\State $G_{n,n}\gets m_{max}[n]$;
 		\State $D^n \gets D^{\leq n_{max}}[n]$;
-        \State $G_{rows,n}^{f_Z,S}, G_{rows,n}^{(f+ 1)_Z,S}, G_{n,n}^S \gets \textsc{construct\_restricted\_generator\_matrices}(G_{n,n},x,S)$\footnotemark\;
+        \State $G_{n,n}^{f_Z,S}, G_{n,n}^{(f+ 1)_Z,S}, G_{n,n}^S \gets \textsc{construct\_restricted\_generator\_matrices}(G_{n,n},x,S)$\footnotemark\;
 		\State $immunity_f, immunity_{f+1} \leftarrow ($\\
-		$\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(G_{rows,n}^{f_Z,S}, G_{n,n}^S,D^{n})$\\
-		$\ |\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(G_{rows,n}^{(f+ 1)_Z,S}, G_{n,n}^S, D^{n})$\\
+		$\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(G_{n,n}^{f_Z,S}, G_{n,n}^S,D^{n})$\\
+		$\ |\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(G_{n,n}^{(f+ 1)_Z,S}, G_{n,n}^S, D^{n})$\\
 		$)$;
 		\State \Return $\mbox{\textsc{min}}(immunity_f, immunity_{f+1})$\footnotemark;
 	\end{algorithmic}
