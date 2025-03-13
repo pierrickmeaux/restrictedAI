@@ -718,77 +718,6 @@ Propositions~\ref{prop:swappingElementOfZToReduceKer}, ~\ref{prop:upperBoundOnRi
     \text{dim}\left(\text{ker}\left(V_k\right)\right) \leq 1, \quad \forall k \in [1, |Z|].
     \]
 \end{proposition}
-\begin{proof}
-    We prove the result by induction:
-    \begin{itemize}
-        \item Base case. The initial matrix $V_1 = (1)$ has full rank, so $\text{dim}( \text{ker}(V_1)) = 0 \leq 1$.
-        \item Induction step. We suppose that $\text{dim}( \text{ker}(V_k))\le 1$. We show that $\text{dim}( \text{ker}(V_{k+1}))\le 1$.
-        \begin{itemize}
-            \item If $\text{dim}( \text{ker}(V_k))= 0$, adding a new row and column to form $V_{k+1}$ can increase the kernel by at most $1$. Hence, $\text{dim}( \text{ker}(V_{k+1}))\le 1$.
-            \item %If $\text{dim}( \text{ker}(V_k))= 1$, 
-            %let $\hat{x} = \left(\hat{\epsilon}, 0 \right)$ where $\hat{\epsilon}$ is in $\text{ker}(V_k)$.            
-            If $\text{dim}( \text{ker}(V_k))= 1$, let $\hat{z}$ be an element of $\text{ker}\left(V_{k+1}\right)$. 
-            Then either:
-            \begin{itemize}
-            	\item  \( \hat{z} = (\hat{\epsilon}, 0) \):  
-\[
-\hat{z} \cdot V_{k+1} = 0 \implies \hat{\epsilon} \cdot V_k = 0 \implies \hat{\epsilon} \in \text{ker}(V_k).
-\]
-By Proposition~\ref{prop:swappingElementOfZToReduceKer}, \( \hat{\epsilon} \) can only be a trivial solution.
-
-\item \( \hat{z} = (\hat{y}, 1) \), where \( \hat{y} \in \mathbb{F}_2^k \):          
-In this case $\hat{z} \cdot V_{k+1} = 0$ implies:
-\begin{equation}\label{Eq:eq1}
- \hat{y}  \cdot V_{k} + (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}}) = 0 \iff \hat{y} \cdot V_{k} = (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}}),
-\end{equation}
-and 
-\begin{equation}\label{Eq:eq2}
-\hat{y} \cdot (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T + z_{k+1}^{\alpha_{k+1}} = 0 \iff \hat{y} \cdot (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T = z_{k+1}^{\alpha_{k+1}}.
-\end{equation}	
-%\[
-%\hat{z} \cdot V_{k+1} = 0 \implies 
-%\begin{aligned}
-%& \text{Eq1: } \hat{y} \cdot V_k = (z_1^{\alpha_{k+1}}, \dots, z_k^{\alpha_{k+1}}), \\
-%& \text{Eq2: } (z_{k+1}^{\alpha_1}, \dots, z_{k+1}^{\alpha_k})^T \hat{y} = z_{k+1}^{\alpha_{k+1}}.\\
-%\end{aligned}
-%\]    
-%               \begin{align*}
-%Eq1: & \hat{y}  \cdot V_{k} + (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}}) = 0 \iff \hat{y} \cdot V_{k} = (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}})\\
-% Eq2: & (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} + z_{k+1}^{\alpha_{k+1}} = 0 \iff (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} = z_{k+1}^{\alpha_{k+1}} 
-%                \end{align*}
-        \end{itemize}
-            
-%            , we have that either $\hat{z} = (\hat{\epsilon}, 0)$ or $z = (\hat{y}, 1)$ with $\hat{y}$ being an element of $\mathbb{F}_2^{k}$.\\
-%            \begin{itemize}
-%                \item if $\hat{z} = (\hat{\epsilon}, 0)$ we have that
-%                \begin{align*}
-%                     \hat{z} = (\hat{\epsilon}, 0) \implies \hat{z}  \cdot V_{k+1} = 0 \implies \hat{\epsilon}\cdot V_{k} = 0 \implies \epsilon \in ker(V_k)
-%                \end{align*}
-%                However, from Proposition \ref{prop:swappingElementOfZToReduceKer}, this is only possible if $\hat{\epsilon}$ is a trivial solution.
-%                \item if $\hat{z} = (\hat{y}, 1)$ with $\hat{y} \in \mathbb{F}_2^k$, we have that $\hat{z} \cdot V_{k+1} = 0$, hence
-%                \begin{align*}
-%                        Eq1: & \hat{y}  \cdot V_{k} + (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}}) = 0 \iff \hat{y} \cdot V_{k} = (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}})\\
-%                        Eq2: & (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} + z_{k+1}^{\alpha_{k+1}} = 0 \iff (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T \hat{y} = z_{k+1}^{\alpha_{k+1}} 
-%                \end{align*}
-
-
-Since $\text{dim}(\text{ker}(V_k)) = 1$, $\text{rank}(V_k) = k-1$. Hence, there exists at most one particular solution $\hat{y}_p$ for Equation~\ref{Eq:eq1}. 
-If \( \hat{y}_p \) also solves Equation~\ref{Eq:eq2}, then \( \hat{y}_p \) is in \( \ker(V_{k+1}) \).
- 
-\end{itemize}
-Since $(\hat{\epsilon}, 0)$  cannot be in \( \text{ker}(V_{k+1}) \), the only possible element in \( \text{ker}(V_{k+1}) \) is \( \hat{y}_p \), if it exists. Therefore, \( \text{dim}(\text{ker}(V_{k+1})) \leq 1 \).
-        \end{itemize}
-
-
-
-
-
-
-
-
-
-\end{proof}
-
 
 \begin{remark}
     Notice that the definition of $V^{'}_{k+1}$ in Proposition~\ref{prop:swappingElementOfZToReduceKer}, does not conflict with Definition~\ref{def:inductiveConstructionOfV}, as constructing the sequence $(V_{k})_k$ does not require a specific order of the elements in the support $Z$.   
@@ -818,18 +747,6 @@ Since $(\hat{\epsilon}, 0)$  cannot be in \( \text{ker}(V_{k+1}) \), the only po
     \end{align*}
 
 \end{proposition}
-\begin{proof}
-
-    Proposition~\ref{prop:swappingElementOfZToReduceKer} ensures that the kernel of $V_{E^{*}_{k+1}, Z_{k}}$ does not contain elements derived from the kernel of $V_{ E_{k-1}, Z_{k-1}}$. 
-    Therefore, $V_{E_{k-1}, Z_{k-1}}$ can be treated as a full-rank matrix.
-    Modifying the last row of a matrix that contains a full-rank sub-matrix does not increase the size of the kernel. This is because the first $k$ entries of the elements in the kernel of $V_{E_k, Z_k }$ and $V_{E^{*}_{k+1}, Z_k}$ are the same, with the only difference arising from the last row. 
-    Since this row is the only one that can introduce linear dependence, the dimension of the kernel of $V_{ E^{*}_{k+1}, Z_k}$ is bounded by $1$.
-\end{proof}
-
-
-
-
-
 
 
 \subsection{Using column echelon form matrices of the previous steps}\label{subsubsection:optEchelonForm}
@@ -925,6 +842,22 @@ restricted to $S\subseteq \mathbb{F}_2^n$ of a function $f^{(o)} \in \{f, f+ 1\}
 
 Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} which triggers the same process as Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative}, but applies it sequentially to $f$ and $f + 1$, to avoid waiting for both processes to complete simultaneously. This function is triggered only when $\supp(f) \cap S$ and $\supp(f + 1) \cap S$ differ significantly in cardinality, as in such cases, the probability of one of the two processes terminating quickly is high.
 
+\begin{remark}\label{rem:permutationClarification}
+    To keep the pseudocode in line with the theory, the elements in the vector or sets are often parsed by name instead of by index, namely let $Z = (z_1, z_2, \cdots, z_k)$ we consider that $Z[i-1] = z_i$.\\
+    Therefore, we have to clarify our notation in the case in which two vector elements get swapped. In the case of Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative}, we consider that the swap generates a new vector with the name of the variables adapted with their index position in the vector to keep satisfying the condition $Z[i-1] = z_{i}$. Meaning that 
+    \begin{align*}
+        \mbox{\textsc{swap}}(z_i, z_j) \rightarrow (z_{\sigma(1)}, \cdots, z_{\sigma(i)}, \cdots, z_{\sigma(j)}, \cdots, z_{\sigma(k)}) = Z^{'} = (z^{'}_1, \cdots, z^{'}_i, \cdots, z^{'}_j, \cdots, z^{'}_k)
+    \end{align*}
+    where $\sigma$ is a permutation describing the swap:
+    \begin{align*}
+        \sigma = \begin{pmatrix}
+            1 & \cdots & i & \cdots & j & \cdots k\\
+            1 & \cdots & j & \cdots & i & \cdots k\\
+        \end{pmatrix}.
+    \end{align*}
+\end{remark}
+
+
 \section{Experiments and applications to W(A)PB functions}
 In this section, we apply the algorithms to the weightwise perfectly balanced (WPB) Boolean functions with the intent to study their algebraic immunity restricted to subsets of constant Hamming weight. In particular, we determine the probability distributions of the $\AIk{k}$ of WPB functions and we compute the $\AIk{k}$ of some WPB Boolean functions already studied. 
 The source code for the implementation of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt}, along with the probability distributions and the values of $\AIk{k}$ for the published functions, can be found in the \url{https://github.com/LucaBonamino/restricted_algebraic_immunity}.
@@ -963,24 +896,6 @@ Therefore, we have to take a different approach for $m > 2$ by generating a cert
 For $m=2 \Rightarrow n = 4$, it is possible to determine the full probability distribution from Definition~\ref{def:distAIk} without using the random sampling strategy. 
 The resulting plots can be found on Figure~\ref{fig:dullDist} and Figure~\ref{fig:averagesFullDist} while the corresponding probability distribution table is presented in Table~\ref{table:probabilityDistributionn4}. 
 
-\begin{figure}[ht]
-    \centering
-    \begin{minipage}[b]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/WPB_2_sample_size_full_dist.png}
-        \caption{Mean of $\AIk{k}$ over $\WPB{2}$.}
-        \label{fig:averagesFullDist}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.5\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/WPB_2_sample_size_full_dist_prob.png}
-        \caption{Probability distribution of $\AIk{k}$  over $\WPB{2}$.}
-        \label{fig:probFullDist}
-    \end{minipage}
-    \caption{Mean of $\AIk{k}$ and probability distribution of $\AIk{k}$ from Definition~\ref{def:distAIk} of $4$-variable WPB functions.}
-    \label{fig:dullDist}
-\end{figure}
 
 \subsubsection{Random Sampling}
 In practice, random sampling is performed by generating a set $\Omega_k = \{\omega_1^{(k)}, \cdots, \omega_{|\Omega|}^{(k)}\}$ consisting of $|\Omega|$ random balanced sub-truth tables for each slice $\Ekn{k}{n}$. 
@@ -1004,24 +919,7 @@ The following procedure is done for each slice $\Ekn{k}{n}$:
 Figure~\ref{fig:probDist32768} represents the $\AIk{k}$ distribution, Table~\ref{table:probabilityDistributionn8} shows the corresponding values, and Figure~\ref{fig:averages32768} the average values.
 We observe that for $n=4$ all WPB functions have the same values of $\AIk{k}$, for every $k$. 
 However, for $n=8$, there are WPB functions with different restricted $\AIk{k}$, for example with $k=4$ we observe functions reaching the lowest value ($2$, such as families exhibited in~\cite{Latin:GinMea23}) and some reaching $3$ which is optimal for this size.
-\begin{figure}[H]
-    \centering
-    \begin{minipage}[b]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/WPB_3_sample_size_32768_average_a.png}
-        \caption{Estimated average of $\AIk{k}$ over $\WPB{3}$.}
-        \label{fig:averages32768}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.5\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/WPB_3_sample_size_32768_dist_prob_a.png}
-        \caption{Estimated Probability distribution of $\AIk{k}$ over $\WPB{3}$.}
-        \label{fig:probDist32768}
-    \end{minipage}
-    \caption{Estimated average of $\AIk{k}$ and probability distribution of $\AIk{k}$ over $8$-variable WPB functions, with $2^{15}$ samples.}
-    \label{fig:main2}
-\end{figure}
+
 
 %\noindent
 %\pmnote{results for n=16 here also as for 8+ some remarks
@@ -1040,25 +938,80 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
 \footnotetext[1]{Step $2$ may be executed in parallel on the $\omega_i^{(k)}$s.}
 
 %\pmnote{add some comment on the results in 4 and 8 variables.}
-\begin{figure}[H]
-    \centering
-    \begin{minipage}[b]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/WPB_4_sample_size_1024_average_a.png}
-        \caption{Estimated average of $\AIk{k}$ over $\WPB{4}$.}
-        \label{fig:averages2014}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.5\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/WPB_4_sample_size_1024_dist_prob_a.png}
-        \caption{Estimated Probability distribution of $\AIk{k}$ over $\WPB{4}$.}
-        \label{fig:probDist2014}
-    \end{minipage}
-    \caption{Estimated average of $\AIk{k}$ and probability distribution of $\AIk{k}$ over $8$-variable WPB functions, with $2^{10}$ samples.}
-    \label{fig:main2014}
-\end{figure}
 
+
+\begin{table}[H]
+    \centering
+    \caption{$\AIk{k}$ probability distribution of $\WPB{2}$, $\WPB{3}$ and $\WPB{4}$.}
+    \label{table:probability_distributions}
+    
+    \begin{subtable}[t]{0.4\textwidth}
+        \centering
+        \caption{Probability distribution $p_{\AIk{k}}$ for $n=4$, $m=2$.}
+        \label{table:probabilityDistributionn4}
+        \renewcommand{\arraystretch}{1.2} % Improve readability
+    \renewcommand{\tabcolsep}{2pt}	
+    \begin{tabular}{r|rrrrr}
+    	\toprule
+    	$p(x)$, $k$ & 0 & 1 & 2 & 3 & 4 \\
+    	\midrule
+    	0 & 1.00 & 0.00 & 0.00 & 0.00 & 1.00 \\
+    	1 & 0.00 & 1.00 & 0.00 & 1.00 & 0.00 \\
+    	2 & 0.00 & 0.00 & 1.00 & 0.00 & 0.00 \\
+    	\bottomrule
+    \end{tabular}
+    \end{subtable}%
+    \hfill
+    \begin{subtable}[t]{0.55\textwidth}
+        \centering
+        \caption{Probability distribution $p_{\Omega, \AIk{k}}$ for $n=8$, $m=3$, $\Omega = 2^{15}$.}
+        \label{table:probabilityDistributionn8}
+        \renewcommand{\arraystretch}{1.2}
+
+\renewcommand{\tabcolsep}{2pt}	
+\begin{tabular}{r|rrrrrrrrr}
+	\toprule
+	$p(x)$, $k$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
+	\midrule
+	0 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 \\
+	1 & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.05 & 1.00 & 0.00 \\
+	2 & 0.00 & 0.00 & 1.00 & 0.98 & 0.00 & 0.98 & 0.95 & 0.00 & 0.00 \\
+	3 & 0.00 & 0.00 & 0.00 & 0.02 & 0.13 & 0.02 & 0.00 & 0.00 & 0.00 \\
+	4 & 0.00 & 0.00 & 0.00 & 0.00 & 0.87 & 0.00 & 0.00 & 0.00 & 0.00 \\
+	\bottomrule
+\end{tabular}    
+    \end{subtable}
+
+    \vspace{1em} % Add some space between rows of tables
+
+    \begin{subtable}[t]{1\textwidth}
+        \centering
+        \caption{Probability distribution $p_{\Omega, \AIk{k}}$ for $n=16$, $m=4$, $\Omega = 2^{10}$.}
+        \label{table:probabilityDistributionn16}
+        \renewcommand{\arraystretch}{1.2}
+
+
+ \resizebox{\textwidth}{!}{
+ \renewcommand{\tabcolsep}{2pt}	
+ \begin{tabular}{r|rrrrrrrrrrrrrrrrr}
+ 	\toprule
+ 	$p(x)$, $k$ & 0  & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9  & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
+ 	\midrule
+ 	0  & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 \\
+ 	1  & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 & 0.00 \\
+ 	2  & 0.00 & 0.00 & 1.00 & 0.02 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.01 & 1.00 & 0.00 & 0.00 \\
+ 	3  & 0.00 & 0.00 & 0.00 & 0.98 & 0.13 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.13 & 0.99 & 0.00 & 0.00 & 0.00 \\
+ 	4  & 0.00 & 0.00 & 0.00 & 0.00 & 0.87 & 0.63 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.60 & 0.87 & 0.00 & 0.00 & 0.00 & 0.00 \\
+ 	5  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.37 & 1.00 & 0.00 & 0.00 & 0.00 & 1.00 & 0.40 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
+ 	6  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 & 1.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
+ 	\bottomrule
+ \end{tabular}
+ }
+ 
+ 
+    \end{subtable}
+
+\end{table}
 \begin{comment}
 \begin{table}[H]
     \centering
@@ -1303,7 +1256,13 @@ By formalizing the theoretical background and providing both algorithms and impl
 \newpage
 \appendix
 
-\section{proofs}
+\section{Proofs}
+In this section, we provide the proof of the propositions given in the paper. For each proposition, we re-state the statement and we provide the corresponding proof.
+\subsection{Proof of Proposition~\ref{prop:constantFs}.}
+\begin{description}
+    \item[Statement:] A Boolean function $f$ has an $\AI_S$ of $0$ if and only if the restriction $f_S$ on $S$ is constant.
+\end{description}
+
 \begin{proof}
 	First, we show the reverse implication.
 	We suppose that $f\in \BN$ is constant on $S$, either $f(x) = 0$ for all $x\in S$, or $f(x) = 1$ for all $x\in S$.
@@ -1314,24 +1273,39 @@ By formalizing the theoretical background and providing both algorithms and impl
 	We suppose that a function $g\in \BN$ is a non-zero-annihilator of $f$ restricted to $S$ of degree $0$. Then,
 	$g \neq 0$ and $\deg(g) = 0 \Rightarrow g = 1$, therefore since $g$ annihilates $f$ in $S$,  $g(x) f(x) = 0$ for all $x \in S$, resulting in $f(x)g(x) = f(x) = 0$.
 	Similarly, if $g$ annihilates $f+ 1$ on $S$ instead of $f$, we have that $g(x)(f(x) + 1) = 0$ implying that $f+ 1 = 0 \Rightarrow f(x) = 1$ for all $x\in S$. 
-%	\underline{Direct implication $\Rightarrow$}\\
-%	Suppose that $f\in \BN$ is constant in $S$, either this function $f$ is such that $f(x) = 0$ for all $x\in S$, or $f(x) = 1$ for all $x\in S$.\\
-%	If it the case that $f$ is not null everywhere but $f(x) = 0\ \forall S$, then it exists the function $g(x) = 1$ which is not zero in all $S$, but is it such that $g(x)f(x) = 0$ for all $x\in S$.\\ 
-%	If on the other hand, $f(x) = 1$ for all $x\in S$, the same argument can be used but annihilating the function $f\oplus 1$ on $S$.\\
-%	\underline{Inverse implication $\Leftarrow$}\\
-%	Suppose that a function $g\in \mathbb{BF}_n$ is an $S$-non-zero-annihilator of $f$ of degree $0$.\\
-%	$g \neq 0$ and $deg(g) = 1 \Rightarrow g = 1$, therefore since $g$ annihilates $f$ in $S$,  $g(x) f(x) = 0$ for all $x \in S$, resulting in $f(x)g(x) = f(x) = 0$ .\\
-%	In the same way, if on the other hand, $g$ annihilates $f\oplus 1$ on $S$ instead of $f$, we have that $g(x)(f(x) \oplus 1) = 0$ implying that $f\oplus 1 = 0 \Rightarrow f(x) = 1$ for all $x\in S$. 
 \end{proof}
 
+\subsection{Proof of Proposition~\ref{prop:compareranks}.}
+\begin{description}
+    \item[Statement:] Let $Z = \supp\left(f^{(o)}\right) \cap S$.
+If $\text{rank}\left(G^{f_{Z}^{(o)},S}_{r,n}\right) < \text{rank}(G^{S}_{r,n})$, then $f^{(o)}$ admits a non-zero-annihilator restricted to $S$ of degree at most $r$.
+\end{description}
+
 \begin{proof}
-	Since $D_r^n = \text{rank}(G^{f^{(o)}_S,S}_{r,n}) + |\text{Ker}(G^{f^{(o)}_S,S}_{r,n})| =  \text{rank}(G^{S}_{r,n}) + |\text{Ker}(G^{S}_{r,n})|$, we have that
+	Let $D_r^n = \sum_{i=0}^r \binom{n}{i}$. Since $D_r^n = \text{rank}(G^{f^{(o)}_S,S}_{r,n}) + |\text{Ker}(G^{f^{(o)}_S,S}_{r,n})| =  \text{rank}(G^{S}_{r,n}) + |\text{Ker}(G^{S}_{r,n})|$, we have that
 	$\text{rank}(G^{f_S^{(o)},S}_{r,n}) < \text{rank}(G^{S}_{r,n}) \iff |\text{Ker}(G^{f_S^{(o)},S}_{r,n})| > |\text{Ker}(G^{S}_{r,n})|$. 
 	Therefore $\exists v\in \text{Ker}(G^{f_S^{(o)},S}_{r,n}) \mbox{ such that }v\not\in \text{Ker}(G^{S}_{r,n})$. 
 	Hence, it exists a Boolean function $g$ of degree $r$, given by $v \cdot G_{r,n}$, which is such that $v \cdot G_{r,n}\neq 0$ and $v \cdot G_{r,n}^{S}\neq 0$, but $(g \cdot f_S^{(o)})_S = v \cdot G_{r,n}^{f_S^{(o)},S} = 0$.\\
 	Since $\text{rank}\left(G_{r,n}^{f_S^{(o)}, S}\right) = \text{rank}\left(G_{r,n}^{f^{(o)}, S}\right)$, $\text{rank}(G^{f^{(o)},S}_{r,n}) < \text{rank}(G^{S}_{r,n}) \Rightarrow \text{rank}(G^{f_Z^{(o)},S}_{r,n}) < \text{rank}(G^{S}_{r,n})$ and hence the condition $\text{rank}(G^{f_Z^{(o)},S}_{r,n}) < \text{rank}(G^{S}_{r,n})$ is enough to justify the existence of such $v$ giving the non-zero-annihilator $g$ of $f^{o}$ restricted to $S$.
 \end{proof}
 
+\subsection{Proof of Proposition~\ref{prop:swappingElementOfZToReduceKer}}
+\begin{description}
+    \item[Statement:] Let $k < \min\{(|Z|, |E_{D_n^n}|\}$ and let $V_k$ constructed following Definition~\ref{def:inductiveConstructionOfV}. 
+    Suppose $\text{ker}(V_k) = \langle \hat{g}_k \rangle=\langle (\epsilon_1, \epsilon_2, \dots, \epsilon_k) \rangle $ and let $g_k\in \Bn{n}$ be the Boolean function having $\hat{g}_k$ as ANF. 
+    Furthermore, assume there exists a $z_{k+j}$, for $j\geq 1$ such that $g_k(z_{k+j}) = 1$. Then, the matrix $V^{'}_{k+1}$ constructed as:
+    \begin{align*}
+        V^{'}_{k+1} = 
+        \begin{pmatrix}
+        \multicolumn{4}{c}{\multirow{4}{*}{$V_{k}$}} & z_{k+j}^{\alpha_{1}}\\
+        & & & & z_{k+j}^{\alpha_{2}}\\
+        & & & & \vdots\\
+        & & & & z_{k+j}^{\alpha_{k}}\\
+        z_{1}^{\alpha_{k+1}} & z_{2}^{\alpha_{k+1}}& \cdots & z_{k}^{\alpha_{k+1}} & z_{k+j}^{\alpha_{k+1}}
+    \end{pmatrix}
+    \end{align*}
+    is such that $(\epsilon_1, \epsilon_2, \dots, \epsilon_k, 0) \not\in \text{ker}(V^{'}_{k+1})$. 
+\end{description}
 
 \begin{proof}
 	
@@ -1360,6 +1334,100 @@ z_{k+j}^{\alpha_k}
 This contradiction shows that it cannot be the case that \( (\epsilon_1, \dots, \epsilon_k, 0) \) is in the kernel of \( V'_{k+1} \).   
 
 \end{proof}
+
+\subsection{Proof of Proposition~\ref{prop:upperBoundOnRightKernel}.}
+\begin{description}
+    \item[Statement:] The sequence of matrices \( (V_k)_k \), constructed as described in Proposition~\ref{prop:swappingElementOfZToReduceKer}, ensures that:    
+    \[
+    \text{dim}\left(\text{ker}\left(V_k\right)\right) \leq 1, \quad \forall k \in [1, |Z|].
+    \]
+\end{description}
+
+\begin{proof}
+    We prove the result by induction:
+    \begin{itemize}
+        \item Base case. The initial matrix $V_1 = (1)$ has full rank, so $\text{dim}( \text{ker}(V_1)) = 0 \leq 1$.
+        \item Induction step. We suppose that $\text{dim}( \text{ker}(V_k))\le 1$. We show that $\text{dim}( \text{ker}(V_{k+1}))\le 1$.
+        \begin{itemize}
+            \item If $\text{dim}( \text{ker}(V_k))= 0$, adding a new row and column to form $V_{k+1}$ can increase the kernel by at most $1$. Hence, $\text{dim}( \text{ker}(V_{k+1}))\le 1$.
+            \item %If $\text{dim}( \text{ker}(V_k))= 1$, 
+            %let $\hat{x} = \left(\hat{\epsilon}, 0 \right)$ where $\hat{\epsilon}$ is in $\text{ker}(V_k)$.            
+            If $\text{dim}( \text{ker}(V_k))= 1$, let $\hat{z}$ be an element of $\text{ker}\left(V_{k+1}\right)$. 
+            Then either:
+            \begin{itemize}
+            	\item  \( \hat{z} = (\hat{\epsilon}, 0) \):  
+\[
+\hat{z} \cdot V_{k+1} = 0 \implies \hat{\epsilon} \cdot V_k = 0 \implies \hat{\epsilon} \in \text{ker}(V_k).
+\]
+By Proposition~\ref{prop:swappingElementOfZToReduceKer}, \( \hat{\epsilon} \) can only be a trivial solution.
+
+\item \( \hat{z} = (\hat{y}, 1) \), where \( \hat{y} \in \mathbb{F}_2^k \):          
+In this case $\hat{z} \cdot V_{k+1} = 0$ implies:
+\begin{equation}\label{Eq:eq1}
+ \hat{y}  \cdot V_{k} + (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}}) = 0 \iff \hat{y} \cdot V_{k} = (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}}),
+\end{equation}
+and 
+\begin{equation}\label{Eq:eq2}
+\hat{y} \cdot (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T + z_{k+1}^{\alpha_{k+1}} = 0 \iff \hat{y} \cdot (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T = z_{k+1}^{\alpha_{k+1}}.
+\end{equation}	
+
+        \end{itemize}
+            
+Since $\text{dim}(\text{ker}(V_k)) = 1$, $\text{rank}(V_k) = k-1$. Hence, there exists at most one particular solution $\hat{y}_p$ for Equation~\ref{Eq:eq1}. 
+If \( \hat{y}_p \) also solves Equation~\ref{Eq:eq2}, then \( \hat{y}_p \) is in \( \ker(V_{k+1}) \).
+ 
+\end{itemize}
+Since $(\hat{\epsilon}, 0)$  cannot be in \( \text{ker}(V_{k+1}) \), the only possible element in \( \text{ker}(V_{k+1}) \) is \( \hat{y}_p \), if it exists. Therefore, \( \text{dim}(\text{ker}(V_{k+1})) \leq 1 \).
+        \end{itemize}
+
+\end{proof}
+
+\subsection{Proof of Proposition~\ref{prop:constructionOfNextVRemovingAlphai}.}
+\begin{description}
+    \item[Statement:] Let $\text{ker}(V_{E_k, Z_k}) =  \langle \hat{g}_k \rangle = \langle (\epsilon_1, \dots, \epsilon_k) \rangle$, where the corresponding Boolean function $g_k\in \Bn{n}$ satisfies $g_k(x) = 0,\ \forall x\in Z$, but it exists a $y\in S$ such that $g_k(y) = 1$.
+    
+    Define $E^{*} = (\alpha_1, \alpha_2, \dots, \alpha_{k-1}, \alpha_{k+1})$ , a vector constructed from $E_k$ by replacing the last element $\alpha_{k}$ with $\alpha_{k+1}$. 
+    Let $V_{k+1} = V_{E^{*}_{k+1}, Z_k}$ be the matrix defined by replacing the monomial $\alpha_k$ in $V_{E_k, Z_k}$, with the monomial $\alpha_{k+1}$: 
+    \begin{align*}
+        V_{E^{*}_{k+1}, Z_{k}} = 
+        \begin{pmatrix}
+        \multicolumn{4}{c}{\multirow{4}{*}{$E_{k-1}, V_{Z_{k-1}}$}} & z_{k}^{\alpha_{1}}\\
+        & & & & z_{k}^{\alpha_{2}}\\
+        & & & & \vdots\\
+        & & & & z_{k}^{\alpha_{k-1}}\\
+        z_{1}^{\alpha_{k+1}} & z_{2}^{\alpha_{k+1}}& \cdots & z_{k-1}^{\alpha_{k+1}} & z_{k}^{\alpha_{k+1}}
+    \end{pmatrix}.
+    \end{align*}
+    Then, either $\hat{g}_k \not\in \text{ker}(V_{E^{*}_{k+1}, Z_k})$, or $\hat{g}_k$ is the only element (aside from $\hat{0}$) in the right kernel of $V_{E_{k+1}^{*}, Z_k}$. Hence:
+    \begin{align*}
+        \text{dim}\left(\text{ker}(V_{E^{*}_{k+1}, Z_k})\right)\leq 1. 
+    \end{align*}
+\end{description}
+
+\begin{proof}
+    Proposition~\ref{prop:swappingElementOfZToReduceKer} ensures that the kernel of $V_{E^{*}_{k+1}, Z_{k}}$ does not contain elements derived from the kernel of $V_{ E_{k-1}, Z_{k-1}}$. 
+    Therefore, $V_{E_{k-1}, Z_{k-1}}$ can be treated as a full-rank matrix.
+    Modifying the last row of a matrix that contains a full-rank sub-matrix does not increase the size of the kernel. This is because the first $k$ entries of the elements in the kernel of $V_{E_k, Z_k }$ and $V_{E^{*}_{k+1}, Z_k}$ are the same, with the only difference arising from the last row. 
+    Since this row is the only one that can introduce linear dependence, the dimension of the kernel of $V_{ E^{*}_{k+1}, Z_k}$ is bounded by $1$.
+\end{proof}
+
+\subsection{Proof of Proposition~\ref{prop:rowEchelonForm}.}
+\begin{description}
+    \item[Statement:] Let $k$ be such that $1<k< \min{\left(|Z|,|E_{D_n^n}|\right)}$ it holds that
+    \begin{align*}
+        EF\left(V_{k}\right) =_p & EF
+        \begin{pmatrix}
+        \begin{pmatrix}
+            \multicolumn{4}{c}{\multirow{4}{*}{$EF\left(V_{k-1}\right)$}} & z_k^{\alpha_1}\\
+            & & & & z_k^{\alpha_2}\\
+            & & & & \vdots\\
+            & & & & z_{k}^{\alpha_{k-1}}\\
+            (z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}})P_{k-1} & z_{k}^{\alpha_k}
+        \end{pmatrix}
+        \end{pmatrix}.
+    \end{align*}
+    where $P_{k-1}$ is such that $U_{k-1}^{-1} = P_{k-1}$, where $V_{k-1} = L_{k-1}U_{k-1}$ with $EF(V_{k-1})=_p L_{k-1}$
+\end{description}
 
 \begin{proof}
     Let $k$ be such that $1<k< \min{\left(|Z|,|E_{D_n^n}|\right)}$. The $LU$-decomposition of $V_{k-1}$ is  
@@ -1455,9 +1523,12 @@ z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}} & z_{k}^{\alp
     \end{align*}
 \end{proof}
 
-\section{Algorithm}
+\newpage
+\section{Algorithms}
+In this section, we show the speudo-codes of the algorithms described.
+\newpage
 
-\begin{algorithm}
+\begin{algorithm}[H]
 %	\caption{Algorithm to find the algebraic immunity of a function $f$ on the restricted set $S\subseteq \mathbb{F}_2^n$.}
 	\caption{Algebraic immunity of $f$ restricted to the set $S$, Reed-Muller method. \label{alg:RMApproach}}
 	\begin{algorithmic}[1]
@@ -1482,14 +1553,12 @@ z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}} & z_{k}^{\alp
 		\State $i \gets i+1$;
 		\EndWhile
 		\EndFunction
-		\State
 
         \State $Z = supp(x)\cap S$;
         \State $Z_c = supp(x+1) \cap S$;
 		\If{$Z = \emptyset$ of $Z_c = \emptyset$}
 		\Return $0$;
 		\EndIf
-        \State
 		\State $m_{max}, D^{\leq n_{max}}\gets \mbox{\textsc{read\_values\_from\_file}}()$;
 		\State $G_{n,n}\gets m_{max}[n]$;
 		\State $D^n \gets D^{\leq n_{max}}[n]$;
@@ -1501,12 +1570,11 @@ z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}} & z_{k}^{\alp
 		\State \Return $\mbox{\textsc{min}}(immunity_f, immunity_{f+1})$\footnotemark;
 	\end{algorithmic}
 \end{algorithm}
-
 \footnotetext[2]{The symbol $||$ is used as row-concatenation of matrices, meaning that $C = A||B$ is the matrix constructed by appending all the row of the matrix $B$ to the matrix $A$.}
 \footnotetext[3]{\textsc{construct\_restricted\_generator\_matrices} is a function extracting $G_{n,n}^{f_{supp(f)\cap S},S}$, $G_{n,n}^{f_{supp(f+1)\cap S},S}$ and $G_{n,n}^{S}$ from the full Reed-Muller code generator matrix $G_{n,n}$ following Definition \ref{def:generatorsS}.}
 \footnotetext[4]{The function \textsc{min} takes care of $null$ values $\mbox{\textsc{min}}(immunity_f, null) = immunity_f$ and $\mbox{\textsc{min}}(null, immunity_{f+1}) = immunity_{f+1}$.}
 
-\begin{algorithm}
+\begin{algorithm}[H]
 	\caption{Algorithm to find the degree of the minimum-degree non-zero-annihilator restricted on $S$ of a function $f^{(o)}$.}\label{alg:MinDegreeSnonZeroAnnihilatorIterative}
 	\begin{algorithmic}[1]
 		\Require restricted set $S\subset \mathbb{F}_2^n$, $Z = supp\left(f^{(o)}\right) \cap S$ and $E = \{\alpha_1, \cdots, \alpha_{D_n^n}\}$
@@ -1596,21 +1664,6 @@ z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}} & z_{k}^{\alp
 	\end{algorithmic}
 \end{algorithm}
 
-\begin{remark}\label{rem:permutationClarification}
-    To keep the pseudocode in line with the theory, the elements in the vector or sets are often parsed by name instead of by index, namely let $Z = (z_1, z_2, \cdots, z_k)$ we consider that $Z[i-1] = z_i$.\\
-    Therefore, we have to clarify our notation in the case in which two vector elements get swapped. In the case of Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative}, we consider that the swap generates a new vector with the name of the variables adapted with their index position in the vector to keep satisfying the condition $Z[i-1] = z_{i}$. Meaning that 
-    \begin{align*}
-        \mbox{\textsc{swap}}(z_i, z_j) \rightarrow (z_{\sigma(1)}, \cdots, z_{\sigma(i)}, \cdots, z_{\sigma(j)}, \cdots, z_{\sigma(k)}) = Z^{'} = (z^{'}_1, \cdots, z^{'}_i, \cdots, z^{'}_j, \cdots, z^{'}_k)
-    \end{align*}
-    where $\sigma$ is a permutation describing the swap:
-    \begin{align*}
-        \sigma = \begin{pmatrix}
-            1 & \cdots & i & \cdots & j & \cdots k\\
-            1 & \cdots & j & \cdots & i & \cdots k\\
-        \end{pmatrix}.
-    \end{align*}
-\end{remark}
-
 \footnotetext[5]{\textsc{apply\_operations} is a function taking a vector and the list of column operations described by $P_{k-1}$ in Remark~\ref{rem:historyOfOperations}}
 \footnotetext[6]{The implementation of \textsc{EF\_last\_col} is different from the implementation of \textsc{EF}, as it uses the fact that it only needs to column-echelon the last row and column added instead of the full matrix. }
 \footnotetext[7]{\textsc{vanished\_on} is a function taking as input the vector of the $ANF$ coefficient of a Boolean function $g \in \Bn{n}$ and a point $z$ on which to evaluate the corresponding Boolean function $g$. If $g$ vanishes in $z$, it returns $True$ otherwise it returns $False$. }
@@ -1665,7 +1718,8 @@ We notice in fact that $T\left(G^{\leq 12}\right)$ is constant, that is because 
 \end{figure}
 
 The pre-computation times of $G^{\leq n_{max}}$ for Algorithm~\ref{alg:RMApproach} are given in the Table~\ref{table:preComputationTimes}. From Figure~\ref{fig:compTimePlot}, we observe that Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} outperforms Algorithm~\ref{alg:RMApproach} for $n \leq 12$, even without considering the pre-computation time required for $G^{\leq n_{max}}$ and $D^{\leq n_{max}}$ in Algorithm~\ref{alg:RMApproach}. Furthermore, Algorithm~\ref{alg:RMApproach} becomes impractical for $n > 12$ due to the excessive complexity of pre-computation. In contrast, Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} remains feasible for larger values of $n$. \\
-\begin{table}
+
+\begin{table}[H]
 \centering
 \resizebox{\textwidth}{!}{
 \renewcommand{\tabcolsep}{2pt}	
@@ -1690,79 +1744,64 @@ Both implementations of the algorithms used to generate the plot in Figure~\ref{
 \end{itemize}
 
 
-\section{Results}
-\begin{table}[H]
+\section{Plots of AIk probability distributions of WPB functions and average execution times.}
+
+\begin{figure}[H]
     \centering
-    \caption{$\AIk{k}$ probability distribution of $\WPB{2}$, $\WPB{3}$ and $\WPB{4}$.}
-    \label{table:probability_distributions}
-    
-    \begin{subtable}[t]{0.4\textwidth}
+    \begin{minipage}[b]{0.45\textwidth}
         \centering
-        \caption{Probability distribution $p_{\AIk{k}}$ for $n=4$, $m=2$.}
-        \label{table:probabilityDistributionn4}
-        \renewcommand{\arraystretch}{1.2} % Improve readability
-    \renewcommand{\tabcolsep}{2pt}	
-    \begin{tabular}{r|rrrrr}
-    	\toprule
-    	$p(x)$, $k$ & 0 & 1 & 2 & 3 & 4 \\
-    	\midrule
-    	0 & 1.00 & 0.00 & 0.00 & 0.00 & 1.00 \\
-    	1 & 0.00 & 1.00 & 0.00 & 1.00 & 0.00 \\
-    	2 & 0.00 & 0.00 & 1.00 & 0.00 & 0.00 \\
-    	\bottomrule
-    \end{tabular}
-    \end{subtable}%
+        \includegraphics[width=\textwidth]{images/WPB_2_sample_size_full_dist.png}
+        \caption{Mean of $\AIk{k}$ over $\WPB{2}$.}
+        \label{fig:averagesFullDist}
+    \end{minipage}
     \hfill
-    \begin{subtable}[t]{0.55\textwidth}
+    \begin{minipage}[b]{0.5\textwidth}
         \centering
-        \caption{Probability distribution $p_{\Omega, \AIk{k}}$ for $n=8$, $m=3$, $\Omega = 2^{15}$.}
-        \label{table:probabilityDistributionn8}
-        \renewcommand{\arraystretch}{1.2}
+        \includegraphics[width=\textwidth]{images/WPB_2_sample_size_full_dist_prob.png}
+        \caption{Probability distribution of $\AIk{k}$  over $\WPB{2}$.}
+        \label{fig:probFullDist}
+    \end{minipage}
+    \caption{Mean of $\AIk{k}$ and probability distribution of $\AIk{k}$ from Definition~\ref{def:distAIk} of $4$-variable WPB functions.}
+    \label{fig:dullDist}
+\end{figure}
 
-\renewcommand{\tabcolsep}{2pt}	
-\begin{tabular}{r|rrrrrrrrr}
-	\toprule
-	$p(x)$, $k$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
-	\midrule
-	0 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 \\
-	1 & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.05 & 1.00 & 0.00 \\
-	2 & 0.00 & 0.00 & 1.00 & 0.98 & 0.00 & 0.98 & 0.95 & 0.00 & 0.00 \\
-	3 & 0.00 & 0.00 & 0.00 & 0.02 & 0.13 & 0.02 & 0.00 & 0.00 & 0.00 \\
-	4 & 0.00 & 0.00 & 0.00 & 0.00 & 0.87 & 0.00 & 0.00 & 0.00 & 0.00 \\
-	\bottomrule
-\end{tabular}    
-    \end{subtable}
-
-    \vspace{1em} % Add some space between rows of tables
-
-    \begin{subtable}[t]{1\textwidth}
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[b]{0.45\textwidth}
         \centering
-        \caption{Probability distribution $p_{\Omega, \AIk{k}}$ for $n=16$, $m=4$, $\Omega = 2^{10}$.}
-        \label{table:probabilityDistributionn16}
-        \renewcommand{\arraystretch}{1.2}
+        \includegraphics[width=\textwidth]{images/WPB_3_sample_size_32768_average_a.png}
+        \caption{Estimated average of $\AIk{k}$ over $\WPB{3}$.}
+        \label{fig:averages32768}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/WPB_3_sample_size_32768_dist_prob_a.png}
+        \caption{Estimated Probability distribution of $\AIk{k}$ over $\WPB{3}$.}
+        \label{fig:probDist32768}
+    \end{minipage}
+    \caption{Estimated average of $\AIk{k}$ and probability distribution of $\AIk{k}$ over $8$-variable WPB functions, with $2^{15}$ samples.}
+    \label{fig:main2}
+\end{figure}
 
-
- \resizebox{\textwidth}{!}{
- \renewcommand{\tabcolsep}{2pt}	
- \begin{tabular}{r|rrrrrrrrrrrrrrrrr}
- 	\toprule
- 	$p(x)$, $k$ & 0  & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9  & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
- 	\midrule
- 	0  & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 \\
- 	1  & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 & 0.00 \\
- 	2  & 0.00 & 0.00 & 1.00 & 0.02 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.01 & 1.00 & 0.00 & 0.00 \\
- 	3  & 0.00 & 0.00 & 0.00 & 0.98 & 0.13 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.13 & 0.99 & 0.00 & 0.00 & 0.00 \\
- 	4  & 0.00 & 0.00 & 0.00 & 0.00 & 0.87 & 0.63 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.60 & 0.87 & 0.00 & 0.00 & 0.00 & 0.00 \\
- 	5  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.37 & 1.00 & 0.00 & 0.00 & 0.00 & 1.00 & 0.40 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
- 	6  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 & 1.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
- 	\bottomrule
- \end{tabular}
- }
- 
- 
-    \end{subtable}
-
-\end{table}
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/WPB_4_sample_size_1024_average_a.png}
+        \caption{Estimated average of $\AIk{k}$ over $\WPB{4}$.}
+        \label{fig:averages2014}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/WPB_4_sample_size_1024_dist_prob_a.png}
+        \caption{Estimated Probability distribution of $\AIk{k}$ over $\WPB{4}$.}
+        \label{fig:probDist2014}
+    \end{minipage}
+    \caption{Estimated average of $\AIk{k}$ and probability distribution of $\AIk{k}$ over $8$-variable WPB functions, with $2^{10}$ samples.}
+    \label{fig:main2014}
+\end{figure}
 
 \begin{table}
     \centering
