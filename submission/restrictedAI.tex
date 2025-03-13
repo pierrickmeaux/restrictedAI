@@ -18,6 +18,9 @@
 \usepackage{placeins}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{booktabs}  % For better table formatting
+\usepackage{array}     % Allows better column width control
+\usepackage{graphicx} 
 
 
 
@@ -1437,80 +1440,6 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
     \label{fig:main2014}
 \end{figure}
 
-\begin{comment}
-\begin{table}[H]
-    \centering
-\begin{minipage}{0.45\textwidth}
-    \centering
-    \begin{tabular}{|c|c|c|}%{rrr}
- %       \toprule
- \hline
-        $k$ &  $\mathbb{E}[T(AI_k)]$ &  $\mathbb{E}[AI_k]$ \\ \hline
-%        \midrule
-        0 &               $0.000053$ &                 0.0 \\ \hline
-        1 &               $0.052649$ &                 1.0 \\ \hline
-        2 &               $0.048703$ &                 1.0 \\\hline
-        3 &               $0.058630$ &                 1.0 \\\hline
-        4 &               $0.000006$ &                 0.0 \\ \hline
-  %      \bottomrule
-    \end{tabular}
-    \caption{Average execution time and $\AIk{k}$ for $n=4$, $m=2$}
-    \label{table:averagesFullDist}
-\end{minipage}
-\hfill
-\begin{minipage}{0.45\textwidth}
-        \centering
-        \begin{tabular}{|c|c|c|}%{rrr}
-%\toprule
-\hline
- $k$ &  $\mathbb{E}[T(AI_k)]$ &  $\mathbb{E}[AI_k]$ \\ \hline
-%\midrule
-   0 &               $4.768372 * 10^{-6}$ &            $0.000000$ \\ \hline
-   1 &               $0.075641$ &            $1.000000$ \\ \hline
-   2 &               $0.086194$ &            $1.954315$ \\ \hline
-   3 &               $0.094307$ &            $2.016663$ \\ \hline
-   4 &               $0.089607$ &            $2.878265$ \\ \hline
-   5 &               $0.101818$ &            $2.018280$ \\ \hline
-   6 &               $0.092377$ &            $1.953461$ \\ \hline
-   7 &               $0.093818$ &            $1.000000$ \\ \hline
-   8 &               $1.621246 * 10^{-5}$ &            $0.000000$ \\ \hline
-%\bottomrule
-\end{tabular}
-        \caption{Average execution time and $\AIk{k}$ for $n=8$, $m=3$ and $\mbox{sampleSize}=2^{15}$}
-        \label{table:averages32768}
-    \end{minipage}
-\begin{minipage}{0.45\textwidth}
-        \centering
-        \begin{tabular}{|c|c|c|}%{rrr}
-%\toprule
-\hline
- $k$ &  $\mathbb{E}[T(AI_k)]$ &  $\mathbb{E}[AI_k]$ \\ \hline
-%\midrule
-   0 & $0.000010$ & $0.000000$\\ \hline
-   1 & $0.334046$ & $1.000000$\\ \hline
-   2 & $0.342011$ & $2.000000$\\ \hline
-   3 & $0.408244$ & $2.976562$\\ \hline
-   4 & $4.011003$ & $3.872070$\\ \hline
-   5 & $91.810299$ & $4.369141$\\ \hline
-   6 & $636.368421$ & $5.000000$\\ \hline
-   7 & $2838.922261$ & $6.000000$\\ \hline
-   8 & $6384.383319$ & $6.000000$\\ \hline
-   9 & $3111.118973$ & $6.000000$\\ \hline
-   10 & $732.501775$ & $5.000000$ \\ \hline
-   11 & $118.963582$ & $4.396484$\\ \hline
-   12 & $5.229858$ & $3.865234$ \\ \hline
-   13 & $0.426482$ & $2.990234$\\ \hline
-   14 & $0.353760$ & $2.000000$ \\ \hline
-   15 & $0.344984$ & $1.000000$ \\ \hline
-   16 & $0.000015$ & $0.000000$ \\ \hline
-%\bottomrule
-\end{tabular}
-        \caption{Average execution time and $\AIk{k}$ for $n=16$, $m=4$ and $\mbox{sampleSize}=2^{10}$}
-        \label{table:averages16VarsSampleSize1024}
-    \end{minipage}
-\end{table}
-\end{comment}
-
 
 \begin{table}[H]
     \centering
@@ -1522,17 +1451,7 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
         \caption{Probability distribution $p_{\AIk{k}}$ for $n=4$, $m=2$.}
         \label{table:probabilityDistributionn4}
         \renewcommand{\arraystretch}{1.2} % Improve readability
-     %   \begin{tabular}{r|rrr}
-      %      \toprule
-       %     $k$, $p(x)$ & 0 & 1 & 2 \\
-        %    \midrule
-         %   0  & 1.00 & 0.00 & 0.00 \\
-          %  1  & 0.00 & 1.00 & 0.00 \\
-           % 2  & 0.00 & 0.00 & 1.00 \\
-            %3  & 0.00 & 0.00 & 0.02 \\
-            %4  & 0.00 & 0.00 & 0.00 \\
-            %\bottomrule
-       % \end{tabular}
+    \renewcommand{\tabcolsep}{2pt}	
     \begin{tabular}{r|rrrrr}
     	\toprule
     	$p(x)$, $k$ & 0 & 1 & 2 & 3 & 4 \\
@@ -1549,22 +1468,8 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
         \caption{Probability distribution $p_{\Omega, \AIk{k}}$ for $n=8$, $m=3$, $\Omega = 2^{15}$.}
         \label{table:probabilityDistributionn8}
         \renewcommand{\arraystretch}{1.2}
-%        \begin{tabular}{r|rrrrr}
-%            \toprule
-%            $k$, $p(x)$ & 0 & 1 & 2 & 3 & 4 \\
-%            \midrule
-%            0  & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
-%            1  & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 \\
-%            2  & 0.00 & 0.00 & 1.00 & 0.00 & 0.00 \\
-%            3  & 0.00 & 0.00 & 0.02 & 0.98 & 0.00 \\
-%            4  & 0.00 & 0.00 & 0.00 & 0.13 & 0.87 \\
-%            5  & 0.00 & 0.00 & 0.00 & 0.00 & 0.63 \\
-%            6  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
-%            7  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
-%            8  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
-%            \bottomrule
-%        \end{tabular}
-    
+
+\renewcommand{\tabcolsep}{2pt}	
 \begin{tabular}{r|rrrrrrrrr}
 	\toprule
 	$p(x)$, $k$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
@@ -1585,31 +1490,10 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
         \caption{Probability distribution $p_{\Omega, \AIk{k}}$ for $n=16$, $m=4$, $\Omega = 2^{10}$.}
         \label{table:probabilityDistributionn16}
         \renewcommand{\arraystretch}{1.2}
- %       \begin{tabular}{r|rrrrrrr}
- %           \toprule
- %           $k$, $p(x)$ & 0 & 1 & 2 & 3 & 4 & 5 & 6  \\
- %           \midrule
- %           0  & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00  \\
- %           1  & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00  \\
- %           2  & 0.00 & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00  \\
- %           3  & 0.00 & 0.00 & 0.02 & 0.98 & 0.00 & 0.00 & 0.00 \\
- %           4  & 0.00 & 0.00 & 0.00 & 0.13 & 0.87 & 0.00 & 0.00 \\
- %           5  & 0.00 & 0.00 & 0.00 & 0.00 & 0.63 & 0.37 & 0.00 \\
- %           6  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 & 0.00  \\
- %           7  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00  \\
- %           8  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00  \\
- %           9  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00  \\
- %           10 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 & 0.00  \\
- %           11 & 0.00 & 0.00 & 0.00 & 0.00 & 0.60 & 0.40 & 0.00  \\
- %           12 & 0.00 & 0.00 & 0.00 & 0.13 & 0.87 & 0.00 & 0.00  \\
- %           13 & 0.00 & 0.00 & 0.01 & 0.99 & 0.00 & 0.00 & 0.00  \\
- %           14 & 0.00 & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00  \\
- %           15 & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00  \\
- %           16 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00  \\
- %           \bottomrule
- %       \end{tabular}
+
 
  \resizebox{\textwidth}{!}{
+ \renewcommand{\tabcolsep}{2pt}	
  \begin{tabular}{r|rrrrrrrrrrrrrrrrr}
  	\toprule
  	$p(x)$, $k$ & 0  & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9  & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
@@ -1640,11 +1524,12 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
         \caption{Average execution time and $\AIk{k}$ for $n=4$, $m=2$.}
         \label{table:averagesFullDist}
         \renewcommand{\arraystretch}{1.2}
+        \renewcommand{\tabcolsep}{3pt}	
         \begin{tabular}{r|ccccc}
             \toprule
             $k$ & 0 & 1 & 2 & 3 & 4 \\
             \midrule
-            $\mathbb{E}[T(AI_k)]$ & $0.000053$ & $0.052649$ & $0.048703$ & $0.058630$ & $0.000006$ \\
+            $\mathbb{E}[T(AI_k)]$ & $0.53\times 10^{-4}$ & $0.0526$ & $0.0487$ & $0.0586$ & $0.6\times10^{-5}$\\
             $\mathbb{E}[AI_k]$     & $0.00$     & $1.00$     & $1.00$     & $1.00$     & $0.00$ \\
             \bottomrule
         \end{tabular}
@@ -1658,11 +1543,12 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
         \label{table:averages32768}
         \renewcommand{\arraystretch}{1.2}
         \resizebox{\textwidth}{!}{ % Resize to fit within page width
+        \renewcommand{\tabcolsep}{3pt}	
         \begin{tabular}{r|ccccccccc}
             \toprule
             $k$ & 1 & 2 & 3 & 4 & 5 & 6 & 7\\
             \midrule
-            $\mathbb{E}[T(AI_k)]$ & $0.0756$ & $0.086$ & $0.094$ & $0.090$ & $0.102$ & $0.0924$ & $0.093818$ \\
+            $\mathbb{E}[T(AI_k)]$ & $0.0756$ & $0.086$ & $0.094$ & $0.090$ & $0.102$ & $0.092$ & $0.0938$ \\
             $\mathbb{E}[AI_k]$  & $1.00$     & $1.95$     & $2.02$     & $2.89$     & $2.02$     & $1.95$     & $1.00$     \\
             \bottomrule
         \end{tabular}
@@ -1675,8 +1561,9 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
         \centering
         \caption{Average execution time and $\AIk{k}$ for $n=16$, $m=4$ and $\mbox{sampleSize}=2^{10}$.}
         \label{table:averages16VarsSampleSize1024}
-        \renewcommand{\arraystretch}{1.2}
+        %\renewcommand{\arraystretch}{1.2}
         \resizebox{\textwidth}{!}{ % Resize to fit within page width
+        \renewcommand{\tabcolsep}{2pt}	
         \begin{tabular}{r|cccccccccccccccccc}
             \toprule
             $k$ & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15\\
@@ -1797,6 +1684,7 @@ For $n=16$, the maximum execution times for~\cite{Mat:ZJZQ23},~\cite{CC:TangLiu1
 %\renewcommand{\tabcolsep}{0.5pt}	
 \caption{$\AIk{k}$ of the construction from~\cite{AMC:DalMal23}, from~\cite{Mat:ZJZQ23}, from~\cite{CC:TangLiu19} and from~\cite{TOSC:CarMeaRot17} with $m=3$ ($n=8$) and $m=4$ ($n=16$).\label{table:publiedFunctions}}
 %\resizebox{\textwidth}{!}{
+\renewcommand{\tabcolsep}{3pt}	
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 \hline
 \multicolumn{18}{|c|}{~\cite{AMC:DalMal23}} \\
@@ -1831,7 +1719,6 @@ $n$, $k$ & $0$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$ & $1
 \end{table}
 
 
-
 In Table~\ref{tab:WPB8}, we summarize the results on $\AIk{k}$ for WPB functions with $8$ variables, including both our findings and those from the state of the art.  
 Similarly, Table~\ref{tab:WPB16} presents the corresponding results for functions with $16$ variables.  
 We observe that most of the studied families exhibit lower weightwise algebraic immunity than a randomly chosen WPB function, with the exception of the field order construction~\cite{eprint:Meaux24}.  
@@ -1839,7 +1726,7 @@ We observe that most of the studied families exhibit lower weightwise algebraic 
 
 \begin{table}[H]
 	\center 
-%	\renewcommand{\tabcolsep}{0.5pt}	
+	\renewcommand{\tabcolsep}{1.8pt}	
 	\begin{tabular}{|c| c|c|c|c|c|}
 		\hline
 		Function &  $\AIk{2}$ & $\AIk{3}$ & $\AIk{4}$ &  $\AIk{5}$ & $\AIk{6}$  \\ \hline 
@@ -1859,8 +1746,9 @@ We observe that most of the studied families exhibit lower weightwise algebraic 
 
 
 \begin{table}[H]
-	\center 
-	%	\renewcommand{\tabcolsep}{0.5pt}	0
+	\centering 
+    \resizebox{\textwidth}{!}{
+	\renewcommand{\tabcolsep}{1.8pt}	
 	\begin{tabular}{|c| c|c|c|c|c| c|c|c|c|c| c|c|c| }
 		\hline
 		Function &  $\AIk{2}$ & $\AIk{3}$ & $\AIk{4}$ &  $\AIk{5}$ & $\AIk{6}$ &  $\AIk{7}$ & $\AIk{8}$ & $\AIk{9}$ &  $\AIk{10}$ & $\AIk{11}$ &  $\AIk{12}$ & $\AIk{13}$ & $\AIk{14}$ \\ \hline 
@@ -1880,6 +1768,7 @@ We observe that most of the studied families exhibit lower weightwise algebraic 
 		
 		
 	\end{tabular}
+    }
 	\caption{$\AIk{k}$ of WPB functions in $16$ variables.}
 	\label{tab:WPB16}
 \end{table}
@@ -1933,3 +1822,4 @@ By formalizing the theoretical background and providing both algorithms and impl
 
 
 \end{document}
+
