@@ -1,0 +1,3 @@
+#!bin/bash
+
+pdflatex restrictedAI.tex header.tex && evince restrictedAI.pdf
