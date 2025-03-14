@@ -546,7 +546,7 @@ Let $r,n\in\N^*$ with $r\leq n$. Let $G_{r,n}$ be the generator matrix of the Re
 	If $\text{rank}\left(G^{f_{Z}^{(o)},S}_{r,n}\right) < \text{rank}(G^{S}_{r,n})$, then $f^{(o)}$ admits a non-zero-annihilator restricted to $S$ of degree at most $r$.
 \end{proposition}
 \begin{proof}
-	Since $D_r^n = \text{rank}(G^{f^{(o)}_S,S}_{r,n}) + |\text{Ker}(G^{f^{(o)}_S,S}_{r,n})| =  \text{rank}(G^{S}_{r,n}) + |\text{Ker}(G^{S}_{r,n})|$, we have that
+	Let $D_r^n = \sum_{i=0}^r \binom{n}{i}$. Since $D_r^n = \text{rank}(G^{f^{(o)}_S,S}_{r,n}) + |\text{Ker}(G^{f^{(o)}_S,S}_{r,n})| =  \text{rank}(G^{S}_{r,n}) + |\text{Ker}(G^{S}_{r,n})|$, we have that
 	$\text{rank}(G^{f_S^{(o)},S}_{r,n}) < \text{rank}(G^{S}_{r,n}) \iff |\text{Ker}(G^{f_S^{(o)},S}_{r,n})| > |\text{Ker}(G^{S}_{r,n})|$. 
 	Therefore $\exists v\in \text{Ker}(G^{f_S^{(o)},S}_{r,n}) \mbox{ such that }v\not\in \text{Ker}(G^{S}_{r,n})$. 
 	Hence, it exists a Boolean function $g$ of degree $r$, given by $v \cdot G_{r,n}$, which is such that $v \cdot G_{r,n}\neq 0$ and $v \cdot G_{r,n}^{S}\neq 0$, but $(g \cdot f_S^{(o)})_S = v \cdot G_{r,n}^{f_S^{(o)},S} = 0$.\\
@@ -1544,7 +1544,7 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
     \hfill
     \begin{subtable}[t]{0.55\textwidth}
         \centering
-        \caption{Probability distribution $p_{\Omega, \AIk{k}}$ for $n=8$, $m=3$, $\Omega = 2^{15}$.}
+        \caption{Probability distribution $p_{\Omega, \AIk{k}}$ for $n=8$, $m=3$, $|\Omega| = 2^{15}$.}
         \label{table:probabilityDistributionn8}
         \renewcommand{\arraystretch}{1.2}
 %        \begin{tabular}{r|rrrrr}
@@ -1580,7 +1580,7 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
 
     \begin{subtable}[t]{1\textwidth}
         \centering
-        \caption{Probability distribution $p_{\Omega, \AIk{k}}$ for $n=16$, $m=4$, $\Omega = 2^{10}$.}
+        \caption{Probability distribution $p_{\Omega, \AIk{k}}$ for $n=16$, $m=4$, $|\Omega| = 2^{10}$.}
         \label{table:probabilityDistributionn16}
         \renewcommand{\arraystretch}{1.2}
  %       \begin{tabular}{r|rrrrrrr}
@@ -1652,7 +1652,7 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
 
     \begin{subtable}[t]{0.9\textwidth}
         \centering
-        \caption{Average execution time and $\AIk{k}$ for $n=8$, $m=3$ and $\mbox{sampleSize}=2^{15}$.}
+        \caption{Average execution time and $\AIk{k}$ for $n=8$, $m=3$ and $|\Omega|=2^{15}$.}
         \label{table:averages32768}
         \renewcommand{\arraystretch}{1.2}
         \resizebox{\textwidth}{!}{ % Resize to fit within page width
@@ -1671,7 +1671,7 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
 
     \begin{subtable}[t]{1.1\textwidth}
         \centering
-        \caption{Average execution time and $\AIk{k}$ for $n=16$, $m=4$ and $\mbox{sampleSize}=2^{10}$.}
+        \caption{Average execution time and $\AIk{k}$ for $n=16$, $m=4$ and $|\Omega|=2^{10}$.}
         \label{table:averages16VarsSampleSize1024}
         \renewcommand{\arraystretch}{1.2}
         \resizebox{\textwidth}{!}{ % Resize to fit within page width
