@@ -1545,9 +1545,9 @@ z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}} & z_{k}^{\alp
 \newpage
 \section{Algorithms}
 In this section, we show the speudo-codes of the algorithms described.
-\newpage
 
 \begin{algorithm}[H]
+\small
 %	\caption{Algorithm to find the algebraic immunity of a function $f$ on the restricted set $S\subseteq \mathbb{F}_2^n$.}
 	\caption{Algebraic immunity of $f$ restricted to the set $S$, Reed-Muller method. \label{alg:RMApproach}}
 	\begin{algorithmic}[1]
@@ -1593,104 +1593,9 @@ In this section, we show the speudo-codes of the algorithms described.
 \footnotetext[3]{\textsc{construct\_restricted\_generator\_matrices} is a function extracting $G_{n,n}^{f_{supp(f)\cap S},S}$, $G_{n,n}^{f_{supp(f+1)\cap S},S}$ and $G_{n,n}^{S}$ from the full Reed-Muller code generator matrix $G_{n,n}$ following Definition \ref{def:generatorsS}.}
 \footnotetext[4]{The function \textsc{min} takes care of $null$ values $\mbox{\textsc{min}}(immunity_f, null) = immunity_f$ and $\mbox{\textsc{min}}(null, immunity_{f+1}) = immunity_{f+1}$.}
 
-\begin{algorithm}[H]
-	\caption{Algorithm to find the degree of the minimum-degree non-zero-annihilator restricted on $S$ of a function $f^{(o)}$.}\label{alg:MinDegreeSnonZeroAnnihilatorIterative}
-	\begin{algorithmic}[1]
-		\Require restricted set $S\subset \mathbb{F}_2^n$, $Z = supp\left(f^{(o)}\right) \cap S$ and $E = \{\alpha_1, \cdots, \alpha_{D_n^n}\}$
-		\Ensure Degree of minimal degree non-zero-annihilator restricted on $S$ of $f^{(o)}$.
-		\State $V\gets (1)$;
-		\State $ops \gets [\ ]$;
-		\State $k \gets 2$;
-		\While{$k\leq |Z|$}
-		\State $V_{previous} \gets V$;
-		\State $\left(v_1, \cdots, v_{k-1}\right) \gets \mbox{\textsc{apply\_operations}}\left(\left(z_1^{\alpha_k}, \cdots, z_{k-1}^{\alpha_k}\right), ops\right)$\footnotemark;
-		\State  $M \gets \begin{pmatrix}
-		\multicolumn{4}{c}{\multirow{4}{*}{$V$}} & z_k^{\alpha_1}\\
-		& & & & z_k^{\alpha_2}\\
-		& & & & \vdots\\
-		& & & & z_k^{\alpha_{k-1}}\\
-		v_1 & v_1& \cdots & v_{k-1} & z_k^{\alpha_k}
-		\end{pmatrix}$;
-		\State $V, ops_k\gets \mbox{\textsc{EF\_last\_col}}(M)$\footnotemark;
-		\If{$rank(V) < k$}
-		\State $k \gets kernel\left(V\right).base()$;
-		\State $\hat{g} \gets k[0]$;
-		\State $nonVanishingPointIndex, vanishingFlag \gets Null, True$;
-		\ForAll{$z_{idx} \in (Z \backslash Z_k)$}
-		\State $vanishCheck \gets \mbox{\textsc{vanishes\_on}}(\hat{g}, z_{idx})$\footnotemark;
-		\If{$vanishCheck = False$}
-		\State $vanishingFlag \gets False$;
-        \State $nonVanishingPointIndex \gets idx$
-		\State \textbf{break};
-		\EndIf
-        \EndFor
-        \If{$vanishingFlag = True$}
-		\ForAll{$z_c \in S\backslash Z$}
-		\State $vanishCheckOnS \gets \mbox{\textsc{vanishes\_on}}(\hat{g}, z_c)$;
-		\If{$vanishCheckOnS = False$}
-		\State \Return $w_H\left(\alpha_i\right)$;
-		\EndIf
-		\EndFor
-		\State $V\gets V_{previous}$;
-		\State $\mbox{\textsc{remove}}(E, \alpha_i)$;
-		\State \textbf{continue}; \CommentSty{// Go to the next iteration.}
-        \Else
-		\State $zIndex \gets k+nonVanishingPointIndex$;
-		\State $Z \gets \mbox{\textsc{swap}}(z_{k+1}, z_{zIndex})$\footnotemark;
-		\EndIf
-        \State $ops\gets ops\ ||\ ops_k$;
-		\State $k\gets k+1$;
-		\EndIf
-		\EndWhile
-		\State \CommentSty{// The algorithm continues in the next page.}
-		\algstore{algo}
-	\end{algorithmic}
-\end{algorithm}
-\newpage
-\begin{algorithm}
-	\begin{algorithmic}
-		\algrestore{algo}
-		\State $S, ops_S \gets \mbox{\textsc{EF}}\left(
-		\begin{pmatrix}
-		s_1^{\alpha_1} &  s_2^{\alpha_1} & \cdots & s_{|S|}^{\alpha_{1}}\\
-		\vdots &  \vdots & \ddots & \vdots\\
-		s_{1}^{\alpha_k} &  s_{2}^{\alpha_k} & \cdots & s_{|S|}^{\alpha_{k}}\\
-		\end{pmatrix}\right)$;
-		\State $r \gets rank(S)$;
-		\If{$rank(V)<r$ }
-		\State \Return $w_H\left(\alpha_k\right)$;
-		\EndIf
-		\State $r_V \gets rank(V)$;
-		\While{$r\leq \lfloor|S| / 2\rfloor$}
-		\If{$r_V < k$}
-		\State $\left(v_1, \cdots, v_{k-1}\right) \gets \mbox{\textsc{apply\_operations}}\left(\left(z_1^{\alpha_k}, \cdots, z_{k-1}^{\alpha_k}\right), ops\right)$ 
-		\State $V \gets \begin{pmatrix}
-			\multicolumn{5}{c}{\multirow{1}{*}{$V$}} \\
-			v_1 & v_2 & \cdots & v_{k-1} & z_{k}^{\alpha_k}
-		\end{pmatrix}$;
-		\State $r_V \gets rank(V)$;
-		\EndIf
-		\State $\left(v_1, \cdots, v_{k-1}\right) \gets \mbox{\textsc{apply\_operations}}\left(\left(s_1^{\alpha_k}, \cdots, s_{k-1}^{\alpha_k}\right), ops_S\right)$;
-		\State $S \gets \begin{pmatrix}
-		\multicolumn{5}{c}{\multirow{1}{*}{$S$}} \\
-		s_1 & s_2 & \cdots & s_{k-1} & s_{k}^{\alpha_k}
-		\end{pmatrix}$;
-		\State $r \gets rank(S)$;
-		\If{$r_V < r$}
-		\State \Return $w_H\left(\alpha_k\right)$;
-		\EndIf
-		\EndWhile
-	\end{algorithmic}
-\end{algorithm}
-
-\footnotetext[5]{\textsc{apply\_operations} is a function taking a vector and the list of column operations described by $P_{k-1}$ in Remark~\ref{rem:historyOfOperations}}
-\footnotetext[6]{The implementation of \textsc{EF\_last\_col} is different from the implementation of \textsc{EF}, as it uses the fact that it only needs to column-echelon the last row and column added instead of the full matrix. }
-\footnotetext[7]{\textsc{vanished\_on} is a function taking as input the vector of the $ANF$ coefficient of a Boolean function $g \in \Bn{n}$ and a point $z$ on which to evaluate the corresponding Boolean function $g$. If $g$ vanishes in $z$, it returns $True$ otherwise it returns $False$. }
-\footnotetext[8]{See Remark~\ref{rem:permutationClarification}}
-
-
 
 \begin{algorithm}
+\small
     \caption{Algorithm to compute the algebraic immunity of a function $f\in \Bn{n}$ restricted to $S$ \label{alg:fullAlg3ForAIRestrictesSetOpt}}
     \begin{algorithmic}[1]
         \Require $x\in \mathbb{F}_2^{2^n}$ evaluation of the truth table of $f\in \Bn{n}$ and the restricted set $S\subseteq \mathbb{F}_2^n$.
@@ -1731,7 +1636,7 @@ We notice in fact that $T\left(G^{\leq 12}\right)$ is constant, that is because 
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.7\textwidth]{images/plot_12_10000.png}
+    \includegraphics[width=0.8\textwidth]{images/plot_12_10000.png}
     \caption{Average time execution per number of variables of Algorithms~\ref{alg:RMApproach} and \ref{alg:fullAlg3ForAIRestrictesSetOpt} over $10^4$ random $\WAPB{n}$ functions on the set $E_{\lceil{n/2}\rceil,n}$. 
     $T\left(G^{\leq 12}\right)$ gives the time of the pre-computation of the sequence of all Reed-Muller matrices up to $G_{12,12}$.}\label{fig:compTimePlot}
 \end{figure}
