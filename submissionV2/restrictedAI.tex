@@ -65,9 +65,9 @@
 	
 	\begin{abstract}
 
-Algebraic immunity is a fundamental property in the security analysis of stream ciphers and Boolean functions, measuring the resistance of a function against algebraic attacks. 
-In this work, we focus on the computation of algebraic immunity and, more specifically, on its generalization to restricted algebraic immunity, which considers annihilators constrained to specific subsets of $\mathbb{F}_2^n$. 
-While the computation of algebraic immunity has been studied using methods based on Reed-Muller codes and iterative rank-based algorithms, these approaches have not been formally adapted to the restricted setting. 
+Algebraic Immunity (AI) is a fundamental property in the security analysis of stream ciphers and Boolean functions, measuring the resistance of a function against algebraic attacks. 
+In this work, we focus on the computation of AI and, more specifically, on its generalization to restricted algebraic immunity, which considers annihilators constrained to specific subsets of $\mathbb{F}_2^n$. 
+While the computation of AI has been studied using methods based on Reed-Muller codes and iterative rank-based algorithms, these approaches have not been formally adapted to the restricted setting. 
 We address this gap by establishing the theoretical foundations required for the adaptation of these techniques and providing explicit algorithms for computing restricted algebraic immunity.  
 
 To assess the efficiency of our algorithms, we conduct practical experiments comparing the computational cost of the Reed-Muller and iterative approaches in terms of time and memory. As a case study, we analyze the algebraic immunity restricted to the slices of $\mathbb{F}_2^n$, \ie the sets of binary vectors of fixed Hamming weight, denoted $\AI_k$. 
@@ -99,8 +99,8 @@ Our results include an empirical analysis of $\AI_k$ distributions for WPB funct
 
 Since the introduction of algebraic attacks on filtered LFSRs~\cite{EC:CouMei03} in 2003, Algebraic Immunity (AI) has become a crucial property to consider in the security of stream ciphers. 
 As defined in~\cite{EC:MeiPasCar04}, algebraic immunity refers to the minimum degree of a nontrivial annihilator of a Boolean function $f$ or its complement $1+f$. 
-In the context of filtered LFSRs, algebraic immunity directly corresponds to the degree of the algebraic system an adversary can derive from the keystream, since only affine mappings occur before the application of the nonlinear filter $f$. 
-Consequently, algebraic immunity plays a key role in settings where affine updates are followed by a filtering function, as demonstrated in~\cite{SIAM:AppLov18} for Goldreich's pseudorandom generator~\cite{Goldreich00} and for (improved) filtered permutators~\cite{EC:MJSC16,INDO:MCJS19}. 
+In the context of filtered LFSRs, AI directly corresponds to the degree of the algebraic system an adversary can derive from the keystream, since only affine mappings occur before the application of the nonlinear filter $f$. 
+Consequently, AI plays a key role in settings where affine updates are followed by a filtering function, as demonstrated in~\cite{SIAM:AppLov18} for Goldreich's pseudorandom generator~\cite{Goldreich00} and for (improved) filtered permutators~\cite{EC:MJSC16,INDO:MCJS19}. 
 %Research on algebraic immunity has followed two main directions: analyzing its properties~\cite{IEEE:Didier06,AMC:CarMer13,DAM:Meaux22} and constructing Boolean functions that optimize this parameter~\cite{DCC:DalMaiSar06,ISIT:Carlet07,AC:CarFen08,IEEE:QFLW09,IEEE:ZCSH11,DCC:TuDen11}. These efforts have significantly contributed to the study of Boolean functions in cryptographic applications.
 Studying algebraic immunity (\eg \cite{IEEE:Didier06,AMC:CarMer13,DAM:Meaux22}) or constructing Boolean functions that optimize this parameter (\eg \cite{DCC:DalMaiSar06,ISIT:Carlet07,AC:CarFen08,IEEE:QFLW09,IEEE:ZCSH11,DCC:TuDen11}) has been an important line of research in the area of Boolean functions used in cryptography.
 
@@ -441,17 +441,17 @@ We use Krawtchouk polynomials and some of their properties to prove one of our r
 %	\left(G_{r,n}\right)_{i,j} = x_j^{u_i}, \ x_j \in Lex\left(X\right),\ u_i \in P_{r,n}
 \left(G_{r,n}\right)_{i,j} = x_j^{u_i}, \ x_j \in X,\ u_i \in P_{r,n}.
 	\end{align*}
-	We denote by $G_{r,n}^Y\in Mat_{D_r^n,|Y|}$, the Reed-Muller generator matrix restricted on the set $Y \subset X$
+	We denote by $G_{r,n}^Y\in Mat_{D_r^n,|Y|}$, the Reed-Muller generator matrix restricted on the set $Y \subset X$:
 	\begin{align*}
 	\left(G_{r,n}\right)^Y_{i,j} = x_j^{u_i}, \ x_j \in Y,\ u_i \in P_{r,n}.
 	\end{align*}
 \end{definition}
 
 \begin{remark}
-	Let $\hat{a}$ be the vector corresponding to the coefficients in the $ANF$ of a Boolean function $f$ of $n$ variables and degree $r$, then
-	\begin{align*}
-	\hat{a} \cdot  G_{r,n} = TT(f).
-	\end{align*}
+	Let $\hat{a}$ be the vector corresponding to the coefficients in the $ANF$ of a Boolean function $f$ of $n$ variables and degree $r$, then: $\hat{a} \cdot  G_{r,n} = TT(f)$.
+%	\begin{align*}
+%	\hat{a} \cdot  G_{r,n} = TT(f).
+%	\end{align*}
 \end{remark}
 
 
@@ -936,9 +936,13 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 \end{algorithm}
 
 \footnotetext[5]{\textsc{apply\_operations} is a function taking a vector and the list of column operations described by $P_{k-1}$ in Remark~\ref{rem:historyOfOperations}}
-\footnotetext[6]{The implementation of \textsc{EF\_last\_col} is different from the implementation of \textsc{EF}, as it uses the fact that it only needs to column-echelon the last row and column added instead of the full matrix. }
+\footnotetext[6]{The implementation of \textsc{EF\_last\_col} is different from the implementation of \textsc{EF}, as it 
+	%uses the fact that it only needs to 
+	column-echelons the last row and column added instead of the full matrix. }
 \footnotetext[7]{\textsc{vanished\_on} is a function taking as input the vector of the $ANF$ coefficient of a Boolean function $g \in \Bn{n}$ and a point $z$ on which to evaluate the corresponding Boolean function $g$. If $g$ vanishes in $z$, it returns $True$ otherwise it returns $False$. }
 \footnotetext[8]{See Remark~\ref{rem:permutationClarification}}
+
+\vspace{-1cm}
 
 
 \section{Experiments and applications to W(A)PB functions}
@@ -958,9 +962,10 @@ A formal definition is provided in Definition~\ref{def:distAIk}:
 
 \begin{definition}\label{def:distAIk}
     Let $m \in \N^*$, $n = 2^m$ and $k \in [1,n-1]$, we define the discrete probability distribution of $\AIk{k}$ as:
-    \begin{align*}
-        p_{\AIk{k}}(x) = \frac{\bigg|\{f\in \WPB{m}\  |\  \AIk{k}(f) = x\}\bigg|}{|\WPB{m}|}.
-    \end{align*}
+%    \begin{align*}
+%        p_{\AIk{k}}(x) = \frac{\bigg|\{f\in \WPB{m}\  |\  \AIk{k}(f) = x\}\bigg|}{|\WPB{m}|}.
+%    \end{align*}
+\[p_{\AIk{k}}(x) = \bigg|\{f\in \WPB{m}\  |\  \AIk{k}(f) = x\}\bigg| \cdot |\WPB{m}|^{-1}\]
 \end{definition}
 
 We aim to determine this distribution for $m = 2, 3$, and $4$. 
@@ -969,9 +974,11 @@ Therefore, we have to take a different approach for $m > 2$ by generating a cert
 
 \begin{definition}
     We define the $\AIk{k}$ distribution over a sample $\Omega$ as:
-    \begin{align*}
-        p_{\Omega,\AIk{k} }(x) =  \frac{\bigg|\{f\in \Omega\ | \  \AIk{k}(f) = x\}\bigg|}{|\Omega|}.
-    \end{align*}
+%    \begin{align*}
+%        p_{\Omega,\AIk{k} }(x) =  \frac{\bigg|\{f\in \Omega\ | \  \AIk{k}(f) = x\}\bigg|}{|\Omega|}.
+%    \end{align*}
+\[
+ p_{\Omega,\AIk{k} }(x) =  \bigg|\{f\in \Omega\ | \  \AIk{k}(f) = x\}\bigg| \cdot |\Omega|^{-1}.\]
 \end{definition}
 
 
@@ -985,14 +992,14 @@ In practice, random sampling is performed by generating a set $\Omega_k = \{\ome
 Then, for each slice $\Ekn{k}{n}$, the $\AIk{k}$ is computed for each restricted set in $\Omega_k$ the frequency of each particular $\AIk{k}$ value is recorded.
 Depending on the value of $m$ and the chosen sample size, the number of sub-truth tables generated may be too large to fit in memory simultaneously. 
 To address this, it is crucial to avoid storing all elements in memory at once. 
-Instead, they should be processed one by one, either by computing sequentially or by using iterators.\\
+Instead, they should be processed one by one, either by computing sequentially or by using iterators. 
 The following procedure is done for each slice $\Ekn{k}{n}$:
 \begin{enumerate}
     \item Initialize a hash table of all possible values of $\AIk{k}$.
     \item For each sub-truth table in $\omega_i^{(k)} \in \Omega_k$ (note that $\omega_i^{(k)}$ is either generated on the fly by an iterator or by having the source code for the generation of $\omega_i^{(k)}$ in this loop)\footnotemark:
     \begin{enumerate}
         \item Run Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} with $S=\omega_i^{(k)}$\label{enum:stepOfapplicationEnum}.
-        \item Increment the value in the hash table corresponding to the output of the previous step.
+        \item Increment the value in the hash table from the output of the previous step.
     \end{enumerate}
     \item Divide each value in the hash table by $|\Omega|$.
 \end{enumerate}
@@ -1130,6 +1137,8 @@ The maximum execution times for~\cite{AMC:DalMal23}, ~\cite{Mat:ZJZQ23},~\cite{C
 % CMR k = 8 time = 12.048051
 For $n=16$, the maximum execution times for~\cite{Mat:ZJZQ23},~\cite{CC:TangLiu19} and ~\cite{TOSC:CarMeaRot17} occur with $k=8$ and are $5.898671$, $126.627561$ and $12.048051$ seconds respectively. In contrast, for~\cite{AMC:DalMal23}, the maximum execution time occurs for $k=9$ and is $7.935819$ seconds.
 
+
+
 \begin{table}[H]
 \center
 %\renewcommand{\tabcolsep}{0.5pt}	
@@ -1246,16 +1255,10 @@ Furthermore, we determined the values of $\AI_k$ for various families of WPB fun
 
 By formalizing the theoretical background and providing both algorithms and implementations for computing restricted algebraic immunity, we hope this work will contribute to further research and the practical implementation of algebraic attack variants. 
 
-
-
-
-
 %\section{Acknowledgments}
 %Pierrick Méaux was supported by the ERC Advanced Grant no. 787390.
 
-
-
-\newpage
+%\newpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%~
 
@@ -1276,7 +1279,8 @@ By formalizing the theoretical background and providing both algorithms and impl
 \appendix
 
 \section{Proofs}
-In this section, we provide the proof of the propositions given in the paper. For each proposition, we re-state the statement and we provide the corresponding proof.
+In this section, we provide the proof of the propositions given in the article. 
+For each proposition, we re-state the statement and we provide the corresponding proof.
 \subsection{Proof of Proposition~\ref{prop:constantFs}.}
 \begin{description}
     \item[Statement:] A Boolean function $f$ has an $\AI_S$ of $0$ if and only if the restriction $f_S$ on $S$ is constant.
@@ -1544,7 +1548,7 @@ z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}} & z_{k}^{\alp
 
 \newpage
 \section{Algorithms}
-In this section, we show the speudo-codes of the algorithms described.
+In this section, we provide the pseudo-codes of the algorithms described.
 
 \begin{algorithm}[H]
 \small
