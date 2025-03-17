@@ -516,7 +516,7 @@ Let $r,n\in\N^*$ with $r\leq n$. Let $G_{r,n}$ be the generator matrix of the Re
 	If $\text{rank}\left(G^{f_{Z}^{(o)},S}_{r,n}\right) < \text{rank}(G^{S}_{r,n})$, then $f^{(o)}$ admits a non-zero-annihilator restricted to $S$ of degree at most $r$.
 \end{proposition}
 
-Algorithm~\ref{alg:RMApproach}, provides the full procedure to determine the restricted algebraic immunity of a function $f$ of $n$ variables on the subset $S$. We give additional details:
+Algorithm~\ref{alg:RMApproach}, provided in the appendix, details the full procedure to determine the restricted algebraic immunity of a function $f$ of $n$ variables on the subset $S$. We give additional details:
 
 \begin{remark}~\label{rem:remarksOnAlg}
 %	We have the following remarks
@@ -823,7 +823,7 @@ As a consequence of Remark~\ref{rem:historyOfOperations}, it can be seen that wh
 
 Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} shows the procedure to calculate the degree of the minimal degree non-zero-annihilator 
 %with degree $\geq 1$ 
-restricted to $S\subseteq \mathbb{F}_2^n$ of a function $f^{(o)} \in \{f, f+ 1\}$, while Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} shows the full procedure to determine the restricted algebraic immunity of $f$ in $S$, calling Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} for $f$ and $f+ 1$ in parallel.
+restricted to $S\subseteq \mathbb{F}_2^n$ of a function $f^{(o)} \in \{f, f+ 1\}$, while Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt}, provided in the appendix, shows the full procedure to determine the restricted algebraic immunity of $f$ in $S$, calling Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} for $f$ and $f+ 1$ in parallel.
 
 Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} which triggers the same process as Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative}, but applies it sequentially to $f$ and $f + 1$, to avoid waiting for both processes to complete simultaneously. This function is triggered only when $\supp(f) \cap S$ and $\supp(f + 1) \cap S$ differ significantly in cardinality, as in such cases, the probability of one of the two processes terminating quickly is high.
 
@@ -984,7 +984,7 @@ Therefore, we have to take a different approach for $m > 2$ by generating a cert
 
 \subsubsection{Determination of the full distribution for \texorpdfstring{m=2}{m=2}}
 For $m=2 \Rightarrow n = 4$, it is possible to determine the full probability distribution from Definition~\ref{def:distAIk} without using the random sampling strategy. 
-The resulting plots can be found on Figure~\ref{fig:dullDist} and Figure~\ref{fig:averagesFullDist} while the corresponding probability distribution table is presented in Table~\ref{table:probabilityDistributionn4}. 
+The resulting plots can be found in the appendix on Figure~\ref{fig:dullDist} and Figure~\ref{fig:averagesFullDist} while the corresponding probability distribution table is presented in Table~\ref{table:probabilityDistributionn4}. 
 
 
 \subsubsection{Random Sampling}
@@ -1006,22 +1006,16 @@ The following procedure is done for each slice $\Ekn{k}{n}$:
 
 \noindent
 \textbf{Results for $n=8$ and sample size$=2^{15}$}.
-Figure~\ref{fig:probDist32768} represents the $\AIk{k}$ distribution, Table~\ref{table:probabilityDistributionn8} shows the corresponding values, and Figure~\ref{fig:averages32768} the average values.
+Figure~\ref{fig:probDist32768} (provided in the appendix) represents the $\AIk{k}$ distribution, Table~\ref{table:probabilityDistributionn8} shows the corresponding values, and Figure~\ref{fig:averages32768} (also in the appendix) the average values.
 We observe that for $n=4$ all WPB functions have the same values of $\AIk{k}$, for every $k$. 
 However, for $n=8$, there are WPB functions with different restricted $\AIk{k}$, for example with $k=4$ we observe functions reaching the lowest value ($2$, such as families exhibited in~\cite{Latin:GinMea23}) and some reaching $3$ which is optimal for this size.
 
 
-%\noindent
-%\pmnote{results for n=16 here also as for 8+ some remarks
-
-%@ Luca, do you have a table version of Figure 9? I do not manage to identify the curve to give observations.}\\
-%\lbnote{Tables added in Table~\ref{table:probability_distributions}.}
-
 \textbf{Results for $n=16$ and sample size$=2^{10}$}.
-Figure~\ref{fig:probDist2014} represents the $\AIk{k}$ distribution, Table~\ref{table:probabilityDistributionn16} shows the corresponding values and Figure~\ref{fig:averages2014} the average values.
+Figure~\ref{fig:probDist2014} (provided in the appendix) represents the $\AIk{k}$ distribution, Table~\ref{table:probabilityDistributionn16} shows the corresponding values and Figure~\ref{fig:averages2014} (also in the appendix) the average values.
 We observe that there are WPB functions with different restricted $\AIk{k}$ for this value of $n$, and that for the central values ok $k$, all functions we sampled reach the optimal value of $\AIk{k}$.
 
-The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ are $n=16$ are displayed in Tables~\ref{table:averagesFullDist},~\ref{table:averages32768} and~\ref{table:averages16VarsSampleSize1024}.
+The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ are $n=16$ are displayed in the appendix, in Tables~\ref{table:averagesFullDist},~\ref{table:averages32768} and~\ref{table:averages16VarsSampleSize1024}.
 
 %is already enough variability in the corpus of WPB functions to observe 
 
@@ -1547,7 +1541,7 @@ z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}} & z_{k}^{\alp
 \end{proof}
 
 \newpage
-\section{Algorithms}
+\section{Algorithms}\label{Appendix:algorithms}
 In this section, we provide the pseudo-codes of the algorithms described.
 
 \begin{algorithm}[H]
@@ -1640,7 +1634,7 @@ We notice in fact that $T\left(G^{\leq 12}\right)$ is constant, that is because 
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\textwidth]{images/plot_12_10000.png}
+    \includegraphics[width=0.8\textwidth]{images/plot_n_12_sample_10000.png}
     \caption{Average time execution per number of variables of Algorithms~\ref{alg:RMApproach} and \ref{alg:fullAlg3ForAIRestrictesSetOpt} over $10^4$ random $\WAPB{n}$ functions on the set $E_{\lceil{n/2}\rceil,n}$. 
     $T\left(G^{\leq 12}\right)$ gives the time of the pre-computation of the sequence of all Reed-Muller matrices up to $G_{12,12}$.}\label{fig:compTimePlot}
 \end{figure}
