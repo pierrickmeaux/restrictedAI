@@ -487,8 +487,9 @@ The algorithm aims to determine whether the systems of equations $S_1^r \hat{=}g
 This is achieved by examining whether the rank of one of the punctured Reed-Muller (RM) matrices is smaller than one with the columns corresponding to the entire $S$.
 If $f$ is non-constant on $S$, the algorithm searches for the existence of either $g_1^r$ solving $S_1^r$ or $g_2^r$ solving $S_2^r$, where neither function vanishes over the entire set \( S \). 
 If such solutions \( g_1^r \) or \( g_2^r \) do not exist, new systems \( S_1^{r+1} \) and \( S_2^{r+1} \) are considered (through bigger matrices), and the search for solutions \( g_1^{r+1} \) and \( g_2^{r+1} \) continues. This iterative process is repeated until either an annihilator of \( f \) or \( f + 1 \) is found or an upper bound \( r + \delta \) is reached. The procedure for \( f_S \) and \( (f + 1)_S \) is carried out in parallel.
-Conversely, if \( f \) is constant on \( S \), the algorithm terminates and returns \( 0 \), as justified by Proposition~\ref{prop:constantFs}.
-
+Conversely, if \( f \) is constant on \( S \), the algorithm terminates and returns \( 0 \), as justified by Proposition~\ref{prop:constantFs}. 
+%The proof of the proposition, and the following statements, are given in Apprendix~\ref{sec:proofs}.
+The proofs of this proposition and all subsequent results are given in Appendix~\ref{sec:proofs}.
 
 
 
@@ -516,13 +517,16 @@ Let $r,n\in\N^*$ with $r\leq n$. Let $G_{r,n}$ be the generator matrix of the Re
 	If $\text{rank}\left(G^{f_{Z}^{(o)},S}_{r,n}\right) < \text{rank}(G^{S}_{r,n})$, then $f^{(o)}$ admits a non-zero-annihilator restricted to $S$ of degree at most $r$.
 \end{proposition}
 
-Algorithm~\ref{alg:RMApproach}, provided in the appendix, details the full procedure to determine the restricted algebraic immunity of a function $f$ of $n$ variables on the subset $S$. We give additional details:
+%Algorithm~\ref{alg:RMApproach}, provided in the appendix, details the full procedure to determine the restricted algebraic immunity of a function $f$ of $n$ variables on the subset $S$. We give additional details:
+Algorithm~\ref{alg:RMApproach}, provided in Appendix~\ref{Appendix:algorithms}, details the full procedure to determine the restricted algebraic immunity of a function $f$ of $n$ variables on the subset $S$. 
+We give additional details:
 
 \begin{remark}~\label{rem:remarksOnAlg}
 %	We have the following remarks
 	\begin{enumerate}
-		\item ~\cite{TOSC:CarMeaRot17} established that the upper bound of $AI_s(f)$ for any Boolean function $f$ and any set $S\subseteq \mathbb{F}_2^n$, is the smallest integer $r$ such that $\left(G_{r,n}^n\right) > |S| / 2$. As a consequence, the search of the annihilator for $f$ and $f+ 1$ in our algorithm terminates once $\text{rank}\left(G_{r,n}^S\right) > \lfloor{|S| / 2}\rfloor$.\label{item:Item1RemOnAlg}
-		\item The generator matrix of a Reed-Muller code does not depend on the Boolean function. It is therefore possible to pre-compute and store the generator matrices of all Reed-Muller codes with $r$ and $n$ smaller than some maximum values $r_{max}$ and $n_{max}$.
+		\item ~\cite{TOSC:CarMeaRot17} established that the upper bound of $\AI_s(f)$ for any Boolean function $f$ and any set $S\subseteq \mathbb{F}_2^n$, is the smallest integer $r$ such that $\left(G_{r,n}^n\right) > |S| / 2$. As a consequence, the search of the annihilator for $f$ and $f+ 1$ in our algorithm terminates once $\text{rank}\left(G_{r,n}^S\right) > \lfloor{|S| / 2}\rfloor$.\label{item:Item1RemOnAlg}
+		\item The generator matrix of a Reed-Muller code does not depend on the Boolean function.
+		 It is therefore possible to pre-compute and store the generator matrices of all Reed-Muller codes with $r$ and $n$ smaller than some maximum values $r_{max}$ and $n_{max}$.
 		This suggests that we can pre-compute $G_{r_{max}, n_{max}}$ for some fixed $n_{max}$ and $r_{max = n_{max}}$, and extract all others $G_{r,n}$ for $r \leq r_{max}$ and $n \leq n_{max}$ from it.
 		We therefore pre-compute the hash table
 		\begin{align}\label{eq:matricesHashTable}
@@ -823,7 +827,7 @@ As a consequence of Remark~\ref{rem:historyOfOperations}, it can be seen that wh
 
 Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} shows the procedure to calculate the degree of the minimal degree non-zero-annihilator 
 %with degree $\geq 1$ 
-restricted to $S\subseteq \mathbb{F}_2^n$ of a function $f^{(o)} \in \{f, f+ 1\}$, while Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt}, provided in the appendix, shows the full procedure to determine the restricted algebraic immunity of $f$ in $S$, calling Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} for $f$ and $f+ 1$ in parallel.
+restricted to $S\subseteq \mathbb{F}_2^n$ of a function $f^{(o)} \in \{f, f+ 1\}$, while Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt}, provided in Appendix~\ref{Appendix:algorithms}, shows the full procedure to determine the restricted algebraic immunity of $f$ in $S$, calling Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} for $f$ and $f+ 1$ in parallel.
 
 Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} which triggers the same process as Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative}, but applies it sequentially to $f$ and $f + 1$, to avoid waiting for both processes to complete simultaneously. This function is triggered only when $\supp(f) \cap S$ and $\supp(f + 1) \cap S$ differ significantly in cardinality, as in such cases, the probability of one of the two processes terminating quickly is high.
 
@@ -1272,7 +1276,7 @@ By formalizing the theoretical background and providing both algorithms and impl
 \newpage
 \appendix
 
-\section{Proofs}
+\section{Proofs}\label{sec:proofs}
 In this section, we provide the proof of the propositions given in the article. 
 For each proposition, we re-state the statement and we provide the corresponding proof.
 \subsection{Proof of Proposition~\ref{prop:constantFs}.}
@@ -1542,7 +1546,7 @@ z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}} & z_{k}^{\alp
 
 \newpage
 \section{Algorithms}\label{Appendix:algorithms}
-In this section, we provide the pseudo-codes of the algorithms described.
+In this section, we provide the pseudo-codes of the algorithms described in Section~\ref{sec:RMapproach} and Section~\ref{subsubsection:optEchelonForm}.
 
 \begin{algorithm}[H]
 \small
@@ -1625,7 +1629,7 @@ In this section, we provide the pseudo-codes of the algorithms described.
 
 \section{Comparison between Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} on WAPB functions}
 
-In this part, we compare the execution times of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} by running both algorithms on multiple WAPB functions restricted to the largest set $E_{\lceil{n/2}\rceil,n}$, with different numbers of variables. 
+In this part, we compare the execution times of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} by running both algorithms on multiple WAPB functions restricted to the largest set $\Ekn{\lceil{n/2}\rceil}{n}$, with different numbers of variables. 
 Specifically, the experiment is done by running the algorithms with the number of variables $n$ going from $1$ to $12$. For both algorithms, if $n \leq 4$, we calculate the average over the $\AIk{\lceil{n/2}\rceil}$ of all functions in $\WAPB{n}$, whereas for $n > 4$, we calculate the average over the $\AIk{\lceil{n/2}\rceil}$ of a random sample of $10^4$ $\WAPB{n}$ functions.
 
 Figure~\ref{fig:compTimePlot} shows the mean execution time per value of $n$ of the two algorithms.
@@ -1639,7 +1643,7 @@ We notice in fact that $T\left(G^{\leq 12}\right)$ is constant, that is because 
     $T\left(G^{\leq 12}\right)$ gives the time of the pre-computation of the sequence of all Reed-Muller matrices up to $G_{12,12}$.}\label{fig:compTimePlot}
 \end{figure}
 
-The pre-computation times of $G^{\leq n_{max}}$ for Algorithm~\ref{alg:RMApproach} are given in the Table~\ref{table:preComputationTimes}. From Figure~\ref{fig:compTimePlot}, we observe that Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} outperforms Algorithm~\ref{alg:RMApproach} for $n \leq 12$, even without considering the pre-computation time required for $G^{\leq n_{max}}$ and $D^{\leq n_{max}}$ in Algorithm~\ref{alg:RMApproach}. Furthermore, Algorithm~\ref{alg:RMApproach} becomes impractical for $n > 12$ due to the excessive complexity of pre-computation. In contrast, Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} remains feasible for larger values of $n$. \\
+The pre-computation times of $G^{\leq n_{max}}$ for Algorithm~\ref{alg:RMApproach} are given in the Table~\ref{table:preComputationTimes}. From Figure~\ref{fig:compTimePlot}, we observe that Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} outperforms Algorithm~\ref{alg:RMApproach} for $n \leq 12$, even without considering the pre-computation time required for $G^{\leq n_{max}}$ and $D^{\leq n_{max}}$ in Algorithm~\ref{alg:RMApproach}. Furthermore, Algorithm~\ref{alg:RMApproach} becomes impractical for $n > 12$ due to the excessive complexity of pre-computation. In contrast, Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} remains feasible for larger values of $n$. 
 
 \begin{table}[H]
 \centering
