@@ -145,7 +145,7 @@ Accordingly, we hope that this work will be useful for further research in these
 %Then, we perform some experiments with our algorithms. First we compare the practical efficiency of the two main approaches, in term of timing and memory required. For the comparison we consider the algebraic immunity restricted to a slice of $\F_2^n$, that is, a set $\Ekn{k}{n}$ consisting of all binary vectors of length $n$ and Hamming weight $k$. 
 %These sets, and the functions balanced on all these sets, Weightwise (Almost) Perfectly Balanced (W(A)PB) functions have received noticeable attention since the introduction of the restricted criteria in~\cite{TOSC:CarMeaRot17}. 
 %The slices form a partition appearing frequently in cryptographic works (\eg with the Hamming weight model in side channe analysis, fixed input weight in FLIP~\cite{EC:MJSC16}), the WAPB functions in particular are thoroughly studied. 
-%A line of work considers the construction of such objects~\cite{TOSC:CarMeaRot17,CC:TangLiu19,DCC:LiuMes19	DAM:LiSu20,CC:MesSu21,DAM:ZhuSu22,CEC:MPJDL22,ACI:ManKuLar22,INDO:GinMea22,CC:MSLZ22,DAM:GuoSu22,DAM:ZLCQZ23,AMC:ZhangSu23,Mat:ZJZQ23,ASIACCS:YCL+23,CCDS:GinMea24,AMC:DalMal23,eprint:Meaux24,eprint:DalMalMea24}, while another one studies the relevant cryptographic parameters of such functions: the nonlinearity~\cite{DAM:GinMea22} restricted to the slices, the nonlinearity~\cite{C2SI:GinMea23} and the algebraic immunity~\cite{Latin:GinMea23}.
+%A line of work considers the construction of such objects~\cite{TOSC:CarMeaRot17,CC:TangLiu19,DCC:LiuMes19	DAM:LiSu20,CC:MesSu21,DAM:ZhuSu22,CEC:MPJDL22,ACI:ManKuLar22,INDO:GinMea22,CC:MSLZ22,DAM:GuoSu22,DAM:ZLCQZ23,AMC:ZhangSu23,Mat:ZJZQ23,ASIACCS:YCL+23,CCDS:GinMea24,AMC:DalMal23,SAC:Meaux24,eprint:DalMalMea24}, while another one studies the relevant cryptographic parameters of such functions: the nonlinearity~\cite{DAM:GinMea22} restricted to the slices, the nonlinearity~\cite{C2SI:GinMea23} and the algebraic immunity~\cite{Latin:GinMea23}.
 %In this article we progress on the algebraic immunity restricted to the slices, called $\AI_k$ on WPB functions, important for contexts when the Hamming weight of the input of a function can be guessed. 
 %In Section~\ref{subsec:AIkWPB} we study the distribution of the $\AI_k$ of the WPB functions in $4$, $8$ and even $16$ variables. 
 %In Section~\ref{subsec:AIkknownFam} we determine the $\AIk{k}$ of several families that have been introduced in previous works.
@@ -156,7 +156,7 @@ First, we compare the practical efficiency of the two main approaches in terms o
 For this comparison, we consider algebraic immunity restricted to a slice of $\F_2^n$, specifically a set $\Ekn{k}{n}$ consisting of all binary vectors of length $n$ with Hamming weight $k$.  
 These sets, as well as functions that are balanced on all such sets, known as Weightwise (Almost) Perfectly Balanced (W(A)PB) functions, have attracted considerable attention since the introduction of restricted criteria in~\cite{TOSC:CarMeaRot17}.  
 Slices of $\F_2^n$ frequently appear in cryptographic research, notably in contexts such as the Hamming weight model in side-channel analysis and the fixed input weight setting in FLIP~\cite{EC:MJSC16}. 
-In particular, WAPB functions have been extensively studied, with research focusing primarily on two aspects. The first is the construction of such functions, which has been explored in various works~\cite{TOSC:CarMeaRot17,CC:TangLiu19,DCC:LiuMes19,DAM:LiSu20,CC:MesSu21,DAM:ZhuSu22,CEC:MPJDL22,ACI:ManKuLar22,INDO:GinMea22,CC:MSLZ22,DAM:GuoSu22,DAM:ZLCQZ23,AMC:ZhangSu23,Mat:ZJZQ23,ASIACCS:YCL+23,CCDS:GinMea24,AMC:DalMal23,eprint:Meaux24,eprint:DalMalMea24}. The second is the study of their cryptographic properties, including nonlinearity restricted to slices~\cite{DAM:GinMea22}, overall nonlinearity~\cite{C2SI:GinMea23}, and algebraic immunity~\cite{Latin:GinMea23}.  
+In particular, WAPB functions have been extensively studied, with research focusing primarily on two aspects. The first is the construction of such functions, which has been explored in various works~\cite{TOSC:CarMeaRot17,CC:TangLiu19,DCC:LiuMes19,DAM:LiSu20,CC:MesSu21,DAM:ZhuSu22,CEC:MPJDL22,ACI:ManKuLar22,INDO:GinMea22,CC:MSLZ22,DAM:GuoSu22,DAM:ZLCQZ23,AMC:ZhangSu23,Mat:ZJZQ23,ASIACCS:YCL+23,CCDS:GinMea24,AMC:DalMal23,SAC:Meaux24,eprint:DalMalMea24}. The second is the study of their cryptographic properties, including nonlinearity restricted to slices~\cite{DAM:GinMea22}, overall nonlinearity~\cite{C2SI:GinMea23}, and algebraic immunity~\cite{Latin:GinMea23}.  
 
 In this work, we further investigate algebraic immunity restricted to slices, denoted as $\AI_k$, particularly in the context of WAPB functions, which are relevant when the Hamming weight of a function’s input can be inferred. In Section~\ref{subsec:AIkWPB}, we analyze the distribution of $\AI_k$ for WPB functions with 4, 8, and even 16 variables. Then, in Section~\ref{subsec:AIkknownFam}, we determine the values of $\AIk{k}$ for several families of functions introduced in previous works.  
 
@@ -974,7 +974,7 @@ A formal definition is provided in Definition~\ref{def:distAIk}:
 \end{definition}
 
 We aim to determine this distribution for $m = 2, 3$, and $4$. 
-However, the number of WPB functions increases fast with the growth of $m$, making this computation infeasible for $m > 2$. In fact, as stated in ~\cite{Latin:GinMea23}, $|\WPB{2}| = 720$, while $|\WPB{3}| > 2^{243}$ and $|\WPB{4}| > 2^{65452}$.\\
+However, the number of WPB functions increases fast with the growth of $m$, making this computation infeasible for $m > 2$. In fact, as stated in ~\cite{Latin:GinMea23}, $|\WPB{2}| = 720$, while $|\WPB{3}| > 2^{243}$ and $|\WPB{4}| > 2^{65452}$.
 Therefore, we have to take a different approach for $m > 2$ by generating a certain number of samples from the set $\WPB{m}$ and calculating the probability over it. The larger the sample size we select, the better we approximate the distribution. 
 Table~\ref{table:probability_distributions} presents the estimated probability distribution obtained, while Figures~\ref{fig:averagesFullDist},~\ref{fig:probDist32768} and~\ref{fig:probDist2014} in Appendix~\ref{appendix:distPlots}, show the corresponding graphs.
 
@@ -1130,7 +1130,7 @@ In contrast, the function in~\cite{CC:TangLiu19} achieves an $\AIk{k}$ of $3$ fo
 %	\item[n=16] ~\cite{Mat:ZJZQ23} has a constant $AI_k$ of $2$, $k\in [2,14]$, while ~\cite{AMC:DalMal23} has a $AI_k$ of $3$ for $k=5,7,9$ and $11$.
 %\end{description}
 
-The maximum execution times for~\cite{AMC:DalMal23}, ~\cite{Mat:ZJZQ23},~\cite{CC:TangLiu19} and~\cite{TOSC:CarMeaRot17} with $n=8$ occur with $k=4$ and are around $0.014$, $0.029$, $0.011$ and $0.012$ seconds, respectively.\\
+The maximum execution times for~\cite{AMC:DalMal23}, ~\cite{Mat:ZJZQ23},~\cite{CC:TangLiu19} and~\cite{TOSC:CarMeaRot17} with $n=8$ occur with $k=4$ and are around $0.014$, $0.029$, $0.011$ and $0.012$ seconds, respectively.
 % LT19 k=8 time = 126.627561
 % ZS k=8 time = 5.898671
 % DM24 k = 9 time = 7.935819
@@ -1183,7 +1183,7 @@ $n$, $k$ & $0$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$ & $1
 
 In Table~\ref{tab:WPB8}, we summarize the results on $\AIk{k}$ for WPB functions with $8$ variables, including both our findings and those from the state of the art.  
 Similarly, Table~\ref{tab:WPB16} presents the corresponding results for functions with $16$ variables.  
-We observe that most of the studied families exhibit lower weightwise algebraic immunity than a randomly chosen WPB function, with the exception of the field order construction~\cite{eprint:Meaux24}.  
+We observe that most of the studied families exhibit lower weightwise algebraic immunity than a randomly chosen WPB function, with the exception of the field order construction~\cite{SAC:Meaux24}.  
 
 
 \begin{table}[H]
@@ -1198,7 +1198,7 @@ We observe that most of the studied families exhibit lower weightwise algebraic 
         \cite{CC:TangLiu19} & $2$ &  $2$ & $3$  &  $2$ & $2$ \\ \hline
         \cite{TOSC:CarMeaRot17} & $1$ &  $2$ & $2$  &  $2$ & $2$ \\ \hline
 		Estimated average & $1.95$ &  $2.02$ & $2.87$  &  $2.02$ & $1.95$ \\ \hline
-		Field order~\cite{eprint:Meaux24} &$ 1$& $2$& $3$& $2$ &$2$ \\	\hline
+		Field order~\cite{SAC:Meaux24} &$ 1$& $2$& $3$& $2$ &$2$ \\	\hline
 		Upper bound & $2$ &  $3$ & $3$  &  $3$ & $2$ \\	\hline
 	
 		
@@ -1227,7 +1227,7 @@ We observe that most of the studied families exhibit lower weightwise algebraic 
 &$2$ \\ \hline	
 		Estimated average &$2.00$& $2.99$& $3.89$& $4.37$ &$5.00$ & $6.00$ &$6.00$ &$6.00$ &5.00 &$4.40$ &$3.87$ &$2.99$ &$2.00$ \\ \hline
 %2 3 4 4 5 6 6 6 5 4 3 2 2		
-		Field order~\cite{eprint:Meaux24} &$ 2$& $3$& $4$& $4$ &$5$ & $6$ &$6$ &$6$ &$5$ &$4$ &$3$ &$2$ &$2$ \\	\hline
+		Field order~\cite{SAC:Meaux24} &$ 2$& $3$& $4$& $4$ &$5$ & $6$ &$6$ &$6$ &$5$ &$4$ &$3$ &$2$ &$2$ \\	\hline
 		Upper bound &$ 2$& $3$& $4$& $5$ &$5$ & $6$ &$6$ &$6$ &$5$ &$5$ &$4$ &$3$ &$2$  \\	\hline
 		
 		
@@ -1308,7 +1308,7 @@ If $\text{rank}\left(G^{f_{Z}^{(o)},S}_{r,n}\right) < \text{rank}(G^{S}_{r,n})$,
 	Let $D_r^n = \sum_{i=0}^r \binom{n}{i}$. Since $D_r^n = \text{rank}(G^{f^{(o)}_S,S}_{r,n}) + |\text{Ker}(G^{f^{(o)}_S,S}_{r,n})| =  \text{rank}(G^{S}_{r,n}) + |\text{Ker}(G^{S}_{r,n})|$, we have that
 	$\text{rank}(G^{f_S^{(o)},S}_{r,n}) < \text{rank}(G^{S}_{r,n}) \iff |\text{Ker}(G^{f_S^{(o)},S}_{r,n})| > |\text{Ker}(G^{S}_{r,n})|$. 
 	Therefore $\exists v\in \text{Ker}(G^{f_S^{(o)},S}_{r,n}) \mbox{ such that }v\not\in \text{Ker}(G^{S}_{r,n})$. 
-	Hence, it exists a Boolean function $g$ of degree $r$, given by $v \cdot G_{r,n}$, which is such that $v \cdot G_{r,n}\neq 0$ and $v \cdot G_{r,n}^{S}\neq 0$, but $(g \cdot f_S^{(o)})_S = v \cdot G_{r,n}^{f_S^{(o)},S} = 0$.\\
+	Hence, it exists a Boolean function $g$ of degree $r$, given by $v \cdot G_{r,n}$, which is such that $v \cdot G_{r,n}\neq 0$ and $v \cdot G_{r,n}^{S}\neq 0$, but $(g \cdot f_S^{(o)})_S = v \cdot G_{r,n}^{f_S^{(o)},S} = 0$.
 	Since $\text{rank}\left(G_{r,n}^{f_S^{(o)}, S}\right) = \text{rank}\left(G_{r,n}^{f^{(o)}, S}\right)$, $\text{rank}(G^{f^{(o)},S}_{r,n}) < \text{rank}(G^{S}_{r,n}) \Rightarrow \text{rank}(G^{f_Z^{(o)},S}_{r,n}) < \text{rank}(G^{S}_{r,n})$ and hence the condition $\text{rank}(G^{f_Z^{(o)},S}_{r,n}) < \text{rank}(G^{S}_{r,n})$ is enough to justify the existence of such $v$ giving the non-zero-annihilator $g$ of $f^{o}$ restricted to $S$.
 \end{proof}
 
@@ -1454,9 +1454,9 @@ Since $(\hat{\epsilon}, 0)$  cannot be in \( \text{ker}(V_{k+1}) \), the only po
 
 \begin{proof}
     Let $k$ be such that $1<k< \min{\left(|Z|,|E_{D_n^n}|\right)}$. The $LU$-decomposition of $V_{k-1}$ is  
-    \begin{align*}
-        V_{k-1} = L_{k-1} U_{k-1},
-    \end{align*}
+%    \begin{align*}
+        $V_{k-1} = L_{k-1} U_{k-1}$, %
+%    \end{align*}
     where $U_{k-1}$ is an upper triangular matrix and $L_{k-1} = EF\left(V_{k-1}\right)$ is the lower triangular matrix.
     \iffalse
     \begin{align*}
@@ -1519,6 +1519,7 @@ z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}} & z_{k}^{\alp
             & & & & 0\\
             0 & 0& \cdots & 0 & 1
         \end{pmatrix}$ is also an upper triangular matrix, and therefore
+\vspace{-0.2cm}
       \begin{align*}
         EF\left(V_{k}\right) =_p & EF
         \begin{pmatrix}
@@ -1546,7 +1547,7 @@ z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}} & z_{k}^{\alp
     \end{align*}
 \end{proof}
 
-\newpage
+%\newpage
 \section{Algorithms}\label{Appendix:algorithms}
 In this section, we provide the pseudo-codes of the algorithms described in Section~\ref{sec:RMapproach} and Section~\ref{subsubsection:optEchelonForm}.
 
