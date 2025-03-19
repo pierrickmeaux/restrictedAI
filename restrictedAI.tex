@@ -140,7 +140,7 @@ Accordingly, we hope that this work will be useful for further research in these
 %Then, we perform some experiments with our algorithms. First we compare the practical efficiency of the two main approaches, in term of timing and memory required. For the comparison we consider the algebraic immunity restricted to a slice of $\F_2^n$, that is, a set $\Ekn{k}{n}$ consisting of all binary vectors of length $n$ and Hamming weight $k$. 
 %These sets, and the functions balanced on all these sets, Weightwise (Almost) Perfectly Balanced (W(A)PB) functions have received noticeable attention since the introduction of the restricted criteria in~\cite{TOSC:CarMeaRot17}. 
 %The slices form a partition appearing frequently in cryptographic works (\eg with the Hamming weight model in side channe analysis, fixed input weight in FLIP~\cite{EC:MJSC16}), the WAPB functions in particular are thoroughly studied. 
-%A line of work considers the construction of such objects~\cite{TOSC:CarMeaRot17,CC:TangLiu19,DCC:LiuMes19	DAM:LiSu20,CC:MesSu21,DAM:ZhuSu22,CEC:MPJDL22,ACI:ManKuLar22,INDO:GinMea22,CC:MSLZ22,DAM:GuoSu22,DAM:ZLCQZ23,AMC:ZhangSu23,Mat:ZJZQ23,ASIACCS:YCL+23,CCDS:GinMea24,AMC:DalMal23,SAC:Meaux24,eprint:DalMalMea24}, while another one studies the relevant cryptographic parameters of such functions: the nonlinearity~\cite{DAM:GinMea22} restricted to the slices, the nonlinearity~\cite{C2SI:GinMea23} and the algebraic immunity~\cite{Latin:GinMea23}.
+%A line of work considers the construction of such objects~\cite{TOSC:CarMeaRot17,CC:TangLiu19,DCC:LiuMes19	DAM:LiSu20,CC:MesSu21,DAM:ZhuSu22,CEC:MPJDL22,ACI:ManKuLar22,INDO:GinMea22,CC:MSLZ22,DAM:GuoSu22,DAM:ZLCQZ23,AMC:ZhangSu23,Mat:ZJZQ23,ASIACCS:YCL+23,CCDS:GinMea24,AMC:DalMal23,eprint:Meaux24,eprint:DalMalMea24}, while another one studies the relevant cryptographic parameters of such functions: the nonlinearity~\cite{DAM:GinMea22} restricted to the slices, the nonlinearity~\cite{C2SI:GinMea23} and the algebraic immunity~\cite{Latin:GinMea23}.
 %In this article we progress on the algebraic immunity restricted to the slices, called $\AI_k$ on WPB functions, important for contexts when the Hamming weight of the input of a function can be guessed. 
 %In Section~\ref{subsec:AIkWPB} we study the distribution of the $\AI_k$ of the WPB functions in $4$, $8$ and even $16$ variables. 
 %In Section~\ref{subsec:AIkknownFam} we determine the $\AIk{k}$ of several families that have been introduced in previous works.
@@ -151,7 +151,7 @@ First, we compare the practical efficiency of the two main approaches in terms o
 For this comparison, we consider algebraic immunity restricted to a slice of $\F_2^n$, specifically a set $\Ekn{k}{n}$ consisting of all binary vectors of length $n$ with Hamming weight $k$.  
 These sets, as well as functions that are balanced on all such sets, known as Weightwise (Almost) Perfectly Balanced (W(A)PB) functions, have attracted considerable attention since the introduction of restricted criteria in~\cite{TOSC:CarMeaRot17}.  
 Slices of $\F_2^n$ frequently appear in cryptographic research, notably in contexts such as the Hamming weight model in side-channel analysis and the fixed input weight setting in FLIP~\cite{EC:MJSC16}. 
-In particular, WAPB functions have been extensively studied, with research focusing primarily on two aspects. The first is the construction of such functions, which has been explored in various works~\cite{TOSC:CarMeaRot17,CC:TangLiu19,DCC:LiuMes19,DAM:LiSu20,CC:MesSu21,DAM:ZhuSu22,CEC:MPJDL22,ACI:ManKuLar22,INDO:GinMea22,CC:MSLZ22,DAM:GuoSu22,DAM:ZLCQZ23,AMC:ZhangSu23,Mat:ZJZQ23,ASIACCS:YCL+23,CCDS:GinMea24,AMC:DalMal23,SAC:Meaux24,eprint:DalMalMea24}. The second is the study of their cryptographic properties, including nonlinearity restricted to slices~\cite{DAM:GinMea22}, overall nonlinearity~\cite{C2SI:GinMea23}, and algebraic immunity~\cite{Latin:GinMea23}.  
+In particular, WAPB functions have been extensively studied, with research focusing primarily on two aspects. The first is the construction of such functions, which has been explored in various works~\cite{TOSC:CarMeaRot17,CC:TangLiu19,DCC:LiuMes19,DAM:LiSu20,CC:MesSu21,DAM:ZhuSu22,CEC:MPJDL22,ACI:ManKuLar22,INDO:GinMea22,CC:MSLZ22,DAM:GuoSu22,DAM:ZLCQZ23,AMC:ZhangSu23,Mat:ZJZQ23,ASIACCS:YCL+23,CCDS:GinMea24,AMC:DalMal23,eprint:Meaux24,eprint:DalMalMea24}. The second is the study of their cryptographic properties, including nonlinearity restricted to slices~\cite{DAM:GinMea22}, overall nonlinearity~\cite{C2SI:GinMea23}, and algebraic immunity~\cite{Latin:GinMea23}.  
 
 In this work, we further investigate algebraic immunity restricted to slices, denoted as $\AI_k$, particularly in the context of WAPB functions, which are relevant when the Hamming weight of a function’s input can be inferred. In Section~\ref{subsec:AIkWPB}, we analyze the distribution of $\AI_k$ for WPB functions with 4, 8, and even 16 variables. Then, in Section~\ref{subsec:AIkknownFam}, we determine the values of $\AIk{k}$ for several families of functions introduced in previous works.  
 
@@ -1832,7 +1832,7 @@ $n$, $k$ & $0$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$ & $1
 
 In Table~\ref{tab:WPB8}, we summarize the results on $\AIk{k}$ for WPB functions with $8$ variables, including both our findings and those from the state of the art.  
 Similarly, Table~\ref{tab:WPB16} presents the corresponding results for functions with $16$ variables.  
-We observe that most of the studied families exhibit lower weightwise algebraic immunity than a randomly chosen WPB function, with the exception of the field order construction~\cite{SAC:Meaux24}.  
+We observe that most of the studied families exhibit lower weightwise algebraic immunity than a randomly chosen WPB function, with the exception of the field order construction~\cite{eprint:Meaux24}.  
 
 
 \begin{table}[H]
@@ -1846,7 +1846,7 @@ We observe that most of the studied families exhibit lower weightwise algebraic 
         \cite{CC:TangLiu19} & $2$ &  $2$ & $3$  &  $2$ & $2$ \\ \hline
         \cite{TOSC:CarMeaRot17} & $1$ &  $2$ & $2$  &  $2$ & $2$ \\ \hline
 		Estimated average & $1.95$ &  $2.02$ & $2.87$  &  $2.02$ & $1.95$ \\ \hline
-		Field order~\cite{SAC:Meaux24} &$ 1$& $2$& $3$& $2$ &$2$ \\	\hline
+		Field order~\cite{eprint:Meaux24} &$ 1$& $2$& $3$& $2$ &$2$ \\	\hline
 		Upper bound & $2$ &  $3$ & $3$  &  $3$ & $2$ \\	\hline
 	
 		
@@ -1864,7 +1864,7 @@ We observe that most of the studied families exhibit lower weightwise algebraic 
 		Function &  $\AIk{2}$ & $\AIk{3}$ & $\AIk{4}$ &  $\AIk{5}$ & $\AIk{6}$ &  $\AIk{7}$ & $\AIk{8}$ & $\AIk{9}$ &  $\AIk{10}$ & $\AIk{11}$ &  $\AIk{12}$ & $\AIk{13}$ & $\AIk{14}$ \\ \hline 
 		
 \cite{AMC:DalMal23}		&$ 1$& $2$& $3$& $3$ &$3$ & $3$ &$3$ &$3$ &$3$ &$3$ &$2$ &$2$
-	 &0 \\ \hline
+	 &$2$ \\ \hline
 \cite{Mat:ZJZQ23}		&$ 2$& $2$& $2$& $2$ &$2$ & $2$ &$2$ &$2$ &$2$ &$2$ &$2$ &$2$
 &$2$ \\ \hline
 \cite{CC:TangLiu19}		&$ 2$& $2$& $3$& $3$ &$4$ & $4$ &$5$ &$4$ &$4$ &$3$ &$3$ &$2$
@@ -1873,7 +1873,7 @@ We observe that most of the studied families exhibit lower weightwise algebraic 
 &$2$ \\ \hline	
 		Estimated average &$2.00$& $2.99$& $3.89$& $4.37$ &$5.00$ & $6.00$ &$6.00$ &$6.00$ &5.00 &$4.40$ &$3.87$ &$2.99$ &$2.00$ \\ \hline
 %2 3 4 4 5 6 6 6 5 4 3 2 2		
-		Field order~\cite{SAC:Meaux24} &$ 2$& $3$& $4$& $4$ &$5$ & $6$ &$6$ &$6$ &$5$ &$4$ &$3$ &$2$ &$2$ \\	\hline
+		Field order~\cite{eprint:Meaux24} &$ 2$& $3$& $4$& $4$ &$5$ & $6$ &$6$ &$6$ &$5$ &$4$ &$3$ &$2$ &$2$ \\	\hline
 		Upper bound &$ 2$& $3$& $4$& $5$ &$5$ & $6$ &$6$ &$6$ &$5$ &$5$ &$4$ &$3$ &$2$  \\	\hline
 		
 		
