@@ -1309,7 +1309,7 @@ If $\text{rank}\left(G^{f_{Z}^{(o)},S}_{r,n}\right) < \text{rank}(G^{S}_{r,n})$,
 	Let $D_r^n = \sum_{i=0}^r \binom{n}{i}$. Since $D_r^n = \text{rank}(G^{f^{(o)}_S,S}_{r,n}) + |\text{Ker}(G^{f^{(o)}_S,S}_{r,n})| =  \text{rank}(G^{S}_{r,n}) + |\text{Ker}(G^{S}_{r,n})|$, we have that
 	$\text{rank}(G^{f_S^{(o)},S}_{r,n}) < \text{rank}(G^{S}_{r,n}) \iff |\text{Ker}(G^{f_S^{(o)},S}_{r,n})| > |\text{Ker}(G^{S}_{r,n})|$. 
 	Therefore $\exists v\in \text{Ker}(G^{f_S^{(o)},S}_{r,n}) \mbox{ such that }v\not\in \text{Ker}(G^{S}_{r,n})$. 
-	Hence, it exists a Boolean function $g$ of degree $r$, who's truth table is given by $v \cdot G_{r,n}$, which is such that $v \cdot G_{r,n}\neq 0$ and $v \cdot G_{r,n}^{S}\neq 0$, but $(g \cdot f_S^{(o)})_S = v \cdot G_{r,n}^{f_S^{(o)},S} = 0$.
+	Hence, it exists a Boolean function $g$ of degree $r$, whose truth table is given by $v \cdot G_{r,n}$, which is such that $v \cdot G_{r,n}\neq 0$ and $v \cdot G_{r,n}^{S}\neq 0$, but $(g \cdot f_S^{(o)})_S = v \cdot G_{r,n}^{f_S^{(o)},S} = 0$.
 	Since $\text{rank}\left(G_{r,n}^{f_S^{(o)}, S}\right) = \text{rank}\left(G_{r,n}^{f^{(o)}, S}\right)$, $\text{rank}(G^{f^{(o)},S}_{r,n}) < \text{rank}(G^{S}_{r,n}) \Rightarrow \text{rank}(G^{f_Z^{(o)},S}_{r,n}) < \text{rank}(G^{S}_{r,n})$ and hence the condition $\text{rank}(G^{f_Z^{(o)},S}_{r,n}) < \text{rank}(G^{S}_{r,n})$ is enough to justify the existence of such $v$ giving the non-zero-annihilator $g$ of $f^{o}$ restricted to $S$.
 \end{proof}
 
@@ -1633,7 +1633,7 @@ In this section, we provide the pseudo-codes of the algorithms described in Sect
 
 \section{Comparison between Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} on WAPB functions}\label{appendix:algsComparison}
 
-In this part, we compare the execution times of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} by running both algorithms on multiple $\WAPB{}$ functions restricted to the largest set $\Ekn{\lceil{n/2}\rceil}{n}$, with different numbers of variables. 
+In this part, we compare the execution times of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} by running both algorithms on multiple WAPB functions restricted to the largest set $\Ekn{\lceil{n/2}\rceil}{n}$, with different numbers of variables. 
 Specifically, the experiment is done by running the algorithms with the number of variables $n$ going from $1$ to $12$. For both algorithms, if $n \leq 4$, we calculate the average over the $\AIk{\lceil{n/2}\rceil}$ of all functions in $\WAPB{n}$, whereas for $n > 4$, we calculate the average over the $\AIk{\lceil{n/2}\rceil}$ of a random sample of $10^4$ $\WAPB{n}$ functions.
 
 Figure~\ref{fig:compTimePlot} shows the mean execution time per value of $n$ of the two algorithms.
@@ -1691,7 +1691,7 @@ Both implementations of the algorithms used to generate the plot in Figure~\ref{
         \caption{Probability distribution of $\AIk{k}$  over $\WPB{2}$.}
         \label{fig:probFullDist}
     \end{minipage}
-    \caption{Mean of $\AIk{k}$ and probability distribution of $\AIk{k}$ from Definition~\ref{def:distAIk} of $4$-variable $\WPB{}$ functions.}
+    \caption{Mean of $\AIk{k}$ and probability distribution of $\AIk{k}$ from Definition~\ref{def:distAIk} of $4$-variable WPB functions.}
     \label{fig:dullDist}
 \end{figure}
 
@@ -1710,7 +1710,7 @@ Both implementations of the algorithms used to generate the plot in Figure~\ref{
         \caption{Estimated Probability distribution of $\AIk{k}$ over $\WPB{3}$.}
         \label{fig:probDist32768}
     \end{minipage}
-    \caption{Estimated average of $\AIk{k}$ and probability distribution of $\AIk{k}$ over $8$-variable $\WPB{}$ functions, with $2^{15}$ samples.}
+    \caption{Estimated average of $\AIk{k}$ and probability distribution of $\AIk{k}$ over $8$-variable WPB functions, with $2^{15}$ samples.}
     \label{fig:main2}
 \end{figure}
 
@@ -1729,7 +1729,7 @@ Both implementations of the algorithms used to generate the plot in Figure~\ref{
         \caption{Estimated Probability distribution of $\AIk{k}$ over $\WPB{4}$.}
         \label{fig:probDist2014}
     \end{minipage}
-    \caption{Estimated average of $\AIk{k}$ and probability distribution of $\AIk{k}$ over $8$-variable $\WPB{}$ functions, with $2^{10}$ samples.}
+    \caption{Estimated average of $\AIk{k}$ and probability distribution of $\AIk{k}$ over $8$-variable WPB functions, with $2^{10}$ samples.}
     \label{fig:main2014}
 \end{figure}
 
