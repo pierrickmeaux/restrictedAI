@@ -286,7 +286,7 @@ If not specified otherwise, the (restricted) truth table follows the lexicograph
 	The function $g$ is called an annihilator of $f$ (or $f + 1$). 
 	%Additionally we denote $\AN(f) = \min_{g \neq 0}\{ \degg(g) \; | \; fg = 0\}$.
 	
-The restricted algebraic immunity of a Boolean function $f\in \Bfn{n}$ on the set $S\subset \F_2^n$, denoted as $\AI_S(f)$, is defined as:
+The restricted algebraic immunity of a Boolean function $f\in \Bfn{n}$ on the set $S\subseteq \F_2^n$, denoted as $\AI_S(f)$, is defined as:
 \[ \AI_S(f) = \min_{g \neq 0 \text{ over } S}\{ \degg(g) \; | \; fg = 0 \; \text{or} \; (f + 1)g = 0 \}{.} \]	
 For $S=\Ekn{k}{n}$ we denote $\AI_{\Ekn{k}{n}}(f)$ by $\AIk{k}(f)$ and call it weightwise algebraic immunity.
 	
@@ -497,7 +497,9 @@ The proofs of this proposition and all subsequent results are given in Appendix~
 	A Boolean function $f$ has an $\AI_S$ of $0$ if and only if the restriction $f_S$ on $S$ is constant.
 \end{proposition}
 
-The matrices corresponding to systems of equations $S_1^r$ and $S_2^r$ are constructed by extracting the $S$-$f$-generator and the $S$-$(f+1)$-generator given by Definition~\ref{def:generatorsS}, by extracting them from the Reed-Muller generator matrix where we only consider the columns corresponding to elements in $S$. 
+The matrices corresponding to the systems of equations $S_1^r$ and $S_2^r$ are obtained by extracting the punctured Reed-Muller generator matrices, as defined in Definition~\ref{def:generatorsS}, from the Reed-Muller generator matrix, considering only the columns corresponding to elements in $S$.
+
+%The matrices corresponding to systems of equations $S_1^r$ and $S_2^r$ are constructed by extracting the punctured Reed-Muller generator matrices given by Definition~\ref{def:generatorsS}, by extracting them from the Reed-Muller generator matrix where we only consider the columns corresponding to elements in $S$. 
 
 
 
@@ -524,9 +526,9 @@ We give additional details:
 \begin{remark}~\label{rem:remarksOnAlg}
 %	We have the following remarks
 	\begin{enumerate}
-		\item ~\cite{TOSC:CarMeaRot17} established that the upper bound of $\AI_s(f)$ for any Boolean function $f$ and any set $S\subseteq \mathbb{F}_2^n$, is the smallest integer $r$ such that $\left(G_{r,n}^n\right) > |S| / 2$. As a consequence, the search of the annihilator for $f$ and $f+ 1$ in our algorithm terminates once $\text{rank}\left(G_{r,n}^S\right) > \lfloor{|S| / 2}\rfloor$.\label{item:Item1RemOnAlg}
+		\item ~\cite{TOSC:CarMeaRot17} established that the upper bound of $\AI_S(f)$ for any Boolean function $f$ and any set $S\subseteq \mathbb{F}_2^n$, is the smallest integer $r$ such that $\left(G_{r,n}^n\right) > |S| / 2$. As a consequence, the search of the annihilator for $f$ and $f+ 1$ in our algorithm terminates once $\text{rank}\left(G_{r,n}^S\right) > \lfloor{|S| / 2}\rfloor$.\label{item:Item1RemOnAlg}
 		\item The generator matrix of a Reed-Muller code does not depend on the Boolean function.
-		 It is therefore possible to pre-compute and store the generator matrices of all Reed-Muller codes with $r$ and $n$ smaller than some maximum values $r_{max}$ and $n_{max}$. In particular, when computing $\AI_s$ of a function with nn variables using Algorithm~\ref{alg:RMApproach}, the precomputation of $G_{n,n}$ is required. However, to facilitate the use of the algorithm for functions with fewer than $n$ variables, we also precompute matrices for smaller values of $n$.
+		 It is therefore possible to pre-compute and store the generator matrices of all Reed-Muller codes with $r$ and $n$ smaller than some maximum values $r_{max}$ and $n_{max}$. In particular, when computing $\AI_S$ of a function with nn variables using Algorithm~\ref{alg:RMApproach}, the pre-computation of $G_{n,n}$ is required. However, to facilitate the use of the algorithm for functions with fewer than $n$ variables, we also pre-compute matrices for smaller values of $n$.
 		We therefore fix an $n_{max}$ and pre-compute the hash table
 		\begin{align}\label{eq:matricesHashTable}
 		G^{\leq n_{max}} = \{\left(n, G_{n,n}\right)\}_{1 \leq n \leq n_{max}}
@@ -538,7 +540,7 @@ We give additional details:
 		D^{\leq n_{max}} =  \{\left(n,D^{n} \right)\}_{0 \leq n \leq n_{max}} =  \{\left(n, \{ \left(n, D_i^n\right)\}_{0\leq i \leq n} \right)\}_{0 \leq n \leq n_{max}}
 		\end{align}
 		In Algorithm ~\ref{alg:RMApproach}, we therefore use the function \textsc{read\_values\_from\_file}, to read to two pre-computed hash tables from the files where they have been pre-stored before the execution of the algorithm.
-		\item The procedure \textsc{find\_deg\_smallest\_S\_annihilator} in ~\ref{alg:RMApproach} is done in parallel for $f$ and $f+ 1$ with the additional condition that if one of the two branches returns the value of $1$, the other branch is stopped, without having to wait for it to finish.
+		\item The procedure \textsc{find\_deg\_smallest\_S\_annihilator} in Algorithm~\ref{alg:RMApproach} is performed in parallel for $f$ and $f+ 1$ with the additional condition that if one of the two branches returns the value $1$, the other branch is stopped, without having to wait for it to finish.
 	\end{enumerate}	
 \end{remark}
 
@@ -610,7 +612,7 @@ Let $Z = supp(f)\cap S$ and $E = \{\alpha_2, \alpha_2, \cdots, \alpha_{D_d^n}\}$
 
 \begin{remark}\label{rem:squareConstruction}
  %   Let $i\geq 1$. We have that if $1< i+1 \leq \min{\left(|Z|, |E_{D_n^n}|\right)}$, $V_{Z_{i+1}, E_{i+1}}$ can be computed as
- Let $i\geq 1$. If $1< i+1 \leq \min{\left(|Z|, |E_{D_n^n}|\right)}$, then $V_{Z_{i+1}, E_{i+1}}$ can be computed as
+ Let $i\geq 1$. If $1< i+1 \leq \min{\left(|Z|, |E_{D_n^n}|\right)}$, then $V_{E_{i+1},Z_{i+1}}$ can be computed as
     \begin{align*}
         V_{E_{i+1}, Z_{i+1}} = 
         \begin{pmatrix}
@@ -621,7 +623,7 @@ Let $Z = supp(f)\cap S$ and $E = \{\alpha_2, \alpha_2, \cdots, \alpha_{D_d^n}\}$
         z_1^{\alpha_{i+1}} & z_2^{\alpha_{i+1}}& \cdots & z_{i}^{\alpha_{i+1}} & z_{i+1}^{\alpha_{i+1}}
     \end{pmatrix}.
     \end{align*}
-    This can be seen by combining Definition~\ref{def:tVandermonde} and the fact that for all $i$ such that $1< i+1 \leq \min{\left(|Z|, |E|-1\right)}$, the matrix $V_{Z_{i+1}, E_{i+1}}$ is square.
+    This can be seen by combining Definition~\ref{def:tVandermonde} and the fact that for all $i$ such that $1< i+1 \leq \min{\left(|Z|, |E|-1\right)}$, the matrix $V_{E_{i+1}, Z_{i+1}}$ is square.
 \end{remark}
 
 \begin{definition}[Sequence of $V_k$ matrices]\label{def:inductiveConstructionOfV}
@@ -1193,8 +1195,8 @@ We observe that most of the studied families exhibit lower weightwise algebraic 
 	\renewcommand{\tabcolsep}{1.8pt}	
 	\begin{tabular}{|c| c|c|c|c|c|}
 		\hline
-		Function &  $\AIk{2}$ & $\AIk{3}$ & $\AIk{4}$ &  $\AIk{5}$ & $\AIk{6}$  \\ \hline 
-		\cite{AMC:DalMal23} & $1$ &  $2$ & $2$  &  $2$ & $1$ \\ \hline
+        Function &  $\AIk{2}$ & $\AIk{3}$ & $\AIk{4}$ &  $\AIk{5}$ & $\AIk{6}$  \\ \hline 
+		\cite{AMC:DalMal23} & $1$ &  $2$ & $3$  &  $2$ & $2$ \\ \hline
 		\cite{Mat:ZJZQ23} & $2$ &  $2$ & $2$  &  $2$ & $2$ \\ \hline
         \cite{CC:TangLiu19} & $2$ &  $2$ & $3$  &  $2$ & $2$ \\ \hline
         \cite{TOSC:CarMeaRot17} & $1$ &  $2$ & $2$  &  $2$ & $2$ \\ \hline
@@ -1218,7 +1220,7 @@ We observe that most of the studied families exhibit lower weightwise algebraic 
 		\hline
 		Function &  $\AIk{2}$ & $\AIk{3}$ & $\AIk{4}$ &  $\AIk{5}$ & $\AIk{6}$ &  $\AIk{7}$ & $\AIk{8}$ & $\AIk{9}$ &  $\AIk{10}$ & $\AIk{11}$ &  $\AIk{12}$ & $\AIk{13}$ & $\AIk{14}$ \\ \hline 
 		
-\cite{AMC:DalMal23}		&$ 1$& $2$& $3$& $3$ &$3$ & $3$ &$3$ &$3$ &$3$ &$3$ &$2$ &$2$
+\cite{AMC:DalMal23}		&$ 1$& $2$& $3$& $3$ &$3$ & $3$ &$3$ &$3$ &$3$ &$3$ &$3$ &$2$
 	 &$2$ \\ \hline
 \cite{Mat:ZJZQ23}		&$ 2$& $2$& $2$& $2$ &$2$ & $2$ &$2$ &$2$ &$2$ &$2$ &$2$ &$2$
 &$2$ \\ \hline
