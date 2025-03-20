@@ -886,7 +886,7 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 		\EndIf
 		\EndFor
 		\State $V\gets V_{previous}$;
-		\State $\mbox{\textsc{remove}}(E, \alpha_i)$;
+		\State $\mbox{\textsc{remove}}(\alpha_i, E)$; \CommentSty{// Remove $\alpha_i$ from the array $E$.}
 		\State \textbf{continue}; \CommentSty{// Go to the next iteration.}
         \Else
 		\State $zIndex \gets k+nonVanishingPointIndex$;
@@ -1309,7 +1309,7 @@ If $\text{rank}\left(G^{f_{Z}^{(o)},S}_{r,n}\right) < \text{rank}(G^{S}_{r,n})$,
 	Let $D_r^n = \sum_{i=0}^r \binom{n}{i}$. Since $D_r^n = \text{rank}(G^{f^{(o)}_S,S}_{r,n}) + |\text{Ker}(G^{f^{(o)}_S,S}_{r,n})| =  \text{rank}(G^{S}_{r,n}) + |\text{Ker}(G^{S}_{r,n})|$, we have that
 	$\text{rank}(G^{f_S^{(o)},S}_{r,n}) < \text{rank}(G^{S}_{r,n}) \iff |\text{Ker}(G^{f_S^{(o)},S}_{r,n})| > |\text{Ker}(G^{S}_{r,n})|$. 
 	Therefore $\exists v\in \text{Ker}(G^{f_S^{(o)},S}_{r,n}) \mbox{ such that }v\not\in \text{Ker}(G^{S}_{r,n})$. 
-	Hence, it exists a Boolean function $g$ of degree $r$, given by $v \cdot G_{r,n}$, which is such that $v \cdot G_{r,n}\neq 0$ and $v \cdot G_{r,n}^{S}\neq 0$, but $(g \cdot f_S^{(o)})_S = v \cdot G_{r,n}^{f_S^{(o)},S} = 0$.
+	Hence, it exists a Boolean function $g$ of degree $r$, who's truth table is given by $v \cdot G_{r,n}$, which is such that $v \cdot G_{r,n}\neq 0$ and $v \cdot G_{r,n}^{S}\neq 0$, but $(g \cdot f_S^{(o)})_S = v \cdot G_{r,n}^{f_S^{(o)},S} = 0$.
 	Since $\text{rank}\left(G_{r,n}^{f_S^{(o)}, S}\right) = \text{rank}\left(G_{r,n}^{f^{(o)}, S}\right)$, $\text{rank}(G^{f^{(o)},S}_{r,n}) < \text{rank}(G^{S}_{r,n}) \Rightarrow \text{rank}(G^{f_Z^{(o)},S}_{r,n}) < \text{rank}(G^{S}_{r,n})$ and hence the condition $\text{rank}(G^{f_Z^{(o)},S}_{r,n}) < \text{rank}(G^{S}_{r,n})$ is enough to justify the existence of such $v$ giving the non-zero-annihilator $g$ of $f^{o}$ restricted to $S$.
 \end{proof}
 
@@ -1578,7 +1578,7 @@ In this section, we provide the pseudo-codes of the algorithms described in Sect
 		\State $i \gets i+1$;
 		\EndWhile
 		\EndFunction
-
+        \State
         \State $Z = supp(x)\cap S$;
         \State $Z_c = supp(x+1) \cap S$;
 		\If{$Z = \emptyset$ of $Z_c = \emptyset$}
@@ -1597,7 +1597,7 @@ In this section, we provide the pseudo-codes of the algorithms described in Sect
 \end{algorithm}
 \footnotetext[2]{The symbol $||$ is used as row-concatenation of matrices, meaning that $C = A||B$ is the matrix constructed by appending all the row of the matrix $B$ to the matrix $A$.}
 \footnotetext[3]{\textsc{construct\_restricted\_generator\_matrices} is a function extracting $G_{n,n}^{f_{supp(f)\cap S},S}$, $G_{n,n}^{f_{supp(f+1)\cap S},S}$ and $G_{n,n}^{S}$ from the full Reed-Muller code generator matrix $G_{n,n}$ following Definition \ref{def:generatorsS}.}
-\footnotetext[4]{The function \textsc{min} takes care of $null$ values $\mbox{\textsc{min}}(immunity_f, null) = immunity_f$ and $\mbox{\textsc{min}}(null, immunity_{f+1}) = immunity_{f+1}$.}
+\footnotetext[4]{The function \textsc{min} takes care of $null$ values: $\mbox{\textsc{min}}(immunity_f, null) = immunity_f$ and $\mbox{\textsc{min}}(null, immunity_{f+1}) = immunity_{f+1}$.}
 
 
 \begin{algorithm}
@@ -1616,7 +1616,7 @@ In this section, we provide the pseudo-codes of the algorithms described in Sect
 
         \State $E_{D_n^n} \leftarrow \mbox{\textsc{construct\_monomials}}(n=n, d=n)$\footnotemark;
         \State $r\gets \frac{|Z|}{|Z_c|}$ \textbf{if} $|Z| < |Z_c|$ \textbf{else} $\frac{|Z_c|}{|Z|}$;
-        \If{$r \geq ratio$}
+        \If{$r \geq \frac{1}{4}$}
             \State $immunity_f, immunity_{f+1} \leftarrow ($\\
 		$\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(Z=Z, E=E_{D_n^n}, S=S)$\\
 		$\ |\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(Z=Z_c, E=E_{D_n^n}, S=S)$\\
@@ -1633,12 +1633,12 @@ In this section, we provide the pseudo-codes of the algorithms described in Sect
 
 \section{Comparison between Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} on WAPB functions}\label{appendix:algsComparison}
 
-In this part, we compare the execution times of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} by running both algorithms on multiple WAPB functions restricted to the largest set $\Ekn{\lceil{n/2}\rceil}{n}$, with different numbers of variables. 
+In this part, we compare the execution times of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} by running both algorithms on multiple $\WAPB{}$ functions restricted to the largest set $\Ekn{\lceil{n/2}\rceil}{n}$, with different numbers of variables. 
 Specifically, the experiment is done by running the algorithms with the number of variables $n$ going from $1$ to $12$. For both algorithms, if $n \leq 4$, we calculate the average over the $\AIk{\lceil{n/2}\rceil}$ of all functions in $\WAPB{n}$, whereas for $n > 4$, we calculate the average over the $\AIk{\lceil{n/2}\rceil}$ of a random sample of $10^4$ $\WAPB{n}$ functions.
 
 Figure~\ref{fig:compTimePlot} shows the mean execution time per value of $n$ of the two algorithms.
 We denote by $T\left(G^{\leq n_{max}}\right) = T\left(G^{\leq 12} \right)$ the necessary time to pre-compute all the necessary Reed-Muller codes's generator matrices following Equation~\eqref{eq:matricesHashTable}: we recall that it is the necessary time to compute the sequence $\left(G_{n,n}\right)_{n\in [1,12=n_{max}]}$, not only the generator matrix $G_{n,n}$ for the current iteration $n$. 
-We notice in fact that $T\left(G^{\leq 12}\right)$ is constant, that is because the computation occurs before beginning the experiment since it is expected that Algorithm~\ref{alg:RMApproach} is able to run for any number of variable $n$ up to an upper bound $n_{max}$, without having to compute the Reed-Muller code for it. 
+In fact, $T\left(G^{\leq 12}\right)$ is constant, that is because the computation occurs before beginning the experiment since it is expected that Algorithm~\ref{alg:RMApproach} is able to run for any number of variable $n$ up to an upper bound $n_{max}$, without having to compute the Reed-Muller code for it. 
 
 \begin{figure}
     \centering
@@ -1691,7 +1691,7 @@ Both implementations of the algorithms used to generate the plot in Figure~\ref{
         \caption{Probability distribution of $\AIk{k}$  over $\WPB{2}$.}
         \label{fig:probFullDist}
     \end{minipage}
-    \caption{Mean of $\AIk{k}$ and probability distribution of $\AIk{k}$ from Definition~\ref{def:distAIk} of $4$-variable WPB functions.}
+    \caption{Mean of $\AIk{k}$ and probability distribution of $\AIk{k}$ from Definition~\ref{def:distAIk} of $4$-variable $\WPB{}$ functions.}
     \label{fig:dullDist}
 \end{figure}
 
@@ -1710,7 +1710,7 @@ Both implementations of the algorithms used to generate the plot in Figure~\ref{
         \caption{Estimated Probability distribution of $\AIk{k}$ over $\WPB{3}$.}
         \label{fig:probDist32768}
     \end{minipage}
-    \caption{Estimated average of $\AIk{k}$ and probability distribution of $\AIk{k}$ over $8$-variable WPB functions, with $2^{15}$ samples.}
+    \caption{Estimated average of $\AIk{k}$ and probability distribution of $\AIk{k}$ over $8$-variable $\WPB{}$ functions, with $2^{15}$ samples.}
     \label{fig:main2}
 \end{figure}
 
@@ -1729,7 +1729,7 @@ Both implementations of the algorithms used to generate the plot in Figure~\ref{
         \caption{Estimated Probability distribution of $\AIk{k}$ over $\WPB{4}$.}
         \label{fig:probDist2014}
     \end{minipage}
-    \caption{Estimated average of $\AIk{k}$ and probability distribution of $\AIk{k}$ over $8$-variable WPB functions, with $2^{10}$ samples.}
+    \caption{Estimated average of $\AIk{k}$ and probability distribution of $\AIk{k}$ over $8$-variable $\WPB{}$ functions, with $2^{10}$ samples.}
     \label{fig:main2014}
 \end{figure}
 
