@@ -903,10 +903,10 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 		s_{1}^{\alpha_k} &  s_{2}^{\alpha_k} & \cdots & s_{|S|}^{\alpha_{k}}\\
 		\end{pmatrix}\right)$;
 		\State $r \gets rank(S)$;
-        \If{$rank(V)<r$ }
+        \State $r_V \gets rank(V)$;
+        \If{$r_V<r$ }
 		\State \Return $w_H\left(\alpha_k\right)$;
 		\EndIf
-        \State $r_V \gets rank(V)$;
 		\State \CommentSty{// The algorithm continues in the next page.}
 		\algstore{algo}
 	\end{algorithmic}
