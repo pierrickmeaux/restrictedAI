@@ -441,7 +441,7 @@ We use Krawtchouk polynomials and some of their properties to prove one of our r
 %	\left(G_{r,n}\right)_{i,j} = x_j^{u_i}, \ x_j \in Lex\left(X\right),\ u_i \in P_{r,n}
 \left(G_{r,n}\right)_{i,j} = x_j^{u_i}, \ x_j \in X,\ u_i \in P_{r,n}.
 	\end{align*}
-	We denote by $G_{r,n}^Y\in Mat_{D_r^n,|Y|}$, the Reed-Muller generator matrix restricted on the set $Y \subset X$:
+	We denote by $G_{r,n}^Y\in Mat_{D_r^n,|Y|}$, the Reed-Muller generator matrix restricted on the set $Y \subseteq X$:
 	\begin{align*}
 	\left(G_{r,n}\right)^Y_{i,j} = x_j^{u_i}, \ x_j \in Y,\ u_i \in P_{r,n}.
 	\end{align*}
@@ -526,16 +526,16 @@ We give additional details:
 	\begin{enumerate}
 		\item ~\cite{TOSC:CarMeaRot17} established that the upper bound of $\AI_s(f)$ for any Boolean function $f$ and any set $S\subseteq \mathbb{F}_2^n$, is the smallest integer $r$ such that $\left(G_{r,n}^n\right) > |S| / 2$. As a consequence, the search of the annihilator for $f$ and $f+ 1$ in our algorithm terminates once $\text{rank}\left(G_{r,n}^S\right) > \lfloor{|S| / 2}\rfloor$.\label{item:Item1RemOnAlg}
 		\item The generator matrix of a Reed-Muller code does not depend on the Boolean function.
-		 It is therefore possible to pre-compute and store the generator matrices of all Reed-Muller codes with $r$ and $n$ smaller than some maximum values $r_{max}$ and $n_{max}$.
-		This suggests that we can pre-compute $G_{r_{max}, n_{max}}$ for some fixed $n_{max}$ and $r_{max = n_{max}}$, and extract all others $G_{r,n}$ for $r \leq r_{max}$ and $n \leq n_{max}$ from it.
-		We therefore pre-compute the hash table
+		 It is therefore possible to pre-compute and store the generator matrices of all Reed-Muller codes with $r$ and $n$ smaller than some maximum values $r_{max}$ and $n_{max}$. In particular, when computing $\AI_s$ of a function with nn variables using Algorithm~\ref{alg:RMApproach}, the precomputation of $G_{n,n}$ is required. However, to facilitate the use of the algorithm for functions with fewer than $n$ variables, we also precompute matrices for smaller values of $n$.
+		We therefore fix an $n_{max}$ and pre-compute the hash table
 		\begin{align}\label{eq:matricesHashTable}
-		G^{\leq n_{max}} = \{\left(i, G_{n,i}\right)\}_{i \leq 1 \leq n_{max}}
+		G^{\leq n_{max}} = \{\left(n, G_{n,n}\right)\}_{1 \leq n \leq n_{max}}
 		\end{align}
 		and store it in a file.\\
+        
 		Similarly, we can also pre-compute and store a second hash table, containing all the $D^n$s such that $n \leq n_{max}$. Such hash table is
 		\begin{align}\label{eq:degreesHashTable}
-		D^{\leq n_{max}} =  \{\left(i,D^{n} \right)\}_{0 \leq i \leq n_{max}} =  \{\left(i, \{ \left(j, D_i^j\right)\}_{0\leq j \leq \lceil{i/2}\rceil} \right)\}_{0 \leq i \leq n_{max}}
+		D^{\leq n_{max}} =  \{\left(n,D^{n} \right)\}_{0 \leq n \leq n_{max}} =  \{\left(n, \{ \left(n, D_i^n\right)\}_{0\leq i \leq n} \right)\}_{0 \leq n \leq n_{max}}
 		\end{align}
 		In Algorithm ~\ref{alg:RMApproach}, we therefore use the function \textsc{read\_values\_from\_file}, to read to two pre-computed hash tables from the files where they have been pre-stored before the execution of the algorithm.
 		\item The procedure \textsc{find\_deg\_smallest\_S\_annihilator} in ~\ref{alg:RMApproach} is done in parallel for $f$ and $f+ 1$ with the additional condition that if one of the two branches returns the value of $1$, the other branch is stopped, without having to wait for it to finish.
@@ -583,9 +583,9 @@ We begin with definitions and remarks necessary to introduce the general idea of
   %  We call this matrix the \textit{T-Vandermonde} matrix the transpose of the matrix used in ~\cite{armknecht2006efficient}.\\
   We refer to this matrix as the \textit{T-Vandermonde} matrix, as it is the transpose of a Vandermonde matrix.
   % the transpose of the matrix used in ~\cite{armknecht2006efficient}.\\
-    Denoting by $Z_i = \{z_1, z_2, \cdots, z_i\}$ and $E_j = \{\alpha_1, \dots, \alpha_j\}$ for $i\in[1,z_{k_Z}]$ and $j\in[1,\alpha_{k_E}]$, the sub-matrix $V_{E_i, Z_j}$ of $V_{E,Z}$, is given by the elements:
+    Denoting by $Z_j = \{z_1, z_2, \cdots, z_j\}$ and $E_i = \{\alpha_1, \dots, \alpha_i\}$ for $j\in[1,z_{k_Z}]$ and $i\in[1,\alpha_{k_E}]$, the sub-matrix $V_{E_i, Z_j}$ of $V_{E,Z}$, is given by the elements:
     \begin{align*}
-        \left(V_{E_i,Z_j}\right)_{n,l} = z_l^{\alpha_n} \quad \forall n\in[1,i] \mbox{ and } l\in[1, j].
+        \left(V_{E_i,Z_j}\right)_{m,l} = z_l^{\alpha_m} \quad \forall m\in[1,i] \mbox{ and } l\in[1, j].
     \end{align*}
     %\begin{align*}
     %    V_{E_i,Z_j} = 
@@ -599,7 +599,7 @@ We begin with definitions and remarks necessary to introduce the general idea of
 \end{definition}
 
 \begin{remark}\label{rem:subsetOfReedMuller}
-Let $E = (\{\alpha_2, \alpha_2, \cdots, \alpha_{D_d^n}\})$ be such that $x^E$ is the set of all monomials with degree at most $d$ ordered by the graded lex order. 
+Let $Z = supp(f)\cap S$ and $E = \{\alpha_2, \alpha_2, \cdots, \alpha_{D_d^n}\}$ be such that $x^E$ is the set of all monomials with degree at most $d$ ordered by the graded lex order. 
     We remark the following:
     %The following remarks are made
     \begin{itemize}
@@ -635,7 +635,7 @@ Let $E = (\{\alpha_2, \alpha_2, \cdots, \alpha_{D_d^n}\})$ be such that $x^E$ is
         & & & & \vdots\\
         & & & & z_k^{\alpha_{k-1}}\\
         z_1^{\alpha_{k}} & z_{2}^{\alpha_k}& \cdots & z_{k-1}^{\alpha_{k}} & z_{k}^{\alpha_{k}}
-    \end{pmatrix} & \mbox{ if } 2\leq k \leq \min{\left(|Z|, |E_{D_{\lceil{n/2}\rceil-1}^n}|\right)},\\
+    \end{pmatrix} & \mbox{ if } 2\leq k \leq \min{\left(|Z|, |E_{D_n^n}|\right)},\\
     \begin{pmatrix}
         \multicolumn{4}{c}{\multirow{1}{*}{$V_{k-1}$}} \\
         z_1^{\alpha_k} & z_2^{\alpha_k} & \cdots & z_{k}^{\alpha_k}
@@ -669,7 +669,7 @@ Indeed, if for some \( i \), \( \text{rank}\left(V_{E_i, Z}\right) < \text{rank}
 
 
 In the procedure described, we aim to identify at least one element from a vector space that satisfies certain required conditions (corresponding to an annihilator, not trivial on $S$), while maintaining the algorithm's desired efficiency. 
-Since this vector space can potentially be too large, we address this issue as follows: if we find an element \( \hat{g}_k \) in the right kernel of \( V_k \) that does not vanish on \( Z \), we re-order the vector \( Z \) by swapping the element \( z_{k+1} \) with the element that does not vanish in \( \hat{g}_k \). 
+Since this vector space can potentially be too large, we address this issue as follows: if we find an element \( \hat{g}_k \) in the kernel of \( V_k \) that does not vanish on \( Z \), we re-order the vector \( Z \) by swapping the element \( z_{k+1} \) with the element that does not vanish in \( \hat{g}_k \). 
 This ensures that such elements of the kernel of \( V_k \) do not propagate into the kernel of subsequent matrices.
 
 Furthermore, if an element of the kernel of \( V_k \) is found that vanishes on all of \( Z \) and \( S \), the monomial \( \alpha_k \) is dropped. 
@@ -716,7 +716,7 @@ Propositions~\ref{prop:swappingElementOfZToReduceKer}, ~\ref{prop:upperBoundOnRi
 
 
 \begin{proposition}\label{prop:constructionOfNextVRemovingAlphai}
-    Let $\text{ker}(V_{E_k, Z_k}) =  \langle \hat{g}_k \rangle = \langle (\epsilon_1, \dots, \epsilon_k) \rangle$, where the corresponding Boolean function $g_k\in \Bn{n}$ satisfies $g_k(x) = 0,\ \forall x\in Z$, but it exists a $y\in S$ such that $g_k(y) = 1$.
+    Let $\text{ker}(V_{E_k, Z_k}) =  \langle \hat{g}_k \rangle = \langle (\epsilon_1, \dots, \epsilon_k) \rangle$, where the corresponding Boolean function $g_k\in \Bn{n}$ satisfies $g_k(x) = 0,\ \forall x\in Z$.
     
     Define $E^{*} = (\alpha_1, \alpha_2, \dots, \alpha_{k-1}, \alpha_{k+1})$ , a vector constructed from $E_k$ by replacing the last element $\alpha_{k}$ with $\alpha_{k+1}$. 
     Let $V_{k+1} = V_{E^{*}_{k+1}, Z_k}$ be the matrix defined by replacing the monomial $\alpha_k$ in $V_{E_k, Z_k}$, with the monomial $\alpha_{k+1}$: 
@@ -730,7 +730,7 @@ Propositions~\ref{prop:swappingElementOfZToReduceKer}, ~\ref{prop:upperBoundOnRi
         z_{1}^{\alpha_{k+1}} & z_{2}^{\alpha_{k+1}}& \cdots & z_{k-1}^{\alpha_{k+1}} & z_{k}^{\alpha_{k+1}}
     \end{pmatrix}.
     \end{align*}
-    Then, either $\hat{g}_k \not\in \text{ker}(V_{E^{*}_{k+1}, Z_k})$, or $\hat{g}_k$ is the only element (aside from $\hat{0}$) in the right kernel of $V_{E_{k+1}^{*}, Z_k}$. Hence:
+    Then, either $\hat{g}_k \not\in \text{ker}(V_{E^{*}_{k+1}, Z_k})$, or $\hat{g}_k$ is the only element (aside from $\hat{0}$) in the kernel of $V_{E_{k+1}^{*}, Z_k}$. Hence:
     \begin{align*}
         \text{dim}\left(\text{ker}(V_{E^{*}_{k+1}, Z_k})\right)\leq 1. 
     \end{align*}
@@ -850,7 +850,7 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 \small
 	\caption{Algorithm to find the degree of the minimum-degree non-zero-annihilator restricted on $S$ of a function $f^{(o)}$.}\label{alg:MinDegreeSnonZeroAnnihilatorIterative}
 	\begin{algorithmic}[1]
-		\Require restricted set $S\subset \mathbb{F}_2^n$, $Z = supp\left(f^{(o)}\right) \cap S$ and $E = \{\alpha_1, \cdots, \alpha_{D_n^n}\}$
+		\Require restricted set $S\subseteq \mathbb{F}_2^n$, $Z = supp\left(f^{(o)}\right) \cap S$ and $E = \{\alpha_1, \cdots, \alpha_{D_n^n}\}$
 		\Ensure Degree of minimal degree non-zero-annihilator restricted on $S$ of $f^{(o)}$.
 		\State $V\gets (1)$;
 		\State $ops \gets [\ ]$;
@@ -997,13 +997,13 @@ The resulting graphs can be found in Figure~\ref{fig:dullDist} and Figure~\ref{f
 \subsubsection{Random Sampling}
 In practice, random sampling is performed by generating a set $\Omega_k = \{\omega_1^{(k)}, \cdots, \omega_{|\Omega|}^{(k)}\}$ consisting of $|\Omega|$ random balanced sub-truth tables for each slice $\Ekn{k}{n}$. 
 Then, for each slice $\Ekn{k}{n}$, the $\AIk{k}$ is computed for each restricted set in $\Omega_k$ the frequency of each particular $\AIk{k}$ value is recorded.
-Depending on the value of $m$ and the chosen sample size, the number of sub-truth tables generated may be too large to fit in memory simultaneously. 
-To address this, it is crucial to avoid storing all elements in memory at once. 
-Instead, they should be processed one by one, either by computing sequentially or by using iterators. 
+%Depending on the value of $m$ and the chosen sample size, the number of sub-truth tables generated may be too large to fit in memory simultaneously. 
+%To address this, it is crucial to avoid storing all elements in memory at once. 
+%Instead, they should be processed one by one, either by computing sequentially or by using iterators. 
 The following procedure is done for each slice $\Ekn{k}{n}$:
 \begin{enumerate}
     \item Initialize a hash table of all possible values of $\AIk{k}$.
-    \item For each sub-truth table in $\omega_i^{(k)} \in \Omega_k$ (note that $\omega_i^{(k)}$ is either generated on the fly by an iterator or by having the source code for the generation of $\omega_i^{(k)}$ in this loop)\footnotemark:
+    \item For each sub-truth table in $\omega_i^{(k)} \in \Omega_k$ (note that $\omega_i^{(k)}$ may be generated on the fly by an iterator).\footnotemark:
     \begin{enumerate}
         \item Run Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} with $S=\omega_i^{(k)}$\label{enum:stepOfapplicationEnum}.
         \item Increment the value in the hash table from the output of the previous step.
@@ -1020,13 +1020,13 @@ However, for $n=8$, there are WPB functions with different restricted $\AIk{k}$,
 
 \textbf{Results for $n=16$ and sample size$=2^{10}$}.
 Figure~\ref{fig:probDist2014} represents the $\AIk{k}$ distribution, Table~\ref{table:probabilityDistributionn16} shows the corresponding values and Figure~\ref{fig:averages2014} the average values.
-We observe that there are WPB functions with different restricted $\AIk{k}$ for this value of $n$, and that for the central values ok $k$, all functions we sampled reach the optimal value of $\AIk{k}$.
+We observe that there are WPB functions with different restricted $\AIk{k}$ for this value of $n$, and that for the central values of $k$, all functions we sampled reach the optimal value of $\AIk{k}$.
 
 The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ are $n=16$ are displayed in the appendix, in Tables~\ref{table:averagesFullDist},~\ref{table:averages32768} and~\ref{table:averages16VarsSampleSize1024}.
 
 %is already enough variability in the corpus of WPB functions to observe 
 
-\footnotetext[1]{Step $2$ may be executed in parallel on the $\omega_i^{(k)}$s.}
+\footnotetext[1]{Step $2$ may be executed in parallel on the $\omega_i^{(k)}$s if memory is not a constraint. In fact, depending on the value of $m$ and the chosen sample size, the number of sub-truth tables generated may be too large to fit in memory simultaneously.}
 
 %\pmnote{add some comment on the results in 4 and 8 variables.}
 
@@ -1408,7 +1408,7 @@ Since $(\hat{\epsilon}, 0)$  cannot be in \( \text{ker}(V_{k+1}) \), the only po
 
 \subsection{Proof of Proposition~\ref{prop:constructionOfNextVRemovingAlphai}.}
 \begin{description}
-    \item[Statement:] Let $\text{ker}(V_{E_k, Z_k}) =  \langle \hat{g}_k \rangle = \langle (\epsilon_1, \dots, \epsilon_k) \rangle$, where the corresponding Boolean function $g_k\in \Bn{n}$ satisfies $g_k(x) = 0,\ \forall x\in Z$, but it exists a $y\in S$ such that $g_k(y) = 1$.
+    \item[Statement:] Let $\text{ker}(V_{E_k, Z_k}) =  \langle \hat{g}_k \rangle = \langle (\epsilon_1, \dots, \epsilon_k) \rangle$, where the corresponding Boolean function $g_k\in \Bn{n}$ satisfies $g_k(x) = 0,\ \forall x\in Z$.
     
     Define $E^{*} = (\alpha_1, \alpha_2, \dots, \alpha_{k-1}, \alpha_{k+1})$ , a vector constructed from $E_k$ by replacing the last element $\alpha_{k}$ with $\alpha_{k+1}$. 
     Let $V_{k+1} = V_{E^{*}_{k+1}, Z_k}$ be the matrix defined by replacing the monomial $\alpha_k$ in $V_{E_k, Z_k}$, with the monomial $\alpha_{k+1}$: 
@@ -1422,7 +1422,7 @@ Since $(\hat{\epsilon}, 0)$  cannot be in \( \text{ker}(V_{k+1}) \), the only po
         z_{1}^{\alpha_{k+1}} & z_{2}^{\alpha_{k+1}}& \cdots & z_{k-1}^{\alpha_{k+1}} & z_{k}^{\alpha_{k+1}}
     \end{pmatrix}.
     \end{align*}
-    Then, either $\hat{g}_k \not\in \text{ker}(V_{E^{*}_{k+1}, Z_k})$, or $\hat{g}_k$ is the only element (aside from $\hat{0}$) in the right kernel of $V_{E_{k+1}^{*}, Z_k}$. Hence:
+    Then, either $\hat{g}_k \not\in \text{ker}(V_{E^{*}_{k+1}, Z_k})$, or $\hat{g}_k$ is the only element (aside from $\hat{0}$) in the kernel of $V_{E_{k+1}^{*}, Z_k}$. Hence:
     \begin{align*}
         \text{dim}\left(\text{ker}(V_{E^{*}_{k+1}, Z_k})\right)\leq 1. 
     \end{align*}
