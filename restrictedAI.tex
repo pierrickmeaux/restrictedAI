@@ -1262,7 +1262,7 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 
 \section{Experiments and applications to W(A)PB functions}
 In this section, we apply the algorithms to the weightwise perfectly balanced (WPB) Boolean functions with the intent to study their algebraic immunity restricted to subsets of constant Hamming weight. In particular, we determine the probability distributions of the $\AIk{k}$ of WPB functions and we compute the $\AIk{k}$ of some WPB Boolean functions already studied. 
-The source code for the implementation of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt}, along with the probability distributions and the values of $\AIk{k}$ for the published functions, can be found in the \url{https://github.com/LucaBonamino/restricted_algebraic_immunity}.
+The source code for the implementation of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt}, along with the probability distributions and the values of $\AIk{k}$ for the published functions, can be found in the \url{https://github.com/LucaBonamino/restricted_algebraic_immunity}. Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} has been partially implemented in Python to facilitate the comparison with Algorithm~\ref{alg:RMApproach}, while a full implementation in Rust of it has been done to compute the restricted algebraic immunity distributions and the $\AIk{k}$ values of the published functions.
 
 \subsection{Comparison between Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} on WAPB functions}
 
@@ -1374,7 +1374,7 @@ The following procedure is done for each slice $\Ekn{k}{n}$:
 \end{enumerate}
 
 \noindent
-\textbf{Results for $n=8$ and sample size$=2^{15}$}.
+\textbf{Results for $n=8$ and sample size$=2^{20}$}.
 Figure~\ref{fig:probDist32768} represents the $\AIk{k}$ distribution, Table~\ref{table:probabilityDistributionn8} shows the corresponding values, and Figure~\ref{fig:averages32768} the average values.
 We observe that for $n=4$ all WPB functions have the same values of $\AIk{k}$, for every $k$. 
 However, for $n=8$, there are WPB functions with different restricted $\AIk{k}$, for example with $k=4$ we observe functions reaching the lowest value ($2$, such as families exhibited in~\cite{Latin:GinMea23}) and some reaching $3$ which is optimal for this size.
@@ -1382,18 +1382,18 @@ However, for $n=8$, there are WPB functions with different restricted $\AIk{k}$,
     \centering
     \begin{minipage}[b]{0.45\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/WPB_3_sample_size_32768_average_a.png}
+        \includegraphics[width=\textwidth]{images/WPB_3_sample_size_1048576_average_a.png}
         \caption{Estimated average of $\AIk{k}$ over $\WPB{3}$.}
         \label{fig:averages32768}
     \end{minipage}
     \hfill
     \begin{minipage}[b]{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/WPB_3_sample_size_32768_dist_prob_a.png}
+        \includegraphics[width=\textwidth]{images/WPB_3_sample_size_1048576_dist_prob_a.png}
         \caption{Estimated Probability distribution of $\AIk{k}$ over $\WPB{3}$.}
         \label{fig:probDist32768}
     \end{minipage}
-    \caption{Estimated average of $\AIk{k}$ and probability distribution of $\AIk{k}$ over $8$-variable WPB functions, with $2^{15}$ samples.}
+    \caption{Estimated average of $\AIk{k}$ and probability distribution of $\AIk{k}$ over $8$-variable WPB functions, with $2^{20}$ samples.}
     \label{fig:main2}
 \end{figure}
 
@@ -1403,7 +1403,7 @@ However, for $n=8$, there are WPB functions with different restricted $\AIk{k}$,
 %@ Luca, do you have a table version of Figure 9? I do not manage to identify the curve to give observations.}\\
 %\lbnote{Tables added in Table~\ref{table:probability_distributions}.}
 
-\textbf{Results for $n=16$ and sample size$=2^{10}$}.
+\textbf{Results for $n=16$ and sample size$=2^{11}$}.
 Figure~\ref{fig:probDist2014} represents the $\AIk{k}$ distribution, Table~\ref{table:probabilityDistributionn16} shows the corresponding values and Figure~\ref{fig:averages2014} the average values.
 We observe that there are WPB functions with different restricted $\AIk{k}$ for this value of $n$, and that for the central values of $k$, all functions we sampled reach the optimal value of $\AIk{k}$.
 
@@ -1418,18 +1418,18 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
     \centering
     \begin{minipage}[b]{0.45\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/WPB_4_sample_size_1024_average_a.png}
+        \includegraphics[width=\textwidth]{images/WPB_4_sample_size_2048_average_a.png}
         \caption{Estimated average of $\AIk{k}$ over $\WPB{4}$.}
         \label{fig:averages2014}
     \end{minipage}
     \hfill
     \begin{minipage}[b]{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/WPB_4_sample_size_1024_dist_prob_a.png}
+        \includegraphics[width=\textwidth]{images/WPB_4_sample_size_2048_dist_prob_a.png}
         \caption{Estimated Probability distribution of $\AIk{k}$ over $\WPB{4}$.}
         \label{fig:probDist2014}
     \end{minipage}
-    \caption{Estimated average of $\AIk{k}$ and probability distribution of $\AIk{k}$ over $8$-variable WPB functions, with $2^{10}$ samples.}
+    \caption{Estimated average of $\AIk{k}$ and probability distribution of $\AIk{k}$ over $8$-variable WPB functions, with $2^{11}$ samples.}
     \label{fig:main2014}
 \end{figure}
 
@@ -1542,7 +1542,7 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
     \hfill
     \begin{subtable}[t]{0.55\textwidth}
         \centering
-        \caption{Probability distribution $p_{\Omega, \AIk{k}}$ for $n=8$, $m=3$, $|\Omega| = 2^{15}$.}
+        \caption{Probability distribution $p_{\Omega, \AIk{k}}$ for $n=8$, $m=3$, $|\Omega| = 2^{20}$.}
         \label{table:probabilityDistributionn8}
         \renewcommand{\arraystretch}{1.2}
 %        \begin{tabular}{r|rrrrr}
@@ -1566,10 +1566,10 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
 	$p(x)$, $k$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
 	\midrule
 	0 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 \\
-	1 & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.05 & 1.00 & 0.00 \\
-	2 & 0.00 & 0.00 & 1.00 & 0.98 & 0.00 & 0.98 & 0.95 & 0.00 & 0.00 \\
-	3 & 0.00 & 0.00 & 0.00 & 0.02 & 0.13 & 0.02 & 0.00 & 0.00 & 0.00 \\
-	4 & 0.00 & 0.00 & 0.00 & 0.00 & 0.87 & 0.00 & 0.00 & 0.00 & 0.00 \\
+	1 & 0.00 & 1.00 & 0.05 & 0.00 & 0.00 & 0.00 & 0.05 & 1.00 & 0.00 \\
+	2 & 0.00 & 0.00 & 0.95 & 0.98 & 0.00 & 0.98 & 0.95 & 0.00 & 0.00 \\
+	3 & 0.00 & 0.00 & 0.00 & 0.02 & 0.12 & 0.02 & 0.00 & 0.00 & 0.00 \\
+	4 & 0.00 & 0.00 & 0.00 & 0.00 & 0.88 & 0.00 & 0.00 & 0.00 & 0.00 \\
 	\bottomrule
 \end{tabular}    
     \end{subtable}
@@ -1578,7 +1578,7 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
 
     \begin{subtable}[t]{1\textwidth}
         \centering
-        \caption{Probability distribution $p_{\Omega, \AIk{k}}$ for $n=16$, $m=4$, $|\Omega| = 2^{10}$.}
+        \caption{Probability distribution $p_{\Omega, \AIk{k}}$ for $n=16$, $m=4$, $|\Omega| = 2^{11}$.}
         \label{table:probabilityDistributionn16}
         \renewcommand{\arraystretch}{1.2}
  %       \begin{tabular}{r|rrrrrrr}
@@ -1613,9 +1613,9 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
  	0  & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 \\
  	1  & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 & 0.00 \\
  	2  & 0.00 & 0.00 & 1.00 & 0.02 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.01 & 1.00 & 0.00 & 0.00 \\
- 	3  & 0.00 & 0.00 & 0.00 & 0.98 & 0.13 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.13 & 0.99 & 0.00 & 0.00 & 0.00 \\
- 	4  & 0.00 & 0.00 & 0.00 & 0.00 & 0.87 & 0.63 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.60 & 0.87 & 0.00 & 0.00 & 0.00 & 0.00 \\
- 	5  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.37 & 1.00 & 0.00 & 0.00 & 0.00 & 1.00 & 0.40 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
+ 	3  & 0.00 & 0.00 & 0.00 & 0.98 & 0.12 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.12 & 0.99 & 0.00 & 0.00 & 0.00 \\
+ 	4  & 0.00 & 0.00 & 0.00 & 0.00 & 0.88 & 0.61 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.59 & 0.88 & 0.00 & 0.00 & 0.00 & 0.00 \\
+ 	5  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.39 & 1.00 & 0.00 & 0.00 & 0.00 & 1.00 & 0.41 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
  	6  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 & 1.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
  	\bottomrule
  \end{tabular}
@@ -1650,7 +1650,7 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
 
     \begin{subtable}[t]{0.9\textwidth}
         \centering
-        \caption{Average execution time and $\AIk{k}$ for $n=8$, $m=3$ and $|\Omega|=2^{15}$.}
+        \caption{Average execution time and $\AIk{k}$ for $n=8$, $m=3$ and $|\Omega|=2^{20}$.}
         \label{table:averages32768}
         \renewcommand{\arraystretch}{1.2}
         \resizebox{\textwidth}{!}{ % Resize to fit within page width
@@ -1658,7 +1658,7 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
             \toprule
             $k$ & 1 & 2 & 3 & 4 & 5 & 6 & 7\\
             \midrule
-            $\mathbb{E}[T(AI_k)]$ & $0.0756$ & $0.086$ & $0.094$ & $0.090$ & $0.102$ & $0.0924$ & $0.093818$ \\
+            $\mathbb{E}[T(AI_k)]$ & $0.5\times 10^{-3}$ & $0.3\times 10^{-3}$ & $0.7\times10^{-3}$ & $0.1\times 10^{-2}$ & $0.7\times10^{-3}$ & $0.3 \times 10^{-3}$ & $0.4\times 10^{-3}$ \\
             $\mathbb{E}[AI_k]$  & $1.00$     & $1.95$     & $2.02$     & $2.88$     & $2.02$     & $1.95$     & $1.00$     \\
             \bottomrule
         \end{tabular}
@@ -1669,7 +1669,7 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
 
     \begin{subtable}[t]{1.1\textwidth}
         \centering
-        \caption{Average execution time and $\AIk{k}$ for $n=16$, $m=4$ and $|\Omega|=2^{10}$.}
+        \caption{Average execution time and $\AIk{k}$ for $n=16$, $m=4$ and $|\Omega|=2^{11}$.}
         \label{table:averages16VarsSampleSize1024}
         \renewcommand{\arraystretch}{1.2}
         \resizebox{\textwidth}{!}{ % Resize to fit within page width
@@ -1677,8 +1677,8 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
             \toprule
             $k$ & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15\\
             \midrule
-            $\mathbb{E}[T(AI_k)]$ & $0.334$ & $0.342$ & $0.41$ & $4.01$ & $91.81$ & $636.37$ & $2838.92$ & $6384.38$ & $3111.12$ & $732.50$ & $118.96$ & $5.23$ & $0.43$ & $0.35$ & $0.35$\\
-            $\mathbb{E}[AI_k]$ & $1.00$     & $2.00$     & $2.99$     & $3.89$     & $4.37$     & $5.00$     & $6.00$     & $6.00$     & $6.00$     & $5.00$     & $4.40$     & $3.87$     & $2.99$     & $2.00$     & $1.00$\\
+            $\mathbb{E}[T(AI_k)]$ & $0.019$ & $0.020$ & $0.056$ & $2.38$ & $57.45$ & $390.30$ & $1807.83$ & $4111.90$ & $2262.56$ & $432.50$ & $74.77$ & $3.20$ & $0.068$ & $0.019$ & $0.018$\\
+            $\mathbb{E}[AI_k]$ & $1.00$     & $2.00$     & $2.99$     & $3.89$     & $4.39$     & $5.00$     & $6.00$     & $6.00$     & $6.00$     & $5.00$     & $4.41$     & $3.88$     & $2.99$     & $2.00$     & $1.00$\\
             \bottomrule
         \end{tabular}
         }
@@ -1869,7 +1869,7 @@ We observe that most of the studied families exhibit lower weightwise algebraic 
 &$2$ \\ \hline	
 \cite{TOSC:CarMeaRot17}		&$1$& $2$& $2$& $3$ &$3$ & $3$ &$3$ &$3$ &$3$ &$3$ &$3$ &$3$
 &$2$ \\ \hline	
-		Estimated average &$2.00$& $2.99$& $3.89$& $4.37$ &$5.00$ & $6.00$ &$6.00$ &$6.00$ &5.00 &$4.40$ &$3.87$ &$2.99$ &$2.00$ \\ \hline
+		Estimated average &$2.00$& $2.99$& $3.89$& $4.39$ &$5.00$ & $6.00$ &$6.00$ &$6.00$ &5.00 &$4.41$ &$3.88$ &$2.99$ &$2.00$ \\ \hline
 %2 3 4 4 5 6 6 6 5 4 3 2 2		
 		Field order~\cite{SAC:Meaux24} &$ 2$& $3$& $4$& $4$ &$5$ & $6$ &$6$ &$6$ &$5$ &$4$ &$3$ &$2$ &$2$ \\	\hline
 		Upper bound &$ 2$& $3$& $4$& $5$ &$5$ & $6$ &$6$ &$6$ &$5$ &$5$ &$4$ &$3$ &$2$  \\	\hline
