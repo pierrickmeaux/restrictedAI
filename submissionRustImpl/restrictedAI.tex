@@ -957,7 +957,7 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 In this section, we apply the algorithms to the weightwise perfectly balanced (WPB) Boolean functions with the intent to study their algebraic immunity restricted to subsets of constant Hamming weight. In particular, we determine the probability distributions of the $\AIk{k}$ of WPB functions and we compute the $\AIk{k}$ of some WPB Boolean functions already studied. In addition, in Appendix~\ref{appendix:algsComparison}, we compare the execution time of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt}.
 %In addition, in Appendix~\ref{appendix:algsComparison}, we provide a comparison of the time execution of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt}.
 %The source code for the implementation of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt}, along with the probability distributions and the values of $\AIk{k}$ for the published functions, can be found in the \href{https://anonymous.4open.science/r/restricted_algebraic_immunity_submission-F2C0}{anynonimus repository}.
-The source code implementing Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt}, along with the probability distributions and the values of $\AIk{k}$ for the published functions, is available in the \href{https://anonymous.4open.science/r/restricted_algebraic_immunity_submission-F2C0}{anonymous repository}.
+The source code implementing Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt}, along with the probability distributions and the values of $\AIk{k}$ for the published functions, is available in the \href{https://anonymous.4open.science/r/restricted_algebraic_immunity_submission-F2C0}{anonymous repository}. Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} has been partially implemented in Python to facilitate the comparison with Algorithm~\ref{alg:RMApproach}, while a full implementation in Rust of it has been done to compute the restricted algebraic immunity distributions and the $\AIk{k}$ values of the published functions.
 
 
 \FloatBarrier
@@ -1016,13 +1016,13 @@ The following procedure is done for each slice $\Ekn{k}{n}$:
 \end{enumerate}
 
 \noindent
-\textbf{Results for $n=8$ and sample size$=2^{15}$}.
+\textbf{Results for $n=8$ and sample size$=2^{20}$}.
 Figure~\ref{fig:probDist32768} represents the $\AIk{k}$ distribution, Table~\ref{table:probabilityDistributionn8} shows the corresponding values, and Figure~\ref{fig:averages32768} the average values.
 We observe that for $n=4$ all WPB functions have the same values of $\AIk{k}$, for every $k$. 
 However, for $n=8$, there are WPB functions with different restricted $\AIk{k}$, for example with $k=4$ we observe functions reaching the lowest value ($2$, such as families exhibited in~\cite{Latin:GinMea23}) and some reaching $3$ which is optimal for this size.
 
 
-\textbf{Results for $n=16$ and sample size$=2^{10}$}.
+\textbf{Results for $n=16$ and sample size$=2^{11}$}.
 Figure~\ref{fig:probDist2014} represents the $\AIk{k}$ distribution, Table~\ref{table:probabilityDistributionn16} shows the corresponding values and Figure~\ref{fig:averages2014} the average values.
 We observe that there are WPB functions with different restricted $\AIk{k}$ for this value of $n$, and that for the central values of $k$, all functions we sampled reach the optimal value of $\AIk{k}$.
 
@@ -1034,84 +1034,87 @@ The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ ar
 
 %\pmnote{add some comment on the results in 4 and 8 variables.}
 
-
 \begin{table}[H]
-    \centering
-    \small
-    \caption{$\AIk{k}$ probability distribution of $\WPB{2}$, $\WPB{3}$ and $\WPB{4}$.}
-    \label{table:probability_distributions}
-    
-    \begin{subtable}[t]{0.4\textwidth}
-        \centering
-        \caption{Probability distribution $p_{\AIk{k}}$ for $n=4$, $m=2$.}
-        \label{table:probabilityDistributionn4}
-        \renewcommand{\arraystretch}{1.2} % Improve readability
-    \resizebox{0.8\textwidth}{!}{
-    \renewcommand{\tabcolsep}{2pt}	
-    \begin{tabular}{r|rrrrr}
-    	\toprule
-    	$p(x)$, $k$ & 0 & 1 & 2 & 3 & 4 \\
-    	\midrule
-    	0 & 1.00 & 0.00 & 0.00 & 0.00 & 1.00 \\
-    	1 & 0.00 & 1.00 & 0.00 & 1.00 & 0.00 \\
-    	2 & 0.00 & 0.00 & 1.00 & 0.00 & 0.00 \\
-    	\bottomrule
-    \end{tabular}
-    }
-    \end{subtable}%
-    \hfill
-    \begin{subtable}[t]{0.55\textwidth}
-        \centering
-        \caption{Probability distribution $p_{\Omega, \AIk{k}}$ for $n=8$, $m=3$, $\Omega = 2^{15}$.}
-        \label{table:probabilityDistributionn8}
-        \renewcommand{\arraystretch}{1.2}
-
-\renewcommand{\tabcolsep}{2pt}	
-\resizebox{0.8\textwidth}{!}{
-\begin{tabular}{r|rrrrrrrrr}
-	\toprule
-	$p(x)$, $k$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
-	\midrule
-	0 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 \\
-	1 & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.05 & 1.00 & 0.00 \\
-	2 & 0.00 & 0.00 & 1.00 & 0.98 & 0.00 & 0.98 & 0.95 & 0.00 & 0.00 \\
-	3 & 0.00 & 0.00 & 0.00 & 0.02 & 0.13 & 0.02 & 0.00 & 0.00 & 0.00 \\
-	4 & 0.00 & 0.00 & 0.00 & 0.00 & 0.87 & 0.00 & 0.00 & 0.00 & 0.00 \\
-	\bottomrule
-\end{tabular}    
-}
-    \end{subtable}
-
-    \vspace{1em} % Add some space between rows of tables
-
-    \begin{subtable}[t]{1\textwidth}
-        \centering
-        \caption{Probability distribution $p_{\Omega, \AIk{k}}$ for $n=16$, $m=4$, $\Omega = 2^{10}$.}
-        \label{table:probabilityDistributionn16}
-        \renewcommand{\arraystretch}{1.2}
-
-
- \resizebox{\textwidth}{!}{
- \renewcommand{\tabcolsep}{2pt}	
- \begin{tabular}{r|rrrrrrrrrrrrrrrrr}
- 	\toprule
- 	$p(x)$, $k$ & 0  & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9  & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
- 	\midrule
- 	0  & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 \\
- 	1  & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 & 0.00 \\
- 	2  & 0.00 & 0.00 & 1.00 & 0.02 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.01 & 1.00 & 0.00 & 0.00 \\
- 	3  & 0.00 & 0.00 & 0.00 & 0.98 & 0.13 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.13 & 0.99 & 0.00 & 0.00 & 0.00 \\
- 	4  & 0.00 & 0.00 & 0.00 & 0.00 & 0.87 & 0.63 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.60 & 0.87 & 0.00 & 0.00 & 0.00 & 0.00 \\
- 	5  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.37 & 1.00 & 0.00 & 0.00 & 0.00 & 1.00 & 0.40 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
- 	6  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 & 1.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
- 	\bottomrule
- \end{tabular}
- }
- 
- 
-    \end{subtable}
-
+	\centering
+	\small
+	\caption{$\AIk{k}$ probability distribution of $\WPB{2}$, $\WPB{3}$ and $\WPB{4}$.}
+	\label{table:probability_distributions}
+	
+	\begin{subtable}[t]{0.4\textwidth}
+		\centering
+		\caption{Probability distribution $p_{\AIk{k}}$ for $n=4$, $m=2$.}
+		\label{table:probabilityDistributionn4}
+		\renewcommand{\arraystretch}{1.2} % Improve readability
+		\resizebox{0.8\textwidth}{!}{
+			\renewcommand{\tabcolsep}{2pt}	
+			\begin{tabular}{r|rrrrrrrrr}
+				\toprule
+				$p(x)$, $k$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
+				\midrule
+				0 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 \\
+				1 & 0.00 & 1.00 & 0.05 & 0.00 & 0.00 & 0.00 & 0.05 & 1.00 & 0.00 \\
+				2 & 0.00 & 0.00 & 0.95 & 0.98 & 0.00 & 0.98 & 0.95 & 0.00 & 0.00 \\
+				3 & 0.00 & 0.00 & 0.00 & 0.02 & 0.12 & 0.02 & 0.00 & 0.00 & 0.00 \\
+				4 & 0.00 & 0.00 & 0.00 & 0.00 & 0.88 & 0.00 & 0.00 & 0.00 & 0.00 \\
+				\bottomrule
+			\end{tabular}   
+		}
+	\end{subtable}%
+	\hfill
+	\begin{subtable}[t]{0.55\textwidth}
+		\centering
+		\caption{Probability distribution $p_{\Omega, \AIk{k}}$ for $n=8$, $m=3$, $\Omega = 2^{20}$.}
+		\label{table:probabilityDistributionn8}
+		\renewcommand{\arraystretch}{1.2}
+		
+		\renewcommand{\tabcolsep}{2pt}	
+		\resizebox{0.8\textwidth}{!}{
+			\begin{tabular}{r|rrrrrrrrr}
+				\toprule
+				$p(x)$, $k$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
+				\midrule
+				0 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 \\
+				1 & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.05 & 1.00 & 0.00 \\
+				2 & 0.00 & 0.00 & 1.00 & 0.98 & 0.00 & 0.98 & 0.95 & 0.00 & 0.00 \\
+				3 & 0.00 & 0.00 & 0.00 & 0.02 & 0.13 & 0.02 & 0.00 & 0.00 & 0.00 \\
+				4 & 0.00 & 0.00 & 0.00 & 0.00 & 0.87 & 0.00 & 0.00 & 0.00 & 0.00 \\
+				\bottomrule
+			\end{tabular}    
+		}
+	\end{subtable}
+	
+	\vspace{1em} % Add some space between rows of tables
+	
+	\begin{subtable}[t]{1\textwidth}
+		\centering
+		\caption{Probability distribution $p_{\Omega, \AIk{k}}$ for $n=16$, $m=4$, $\Omega = 2^{11}$.}
+		\label{table:probabilityDistributionn16}
+		\renewcommand{\arraystretch}{1.2}
+		
+		
+		\resizebox{\textwidth}{!}{
+			\renewcommand{\tabcolsep}{2pt}	
+			\begin{tabular}{r|rrrrrrrrrrrrrrrrr}
+				\toprule
+				$p(x)$, $k$ & 0  & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9  & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
+				\midrule
+				0  & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 \\
+				1  & 0.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 & 0.00 \\
+				2  & 0.00 & 0.00 & 1.00 & 0.02 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.01 & 1.00 & 0.00 & 0.00 \\
+				3  & 0.00 & 0.00 & 0.00 & 0.98 & 0.12 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.12 & 0.99 & 0.00 & 0.00 & 0.00 \\
+				4  & 0.00 & 0.00 & 0.00 & 0.00 & 0.88 & 0.61 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.59 & 0.88 & 0.00 & 0.00 & 0.00 & 0.00 \\
+				5  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.39 & 1.00 & 0.00 & 0.00 & 0.00 & 1.00 & 0.41 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
+				6  & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1.00 & 1.00 & 1.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
+				\bottomrule
+			\end{tabular}
+		}
+		
+		
+	\end{subtable}
+	
 \end{table}
+
+
 
 \FloatBarrier
 \subsection{Determination of $\AIk{k}$ of known WPB families}\label{subsec:AIkknownFam}
@@ -1134,14 +1137,6 @@ In contrast, the function in~\cite{CC:TangLiu19} achieves an $\AIk{k}$ of $3$ fo
 %	\item[n=8] ~\cite{Mat:ZJZQ23} has a constant $AI_k$ of $2$ for $k\in [2,7]$, while ~\cite{AMC:DalMal23} has a $AI_k$ of $3$ for $k=5$
 %	\item[n=16] ~\cite{Mat:ZJZQ23} has a constant $AI_k$ of $2$, $k\in [2,14]$, while ~\cite{AMC:DalMal23} has a $AI_k$ of $3$ for $k=5,7,9$ and $11$.
 %\end{description}
-
-The maximum execution times for~\cite{AMC:DalMal23}, ~\cite{Mat:ZJZQ23},~\cite{CC:TangLiu19} and~\cite{TOSC:CarMeaRot17} with $n=8$ occur with $k=4$ and are around $0.014$, $0.029$, $0.011$ and $0.012$ seconds, respectively.
-% LT19 k=8 time = 126.627561
-% ZS k=8 time = 5.898671
-% DM24 k = 9 time = 7.935819
-% CMR k = 8 time = 12.048051
-For $n=16$, the maximum execution times for~\cite{Mat:ZJZQ23},~\cite{CC:TangLiu19} and ~\cite{TOSC:CarMeaRot17} occur with $k=8$ and are $5.898671$, $126.627561$ and $12.048051$ seconds respectively. In contrast, for~\cite{AMC:DalMal23}, the maximum execution time occurs for $k=9$ and is $7.935819$ seconds.
-
 
 
 \begin{table}[H]
@@ -1230,7 +1225,7 @@ We observe that most of the studied families exhibit lower weightwise algebraic 
 &$2$ \\ \hline	
 \cite{TOSC:CarMeaRot17}		&$1$& $2$& $2$& $3$ &$3$ & $3$ &$3$ &$3$ &$3$ &$3$ &$3$ &$3$
 &$2$ \\ \hline	
-		Estimated average &$2.00$& $2.99$& $3.89$& $4.37$ &$5.00$ & $6.00$ &$6.00$ &$6.00$ &5.00 &$4.40$ &$3.87$ &$2.99$ &$2.00$ \\ \hline
+		Estimated average &$2.00$& $2.99$& $3.89$& $4.37$ &$5.00$ & $6.00$ &$6.00$ &$6.00$ &5.00 &$4.41$ &$3.88$ &$2.99$ &$2.00$ \\ \hline
 %2 3 4 4 5 6 6 6 5 4 3 2 2		
 		Field order~\cite{SAC:Meaux24} &$ 2$& $3$& $4$& $4$ &$5$ & $6$ &$6$ &$6$ &$5$ &$4$ &$3$ &$2$ &$2$ \\	\hline
 		Upper bound &$ 2$& $3$& $4$& $5$ &$5$ & $6$ &$6$ &$6$ &$5$ &$5$ &$4$ &$3$ &$2$  \\	\hline

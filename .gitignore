@@ -3,6 +3,7 @@
 *.blg
 *.aux
 *.log
+*.pdf
 restrictedAI.synctex.gz
 restrictedAI.pdf
 
