@@ -1,4 +1,4 @@
-
+supp(x+1) \cap S
 %\def\anon{1} %% set to 1 for anonymous submissions, hides acknowledgements and author names
 \def\full{0} %% set to 0 for springer proceedings
 
@@ -1472,7 +1472,6 @@ By formalizing the theoretical background and providing both algorithms and impl
 
 %\newpage
 \section{Algorithms}\label{Appendix:algorithms}
-In this section, we provide the pseudo-codes of the algorithms described in Section~\ref{sec:RMapproach} and Section~\ref{subsubsection:optEchelonForm}.
 
 \begin{algorithm}[H]
 \small
@@ -1483,10 +1482,8 @@ In this section, we provide the pseudo-codes of the algorithms described in Sect
 		\Ensure $\AI_S(f)$
 		
 		\Function{find\_deg\_smallest\_S\_annihilator}{$G_{n,n}^{f_Z^{(o)},S}, G_{d,n}^{S}, D^n$}
-		\State $r \gets 0$;
-		\State $i \gets 0$;
+		\State $r,i, previousIndex\gets 0,0,0$;
 		\State $ef_f, ef_S \gets null, null$;
-		\State $previousIndex \gets 0$;
 		\While{$r \leq |S| /2$}
 		\State $D_i^n \gets D^n[i]$;
 		\State $ef_f\gets \mbox{\textsc{echelon\_form\_last\_}}D_i^n\mbox{\textsc{\_rows}}\left(ef_f\ ||\  G_{n,n}^{f_Z^{(o)},S}[previousIndex:D_i^n]\right)$\footnotemark;
@@ -1501,8 +1498,7 @@ In this section, we provide the pseudo-codes of the algorithms described in Sect
 		\EndWhile
 		\EndFunction
         \State
-        \State $Z = supp(x)\cap S$;
-        \State $Z_c = supp(x+1) \cap S$;
+        \State $Z , Z_c\gets supp(x)\cap S, supp(x+1) \cap S$;
 		\If{$Z = \emptyset$ of $Z_c = \emptyset$}
 		\Return $0$;
 		\EndIf
@@ -1529,8 +1525,7 @@ In this section, we provide the pseudo-codes of the algorithms described in Sect
         \Require $x\in \mathbb{F}_2^{2^n}$ evaluation of the truth table of $f\in \Bn{n}$ and the restricted set $S\subseteq \mathbb{F}_2^n$.
 		\Ensure $\AI_S(f)$
         \State
-        \State $Z \gets supp(x)\cap S$;
-        \State $Z_c \gets supp(x+1) \cap S$;
+        \State $Z, Z_c \gets supp(x)\cap S, supp(x+1) \cap S$;
         \If {$Z = \emptyset$ or $Z_c = \emptyset$}
             \State \Return $0$;
         \EndIf
