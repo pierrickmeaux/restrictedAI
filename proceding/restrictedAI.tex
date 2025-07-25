@@ -1167,7 +1167,7 @@ A formal definition is provided in Definition~\ref{def:distAIk}:
 We aim to determine this distribution for $m = 2, 3$, and $4$. 
 However, the number of WPB functions increases fast with the growth of $m$, making this computation infeasible for $m > 2$. In fact, as stated in ~\cite{Latin:GinMea23}, $|\WPB{2}| = 720$, while $|\WPB{3}| > 2^{243}$ and $|\WPB{4}| > 2^{65452}$.
 Therefore, we have to take a different approach for $m > 2$ by generating a certain number of samples from the set $\WPB{m}$ and calculating the probability over it. The larger the sample size we select, the better we approximate the distribution. 
-Table~\ref{table:probability_distributions} presents the estimated probability distribution obtained, while Figures~\ref{fig:averagesFullDist},~\ref{fig:probDist32768} and~\ref{fig:probDist2014} in Appendix~\ref{appendix:distPlots}, show the corresponding graphs.
+Table~\ref{table:probability_distributions} presents the estimated probability distribution obtained.
 
 \begin{definition}
     We define the $\AIk{k}$ distribution over a sample $\Omega$ as:
@@ -1181,7 +1181,7 @@ Table~\ref{table:probability_distributions} presents the estimated probability d
 
 \subsubsection{Determination of the full distribution for \texorpdfstring{m=2}{m=2}}
 For $m=2 \Rightarrow n = 4$, it is possible to determine the full probability distribution from Definition~\ref{def:distAIk} without using the random sampling strategy. 
-The resulting graphs can be found in Figure~\ref{fig:dullDist} and Figure~\ref{fig:averagesFullDist} while the corresponding probability distribution table is presented in Table~\ref{table:probabilityDistributionn4}. 
+The resulting probability distribution table is presented in Table~\ref{table:probabilityDistributionn4}. 
 
 
 \subsubsection{Random Sampling}
@@ -1203,16 +1203,14 @@ The following procedure is done for each slice $\Ekn{k}{n}$:
 
 \noindent
 \textbf{Results for $n=8$ and sample size$=2^{15}$}.
-Figure~\ref{fig:probDist32768} represents the $\AIk{k}$ distribution, Table~\ref{table:probabilityDistributionn8} shows the corresponding values, and Figure~\ref{fig:averages32768} the average values.
+Table~\ref{table:probabilityDistributionn8} represents the $\AIk{k}$ distribution.
 We observe that for $n=4$ all WPB functions have the same values of $\AIk{k}$, for every $k$. 
 However, for $n=8$, there are WPB functions with different restricted $\AIk{k}$, for example with $k=4$ we observe functions reaching the lowest value ($2$, such as families exhibited in~\cite{Latin:GinMea23}) and some reaching $3$ which is optimal for this size.
 
 
 \textbf{Results for $n=16$ and sample size$=2^{10}$}.
-Figure~\ref{fig:probDist2014} represents the $\AIk{k}$ distribution, Table~\ref{table:probabilityDistributionn16} shows the corresponding values and Figure~\ref{fig:averages2014} the average values.
+Table~\ref{table:probabilityDistributionn16} represents the $\AIk{k}$ distribution.
 We observe that there are WPB functions with different restricted $\AIk{k}$ for this value of $n$, and that for the central values of $k$, all functions we sampled reach the optimal value of $\AIk{k}$.
-
-The average execution times for the $\AIk{k}$ distributions with $n=4$, $n=8$ are $n=16$ are displayed in the appendix, in Tables~\ref{table:averagesFullDist},~\ref{table:averages32768} and~\ref{table:averages16VarsSampleSize1024}.
 
 %is already enough variability in the corpus of WPB functions to observe 
 
@@ -1588,128 +1586,6 @@ Both implementations of the algorithms used to generate the plot in Figure~\ref{
 \item The linear algebra operations in Algorithm~\ref{alg:RMApproach} are performed using the \textit{SageMath} library, while those in Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} are executed using an ad-hoc custom \textit{Python} package implemented in \textit{Rust}. This setup ensures comparability between the two implementations, as the \textit{SageMath} library is highly optimized for linear algebra operations.
 \item The computation of $G^{\leq n_{max}}$ for Algorithm~\ref{alg:RMApproach} is performed using the \textit{generator\_matrix} method of the \textit{SageMath} object \textit{BinaryReedMullerCodes}. While this computation could be more efficient if implemented in \textit{Rust}, the current overall implementation still faces scalability issues. Specifically, for $n \geq 16$, the algorithm becomes impractical because $G_{16,16}$ cannot be stored in a native \textit{Python} list or a \textit{SageMath} matrix object. However, if the entire algorithm were implemented in \textit{Rust}, it could potentially be feasible. Consequently, for larger values of $n$, Algorithm~\ref{alg:RMApproach} is not usable, while Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} remains viable.
 \end{itemize}
-
-
-\section{Plots of AIk probability distributions of WPB functions and average execution times.}\label{appendix:distPlots}
-
-\begin{figure}[H]
-    \centering
-    \begin{minipage}[b]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/WPB_2_sample_size_full_dist.png}
-        \caption{Mean of $\AIk{k}$ over $\WPB{2}$.}
-        \label{fig:averagesFullDist}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.5\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/WPB_2_sample_size_full_dist_prob.png}
-        \caption{Probability distribution of $\AIk{k}$  over $\WPB{2}$.}
-        \label{fig:probFullDist}
-    \end{minipage}
-    \caption{Mean of $\AIk{k}$ and probability distribution of $\AIk{k}$ from Definition~\ref{def:distAIk} of $4$-variable WPB functions.}
-    \label{fig:dullDist}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \begin{minipage}[b]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/WPB_3_sample_size_32768_average_a.png}
-        \caption{Estimated average of $\AIk{k}$ over $\WPB{3}$.}
-        \label{fig:averages32768}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.5\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/WPB_3_sample_size_32768_dist_prob_a.png}
-        \caption{Estimated Probability distribution of $\AIk{k}$ over $\WPB{3}$.}
-        \label{fig:probDist32768}
-    \end{minipage}
-    \caption{Estimated average of $\AIk{k}$ and probability distribution of $\AIk{k}$ over $8$-variable WPB functions, with $2^{15}$ samples.}
-    \label{fig:main2}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \begin{minipage}[b]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/WPB_4_sample_size_1024_average_a.png}
-        \caption{Estimated average of $\AIk{k}$ over $\WPB{4}$.}
-        \label{fig:averages2014}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.5\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/WPB_4_sample_size_1024_dist_prob_a.png}
-        \caption{Estimated Probability distribution of $\AIk{k}$ over $\WPB{4}$.}
-        \label{fig:probDist2014}
-    \end{minipage}
-    \caption{Estimated average of $\AIk{k}$ and probability distribution of $\AIk{k}$ over $8$-variable WPB functions, with $2^{10}$ samples.}
-    \label{fig:main2014}
-\end{figure}
-
-\begin{table}
-    \centering
-    \caption{Averages execution times and $\AI{k}$ of $\WPB{2}$, $\WPB{3}$ and $\WPB{4}$ functions.}
-    \label{table:transposed_averages}
-
-    \begin{subtable}[t]{0.8\textwidth}
-        \centering
-        \caption{Average execution time and $\AIk{k}$ for $n=4$, $m=2$.}
-        \label{table:averagesFullDist}
-        \renewcommand{\arraystretch}{1.2}
-        \renewcommand{\tabcolsep}{3pt}	
-        \begin{tabular}{r|ccccc}
-            \toprule
-            $k$ & 0 & 1 & 2 & 3 & 4 \\
-            \midrule
-            $\mathbb{E}[T(AI_k)]$ & $0.53\times 10^{-4}$ & $0.0526$ & $0.0487$ & $0.0586$ & $0.6\times10^{-5}$\\
-            $\mathbb{E}[AI_k]$     & $0.00$     & $1.00$     & $1.00$     & $1.00$     & $0.00$ \\
-            \bottomrule
-        \end{tabular}
-    \end{subtable}
-
-    \vspace{1em} % Add space between tables
-
-    \begin{subtable}[t]{0.9\textwidth}
-        \centering
-        \caption{Average execution time and $\AIk{k}$ for $n=8$, $m=3$ and $\mbox{sampleSize}=2^{15}$.}
-        \label{table:averages32768}
-        \renewcommand{\arraystretch}{1.2}
-        \resizebox{\textwidth}{!}{ % Resize to fit within page width
-        \renewcommand{\tabcolsep}{3pt}	
-        \begin{tabular}{r|ccccccccc}
-            \toprule
-            $k$ & 1 & 2 & 3 & 4 & 5 & 6 & 7\\
-            \midrule
-            $\mathbb{E}[T(AI_k)]$ & $0.0756$ & $0.086$ & $0.094$ & $0.090$ & $0.102$ & $0.092$ & $0.0938$ \\
-            $\mathbb{E}[AI_k]$  & $1.00$     & $1.95$     & $2.02$     & $2.88$     & $2.02$     & $1.95$     & $1.00$     \\
-            \bottomrule
-        \end{tabular}
-        }
-    \end{subtable}
-
-    \vspace{1em} % Add space between tables
-
-    \begin{subtable}[t]{1.1\textwidth}
-        \centering
-        \caption{Average execution time and $\AIk{k}$ for $n=16$, $m=4$ and $\mbox{sampleSize}=2^{10}$.}
-        \label{table:averages16VarsSampleSize1024}
-        %\renewcommand{\arraystretch}{1.2}
-        \resizebox{\textwidth}{!}{ % Resize to fit within page width
-        \renewcommand{\tabcolsep}{2pt}	
-        \begin{tabular}{r|cccccccccccccccccc}
-            \toprule
-            $k$ & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15\\
-            \midrule
-            $\mathbb{E}[T(AI_k)]$ & $0.334$ & $0.342$ & $0.41$ & $4.01$ & $91.81$ & $636.37$ & $2838.92$ & $6384.38$ & $3111.12$ & $732.50$ & $118.96$ & $5.23$ & $0.43$ & $0.35$ & $0.35$\\
-            $\mathbb{E}[AI_k]$ & $1.00$     & $2.00$     & $2.99$     & $3.89$     & $4.37$     & $5.00$     & $6.00$     & $6.00$     & $6.00$     & $5.00$     & $4.40$     & $3.87$     & $2.99$     & $2.00$     & $1.00$\\
-            \bottomrule
-        \end{tabular}
-        }
-    \end{subtable}
-\end{table}
 
 \end{document}
 x
