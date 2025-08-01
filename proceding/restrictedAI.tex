@@ -176,7 +176,7 @@ For two functions $f$ and $g$ we denote by $\hd(f,g)$ the Hamming distance betwe
 \subsection{Boolean functions, cryptographic criteria, and weightwise properties}
 In this section, we recall fundamental concepts concerning Boolean functions and their weightwise properties, which are utilized throughout this article. For a more comprehensive introduction to Boolean functions and their cryptographic parameters, we recommend consulting the book by Carlet~\cite{Carlet20},
 %consulting for instance the book by Carlet~\cite{Carlet20}, 
-and for insights into weightwise properties—also known as properties on the slices—the article~\cite{TOSC:CarMeaRot17}.
+and for insights into weightwise properties—also known as properties on the slices—the article by~\cite{TOSC:CarMeaRot17}.
 We denote by $\Ekn{k}{n}$ the set $\{x\in \F_2^n \, | \, \w(x)=k \}$ for $k \in [0,n]$, referring to it as a slice of the Boolean hypercube (of dimension $n$). 
 Consequently, the Boolean hypercube is divided into $n+1$ slices, where the elements share the same Hamming weight.
 %and the article~{TOSC:CarMeaRot17} for insights into weightwise properties, also known as properties on the slices. We denote $\Ekn{k}{n}$ as the set $\{x\in \F_2^n , | , \w(x)=k \}$ for $k \in [0,n]$, referring to it as a slice of the Boolean hypercube (of dimension $n$). Consequently, the Boolean hypercube is divided into $n+1$ slices where the elements share the same Hamming weight.
@@ -1036,7 +1036,40 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
     \end{align*}
 \end{remark}
 
+\setcounter{algorithm}{1} 
+
 \begin{algorithm}
+\small
+    \caption{Algorithm to compute the algebraic immunity of a function $f\in \Bn{n}$ restricted to $S$}\label{alg:fullAlg3ForAIRestrictesSetOpt}
+    \begin{algorithmic}[1]
+        \Require $x\in \mathbb{F}_2^{2^n}$ evaluation of the truth table of $f\in \Bn{n}$ and the restricted set $S\subseteq \mathbb{F}_2^n$.
+		\Ensure $\AI_S(f)$
+        \State
+        \State $Z, Z_c \gets supp(x)\cap S, supp(x+1) \cap S$;
+        \If {$Z = \emptyset$ or $Z_c = \emptyset$}
+            \State \Return $0$;
+        \EndIf
+        \State
+
+        \State $E_{D_n^n} \leftarrow \mbox{\textsc{construct\_monomials}}(n=n, d=n)$\footnotemark;
+        \State $r\gets \frac{|Z|}{|Z_c|}$ \textbf{if} $|Z| < |Z_c|$ \textbf{else} $\frac{|Z_c|}{|Z|}$;
+        \If{$r \geq \frac{1}{4}$}
+            \State $immunity_f, immunity_{f+1} \leftarrow ($\\
+		$\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(Z=Z, E=E_{D_n^n}, S=S)$\\
+		$\ |\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(Z=Z_c, E=E_{D_n^n}, S=S)$\\
+		$)$;
+            \State \Return \textsc{min}$\left(immunity_f, immunity_{f+1}\right)$;
+        \Else
+            \State \Return $\mbox{\textsc{find\_deg\_smallest\_S\_annihilator\_seq}}(Z=Z, Z_c, E=E_{D_n^n}, S=S))$\footnotemark;
+        \EndIf
+    \end{algorithmic}
+\end{algorithm}
+
+\footnotetext[1]{\textsc{construct\_monomials}: generates all monomials up to degree $d$ in $n$ vars. $E_{D_n^n}$ can be pre-computed to skip this step.}
+
+\setcounter{algorithm}{0} 
+
+\begin{algorithm}[H]
 \small
 	\caption{Algorithm to find the degree of the minimum-degree non-zero-annihilator restricted on $S$ of a function $f^{(o)}$.}\label{alg:MinDegreeSnonZeroAnnihilatorIterative}
 	\begin{algorithmic}[1]
@@ -1129,14 +1162,21 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 	\end{algorithmic}
 \end{algorithm}
 
-\footnotetext[5]{\textsc{apply\_operations} is a function taking a vector and the list of column operations described by $P_{k-1}$ in Remark~\ref{rem:historyOfOperations}}
-\footnotetext[6]{The implementation of \textsc{EF\_last\_col} is different from the implementation of \textsc{EF}, as it 
-	%uses the fact that it only needs to 
-	column-echelons the last row and column added instead of the full matrix. }
-\footnotetext[7]{\textsc{vanished\_on} is a function taking as input the vector of the $ANF$ coefficient of a Boolean function $g \in \Bn{n}$ and a point $z$ on which to evaluate the corresponding Boolean function $g$. If $g$ vanishes in $z$, it returns $True$ otherwise it returns $False$. }
-\footnotetext[8]{See Remark~\ref{rem:permutationClarification}}
+\footnotetext[2]{\textsc{find\_deg\_smallest\_S\_annihilator\_seq}: like Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} but finds degree sequentially, not in parallel.}
+\footnotetext[3]{\textsc{apply\_operations}: applies column ops from $P_{k-1}$ (Remark~\ref{rem:historyOfOperations}) to a vector.}
+\footnotetext[4]{\textsc{EF\_last\_col}: variant of \textsc{EF}, echelonizing only last added row/col, not full matrix.}
+\footnotetext[5]{\textsc{vanished\_on}: given ANF coeffs of $g \in \Bn{n}$ and point $z$, returns $True$ if $g(z)=0$, else $False$.}
+\footnotetext[6]{See Remark~\ref{rem:permutationClarification}.}
 
-\vspace{-1cm}
+
+%\footnotetext[1]{\textsc{construct\_monomials} generates all monomials up to the degree $d$ with $n$ variables. $E_{D_n^n}$ may also be pre-computed and the function \textsc{construct\_monomials} removed from the algorithm.}
+%\footnotetext[2]{The implementation of the function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} is similar to the function \textsc{find\_deg\_smallest\_S\_annihilator} described in Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} with the difference that the degree of the minimal-degree non-zero annihilator of $f$ or of $f+ 1$ restricted on $S$, is found sequentially instead of in parallel.}
+
+%\footnotetext[3]{\textsc{apply\_operations} is a function taking a vector and the list of column operations described by $P_{k-1}$ in Remark~\ref{rem:historyOfOperations}}
+%\footnotetext[4]{The implementation of \textsc{EF\_last\_col} is different from the implementation of \textsc{EF}, as it 
+	%uses the fact that it only needs to 
+	%column-echelons the last row and column added instead of the full matrix. }
+%\footnotetext[5]{\textsc{vanished\_on} is a function taking as input the vector of the $ANF$ coefficient of a Boolean function $g \in \Bn{n}$ and a point $z$ on which to evaluate the corresponding Boolean function $g$. If $g$ vanishes in $z$, it returns $True$ otherwise it returns $False$. }
 
 
 \section{Experiments and applications to W(A)PB functions}
@@ -1214,7 +1254,7 @@ We observe that there are WPB functions with different restricted $\AIk{k}$ for 
 
 %is already enough variability in the corpus of WPB functions to observe 
 
-\footnotetext[1]{Step $2$ may be executed in parallel on the $\omega_i^{(k)}$s if memory is not a constraint. In fact, depending on the value of $m$ and the chosen sample size, the number of sub-truth tables generated may be too large to fit in memory simultaneously.}
+\footnotetext[7 ]{Step $2$ may be executed in parallel on the $\omega_i^{(k)}$s if memory is not a constraint. In fact, depending on the value of $m$ and the chosen sample size, the number of sub-truth tables generated may be too large to fit in memory simultaneously.}
 
 %\pmnote{add some comment on the results in 4 and 8 variables.}
 
@@ -1372,7 +1412,7 @@ $n$, $k$ & $0$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$ & $1
 
 In Table~\ref{tab:WPB8}, we summarize the results on $\AIk{k}$ for WPB functions with $8$ variables, including both our findings and those from the state of the art.  
 Similarly, Table~\ref{tab:WPB16} presents the corresponding results for functions with $16$ variables.  
-We observe that most of the studied families exhibit lower weightwise algebraic immunity than a randomly chosen WPB function, with the exception of the field order construction~\cite{SAC:Meaux24} (usually a function is considered good if its parameters are the same or better than the ones of a random function).  
+We observe that most of the studied families exhibit lower weightwise algebraic immunity than a randomly chosen WPB function, with the exception of the field order construction~\cite{SAC:Meaux24} (usually a function is considered good if its parameters are the same or better than the ones of a random function).
 
 
 \begin{table}[H]
@@ -1465,7 +1505,8 @@ By formalizing the theoretical background and providing both algorithms and impl
 \fi
 
 \appendix
-\setcounter{algorithm}{1} 
+
+\setcounter{algorithm}{2} 
 
 %\newpage
 \section{Algorithms}\label{Appendix:algorithms}
@@ -1510,41 +1551,10 @@ By formalizing the theoretical background and providing both algorithms and impl
 		\State \Return $\mbox{\textsc{min}}(immunity_f, immunity_{f+1})$\footnotemark;
 	\end{algorithmic}
 \end{algorithm}
-\footnotetext[2]{The symbol $||$ is used as row-concatenation of matrices, meaning that $C = A||B$ is the matrix constructed by appending all the row of the matrix $B$ to the matrix $A$.}
-\footnotetext[3]{\textsc{construct\_restricted\_generator\_matrices} is a function extracting $G_{n,n}^{f_{supp(f)\cap S},S}$, $G_{n,n}^{f_{supp(f+1)\cap S},S}$ and $G_{n,n}^{S}$ from the full Reed-Muller code generator matrix $G_{n,n}$ following Definition \ref{def:generatorsS}.}
-\footnotetext[4]{The function \textsc{min} takes care of $null$ values: $\mbox{\textsc{min}}(immunity_f, null) = immunity_f$ and $\mbox{\textsc{min}}(null, immunity_{f+1}) = immunity_{f+1}$.}
-
-
-\begin{algorithm}
-\small
-    \caption{Algorithm to compute the algebraic immunity of a function $f\in \Bn{n}$ restricted to $S$}\label{alg:fullAlg3ForAIRestrictesSetOpt}
-    \begin{algorithmic}[1]
-        \Require $x\in \mathbb{F}_2^{2^n}$ evaluation of the truth table of $f\in \Bn{n}$ and the restricted set $S\subseteq \mathbb{F}_2^n$.
-		\Ensure $\AI_S(f)$
-        \State
-        \State $Z, Z_c \gets supp(x)\cap S, supp(x+1) \cap S$;
-        \If {$Z = \emptyset$ or $Z_c = \emptyset$}
-            \State \Return $0$;
-        \EndIf
-        \State
-
-        \State $E_{D_n^n} \leftarrow \mbox{\textsc{construct\_monomials}}(n=n, d=n)$\footnotemark;
-        \State $r\gets \frac{|Z|}{|Z_c|}$ \textbf{if} $|Z| < |Z_c|$ \textbf{else} $\frac{|Z_c|}{|Z|}$;
-        \If{$r \geq \frac{1}{4}$}
-            \State $immunity_f, immunity_{f+1} \leftarrow ($\\
-		$\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(Z=Z, E=E_{D_n^n}, S=S)$\\
-		$\ |\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(Z=Z_c, E=E_{D_n^n}, S=S)$\\
-		$)$;
-            \State \Return \textsc{min}$\left(immunity_f, immunity_{f+1}\right)$;
-        \Else
-            \State \Return $\mbox{\textsc{find\_deg\_smallest\_S\_annihilator\_seq}}(Z=Z, Z_c, E=E_{D_n^n}, S=S))$\footnotemark;
-        \EndIf
-    \end{algorithmic}
-\end{algorithm}
-
-\footnotetext[9]{\textsc{construct\_monomials} generates all monomials up to the degree $d$ with $n$ variables. $E_{D_n^n}$ may also be pre-computed and the function \textsc{construct\_monomials} removed from the algorithm.}
-\footnotetext[10]{The implementation of the function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} is similar to the function \textsc{find\_deg\_smallest\_S\_annihilator} described in Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} with the difference that the degree of the minimal-degree non-zero annihilator of $f$ or of $f+ 1$ restricted on $S$, is found sequentially instead of in parallel.}
-
+\footnotetext[8]{The symbol $||$ is used as row-concatenation of matrices, meaning that $C = A||B$ is the matrix constructed by appending all the row of the matrix $B$ to the matrix $A$.}
+\footnotetext[9]{\textsc{construct\_restricted\_generator\_matrices} is a function extracting $G_{n,n}^{f_{supp(f)\cap S},S}$, $G_{n,n}^{f_{supp(f+1)\cap S},S}$ and $G_{n,n}^{S}$ from the full Reed-Muller code generator matrix $G_{n,n}$ following Definition \ref{def:generatorsS}.}
+\footnotetext[10]{The function \textsc{min} takes care of $null$ values: $\mbox{\textsc{min}}(immunity_f, null) = immunity_f$ and $\mbox{\textsc{min}}(null, immunity_{f+1}) = immunity_{f+1}$.}
+\newpage
 \section{Comparison between Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} on WAPB functions}\label{appendix:algsComparison}
 
 In this part, we compare the execution times of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} by running both algorithms on multiple WAPB functions restricted to the largest set $\Ekn{\lceil{n/2}\rceil}{n}$, with different numbers of variables. 
