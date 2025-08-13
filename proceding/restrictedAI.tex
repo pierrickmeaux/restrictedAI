@@ -112,15 +112,18 @@ AC:LiuZhaLin12,IEEE:TanCarTan13,CC:LimKolKal13,DCC:LCZLHS14,IEEE:LiuLin14,TanLuo
 %The attack framework of~\cite{CIC:MeauxWang25} consider variants of the AI depending on the updating process of the streamcipher.
 %
 %%
-With the recent resurgence of filtered LFSRs~\cite{eprint:nostalgia,eprint:CarSar25}—now operating on Boolean functions in over $100$ variables—or other stream ciphers over $\mathbb{Z}_{2^t}$ that use filtering functions in many variables~\cite{AC:CHMS22,Indo:HofMeaSta23} for efficient hybrid homomorphic encryption~\cite{EPRINT:LauNaeVai11}, determining the algebraic immunity (or its variants) has become increasingly relevant for assessing the practical security of these schemes.
-Following this trend, algebraic immunity has been of of the primary criteria studied for the newly proposed functions in~\cite{eprint:CarSar23,eprint:MeaSeuTan24,eprint:Meaux25}.
+%With the recent resurgence of filtered LFSRs~\cite{eprint:nostalgia,eprint:CarSar25}—now operating on Boolean functions in over $100$ variables—or other stream ciphers over $\mathbb{Z}_{2^t}$ that use filtering functions in many variables~\cite{AC:CHMS22,Indo:HofMeaSta23} for efficient hybrid homomorphic encryption~\cite{EPRINT:LauNaeVai11},
+With the recent resurgence of filtered LFSRs~\cite{eprint:nostalgia,eprint:CarSar25}—now operating on Boolean functions in over $100$ variables—and other stream ciphers over $\mathbb{Z}_{2^t}$ using high-dimensional filtering functions~\cite{AC:CHMS22,Indo:HofMeaSta23} for efficient hybrid homomorphic encryption~\cite{EPRINT:LauNaeVai11},
+determining the algebraic immunity (or its variants) has become increasingly relevant for assessing the practical security of these schemes.
+Following this trend, algebraic immunity has been of the primary criteria studied for the newly proposed functions in~\cite{eprint:CarSar23,eprint:MeaSeuTan24,eprint:Meaux25}.
 Concerning recent attacks on AI variants, the attack on Elisabeth-4 in~\cite{AC:GHJR23} exploits the existence of low-degree annihilators whose monomials are restricted to a specific subspace.
 Similarly, the attack framework of~\cite{CIC:MeauxWang25} investigates AI variants that depend on the updating process of the stream cipher.
 
 
 
 
-In this work, we focus on the computation of this parameter, specifically on a generalization of it.  
+% In this work, we focus on the computation of this parameter, specifically on a generalization of it.  
+We first recall methods for computing of this parameter, specifically on a generalization of it.
 The complexity of computing the algebraic immunity of a Boolean function has been investigated in various works (\eg \cite{EC:CouMei03,EC:ACGKMR06,C:HawRos04,FSE:DidTil06}).  
 One approach, which to our knowledge has rarely been formally articulated and is often considered folklore, relies on submatrices of generator matrices of the Reed-Muller codes. 
 We briefly recall its theoretical foundation here. 
