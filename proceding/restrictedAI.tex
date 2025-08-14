@@ -102,7 +102,13 @@ Consequently, AI plays a key role in settings where affine updates are followed 
 %Research on algebraic immunity has followed two main directions: analyzing its properties~\cite{IEEE:Didier06,AMC:CarMer13,DAM:Meaux22} and constructing Boolean functions that optimize this parameter~\cite{DCC:DalMaiSar06,ISIT:Carlet07,AC:CarFen08,IEEE:QFLW09,IEEE:ZCSH11,DCC:TuDen11}. These efforts have significantly contributed to the study of Boolean functions in cryptographic applications.
 Studying algebraic immunity (\eg \cite{IEEE:Didier06,AMC:CarMer13,DAM:Meaux22}) or constructing Boolean functions that optimize this parameter (\eg \cite{INDOCRYPT:DalGupMai04,DCC:DalMaiSar06,ISIT:Carlet07,LiQi07,AC:CarFen08,IEEE:QFLW09,IEEE:CheLu11,IEEE:ZCSH11,DCC:TuDen11,
 AC:LiuZhaLin12,IEEE:TanCarTan13,CC:LimKolKal13,DCC:LCZLHS14,IEEE:LiuLin14,TanLuoDu16,IEEE:TCTZ17, DCC:LimKol18,CC:TangLiu19}
-) has been an important line of research in the area of Boolean functions used in cryptography since the 2000s. The resurgence of high-variable filtered LFSRs and $\mathbb{Z}_{2^t}$ stream ciphers for hybrid homomorphic encryption has made algebraic immunity a key security metric~\cite{eprint:CarSar23,eprint:MeaSeuTan24,eprint:Meaux25}. Recent attacks include the break of Elisabeth-4~\cite{AC:GHJR23} via low-degree subspace annihilators and the framework in~\cite{CIC:MeauxWang25} on update-dependent AI variants.
+) has been an important line of research in the area of Boolean functions used in cryptography since the 2000s. 
+With the recent resurgence of filtered LFSRs~\cite{eprint:nostalgia,eprint:CarSar25}—now operating on Boolean functions in over $100$ variables—or other stream ciphers over $\mathbb{Z}_{2^t}$ that use filtering functions in many variables~\cite{AC:CHMS22,Indo:HofMeaSta23} for efficient hybrid homomorphic encryption~\cite{EPRINT:LauNaeVai11}, determining the algebraic immunity (or its variants) has become increasingly relevant for assessing the practical security of these schemes.
+Following this trend, algebraic immunity has been of of the primary criteria studied for the newly proposed functions in~\cite{eprint:CarSar23,eprint:MeaSeuTan24,eprint:Meaux25}.
+Concerning recent attacks on AI variants, the attack on Elisabeth-4 in~\cite{AC:GHJR23} exploits the existence of low-degree annihilators whose monomials are restricted to a specific subspace.
+Similarly, the attack framework of~\cite{CIC:MeauxWang25} investigates AI variants that depend on the updating process of the stream cipher.
+
+%The resurgence of high-variable filtered LFSRs and $\mathbb{Z}_{2^t}$ stream ciphers for hybrid homomorphic encryption has made algebraic immunity a key security metric~\cite{eprint:CarSar23,eprint:MeaSeuTan24,eprint:Meaux25}. Recent attacks include the break of Elisabeth-4~\cite{AC:GHJR23} via low-degree subspace annihilators and the framework in~\cite{CIC:MeauxWang25} on update-dependent AI variants.
 
 %
 %\pmnote{consider this addition: (rewrite)}
@@ -1040,38 +1046,10 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
     \end{align*}
 \end{remark}
 
-\setcounter{algorithm}{1} 
+%\setcounter{algorithm}{1} 
 
-\begin{algorithm}
-\small
-    \caption{Algorithm to compute the algebraic immunity of a function $f\in \Bn{n}$ restricted to $S$}\label{alg:fullAlg3ForAIRestrictesSetOpt}
-    \begin{algorithmic}[1]
-        \Require $x\in \mathbb{F}_2^{2^n}$ evaluation of the truth table of $f\in \Bn{n}$ and the restricted set $S\subseteq \mathbb{F}_2^n$.
-		\Ensure $\AI_S(f)$
-        \State
-        \State $Z, Z_c \gets supp(x)\cap S, supp(x+1) \cap S$;
-        \If {$Z = \emptyset$ or $Z_c = \emptyset$}
-            \State \Return $0$;
-        \EndIf
-        \State
 
-        \State $E_{D_n^n} \leftarrow \mbox{\textsc{construct\_monomials}}(n=n, d=n)$\footnotemark;
-        \State $r\gets \frac{|Z|}{|Z_c|}$ \textbf{if} $|Z| < |Z_c|$ \textbf{else} $\frac{|Z_c|}{|Z|}$;
-        \If{$r \geq \frac{1}{4}$}
-            \State $immunity_f, immunity_{f+1} \leftarrow ($\\
-		$\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(Z=Z, E=E_{D_n^n}, S=S)$\\
-		$\ |\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(Z=Z_c, E=E_{D_n^n}, S=S)$\\
-		$)$;
-            \State \Return \textsc{min}$\left(immunity_f, immunity_{f+1}\right)$;
-        \Else
-            \State \Return $\mbox{\textsc{find\_deg\_smallest\_S\_annihilator\_seq}}(Z=Z, Z_c, E=E_{D_n^n}, S=S))$\footnotemark;
-        \EndIf
-    \end{algorithmic}
-\end{algorithm}
-
-\footnotetext[2]{\textsc{construct\_monomials}: generates all monomials up to degree $d$ in $n$ vars. $E_{D_n^n}$ can be pre-computed to skip this step.}
-
-\setcounter{algorithm}{0} 
+%\setcounter{algorithm}{0} 
 
 \begin{algorithm}[H]
 \small
@@ -1141,7 +1119,7 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 \newpage
 \begin{algorithm}
 \small
-	\begin{algorithmic}
+	\begin{algorithmic}[H]
 		\algrestore{algo}
 		
 		\While{$r\leq \lfloor|S| / 2\rfloor$}
@@ -1173,6 +1151,35 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 \footnotetext[7]{See Remark~\ref{rem:permutationClarification}.}
 
 
+
+\begin{algorithm}[H]
+	\small
+	\caption{Algorithm to compute the algebraic immunity of a function $f\in \Bn{n}$ restricted to $S$}\label{alg:fullAlg3ForAIRestrictesSetOpt}
+	\begin{algorithmic}[1]
+		\Require $x\in \mathbb{F}_2^{2^n}$ evaluation of the truth table of $f\in \Bn{n}$ and the restricted set $S\subseteq \mathbb{F}_2^n$.
+		\Ensure $\AI_S(f)$
+	%	\State
+		\State $Z, Z_c \gets supp(x)\cap S, supp(x+1) \cap S$;
+		\If {$Z = \emptyset$ or $Z_c = \emptyset$} 	\Return $0$; \EndIf
+%		\State \Return $0$;
+%		\EndIf
+	%	\State
+		
+		\State $E_{D_n^n} \leftarrow \mbox{\textsc{construct\_monomials}}(n=n, d=n)$\footnotemark;
+		\State $r\gets \frac{|Z|}{|Z_c|}$ \textbf{if} $|Z| < |Z_c|$ \textbf{else} $\frac{|Z_c|}{|Z|}$;
+		\If{$r \geq \frac{1}{4}$}
+		\State $immunity_f, immunity_{f+1} \leftarrow ($\\
+		$\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(Z=Z, E=E_{D_n^n}, S=S)$\\
+		$\ |\ \mbox{\textsc{find\_deg\_smallest\_S\_annihilator}}(Z=Z_c, E=E_{D_n^n}, S=S)$ $)$;
+		\State \Return \textsc{min}$\left(immunity_f, immunity_{f+1}\right)$;
+		\Else
+		\State \Return $\mbox{\textsc{find\_deg\_smallest\_S\_annihilator\_seq}}($Z=Z$, Z_c, E=E_{D_n^n}, S=S))$\footnotemark;
+		\EndIf
+	\end{algorithmic}
+\end{algorithm}
+
+\footnotetext[2]{\textsc{construct\_monomials}: generates all monomials up to degree $d$ in $n$ vars. $E_{D_n^n}$ can be pre-computed to skip this step.}
+
 %\footnotetext[1]{\textsc{construct\_monomials} generates all monomials up to the degree $d$ with $n$ variables. $E_{D_n^n}$ may also be pre-computed and the function \textsc{construct\_monomials} removed from the algorithm.}
 %\footnotetext[2]{The implementation of the function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} is similar to the function \textsc{find\_deg\_smallest\_S\_annihilator} described in Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} with the difference that the degree of the minimal-degree non-zero annihilator of $f$ or of $f+ 1$ restricted on $S$, is found sequentially instead of in parallel.}
 
@@ -1181,6 +1188,7 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 	%uses the fact that it only needs to 
 	%column-echelons the last row and column added instead of the full matrix. }
 %\footnotetext[5]{\textsc{vanished\_on} is a function taking as input the vector of the $ANF$ coefficient of a Boolean function $g \in \Bn{n}$ and a point $z$ on which to evaluate the corresponding Boolean function $g$. If $g$ vanishes in $z$, it returns $True$ otherwise it returns $False$. }
+
 
 
 \section{Experiments and applications to W(A)PB functions}
