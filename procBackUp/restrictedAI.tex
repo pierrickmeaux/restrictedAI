@@ -6,7 +6,7 @@
 \documentclass[11pt]{llncs}
 \addtolength{\parskip}{1pt}
 \else
-\documentclass[runningheads]{llncs}
+\documentclass[10pt, runningheads]{llncs}
 \usepackage{times}
 \fi
 
@@ -75,7 +75,7 @@ As a case study, we analyze the algebraic immunity restricted to the slices of $
 The slices are of particular interest in areas of cryptography, such as side-channel analysis and stream cipher design, where the input weight may be partially predictable. 
 We further investigate restricted algebraic immunity for Weightwise (Almost) Perfectly Balanced (W(A)PB) functions, which have been extensively studied since $2017$. 
 Our results include an empirical analysis of $\AI_k$ distributions for WPB functions with $4$, $8$, and $16$ variables, as well as an evaluation of $\AIk{k}$ for various known function families. 
-
+By formalizing and extending existing methods to the restricted setting, this work provides new insights into the algebraic properties of Boolean functions under structural constraints, contributing to both theoretical research and practical cryptographic applications.  
 
 
 		
@@ -102,8 +102,7 @@ Consequently, AI plays a key role in settings where affine updates are followed 
 %Research on algebraic immunity has followed two main directions: analyzing its properties~\cite{IEEE:Didier06,AMC:CarMer13,DAM:Meaux22} and constructing Boolean functions that optimize this parameter~\cite{DCC:DalMaiSar06,ISIT:Carlet07,AC:CarFen08,IEEE:QFLW09,IEEE:ZCSH11,DCC:TuDen11}. These efforts have significantly contributed to the study of Boolean functions in cryptographic applications.
 Studying algebraic immunity (\eg \cite{IEEE:Didier06,AMC:CarMer13,DAM:Meaux22}) or constructing Boolean functions that optimize this parameter (\eg \cite{INDOCRYPT:DalGupMai04,DCC:DalMaiSar06,ISIT:Carlet07,LiQi07,AC:CarFen08,IEEE:QFLW09,IEEE:CheLu11,IEEE:ZCSH11,DCC:TuDen11,
 AC:LiuZhaLin12,IEEE:TanCarTan13,CC:LimKolKal13,DCC:LCZLHS14,IEEE:LiuLin14,TanLuoDu16,IEEE:TCTZ17, DCC:LimKol18,CC:TangLiu19}
-) has been an important line of research in the area of Boolean functions used in cryptography since the 2000s. The resurgence of high-variable filtered LFSRs and $\mathbb{Z}_{2^t}$ stream ciphers for hybrid homomorphic encryption has made algebraic immunity a key security metric~\cite{eprint:CarSar23,eprint:MeaSeuTan24,eprint:Meaux25}. Recent attacks include the break of Elisabeth-4~\cite{AC:GHJR23} via low-degree subspace annihilators and the framework in~\cite{CIC:MeauxWang25} on update-dependent AI variants.
-
+) has been an important line of research in the area of Boolean functions used in cryptography since the 2000s. 
 %
 %\pmnote{consider this addition: (rewrite)}
 %
@@ -114,13 +113,15 @@ AC:LiuZhaLin12,IEEE:TanCarTan13,CC:LimKolKal13,DCC:LCZLHS14,IEEE:LiuLin14,TanLuo
 %
 %%
 %With the recent resurgence of filtered LFSRs~\cite{eprint:nostalgia,eprint:CarSar25}—now operating on Boolean functions in over $100$ variables—or other stream ciphers over $\mathbb{Z}_{2^t}$ that use filtering functions in many variables~\cite{AC:CHMS22,Indo:HofMeaSta23} for efficient hybrid homomorphic encryption~\cite{EPRINT:LauNaeVai11},
-%With the resurgence of filtered LFSRs~\cite{eprint:nostalgia,eprint:CarSar25}—now using Boolean functions in over $100$ variables—and other $\mathbb{Z}_{2^t}$ stream ciphers with high-variable filtering functions~\cite{AC:CHMS22,Indo:HofMeaSta23} for efficient hybrid homomorphic encryption~\cite{EPRINT:LauNaeVai11}, determining algebraic immunity (AI) and its variants has become increasingly important for practical security assessment.
-%Following this trend, AI is a primary criterion for recent functions in~\cite{eprint:CarSar23,eprint:MeaSeuTan24,eprint:Meaux25}.
-%Recent attacks on AI variants include the break of Elisabeth-4~\cite{AC:GHJR23}, exploiting low-degree annihilators restricted to a subspace, and the framework of~\cite{CIC:MeauxWang25}, which studies AI variants tied to the stream cipher’s update process.
-%With the recent resurgence of filtered LFSRs~\cite{eprint:nostalgia,eprint:CarSar25}—now operating on Boolean functions in over $100$ variables—and other stream ciphers over $\mathbb{Z}_{2^t}$ using high-dimensional filtering functions~\cite{AC:CHMS22,Indo:HofMeaSta23} for efficient hybrid homomorphic encryption~\cite{EPRINT:LauNaeVai11},
-%determining the algebraic immunity (or its variants) has become increasingly relevant for assessing the practical security of these schemes.
-%Following this trend, AI has been of the primary criteria studied for the newly proposed functions in~\cite{eprint:CarSar23,eprint:MeaSeuTan24,eprint:Meaux25}.
-%Recent attacks on AI variants include the break of Elisabeth-4~\cite{AC:GHJR23}, exploiting low-degree annihilators restricted to a subspace, and the attack framework of~\cite{CIC:MeauxWang25}, which studies AI variants tied to the stream cipher’s update process.
+With the recent resurgence of filtered LFSRs~\cite{eprint:nostalgia,eprint:CarSar25}—now operating on Boolean functions in over $100$ variables—and other stream ciphers over $\mathbb{Z}_{2^t}$ using high-dimensional filtering functions~\cite{AC:CHMS22,Indo:HofMeaSta23} for efficient hybrid homomorphic encryption~\cite{EPRINT:LauNaeVai11},
+determining the algebraic immunity (or its variants) has become increasingly relevant for assessing the practical security of these schemes.
+Following this trend, algebraic immunity has been of the primary criteria studied for the newly proposed functions in~\cite{eprint:CarSar23,eprint:MeaSeuTan24,eprint:Meaux25}.
+Concerning recent attacks on AI variants, the attack on Elisabeth-4 in~\cite{AC:GHJR23} exploits the existence of low-degree annihilators whose monomials are restricted to a specific subspace.
+Similarly, the attack framework of~\cite{CIC:MeauxWang25} investigates AI variants that depend on the updating process of the stream cipher.
+
+
+
+
 % In this work, we focus on the computation of this parameter, specifically on a generalization of it.  
 We first recall methods for computing of this parameter, specifically on a generalization of it.
 The complexity of computing the algebraic immunity of a Boolean function has been investigated in various works (\eg \cite{EC:CouMei03,EC:ACGKMR06,C:HawRos04,FSE:DidTil06}).  
@@ -134,13 +135,15 @@ The most efficient algorithm for computing the AI is the iterative method introd
 Rather than constructing submatrices of the generator matrix of a Reed-Muller code for successive values of $d$, this algorithm builds them incrementally by adding one row and one column at a time. 
 Using the same theoretical foundation as the initial approach, a rank drop in the constructed matrices indicates the existence of an annihilator. 
 This iterative process improves computational efficiency, and specific operations designed to reduce the cost of updating successive matrices improve the initial time complexity from $\mathcal{O}(\binom{n}{\AI(f)}^\omega)$ (where $\AI(f)$ denotes the AI of $f$) with $\omega = 3$ to a value closer to $2$~\cite{EC:ACGKMR06,C:HawRos04}. 
+
 In this work, we focus on a generalization of algebraic immunity, namely the restricted algebraic immunity, introduced in~\cite{TOSC:CarMeaRot17}.  
 This property considers a subset $S \subseteq \F_2^n$ and corresponds to the minimal degree of an annihilator $g$ that annihilates $f$ or $f+1$ over the entire set $S$ but is not identically zero on $S$. 
 More formally, it is defined as:
-$\AI_S(f) = \min_g\left(\degg(g) \mid fg = 0 \text{ or } g(f+1) = 0, \text{ and } \exists x \in S \text{ such that } g(x) = 1 \right)$.
+\[
+\AI_S(f) = \min_g\left(\degg(g) \mid fg = 0 \text{ or } g(f+1) = 0, \text{ and } \exists x \in S \text{ such that } g(x) = 1 \right).
+\]
 In this setting, classical algebraic immunity corresponds to the special case where $S = \F_2^n$.  
 %Since neither the Reed-Muller approach nor the iterative method has been fully formalized and described for this generalization, we address this gap by establishing the key properties that ensure the correctness of the adapted algorithms for restricted algebraic immunity, for any subset of $\F_2^n$. Additionally, we provide corresponding algorithms and code implementations.  
-%As the Reed-Muller approach for this generalization and the iterative method have not been formalized for restricted algebraic immunity (RAI), we address this gap by establishing the key properties ensuring their correctness for any subset of $\F_2^n$, and provide corresponding algorithms with code implementations.\footnote{In~\cite{TOSC:CarMeaRot17}, bounds on RAI are derived from punctured Reed-Muller codes, but no algorithm is given.}
 Since the Reed-Muller approach has not been formalized for this generalization \footnote{in~\cite{TOSC:CarMeaRot17} some techniques to derive bounds on the restricted algebraic immunity are based on properties of the corresponding punctured Reed-Muller code, but no algorithm is given to determine the restricted algebraic immunity}, and the iterative method has not been studied for this generalization, we address this gap by establishing the key properties that ensure the correctness of the adapted algorithms for restricted algebraic immunity, for any subset of $\F_2^n$. 
 Additionally, we provide corresponding algorithms and code implementations.  
 
@@ -1069,7 +1072,7 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
     \end{algorithmic}
 \end{algorithm}
 
-\footnotetext[2]{\textsc{construct\_monomials}: generates all monomials up to degree $d$ in $n$ vars. $E_{D_n^n}$ can be pre-computed to skip this step.}
+\footnotetext[1]{\textsc{construct\_monomials}: generates all monomials up to degree $d$ in $n$ vars. $E_{D_n^n}$ can be pre-computed to skip this step.}
 
 \setcounter{algorithm}{0} 
 
@@ -1166,11 +1169,11 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 	\end{algorithmic}
 \end{algorithm}
 
-\footnotetext[3]{\textsc{find\_deg\_smallest\_S\_annihilator\_seq}: like Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} but finds degree sequentially, not in parallel.}
-\footnotetext[4]{\textsc{apply\_operations}: applies column ops from $P_{k-1}$ (Remark~\ref{rem:historyOfOperations}) to a vector.}
-\footnotetext[5]{\textsc{EF\_last\_col}: variant of \textsc{EF}, echelonizing only last added row/col, not full matrix.}
-\footnotetext[6]{\textsc{vanished\_on}: given ANF coeffs of $g \in \Bn{n}$ and point $z$, returns $True$ if $g(z)=0$, else $False$.}
-\footnotetext[7]{See Remark~\ref{rem:permutationClarification}.}
+\footnotetext[2]{\textsc{find\_deg\_smallest\_S\_annihilator\_seq}: like Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} but finds degree sequentially, not in parallel.}
+\footnotetext[3]{\textsc{apply\_operations}: applies column ops from $P_{k-1}$ (Remark~\ref{rem:historyOfOperations}) to a vector.}
+\footnotetext[4]{\textsc{EF\_last\_col}: variant of \textsc{EF}, echelonizing only last added row/col, not full matrix.}
+\footnotetext[5]{\textsc{vanished\_on}: given ANF coeffs of $g \in \Bn{n}$ and point $z$, returns $True$ if $g(z)=0$, else $False$.}
+\footnotetext[6]{See Remark~\ref{rem:permutationClarification}.}
 
 
 %\footnotetext[1]{\textsc{construct\_monomials} generates all monomials up to the degree $d$ with $n$ variables. $E_{D_n^n}$ may also be pre-computed and the function \textsc{construct\_monomials} removed from the algorithm.}
@@ -1258,7 +1261,7 @@ We observe that there are WPB functions with different restricted $\AIk{k}$ for 
 
 %is already enough variability in the corpus of WPB functions to observe 
 
-\footnotetext[8]{Step $2$ may be executed in parallel on the $\omega_i^{(k)}$s if memory is not a constraint. In fact, depending on the value of $m$ and the chosen sample size, the number of sub-truth tables generated may be too large to fit in memory simultaneously.}
+\footnotetext[7 ]{Step $2$ may be executed in parallel on the $\omega_i^{(k)}$s if memory is not a constraint. In fact, depending on the value of $m$ and the chosen sample size, the number of sub-truth tables generated may be too large to fit in memory simultaneously.}
 
 %\pmnote{add some comment on the results in 4 and 8 variables.}
 
@@ -1597,10 +1600,9 @@ Both implementations of the algorithms used to generate the plot in Figure~\ref{
 		\State \Return $\mbox{\textsc{min}}(immunity_f, immunity_{f+1})$\footnotemark;
 	\end{algorithmic}
 \end{algorithm}
-\footnotetext[9]{The symbol $||$ is used as row-concatenation of matrices, meaning that $C = A||B$ is the matrix constructed by appending all the row of the matrix $B$ to the matrix $A$.}
-\footnotetext[10]{\textsc{construct\_restricted\_generator\_matrices} is a function extracting $G_{n,n}^{f_{supp(f)\cap S},S}$, $G_{n,n}^{f_{supp(f+1)\cap S},S}$ and $G_{n,n}^{S}$ from the full Reed-Muller code generator matrix $G_{n,n}$ following Definition \ref{def:generatorsS}.}
-\footnotetext[11]{The function \textsc{min} takes care of $null$ values: $\mbox{\textsc{min}}(immunity_f, null) = immunity_f$ and $\mbox{\textsc{min}}(null, immunity_{f+1}) = immunity_{f+1}$.}
+\footnotetext[8]{The symbol $||$ is used as row-concatenation of matrices, meaning that $C = A||B$ is the matrix constructed by appending all the row of the matrix $B$ to the matrix $A$.}
+\footnotetext[9]{\textsc{construct\_restricted\_generator\_matrices} is a function extracting $G_{n,n}^{f_{supp(f)\cap S},S}$, $G_{n,n}^{f_{supp(f+1)\cap S},S}$ and $G_{n,n}^{S}$ from the full Reed-Muller code generator matrix $G_{n,n}$ following Definition \ref{def:generatorsS}.}
+\footnotetext[10]{The function \textsc{min} takes care of $null$ values: $\mbox{\textsc{min}}(immunity_f, null) = immunity_f$ and $\mbox{\textsc{min}}(null, immunity_{f+1}) = immunity_{f+1}$.}
 
 
 \end{document}
-x

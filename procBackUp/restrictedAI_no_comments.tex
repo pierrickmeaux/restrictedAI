@@ -1,448 +1,237 @@
-%\def\anon{1} %% set to 1 for anonymous submissions, hides acknowledgements and author names
-\def\full{0} %% set to 0 for springer proceedings
-
-
+\def\full{0}
 \ifnum\full=1
 \documentclass[11pt]{llncs}
 \addtolength{\parskip}{1pt}
 \else
-\documentclass[runningheads]{llncs}
+\documentclass[10pt, runningheads]{llncs}
 \usepackage{times}
 \fi
-
-
 \input{header.tex}
-
 \usepackage{float}
 \usepackage{placeins}
 \usepackage{caption}
 \usepackage{subcaption}
-\usepackage{booktabs}  % For better table formatting
-\usepackage{array}     % Allows better column width control
-\usepackage{graphicx} 
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
 \usepackage{xr-hyper}
 \usepackage{hyperref}
-
-
-
 \begin{document}
-	
 \setcounter{page}{1}
 	\title{Computing the Restricted Algebraic Immunity, and Application to Weightwise Perfectly Balanced Functions. }
-
-	
 	\titlerunning{Computing the restricted AI, and application to WPB functions.}
-	
-	
-%\if\anon=1	
 	\author{
 		\mbox{
 			Luca Bonamino\orcidID{0009-0009-3883-6958} }\mbox{, Pierrick M\'eaux\orcidID{0000-0001-5733-4341}
-		}%\inst{1}
+		}
 	}
-	
 	\authorrunning{
 		L. Bonamino, P. M\'eaux
 	}
-	
 	\institute{
 	Luxembourg university, Luxembourg\\
-		\email{luca.bonamino.001@uni.student.lu}\\ \email{pierrick.meaux@uni.lu}		
+		\email{luca.bonamino.001@uni.student.lu}\\ \email{pierrick.meaux@uni.lu}
 	}
-	
-%\fi
-	
-	
-	
-	%----------------------------------------------------------------
 	\maketitle
-
-
-%\institute{
-%	University of Luxembourg, Luxembourg\\
-%	\email{pierrick.meaux@uni.lu}		
-%}	
-	
 	\begin{abstract}
-
-Algebraic Immunity (AI) is a fundamental property in the security analysis of stream ciphers and Boolean functions, measuring the resistance of a function against algebraic attacks. 
-In this work, we focus on the computation of AI and, more specifically, on its generalization to restricted algebraic immunity, which considers annihilators constrained to specific subsets of $\mathbb{F}_2^n$. 
-While the computation of AI has been studied using methods based on Reed-Muller codes and iterative rank-based algorithms, these approaches have not been formally adapted to the restricted setting. 
-We address this gap by establishing the theoretical foundations required for the adaptation of these techniques and providing explicit algorithms for computing restricted algebraic immunity.  
-
-To assess the efficiency of our algorithms, we conduct practical experiments comparing the computational cost of the Reed-Muller and iterative approaches in terms of time and memory. 
-As a case study, we analyze the algebraic immunity restricted to the slices of $\mathbb{F}_2^n$, \ie the sets of binary vectors of fixed Hamming weight, denoted $\AI_k$. 
-The slices are of particular interest in areas of cryptography, such as side-channel analysis and stream cipher design, where the input weight may be partially predictable. 
-We further investigate restricted algebraic immunity for Weightwise (Almost) Perfectly Balanced (W(A)PB) functions, which have been extensively studied since $2017$. 
-Our results include an empirical analysis of $\AI_k$ distributions for WPB functions with $4$, $8$, and $16$ variables, as well as an evaluation of $\AIk{k}$ for various known function families. 
-
-
-
-		
-\keywords{Boolean functions, Algebraic immunity, Restricted algebraic immunity, Weightwise (almost) perfectly balanced functions.}		
-		
+Algebraic Immunity (AI) is a fundamental property in the security analysis of stream ciphers and Boolean functions, measuring the resistance of a function against algebraic attacks.
+In this work, we focus on the computation of AI and, more specifically, on its generalization to restricted algebraic immunity, which considers annihilators constrained to specific subsets of $\mathbb{F}_2^n$.
+While the computation of AI has been studied using methods based on Reed-Muller codes and iterative rank-based algorithms, these approaches have not been formally adapted to the restricted setting.
+We address this gap by establishing the theoretical foundations required for the adaptation of these techniques and providing explicit algorithms for computing restricted algebraic immunity.
+To assess the efficiency of our algorithms, we conduct practical experiments comparing the computational cost of the Reed-Muller and iterative approaches in terms of time and memory.
+As a case study, we analyze the algebraic immunity restricted to the slices of $\mathbb{F}_2^n$, \ie the sets of binary vectors of fixed Hamming weight, denoted $\AI_k$.
+The slices are of particular interest in areas of cryptography, such as side-channel analysis and stream cipher design, where the input weight may be partially predictable.
+We further investigate restricted algebraic immunity for Weightwise (Almost) Perfectly Balanced (W(A)PB) functions, which have been extensively studied since $2017$.
+Our results include an empirical analysis of $\AI_k$ distributions for WPB functions with $4$, $8$, and $16$ variables, as well as an evaluation of $\AIk{k}$ for various known function families.
+By formalizing and extending existing methods to the restricted setting, this work provides new insights into the algebraic properties of Boolean functions under structural constraints, contributing to both theoretical research and practical cryptographic applications.
+\keywords{Boolean functions, Algebraic immunity, Restricted algebraic immunity, Weightwise (almost) perfectly balanced functions.}
 	\end{abstract}
-
-
-
 \section{Introduction}
-
-%\pmnote{Add more on motivation and contribution: on motivation, recent ciphers with filtering function in more variables than before, or different constraints -> variant of AI.
-
-
-%Contributions, explain more difference
-
-%flip and SCA comment.}
-
-
-Since the introduction of algebraic attacks on filtered LFSRs~\cite{EC:CouMei03} in 2003, Algebraic Immunity (AI) has become a crucial property to consider in the security of stream ciphers. 
-As defined in~\cite{EC:MeiPasCar04}, algebraic immunity refers to the minimum degree of a nontrivial annihilator of a Boolean function $f$ or its complement $1+f$. 
-In the context of filtered LFSRs, AI directly corresponds to the degree of the algebraic system an adversary can derive from the keystream, since only affine mappings occur before the application of the nonlinear filter $f$. 
-Consequently, AI plays a key role in settings where affine updates are followed by a filtering function, as demonstrated in~\cite{SIAM:AppLov18} for Goldreich's pseudorandom generator~\cite{Goldreich00} and for (improved) filtered permutators~\cite{EC:MJSC16,INDO:MCJS19}. 
-%Research on algebraic immunity has followed two main directions: analyzing its properties~\cite{IEEE:Didier06,AMC:CarMer13,DAM:Meaux22} and constructing Boolean functions that optimize this parameter~\cite{DCC:DalMaiSar06,ISIT:Carlet07,AC:CarFen08,IEEE:QFLW09,IEEE:ZCSH11,DCC:TuDen11}. These efforts have significantly contributed to the study of Boolean functions in cryptographic applications.
+Since the introduction of algebraic attacks on filtered LFSRs~\cite{EC:CouMei03} in 2003, Algebraic Immunity (AI) has become a crucial property to consider in the security of stream ciphers.
+As defined in~\cite{EC:MeiPasCar04}, algebraic immunity refers to the minimum degree of a nontrivial annihilator of a Boolean function $f$ or its complement $1+f$.
+In the context of filtered LFSRs, AI directly corresponds to the degree of the algebraic system an adversary can derive from the keystream, since only affine mappings occur before the application of the nonlinear filter $f$.
+Consequently, AI plays a key role in settings where affine updates are followed by a filtering function, as demonstrated in~\cite{SIAM:AppLov18} for Goldreich's pseudorandom generator~\cite{Goldreich00} and for (improved) filtered permutators~\cite{EC:MJSC16,INDO:MCJS19}.
 Studying algebraic immunity (\eg \cite{IEEE:Didier06,AMC:CarMer13,DAM:Meaux22}) or constructing Boolean functions that optimize this parameter (\eg \cite{INDOCRYPT:DalGupMai04,DCC:DalMaiSar06,ISIT:Carlet07,LiQi07,AC:CarFen08,IEEE:QFLW09,IEEE:CheLu11,IEEE:ZCSH11,DCC:TuDen11,
 AC:LiuZhaLin12,IEEE:TanCarTan13,CC:LimKolKal13,DCC:LCZLHS14,IEEE:LiuLin14,TanLuoDu16,IEEE:TCTZ17, DCC:LimKol18,CC:TangLiu19}
-) has been an important line of research in the area of Boolean functions used in cryptography since the 2000s. The resurgence of high-variable filtered LFSRs and $\mathbb{Z}_{2^t}$ stream ciphers for hybrid homomorphic encryption has made algebraic immunity a key security metric~\cite{eprint:CarSar23,eprint:MeaSeuTan24,eprint:Meaux25}. Recent attacks include the break of Elisabeth-4~\cite{AC:GHJR23} via low-degree subspace annihilators and the framework in~\cite{CIC:MeauxWang25} on update-dependent AI variants.
-
-%
-%\pmnote{consider this addition: (rewrite)}
-%
-%Recently, with the resurgence of filtered LFSRs~\cite{eprint:nostalgia,eprint:CarSar25}, now operating on Boolean functions in more than $100$ variables or other streamciphers over $\Z_{2^t}$ using filtering functions in many variables~\cite{AC:CHMS22,Indo:HofMeaSta23} designed efficient hybrid homomorphic encryption~\cite{EPRINT:LauNaeVai11}, determining the algebraic immunity (or a variant) has become more important to study the practical security of these schemes. 
-%Witnessing this trend, the algebraic immunity is the main criteria studied for the recently introduced functions in~\cite{eprint:CarSar23,eprint:MeaSeuTan24,eprint:Méaux25}
-%Regarding recent attacks on variants of the AI, the attack on Elisabeth-4 presented in~\cite{AC:} relies on determining low degree annihilators whose monomials belong to an identified subspace. 
-%The attack framework of~\cite{CIC:MeauxWang25} consider variants of the AI depending on the updating process of the streamcipher.
-%
-%%
-%With the recent resurgence of filtered LFSRs~\cite{eprint:nostalgia,eprint:CarSar25}—now operating on Boolean functions in over $100$ variables—or other stream ciphers over $\mathbb{Z}_{2^t}$ that use filtering functions in many variables~\cite{AC:CHMS22,Indo:HofMeaSta23} for efficient hybrid homomorphic encryption~\cite{EPRINT:LauNaeVai11},
-%With the resurgence of filtered LFSRs~\cite{eprint:nostalgia,eprint:CarSar25}—now using Boolean functions in over $100$ variables—and other $\mathbb{Z}_{2^t}$ stream ciphers with high-variable filtering functions~\cite{AC:CHMS22,Indo:HofMeaSta23} for efficient hybrid homomorphic encryption~\cite{EPRINT:LauNaeVai11}, determining algebraic immunity (AI) and its variants has become increasingly important for practical security assessment.
-%Following this trend, AI is a primary criterion for recent functions in~\cite{eprint:CarSar23,eprint:MeaSeuTan24,eprint:Meaux25}.
-%Recent attacks on AI variants include the break of Elisabeth-4~\cite{AC:GHJR23}, exploiting low-degree annihilators restricted to a subspace, and the framework of~\cite{CIC:MeauxWang25}, which studies AI variants tied to the stream cipher’s update process.
-%With the recent resurgence of filtered LFSRs~\cite{eprint:nostalgia,eprint:CarSar25}—now operating on Boolean functions in over $100$ variables—and other stream ciphers over $\mathbb{Z}_{2^t}$ using high-dimensional filtering functions~\cite{AC:CHMS22,Indo:HofMeaSta23} for efficient hybrid homomorphic encryption~\cite{EPRINT:LauNaeVai11},
-%determining the algebraic immunity (or its variants) has become increasingly relevant for assessing the practical security of these schemes.
-%Following this trend, AI has been of the primary criteria studied for the newly proposed functions in~\cite{eprint:CarSar23,eprint:MeaSeuTan24,eprint:Meaux25}.
-%Recent attacks on AI variants include the break of Elisabeth-4~\cite{AC:GHJR23}, exploiting low-degree annihilators restricted to a subspace, and the attack framework of~\cite{CIC:MeauxWang25}, which studies AI variants tied to the stream cipher’s update process.
-% In this work, we focus on the computation of this parameter, specifically on a generalization of it.  
+) has been an important line of research in the area of Boolean functions used in cryptography since the 2000s.
+With the recent resurgence of filtered LFSRs~\cite{eprint:nostalgia,eprint:CarSar25}—now operating on Boolean functions in over $100$ variables—and other stream ciphers over $\mathbb{Z}_{2^t}$ using high-dimensional filtering functions~\cite{AC:CHMS22,Indo:HofMeaSta23} for efficient hybrid homomorphic encryption~\cite{EPRINT:LauNaeVai11},
+determining the algebraic immunity (or its variants) has become increasingly relevant for assessing the practical security of these schemes.
+Following this trend, algebraic immunity has been of the primary criteria studied for the newly proposed functions in~\cite{eprint:CarSar23,eprint:MeaSeuTan24,eprint:Meaux25}.
+Concerning recent attacks on AI variants, the attack on Elisabeth-4 in~\cite{AC:GHJR23} exploits the existence of low-degree annihilators whose monomials are restricted to a specific subspace.
+Similarly, the attack framework of~\cite{CIC:MeauxWang25} investigates AI variants that depend on the updating process of the stream cipher.
 We first recall methods for computing of this parameter, specifically on a generalization of it.
-The complexity of computing the algebraic immunity of a Boolean function has been investigated in various works (\eg \cite{EC:CouMei03,EC:ACGKMR06,C:HawRos04,FSE:DidTil06}).  
-One approach, which to our knowledge has rarely been formally articulated and is often considered folklore, relies on submatrices of generator matrices of the Reed-Muller codes. 
-We briefly recall its theoretical foundation here. 
-The truth table of an $n$-variable Boolean function of degree at most $r$ can be identified with a codeword of the Reed-Muller code $RM(r,n)$, where each codeword's element corresponds to the evaluation of a function at an element of $\F_2^n$.  
-Thus, by puncturing the Reed-Muller code of order $r$, keeping only the elements $x$ such that $f(x) = 1$, one obtains the code of the products of $f$ with functions of degree at most $r$. 
-The dimension of this code equals that of the Reed-Muller code of order $r$ if and only if $f$ does not admit a nonzero annihilator of degree at most $d$.  
-% We will revisit this method in our context?
-The most efficient algorithm for computing the AI is the iterative method introduced in~\cite{EC:ACGKMR06}. 
-Rather than constructing submatrices of the generator matrix of a Reed-Muller code for successive values of $d$, this algorithm builds them incrementally by adding one row and one column at a time. 
-Using the same theoretical foundation as the initial approach, a rank drop in the constructed matrices indicates the existence of an annihilator. 
-This iterative process improves computational efficiency, and specific operations designed to reduce the cost of updating successive matrices improve the initial time complexity from $\mathcal{O}(\binom{n}{\AI(f)}^\omega)$ (where $\AI(f)$ denotes the AI of $f$) with $\omega = 3$ to a value closer to $2$~\cite{EC:ACGKMR06,C:HawRos04}. 
-In this work, we focus on a generalization of algebraic immunity, namely the restricted algebraic immunity, introduced in~\cite{TOSC:CarMeaRot17}.  
-This property considers a subset $S \subseteq \F_2^n$ and corresponds to the minimal degree of an annihilator $g$ that annihilates $f$ or $f+1$ over the entire set $S$ but is not identically zero on $S$. 
+The complexity of computing the algebraic immunity of a Boolean function has been investigated in various works (\eg \cite{EC:CouMei03,EC:ACGKMR06,C:HawRos04,FSE:DidTil06}).
+One approach, which to our knowledge has rarely been formally articulated and is often considered folklore, relies on submatrices of generator matrices of the Reed-Muller codes.
+We briefly recall its theoretical foundation here.
+The truth table of an $n$-variable Boolean function of degree at most $r$ can be identified with a codeword of the Reed-Muller code $RM(r,n)$, where each codeword's element corresponds to the evaluation of a function at an element of $\F_2^n$.
+Thus, by puncturing the Reed-Muller code of order $r$, keeping only the elements $x$ such that $f(x) = 1$, one obtains the code of the products of $f$ with functions of degree at most $r$.
+The dimension of this code equals that of the Reed-Muller code of order $r$ if and only if $f$ does not admit a nonzero annihilator of degree at most $d$.
+The most efficient algorithm for computing the AI is the iterative method introduced in~\cite{EC:ACGKMR06}.
+Rather than constructing submatrices of the generator matrix of a Reed-Muller code for successive values of $d$, this algorithm builds them incrementally by adding one row and one column at a time.
+Using the same theoretical foundation as the initial approach, a rank drop in the constructed matrices indicates the existence of an annihilator.
+This iterative process improves computational efficiency, and specific operations designed to reduce the cost of updating successive matrices improve the initial time complexity from $\mathcal{O}(\binom{n}{\AI(f)}^\omega)$ (where $\AI(f)$ denotes the AI of $f$) with $\omega = 3$ to a value closer to $2$~\cite{EC:ACGKMR06,C:HawRos04}.
+In this work, we focus on a generalization of algebraic immunity, namely the restricted algebraic immunity, introduced in~\cite{TOSC:CarMeaRot17}.
+This property considers a subset $S \subseteq \F_2^n$ and corresponds to the minimal degree of an annihilator $g$ that annihilates $f$ or $f+1$ over the entire set $S$ but is not identically zero on $S$.
 More formally, it is defined as:
-$\AI_S(f) = \min_g\left(\degg(g) \mid fg = 0 \text{ or } g(f+1) = 0, \text{ and } \exists x \in S \text{ such that } g(x) = 1 \right)$.
-In this setting, classical algebraic immunity corresponds to the special case where $S = \F_2^n$.  
-%Since neither the Reed-Muller approach nor the iterative method has been fully formalized and described for this generalization, we address this gap by establishing the key properties that ensure the correctness of the adapted algorithms for restricted algebraic immunity, for any subset of $\F_2^n$. Additionally, we provide corresponding algorithms and code implementations.  
-%As the Reed-Muller approach for this generalization and the iterative method have not been formalized for restricted algebraic immunity (RAI), we address this gap by establishing the key properties ensuring their correctness for any subset of $\F_2^n$, and provide corresponding algorithms with code implementations.\footnote{In~\cite{TOSC:CarMeaRot17}, bounds on RAI are derived from punctured Reed-Muller codes, but no algorithm is given.}
-Since the Reed-Muller approach has not been formalized for this generalization \footnote{in~\cite{TOSC:CarMeaRot17} some techniques to derive bounds on the restricted algebraic immunity are based on properties of the corresponding punctured Reed-Muller code, but no algorithm is given to determine the restricted algebraic immunity}, and the iterative method has not been studied for this generalization, we address this gap by establishing the key properties that ensure the correctness of the adapted algorithms for restricted algebraic immunity, for any subset of $\F_2^n$. 
-Additionally, we provide corresponding algorithms and code implementations.  
-
-
-
-Our contributions start in Section~\ref{sec:RMapproach}, where we formalize the Reed-Muller approach, and in Section~\ref{sec:IterativeApproach}, we analyze the iterative method, emphasizing the theoretical and practical challenges that arise when applying this technique to restricted sets. 
-Variants of the algebraic attack, such as fast algebraic attacks~\cite{C:Courtois03,FSE:Armknecht04} and attacks leveraging monomials of extreme degrees~\cite{CIC:MeauxWang25}, require computing parameters in a manner similar to restricted algebraic immunity. 
+\[
+\AI_S(f) = \min_g\left(\degg(g) \mid fg = 0 \text{ or } g(f+1) = 0, \text{ and } \exists x \in S \text{ such that } g(x) = 1 \right).
+\]
+In this setting, classical algebraic immunity corresponds to the special case where $S = \F_2^n$.
+Since the Reed-Muller approach has not been formalized for this generalization \footnote{in~\cite{TOSC:CarMeaRot17} some techniques to derive bounds on the restricted algebraic immunity are based on properties of the corresponding punctured Reed-Muller code, but no algorithm is given to determine the restricted algebraic immunity}, and the iterative method has not been studied for this generalization, we address this gap by establishing the key properties that ensure the correctness of the adapted algorithms for restricted algebraic immunity, for any subset of $\F_2^n$.
+Additionally, we provide corresponding algorithms and code implementations.
+Our contributions start in Section~\ref{sec:RMapproach}, where we formalize the Reed-Muller approach, and in Section~\ref{sec:IterativeApproach}, we analyze the iterative method, emphasizing the theoretical and practical challenges that arise when applying this technique to restricted sets.
+Variants of the algebraic attack, such as fast algebraic attacks~\cite{C:Courtois03,FSE:Armknecht04} and attacks leveraging monomials of extreme degrees~\cite{CIC:MeauxWang25}, require computing parameters in a manner similar to restricted algebraic immunity.
 Accordingly, we hope that this work will be useful for further research in these directions, and that the new algorithms can be a basis for determinations of variants of the AI.
-
-
-
-Next, we perform various experiments with our algorithms. 
-First, we compare the practical efficiency of the two main approaches in terms of both runtime and memory usage. 
-For this comparison, we consider algebraic immunity restricted to a slice of $\F_2^n$, specifically a set $\Ekn{k}{n}$ consisting of all binary vectors of length $n$ with Hamming weight $k$.  
-These sets, as well as functions that are balanced on all such sets, known as Weightwise (Almost) Perfectly Balanced (W(A)PB) functions, have attracted considerable attention since the introduction of restricted criteria in~\cite{TOSC:CarMeaRot17}.  
-Slices of $\F_2^n$ frequently appear in cryptographic research, notably in contexts such as the Hamming weight model in side-channel analysis (where the Hamming weight of an intermediate variable, or a noisy version of it, can be learned by the adversary) and the fixed input weight setting in FLIP~\cite{EC:MJSC16} (where by design the Hamming weight in input of the filtering function is known by the adversary). 
-In particular, WAPB functions have been extensively studied, with research focusing primarily on two aspects. The first is the construction of such functions, which has been explored in various works~\cite{TOSC:CarMeaRot17,CC:TangLiu19,DCC:LiuMes19,DAM:LiSu20,CC:MesSu21,DAM:ZhuSu22,CEC:MPJDL22,ACI:ManKuLar22,INDO:GinMea22,CC:MSLZ22,DAM:GuoSu22,DAM:ZLCQZ23,AMC:ZhangSu23,Mat:ZJZQ23,ASIACCS:YCL+23,CCDS:GinMea24,AMC:DalMal23,SAC:Meaux24,eprint:DalMalMea24}. 
-The second is the study of their cryptographic properties, including nonlinearity restricted to slices~\cite{DAM:GinMea22}, overall nonlinearity~\cite{C2SI:GinMea23}, and algebraic immunity~\cite{Latin:GinMea23}.  
-
-In this work, we further investigate algebraic immunity restricted to slices, denoted as $\AI_k$, particularly in the context of WAPB functions, which are relevant when the Hamming weight of a function’s input can be inferred. 
-In Section~\ref{subsec:AIkWPB}, we analyze the distribution of $\AI_k$ for WPB functions with $4$, $8$, and even $16$ variables. 
-Then, in Section~\ref{subsec:AIkknownFam}, we determine the values of $\AIk{k}$ for several families of functions introduced in previous works.  
-
-
+Next, we perform various experiments with our algorithms.
+First, we compare the practical efficiency of the two main approaches in terms of both runtime and memory usage.
+For this comparison, we consider algebraic immunity restricted to a slice of $\F_2^n$, specifically a set $\Ekn{k}{n}$ consisting of all binary vectors of length $n$ with Hamming weight $k$.
+These sets, as well as functions that are balanced on all such sets, known as Weightwise (Almost) Perfectly Balanced (W(A)PB) functions, have attracted considerable attention since the introduction of restricted criteria in~\cite{TOSC:CarMeaRot17}.
+Slices of $\F_2^n$ frequently appear in cryptographic research, notably in contexts such as the Hamming weight model in side-channel analysis (where the Hamming weight of an intermediate variable, or a noisy version of it, can be learned by the adversary) and the fixed input weight setting in FLIP~\cite{EC:MJSC16} (where by design the Hamming weight in input of the filtering function is known by the adversary).
+In particular, WAPB functions have been extensively studied, with research focusing primarily on two aspects. The first is the construction of such functions, which has been explored in various works~\cite{TOSC:CarMeaRot17,CC:TangLiu19,DCC:LiuMes19,DAM:LiSu20,CC:MesSu21,DAM:ZhuSu22,CEC:MPJDL22,ACI:ManKuLar22,INDO:GinMea22,CC:MSLZ22,DAM:GuoSu22,DAM:ZLCQZ23,AMC:ZhangSu23,Mat:ZJZQ23,ASIACCS:YCL+23,CCDS:GinMea24,AMC:DalMal23,SAC:Meaux24,eprint:DalMalMea24}.
+The second is the study of their cryptographic properties, including nonlinearity restricted to slices~\cite{DAM:GinMea22}, overall nonlinearity~\cite{C2SI:GinMea23}, and algebraic immunity~\cite{Latin:GinMea23}.
+In this work, we further investigate algebraic immunity restricted to slices, denoted as $\AI_k$, particularly in the context of WAPB functions, which are relevant when the Hamming weight of a function’s input can be inferred.
+In Section~\ref{subsec:AIkWPB}, we analyze the distribution of $\AI_k$ for WPB functions with $4$, $8$, and even $16$ variables.
+Then, in Section~\ref{subsec:AIkknownFam}, we determine the values of $\AIk{k}$ for several families of functions introduced in previous works.
 \section{Preliminaries}\label{sec:prelim}
-
-
-For readability, we use the notation $+$ instead of 
-$\oplus$ to denote the addition in $\F_2$, and $\sum$ instead of $\bigoplus$. 
-In addition to classic notations, we denote by $ [a,b] $ the subset of all integers between $a$ and $b$: $\{a, a+1, \ldots,b\}$. 
-For a vector $v\in \F_2^n$ we use $\w(v)$ to denote its Hamming weight $\w(v)=|\{ i \in [1,n] \, | \, v_i=1 \}|$. 
-For two vectors $v$ and $w$ in $\F_2^n$ we denote by $\hd(v,w)$ the Hamming distance between $v$ and $w$, that is, $\hd(v,w)=\w(v+w)$. 
+For readability, we use the notation $+$ instead of
+$\oplus$ to denote the addition in $\F_2$, and $\sum$ instead of $\bigoplus$.
+In addition to classic notations, we denote by $ [a,b] $ the subset of all integers between $a$ and $b$: $\{a, a+1, \ldots,b\}$.
+For a vector $v\in \F_2^n$ we use $\w(v)$ to denote its Hamming weight $\w(v)=|\{ i \in [1,n] \, | \, v_i=1 \}|$.
+For two vectors $v$ and $w$ in $\F_2^n$ we denote by $\hd(v,w)$ the Hamming distance between $v$ and $w$, that is, $\hd(v,w)=\w(v+w)$.
 For two functions $f$ and $g$ we denote by $\hd(f,g)$ the Hamming distance between their vectors of values.
-
-%\subsection{Order relations on \texorpdfstring{$\mathbb{F}_2^n$}{F\_2^n}}
-
 \subsection{Boolean functions, cryptographic criteria, and weightwise properties}
 In this section, we recall fundamental concepts concerning Boolean functions and their weightwise properties, which are utilized throughout this article. For a more comprehensive introduction to Boolean functions and their cryptographic parameters, we recommend consulting the book by Carlet~\cite{Carlet20},
-%consulting for instance the book by Carlet~\cite{Carlet20}, 
 and for insights into weightwise properties—also known as properties on the slices—the article~\cite{TOSC:CarMeaRot17}.
-We denote by $\Ekn{k}{n}$ the set $\{x\in \F_2^n \, | \, \w(x)=k \}$ for $k \in [0,n]$, referring to it as a slice of the Boolean hypercube (of dimension $n$). 
+We denote by $\Ekn{k}{n}$ the set $\{x\in \F_2^n \, | \, \w(x)=k \}$ for $k \in [0,n]$, referring to it as a slice of the Boolean hypercube (of dimension $n$).
 Consequently, the Boolean hypercube is divided into $n+1$ slices, where the elements share the same Hamming weight.
-%and the article~{TOSC:CarMeaRot17} for insights into weightwise properties, also known as properties on the slices. We denote $\Ekn{k}{n}$ as the set $\{x\in \F_2^n , | , \w(x)=k \}$ for $k \in [0,n]$, referring to it as a slice of the Boolean hypercube (of dimension $n$). Consequently, the Boolean hypercube is divided into $n+1$ slices where the elements share the same Hamming weight.
-
-
 \begin{definition}[Boolean Function]\label{def:bool_f}
-	A Boolean function $f$ in $n$ variables is a function from $\F_2^n$ to $\F_2$. 
-	The set of all Boolean functions in $n$ variables is denoted by $\BN$.%, and we denote $\BN^*$ the set without the null function.
+	A Boolean function $f$ in $n$ variables is a function from $\F_2^n$ to $\F_2$.
+	The set of all Boolean functions in $n$ variables is denoted by $\BN$.
 \end{definition}
-
-
-When a property or a definition is restricted to a slice, we denote it by using the subscript $k$. 
-For example, for an $n$-variable Boolean function $f$ we denote its support $\supp(f)=\{x\in \F_2^n \, | \, f(x)=1  \}$. 
-%Furthermore, we denote by $\suppk{k}(f)$ its support restricted to a slice, that is $\supp(f)\cap \Ekn{k}{n}$.
+When a property or a definition is restricted to a slice, we denote it by using the subscript $k$.
+For example, for an $n$-variable Boolean function $f$ we denote its support $\supp(f)=\{x\in \F_2^n \, | \, f(x)=1  \}$.
 Furthermore, we denote by $\suppk{k}(f)$ the support of $f$ restricted to a slice, which is defined as $\supp(f)\cap \Ekn{k}{n}$.
-
-
 \begin{definition}[Balancedness]\label{def:balancedness}
-	A Boolean function $f\in \BN$ is called balanced if $|\supp(f)|=2^{n-1}=|\supp(f+1)|$. 
-	
+	A Boolean function $f\in \BN$ is called balanced if $|\supp(f)|=2^{n-1}=|\supp(f+1)|$.
 	For $k\in [0,n]$ the function is said balanced on the slice $k$ if $||\suppk{k}(f)|-|\suppk{k}(f+1)| |\le 1$. In particular when $|\Ekn{k}{n}|$ is even $|\suppk{k}(f)|=|\suppk{k}(f+1)|=|\Ekn{k}{n}|/2$.
 \end{definition}
-
-%\begin{definition}[Weightwise Perfectly Balanced Function (WPB)]\label{def:WPB}
-%	Let $m\in \N^*$ and $f$ be a Boolean function in $n=2^m$ variables. 
-%	The function $f$ is called weightwise perfectly balanced (WPB) if, for every $k\in[n-1]$, $f$ is balanced on the slice $k$, that is $\forall k \in [1,n-1], |\suppk{k}(f)|=\binom{n}{k}/2$, and:
-%	\[f(0,\dots,0)=0,\quad \text{ and } \quad f(1,\dots,1)=1.\]
-%	The set of WPB functions in $2^m$ variables is denoted $\WPB{m}$.
-%	\end{definition}
-
 Using the notion of restricted balancedness we can define the weightwise (almost) perfectly balanced functions, the focus of our work.
-
 \begin{definition}[Weightwise (Almost) Perfectly Balanced Function (WPB and WAPB)]\label{def:WAPB}
 	Let $m\in \N^*$ and $f$ be a Boolean function in $n=2^m$ variables. It will be called weightwise perfectly balanced (WPB) if, for every $k\in[1,n-1]$, $f$ is balanced on the slice $k$, that is $\forall k \in [1,n-1], |\suppk{k}(f)|=\binom{n}{k}/2$, and:
-	\[f(0,\cdots,0)=0,\quad \text{ and } f(1,\cdots,1)=1.\]	
+	\[f(0,\cdots,0)=0,\quad \text{ and } f(1,\cdots,1)=1.\]
 	The set of WPB functions in $2^m$ variables is denoted $\WPB{m}$.
-	
-	When $n$ is not a power of $2$, other weights than $k=0$ and $n$ can lead to slices of odd cardinality, we call $f\in \Bn{n}$ weightwise almost perfectly balanced (WAPB) if: 
+	When $n$ is not a power of $2$, other weights than $k=0$ and $n$ can lead to slices of odd cardinality, we call $f\in \Bn{n}$ weightwise almost perfectly balanced (WAPB) if:
 	\[|\suppk{k}(f)|= \left \{
 	\begin{array}{l l}
 	|\Ekn{k}{n}|/2  & \text{ if } |\Ekn{k}{n}| \text{ is even, } \\
 	(|\Ekn{k}{n}|\pm 1)/2  & \text{ if }  |\Ekn{k}{n}| \text{ is odd.}
 	\end{array}\right.\]
-	The set of WAPB functions in $n$ variables is denoted $\WAPB{n}$.		
+	The set of WAPB functions in $n$ variables is denoted $\WAPB{n}$.
 \end{definition}
-
-
-
-%We define other important notions to study Boolean functions, the algebraic normal form and the Walsh transform. Then we introduce important cryptographic criteria for these functions, the (weightwise) algebraic immunity and (weightwise) nonlinearity.
-We define additional crucial concepts for studying Boolean functions, namely the algebraic normal form and the Walsh transform. 
+We define additional crucial concepts for studying Boolean functions, namely the algebraic normal form and the Walsh transform.
 Subsequently, we introduce key cryptographic criteria for these functions, including algebraic immunity (both general and weightwise) and nonlinearity (both general and weightwise).
-
 \begin{definition}[Algebraic Normal Form (ANF) and degree]\label{def:anf}
 We call Algebraic Normal Form of a Boolean function $f$ its $n$-variable polynomial representation over $\F_2$ (\ie belonging to $\F_2[x_1,\dots,x_n]/(x_1^2+x_1,\dots,x_n^2+x_n)$):
-	\[f(x_1,\dots,x_n)= \sum_{I \subseteq [1,n]} a_I \left( \prod_{i \in I} x_i \right), \]%x_1,\dots,x_n=\sum_{I \subseteq [1,n]} a_I x^I,\]
-	where $a_I\in \F_2$. 
-%The (algebraic) degree of $f$, denoted $\degg(f)$ is: \[\degg(f):=\left\{\begin{array}{l}
-%	\max_{I\subseteq [1,n]}\{ |I|\, | \, a_I=1\}  \text{ if $f$ is not null}\\
-%	0  \text{ otherwise}.
-%	\end{array}\right.\]	
+	\[f(x_1,\dots,x_n)= \sum_{I \subseteq [1,n]} a_I \left( \prod_{i \in I} x_i \right), \]
+	where $a_I\in \F_2$.
 The (algebraic) degree of $f$, denoted $\degg(f)$ is: \[\degg(f)=\
 \max_{I\subseteq [1,n]}\{ |I|\, | \, a_I=1\}  \text{ if $f$ is not null},0  \text{ otherwise}.\]
-\end{definition}	
-
-We also recall the concept of order on $\F_2^n$, as it will be utilized in the algorithms involving Boolean functions.
-
-%Let $n\in \N^*$
-%Two order relations in $\mathbb{F}_2^n$ are used: the \textit{lexicographic} and the \textit{graded lex} order.
-
-
-\begin{definition}[Order]\label{def:order}
-	A binary relation $\preceq$	on a set $X$ is called partial order if $\preceq$ is reflexive, transitive and antisymmetric. 
-	Moreover, $\preceq$ is a total order if for all $a,b\in X$ it holds $a\preceq b$ or $b \preceq a$.
-	
 \end{definition}
-
+We also recall the concept of order on $\F_2^n$, as it will be utilized in the algorithms involving Boolean functions.
+\begin{definition}[Order]\label{def:order}
+	A binary relation $\preceq$	on a set $X$ is called partial order if $\preceq$ is reflexive, transitive and antisymmetric.
+	Moreover, $\preceq$ is a total order if for all $a,b\in X$ it holds $a\preceq b$ or $b \preceq a$.
+\end{definition}
 We give two examples of orders on $n$-length binary strings, more examples can be found in \eg~\cite{FUN:SteWil12}:
 \begin{itemize}
 	\item Lexicographic, given $a,b \in \F_2^n$ as $a=a_1,\ldots, a_n$ and $b=b_1,\ldots,b_n$, $a\preceq_{lex} b$ if and only if  $a_i<b_i$ on the first index $i\in [1,n]$ such that $a_i\ne b_i$, or $a=b$.
 	\item Graded lexicographic, given $a,b \in \F_2^n$ as $a=a_1,\ldots, a_n$ and $b=b_1,\ldots,b_n$, $a\preceq_{glex} b$ if $w_H(a) < w_H(b)$ or $w_H(a) = w_H(b)$ and $ a\preceq_{lex}  b$
 \end{itemize}
-
-
-
-
 \begin{definition}[Truth table]\label{def:trutthTable}
 	Let $f\in \Bn{n}$ be a Boolean function, its truth table is the Boolean vector defined as:
 \begin{align*}
 TT(f) \in \F_2^{2^n},\  TT(f) = \left(f(0_n), \dots, f(1_n)\right).
-\end{align*}	
+\end{align*}
 	Denoting by $f_S$ the restriction of $f$ to a subset $S\subseteq \F_2^n$ written as $S = \{a_1, a_2, \cdots, a_{|S|}\}$, the truth table of $f_S$ refers to the vector $\left(f(a_1), f(a_2), \dots, f(a_{|S|})\right)$.
-
-If not specified otherwise, the (restricted) truth table follows the lexicographic order.	
-		
+If not specified otherwise, the (restricted) truth table follows the lexicographic order.
 \end{definition}
-
-%\begin{remark}
-%    We consider the truth table given in Definition \ref{def:trutthTable} to be ordered in lexicographical order.
-%\end{remark}
-
-
-
 \begin{definition}[Algebraic immunity and restricted algebraic immunity] \label{def:ai}
 	The algebraic immunity of a Boolean function $f\in \Bfn{n}$, denoted as $\AI(f)$, is defined as:
 	\[ \AI(f) = \min_{g \neq 0}\{ \degg(g) \; | \; fg = 0 \; \text{or} \; (f + 1)g = 0 \}{,} \]
 	where $\degg(g)$ is the algebraic degree of $g$.
-	The function $g$ is called an annihilator of $f$ (or $f + 1$). 
-	%Additionally we denote $\AN(f) = \min_{g \neq 0}\{ \degg(g) \; | \; fg = 0\}$.
-	
+	The function $g$ is called an annihilator of $f$ (or $f + 1$).
 The restricted algebraic immunity of a Boolean function $f\in \Bfn{n}$ on the set $S\subseteq \F_2^n$, denoted as $\AI_S(f)$, is defined as:
-\[ \AI_S(f) = \min_{g \neq 0 \text{ over } S}\{ \degg(g) \; | \; fg = 0 \; \text{or} \; (f + 1)g = 0 \}{.} \]	
+\[ \AI_S(f) = \min_{g \neq 0 \text{ over } S}\{ \degg(g) \; | \; fg = 0 \; \text{or} \; (f + 1)g = 0 \}{.} \]
 For $S=\Ekn{k}{n}$ we denote $\AI_{\Ekn{k}{n}}(f)$ by $\AIk{k}(f)$ and call it weightwise algebraic immunity.
-	
-	
 \end{definition}
-
 \begin{remark}
-    Let $f\in \Bn{n}$. We use the notation $f^{(o)}$ referring to either $f$ or $f + 1$ when the same process or result applies to any of them. 
+    Let $f\in \Bn{n}$. We use the notation $f^{(o)}$ referring to either $f$ or $f + 1$ when the same process or result applies to any of them.
     In particular, $f^{(o)} \in \{f, f + 1\}$.
 \end{remark}
-
-
 \iffalse
 \begin{definition}[Walsh transform and restricted Walsh transform]\label{def:walsh_transform}
 	Let $f\in \Bn{n}$ be a Boolean function, its Walsh transform $\wt{f}$ at $a \in \F_2^n$ is defined as:
 	\[  \wt{f} (a) := \sum_{x \in \F_2^n} (-1)^{f(x) +  a \cdot x }.\]
-	%	The Walsh support is the set $\Wsupp{f}:=\{ a\in \F_2^n\, | \, \wt{f} (a) \neq 0 \}$.
 	Let $f\in \Bn{n}$, $S \subset \F_2^n$, its Walsh transform restricted to $S$ at $a \in \F_2^n$ is defined as:
 	\[  \wt{f,S} (a) := \sum_{x\in S} (-1)^{f(x)+ax}.\]
-	For $S=\Ekn{k}{n}$ we denote $\wt{f,\Ekn{k}{n}} (a)$ by $\wtk{f}{k}(a)$.%, and for $a= 0_{n}$ we denote $\wtk{f}{k}(a)$ as $\wtk{f}{k}(0)$.
-	
+	For $S=\Ekn{k}{n}$ we denote $\wt{f,\Ekn{k}{n}} (a)$ by $\wtk{f}{k}(a)$.
 \end{definition}
-
 \begin{Prop}[WAPB functions and restricted Walsh transform]\label{prop:WAPBWalsh}
-	
 Let $n\in \N^*$, $f\in \Bn{n}$ is WAPB if and only if:
-\[\forall k \in [0,n], \, \wtk{f}{k}(0_n)=   
+\[\forall k \in [0,n], \, \wtk{f}{k}(0_n)=
 \left \{
 \begin{array}{l l}
 0  & \text{ if } |\Ekn{k}{n}| \text{ is even, } \\
 \pm 1 & \text{ if }  |\Ekn{k}{n}| \text{ is odd.}
-\end{array}\right. \] 
+\end{array}\right. \]
 If $n=2^m$ with $m\in \N^*$, $f\in \Bn{n}$ is WPB if and only if:
-\[\wtk{f}{0}(0_n)=1, \quad \wtk{f}{n}(0_n)=-1, \text{ and } \quad \forall k \in [1,n-1] \,  \wtk{f}{k}(0_n)=0. \] 
-	
+\[\wtk{f}{0}(0_n)=1, \quad \wtk{f}{n}(0_n)=-1, \text{ and } \quad \forall k \in [1,n-1] \,  \wtk{f}{k}(0_n)=0. \]
 \end{Prop}
-
 \begin{definition}[Nonlinearity and weightwise nonlinearity] \label{def:nl}
 	The nonlinearity $\NL(f)$ of a Boolean function $f\in \BN$, where $n$ is a positive integer, is the minimum Hamming distance between $f$ and all the affine functions in $\BN$:
 	\[ \NL(f) = \min_{g,\, \degg(g)\leq 1} \{ \hd(f,g) \}{,} \]
-	where $g(x)=a\cdot x+\varepsilon$, $a\in \F_2^n, \varepsilon\in \F_2$. 
-	%	(where $\cdot$ is an inner product in $\F_2^n$, any choice of inner product will give the same value of $\NL(f)$)
-	%For $n$ even the functions at maximal distance from the affine functions (the ones with maximal $\NL$, that is $2^{n-1} -2^{n/2-1}$) are called bent functions.
-	
+	where $g(x)=a\cdot x+\varepsilon$, $a\in \F_2^n, \varepsilon\in \F_2$.
 	The nonlinearity can also be defined from the Walsh transform:
 	\[ \NL(f) = 2^{n-1}- \frac{1}{2} \max_{a\in \F_2^n}{|\wt{f}(a)|}. \]
-	
-	
-	For $k\in [0,n]$ we denote $\NLk{k}$ the nonlinearity on the slice $k$, the minimum Hamming distance between $f$ restricted to $\Ekn{k}{n}$ and the restrictions to $\Ekn{k}{n}$ of affine functions over $\F_2^n$. 
-	Accordingly: 
+	For $k\in [0,n]$ we denote $\NLk{k}$ the nonlinearity on the slice $k$, the minimum Hamming distance between $f$ restricted to $\Ekn{k}{n}$ and the restrictions to $\Ekn{k}{n}$ of affine functions over $\F_2^n$.
+	Accordingly:
 	\[\NLk{k}(f)=\min_{g,\, \degg(g)\leq 1} |\suppk{k}(f+g)|.\]
-	%	We refer to the global weightwise nonlinearity of $f$ as $\gnlk(f)=\sum_{k=0}^{n}\NLk{k}(f)$.
 \end{definition}
-
-
 \begin{Prop}[Nonlinearity on the slice, adapted from~{TOSC:CarMeaRot17}, Proposition 6]\label{prop:nlk}
 	Let $n\in \N^*, k\in [0,n]$, for every $n$-variable Boolean function $f$ over $\Ekn{k}{n}$:
 	\[ \NLk{k}(f)=\frac{|\Ekn{k}{n}|}{2} -\frac{\max_{a\in \F_2^n} |\wtk{f}{k}(a)|}{2}  .\]
 \end{Prop}
-
-
-
-%\subsection{Symmetric Functions}
-
-%The $n$-variable \emph{Boolean symmetric functions} are those that are constant on each slice $\Ekn{k}{n}$ for $k\in [0,n]$. 
-%This class has been assiduously studied in the context of cryptography, see \eg {IEEE:Carlet04,IEEE:CanVid05,INDO:BraPre05,DM:SarMai07,IEEE:QFLW09,CCDS:Meaux21,IEEE:CarMea21}.
-%  The set of $n$-variable symmetric functions is denoted $\SYM{n}$.and $|\SYM{n}|=2^{n+1}$. 
-%In this article we mainly consider two families of symmetric functions, which are both bases of the symmetric functions:
-
-%\begin{definition}[Elementary symmetric functions]
-%Let $i\in [0,n]$, the elementary symmetric function of degree $i$ in $n$ variables, denoted $\sigma_{i,n}$, is the function which ANF contains all monomials of degree $i$ and no monomials of other degrees. 
-%\end{definition}
-%\begin{definition}[Slice indicator functions]
- %Let $k\in [0,n]$, the indicator function of the slice of weight $k$ is defined as:
- %\[\forall  x\in \mathbb{F}_2^{n}, \quad \phikn{k}{n}(x) = 1 \text{ if and only if } \w(x) = k.\]
-%\end{definition}
-%We recall that bent functions are those Boolean functions achieving maximal nonlinearity.
-
-%\begin{Prop}[Nonlinearity of $\sigma_{2,n}$]\label{prop:sigmaTwoBent}
-%	Let $n\in \N^*$ even, the elementary symmetric function $\sigma_{2,n}=\sum_{1\le i<j\le n}x_ix_j$ is bent, \ie 
-%	$\NL(\sigma_{2,n})=2^{n-1}-2^{n/2-1}$.
-%\end{Prop}
-
-
-%\begin{Prop}[Weightwise restricted Walsh transform and addition of symmetric function (~{INDO:GinMea22}, Proposition $4$)]\label{prop:AddSym}
-%	Let $n\in \N^*$, $k\in [0,n]$ and $f \in \Bn{n}$, the following holds on $f+\phikn{k}{n}$
-%	\[\forall a\in \F_2^n, \forall i\in [0,n]\setminus \{k\}, \wtk{f+\phikn{k}{n}}{i}(a)=\wtk{f}{i}(a),\text{ and } \wtk{f+\phikn{k}{n}}{k}(a)=-\wtk{f}{i}(a).\]	
-%\end{Prop}
-
-
-
-
-
 \subsection{Krawtchouk polynomials}
 We use Krawtchouk polynomials and some of their properties to prove one of our results, we give the necessary preliminaries here and refer to \eg ~{book:MacSlo78} for more details.
-
 \begin{definition}[Krawtchouk Polynomials]\label{def:Kraw}
-	The Krawtchouk polynomial of degree $k$, with $0\leq k\leq n$ is given by: $ \displaystyle \kraw{k}{\ell}{n}=\sum_{j=0}^{k} (-1)^j \binom{\ell}{j} \binom{n-\ell}{k-j}$. 
-	%	Krawtchouk polynomials are characterized by the generating series: $ \displaystyle (1+z)^{n-x} (1-z)^x=\sum_{k=0}^\infty \kraw{k}{x}{n} z^k$.
+	The Krawtchouk polynomial of degree $k$, with $0\leq k\leq n$ is given by: $ \displaystyle \kraw{k}{\ell}{n}=\sum_{j=0}^{k} (-1)^j \binom{\ell}{j} \binom{n-\ell}{k-j}$.
 \end{definition}
-
-
 \begin{Prop}[Krawtchouk polynomials relation]\label{prop:Kr}
 	Let $n\in \N^*$ and $k\in [0,n]$, the following hold:
  $\kraw{k}{\ell}{n}$ is the value of the restricted Walsh transform on $\Ekn{k}{n}$ of any $n$ variable linear function $a\cdot \ell$ such that $\w(a)=\ell$.
-		%\item $\kraw{k}{n-x}{n}=(-1)^k \kraw{k}{x}{n}$,
-		%\item $\kraw{n-k}{x}{n}=(-1)^x \kraw{k}{x}{n}$,
-		%	\item if $n$ is even and $k$ is odd, $\kraw{k}{n/2}{n}=0$,
-		%\item if $n$ is even, $\kraw{n/2}{1}{n}=0$.
-		%	\item $\binom{n}{x}\kraw{k}{x}{n}=\binom{n}{k}\kraw{x}{k}{n}$.
 \end{Prop}
-
-
 \begin{Prop}[Vandermonde Convolution]\label{prop:Vandermonde}
 	Let $a,b,c \in \N$, then:
 	\begin{equation*}
 	\binom{a+c}{b}=\sum_{j=0}^b\binom{c}{b-j}  \binom{a}{j}.
 	\end{equation*}
 \end{Prop}
-
-
-
-%\begin{Prop}[TL WPB functions properties~{CC:TangLiu19}]\label{Prop:TL}
-%	Let $m \in \N^*$ and $n=2^m$, a  $n$-variable TL function $h_n$ has optimal algebraic immunity $\AI(h_n)=\frac{n}{2}$.
-%\end{Prop}
 \fi
-
-
-%% Reed-Muller codes
 \subsection{Reed-Muller codes}
-
 \begin{definition}[Monomials and set of monomials]
     Let $u, x\in \F_2^n$ denoted as $x=(x_1,\cdots,x_n)$ and $u=(u_1,\cdots,u_n)$, the monomial $x^{u}$ is calculated as:
     \begin{align*}
         x^{u} = \prod_{i=1}^n x_i^{u_i}.
     \end{align*}
-    
     Let $E = \{\alpha_1, \alpha_2, \cdots, \alpha_k\} \subseteq \mathbb{F}_2^n$, we denote by $x^E = \{x^{\alpha_1}, x^{\alpha_2}, \cdots, x^{\alpha_k}\}$ the set of all monomials associated to $E$.
 \end{definition}
-
-
 \begin{definition}[Reed-Muller code - RM]
 	Let $n\in \N^*$ and $r\in \N$ with $r\leq n$, the Reed-Muller code $RM(r,n)$ is the set of all $2^n$-bit length binary vectors where each code word is the evaluation of one distinct Boolean function of degree at most $r$ in $n$ variables.
 \end{definition}
-
-
-
 \begin{definition}[RM generator matrix]\label{rmGenerator}
-	Let $X$ be the set of the $2^n$ elements in $\F_2^n$ in lexicographical order and $P_{r,n} = \{\ u\in \mathbb{F}_2^n \mid w_H(u) \leq r\}$ the set of all the elements of $\F_2^n$ with Hamming weight smaller than or equal to $r$. Let $D_r^n = \sum_{i=0}^r \binom{n}{r}$, 
+	Let $X$ be the set of the $2^n$ elements in $\F_2^n$ in lexicographical order and $P_{r,n} = \{\ u\in \mathbb{F}_2^n \mid w_H(u) \leq r\}$ the set of all the elements of $\F_2^n$ with Hamming weight smaller than or equal to $r$. Let $D_r^n = \sum_{i=0}^r \binom{n}{r}$,
 	the generator matrix $G_{r,n}\in Mat_{D_r^n,2^n}$ is defined as
 	\begin{align*}
-%	\left(G_{r,n}\right)_{i,j} = x_j^{u_i}, \ x_j \in Lex\left(X\right),\ u_i \in P_{r,n}
 \left(G_{r,n}\right)_{i,j} = x_j^{u_i}, \ x_j \in X,\ u_i \in P_{r,n}.
 	\end{align*}
 	We denote by $G_{r,n}^Y\in Mat_{D_r^n,|Y|}$, the Reed-Muller generator matrix restricted on the set $Y \subseteq X$:
@@ -450,74 +239,30 @@ We use Krawtchouk polynomials and some of their properties to prove one of our r
 	\left(G_{r,n}\right)^Y_{i,j} = x_j^{u_i}, \ x_j \in Y,\ u_i \in P_{r,n}.
 	\end{align*}
 \end{definition}
-
 \begin{remark}
 	Let $\hat{a}$ be the vector corresponding to the coefficients in the $ANF$ of a Boolean function $f$ of $n$ variables and degree $r$, then: $\hat{a} \cdot  G_{r,n} = TT(f)$.
-%	\begin{align*}
-%	\hat{a} \cdot  G_{r,n} = TT(f).
-%	\end{align*}
 \end{remark}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 \section{Computing the restricted AI from (punctured) generator matrices of Reed-Muller codes}\label{sec:RMapproach}
-
-In this section we provide an algorithm to compute the algebraic immunity of a Boolean function restricted on a general subset $S \subseteq \mathbb{F}_2^n$. 
-
-%%The idea behind the algorithm is to construct the systems of equations for $S_1^r \hat{=}g_1^r*f_S (x)= \hat{0}$ and $S_2^r\hat{=}g_2^r (f\oplus 1)_S (x) = \hat{0}$ for $x$ being in $\mathbb{F}_2^n$ and $g_1^r$ and $g_2^r$ being two Boolean functions of an algebraic degree $r$.
-%The idea behind the algorithm is to check if the systems of equations $S_1^r \hat{=}g_1^r*f_S (x)= \hat{0}$ or $S_2^r\hat{=}g_2^r (f\oplus 1)_S (x) = \hat{0}$ admit a non null solution, for $x$ in $\F_2^n$ and $g_1^r$ and $g_2^r$ two Boolean functions of algebraic degree at most $r$. The check is done by checking if the rank of the punctured RM matrices is smaller than expected.
-%If $f$ is non-constant in $S$, the algorithm checks for the existence of either $g_1^r$ solving $S_1^r$ or $g_2^r$ solving $S_2^r$ which do not vanish over all set $S$. If neither such solutions $g_1^r$, nor exist, new systems $S_1^{r+1}$ and $S_2^{r+1}$ are constructed and search of the existence of the solutions $g_{1}^{r+1}$ and $g_2^{r+1}$ continues. This process is repeated until the existence of an the annihilator of either $f$ or $f\oplus 1$ is found or an upper bound $r+\delta$ is reached. The procedure followed on $f_S$ and on $(f\oplus 1)_S$ is done in parallel.
-%Instead, if $f$ is constant in $S$, the algorithm returns $0$, as justified by Proposition~\ref{prop:constantFs}.
-
-
-The algorithm aims to determine whether the systems of equations $S_1^r \hat{=}g_1^r*f_S (x)= \hat{0}$ or $S_2^r\hat{=}g_2^r (f+ 1)_S (x) = \hat{0}$ admit a non-zero solution for $x \in \F_2^n$, where $g_1^r$ and $ g_2^r$ are Boolean functions of algebraic degree at most $ r$. 
+In this section we provide an algorithm to compute the algebraic immunity of a Boolean function restricted on a general subset $S \subseteq \mathbb{F}_2^n$.
+The algorithm aims to determine whether the systems of equations $S_1^r \hat{=}g_1^r*f_S (x)= \hat{0}$ or $S_2^r\hat{=}g_2^r (f+ 1)_S (x) = \hat{0}$ admit a non-zero solution for $x \in \F_2^n$, where $g_1^r$ and $ g_2^r$ are Boolean functions of algebraic degree at most $ r$.
 This is achieved by examining whether the rank of one of the punctured Reed-Muller (RM) matrices is smaller than one with the columns corresponding to the entire $S$.
-If $f$ is non-constant on $S$, the algorithm searches for the existence of either $g_1^r$ solving $S_1^r$ or $g_2^r$ solving $S_2^r$, where neither function vanishes over the entire set \( S \). 
+If $f$ is non-constant on $S$, the algorithm searches for the existence of either $g_1^r$ solving $S_1^r$ or $g_2^r$ solving $S_2^r$, where neither function vanishes over the entire set \( S \).
 If such solutions \( g_1^r \) or \( g_2^r \) do not exist, new systems \( S_1^{r+1} \) and \( S_2^{r+1} \) are considered (through bigger matrices), and the search for solutions \( g_1^{r+1} \) and \( g_2^{r+1} \) continues. This iterative process is repeated until either an annihilator of \( f \) or \( f + 1 \) is found or an upper bound \( r + \delta \) is reached. The procedure for \( f_S \) and \( (f + 1)_S \) is carried out in parallel.
-Conversely, if \( f \) is constant on \( S \), the algorithm terminates and returns \( 0 \), as justified by Proposition~\ref{prop:constantFs}. 
-%The proof of the proposition, and the following statements, are given in Apprendix~\ref{sec:proofs}.
-
-
-
+Conversely, if \( f \) is constant on \( S \), the algorithm terminates and returns \( 0 \), as justified by Proposition~\ref{prop:constantFs}.
 \begin{proposition}\label{prop:constantFs}
 	A Boolean function $f$ has an $\AI_S$ of $0$ if and only if the restriction $f_S$ on $S$ is constant.
 \end{proposition}
-
 \begin{proof}
 	First, we show the reverse implication.
 	We suppose that $f\in \BN$ is constant on $S$, either $f(x) = 0$ for all $x\in S$, or $f(x) = 1$ for all $x\in S$.
-	If $f$ is not null everywhere but $f(x) = 0\ \forall x \in  S$, then the constant function $g(x) = 1$ is not zero on all $S$, and is it such that $g(x)f(x) = 0$ for all $x\in S$. 
+	If $f$ is not null everywhere but $f(x) = 0\ \forall x \in  S$, then the constant function $g(x) = 1$ is not zero on all $S$, and is it such that $g(x)f(x) = 0$ for all $x\in S$.
 	Similarly, if for all $x\in S$ $f(x) = 1$, the same argument can be used for the function $f+ 1$ on $S$.
-	
 	Then, we show the direct implication.
 	We suppose that a function $g\in \BN$ is a non-zero-annihilator of $f$ restricted to $S$ of degree $0$. Then,
 	$g \neq 0$ and $\deg(g) = 0 \Rightarrow g = 1$, therefore since $g$ annihilates $f$ in $S$,  $g(x) f(x) = 0$ for all $x \in S$, resulting in $f(x)g(x) = f(x) = 0$.
-	Similarly, if $g$ annihilates $f+ 1$ on $S$ instead of $f$, we have that $g(x)(f(x) + 1) = 0$ implying that $f+ 1 = 0 \Rightarrow f(x) = 1$ for all $x\in S$. 
+	Similarly, if $g$ annihilates $f+ 1$ on $S$ instead of $f$, we have that $g(x)(f(x) + 1) = 0$ implying that $f+ 1 = 0 \Rightarrow f(x) = 1$ for all $x\in S$.
 \end{proof}
-
 The matrices corresponding to the systems of equations $S_1^r$ and $S_2^r$ are obtained by extracting the punctured Reed-Muller generator matrices, as defined in Definition~\ref{def:generatorsS}, from the Reed-Muller generator matrix, considering only the columns corresponding to elements in $S$.
-
-%The matrices corresponding to systems of equations $S_1^r$ and $S_2^r$ are constructed by extracting the punctured Reed-Muller generator matrices given by Definition~\ref{def:generatorsS}, by extracting them from the Reed-Muller generator matrix where we only consider the columns corresponding to elements in $S$. 
-
-
-
 \begin{definition}\label{def:generatorsS}
 Let $r,n\in\N^*$ with $r\leq n$. Let $G_{r,n}$ be the generator matrix of the Reed-Muller code $RM(r,n)$, we define the object $G_{r,n}^{f^{(o)}_S,S}$ by setting to zero all the columns of $G_{r,n}^S$ which do not correspond to elements of $supp(f^{(o)} )\cap S$. For the remaining columns, we calculate $G_{r,n}^{f_S^{(o)},S}$ as
 	\begin{align*}
@@ -528,27 +273,20 @@ Let $r,n\in\N^*$ with $r\leq n$. Let $G_{r,n}$ be the generator matrix of the Re
 	\left(G_{r,n}^{f_{supp\left(f^{(o)}\right) \cap S}^{(o)},S}\right)_{:,j} = (G_{r,n}^S)_{:,j} \mbox{ if } f_S^{(o)}(u_j) = 1 \label{eq:f-generatorRestrictedSet}
 	\end{align}
 \end{definition}
-
 \begin{proposition}\label{prop:compareranks}
 	Let $Z = \supp\left(f^{(o)}\right) \cap S$.
 	If $\text{rank}\left(G^{f_{Z}^{(o)},S}_{r,n}\right) < \text{rank}(G^{S}_{r,n})$, then $f^{(o)}$ admits a non-zero-annihilator restricted to $S$ of degree at most $r$.
 \end{proposition}
-
 \begin{proof}
 	Let $D_r^n = \sum_{i=0}^r \binom{n}{i}$. Since $D_r^n = \text{rank}(G^{f^{(o)}_S,S}_{r,n}) + |\text{Ker}(G^{f^{(o)}_S,S}_{r,n})| =  \text{rank}(G^{S}_{r,n}) + |\text{Ker}(G^{S}_{r,n})|$, we have that
-	$\text{rank}(G^{f_S^{(o)},S}_{r,n}) < \text{rank}(G^{S}_{r,n}) \iff |\text{Ker}(G^{f_S^{(o)},S}_{r,n})| > |\text{Ker}(G^{S}_{r,n})|$. 
-	Therefore $\exists v\in \text{Ker}(G^{f_S^{(o)},S}_{r,n}) \mbox{ such that }v\not\in \text{Ker}(G^{S}_{r,n})$. 
+	$\text{rank}(G^{f_S^{(o)},S}_{r,n}) < \text{rank}(G^{S}_{r,n}) \iff |\text{Ker}(G^{f_S^{(o)},S}_{r,n})| > |\text{Ker}(G^{S}_{r,n})|$.
+	Therefore $\exists v\in \text{Ker}(G^{f_S^{(o)},S}_{r,n}) \mbox{ such that }v\not\in \text{Ker}(G^{S}_{r,n})$.
 	Hence, it exists a Boolean function $g$ of degree $r$, whose truth table is given by $v \cdot G_{r,n}$, which is such that $v \cdot G_{r,n}\neq 0$ and $v \cdot G_{r,n}^{S}\neq 0$, but $(g \cdot f_S^{(o)})_S = v \cdot G_{r,n}^{f_S^{(o)},S} = 0$.
 	Since $\text{rank}\left(G_{r,n}^{f_S^{(o)}, S}\right) = \text{rank}\left(G_{r,n}^{f^{(o)}, S}\right)$, $\text{rank}(G^{f^{(o)},S}_{r,n}) < \text{rank}(G^{S}_{r,n}) \Rightarrow \text{rank}(G^{f_Z^{(o)},S}_{r,n}) < \text{rank}(G^{S}_{r,n})$ and hence the condition $\text{rank}(G^{f_Z^{(o)},S}_{r,n}) < \text{rank}(G^{S}_{r,n})$ is enough to justify the existence of such $v$ giving the non-zero-annihilator $g$ of $f^{o}$ restricted to $S$.
 \end{proof}
-
-
-%Algorithm~\ref{alg:RMApproach}, provided in the appendix, details the full procedure to determine the restricted algebraic immunity of a function $f$ of $n$ variables on the subset $S$. We give additional details:
-Algorithm~\ref{alg:RMApproach}, provided in Appendix~\ref{Appendix:algorithms}, details the full procedure to determine the restricted algebraic immunity of a function $f$ of $n$ variables on the subset $S$. 
+Algorithm~\ref{alg:RMApproach}, provided in Appendix~\ref{Appendix:algorithms}, details the full procedure to determine the restricted algebraic immunity of a function $f$ of $n$ variables on the subset $S$.
 We give additional details:
-
 \begin{remark}~\label{rem:remarksOnAlg}
-%	We have the following remarks
 	\begin{enumerate}
 		\item ~\cite{TOSC:CarMeaRot17} established that the upper bound of $\AI_S(f)$ for any Boolean function $f$ and any set $S\subseteq \mathbb{F}_2^n$, is the smallest integer $r$ such that $\left(G_{r,n}^n\right) > |S| / 2$. As a consequence, the search of the annihilator for $f$ and $f+ 1$ in our algorithm terminates once $\text{rank}\left(G_{r,n}^S\right) > \lfloor{|S| / 2}\rfloor$.\label{item:Item1RemOnAlg}
 		\item The generator matrix of a Reed-Muller code does not depend on the Boolean function.
@@ -558,87 +296,44 @@ We give additional details:
 		G^{\leq n_{max}} = \{\left(n, G_{n,n}\right)\}_{1 \leq n \leq n_{max}}
 		\end{align}
 		and store it in a file.\\
-        
 		Similarly, we can also pre-compute and store a second hash table, containing all the $D^n$s such that $n \leq n_{max}$. Such hash table is
 		\begin{align}\label{eq:degreesHashTable}
 		D^{\leq n_{max}} =  \{\left(n,D^{n} \right)\}_{0 \leq n \leq n_{max}} =  \{\left(n, \{ \left(n, D_i^n\right)\}_{0\leq i \leq n} \right)\}_{0 \leq n \leq n_{max}}
 		\end{align}
 		In Algorithm ~\ref{alg:RMApproach}, we therefore use the function \textsc{read\_values\_from\_file}, to read to two pre-computed hash tables from the files where they have been pre-stored before the execution of the algorithm.
 		\item The procedure \textsc{find\_deg\_smallest\_S\_annihilator} in Algorithm~\ref{alg:RMApproach} is performed in parallel for $f$ and $f+ 1$ with the additional condition that if one of the two branches returns the value $1$, the other branch is stopped, without having to wait for it to finish.
-	\end{enumerate}	
+	\end{enumerate}
 \end{remark}
-
 \section{Computing the restricted AI iteratively}\label{sec:IterativeApproach}
-
-
-%In this section, we present an algorithm (Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative}) to determine the algebraic immunity restricted to a set $S \subseteq \mathbb{F}_2^n$ with a better time and space complexity than the one presented in Section~\ref{sec:RMapproach}.
-%The idea is to construct the objects $G_{r,n}^{f_{supp\left(f\right) \cap S},S}$ and $G_{r,n}^{\left(f\oplus 1\right)_{supp\left(f\oplus 1\right) \cap S},S}$ for different $r$ iteratively, increasing the size of the matrix one row per iteration and saving computations, while checking for the existence of annihilators, instead of extracting them from a big pre-computed Reed-Muller generator matrix restricted to $S$.
-%The method generalizes the approach of~\cite{EC:ACGKMR06} on the standard algebraic immunity.
-
-%As for Algorithm~\ref{alg:RMApproach}, the procedure returns $0$ if the function $f$ is constant in $S$, we therefore only explain the case of determining the $\AI_S$ for functions which are such that $\AI_S(f) \geq 1$ (The full algorithm provided however also covers the cases of functions with null $AI_S$).
-
-%We start with definitions and remarks to be able to introduce the general idea of the algorithm.
-
-
-In this section, we present an algorithm (Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative}) to determine the algebraic immunity restricted to a set $S \subseteq \mathbb{F}_2^n$ with improved time and space complexity compared to the method presented in Section~\ref{sec:RMapproach}. 
-
-The core idea is to iteratively construct the objects $G_{r,n}^{f_{supp\left(f\right) \cap S},S}$ and $G_{r,n}^{\left(f+ 1\right)_{supp\left(f+ 1\right) \cap S},S}$ for varying $r$, increasing the size of the matrix by one row per iteration while minimizing computations. 
+In this section, we present an algorithm (Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative}) to determine the algebraic immunity restricted to a set $S \subseteq \mathbb{F}_2^n$ with improved time and space complexity compared to the method presented in Section~\ref{sec:RMapproach}.
+The core idea is to iteratively construct the objects $G_{r,n}^{f_{supp\left(f\right) \cap S},S}$ and $G_{r,n}^{\left(f+ 1\right)_{supp\left(f+ 1\right) \cap S},S}$ for varying $r$, increasing the size of the matrix by one row per iteration while minimizing computations.
 This approach checks for the existence of annihilators dynamically, rather than extracting them from a large, pre-computed Reed-Muller generator matrix restricted to $S$. The method extends the approach of~\cite{EC:ACGKMR06} for determining the standard algebraic immunity.
 As with Algorithm~\ref{alg:RMApproach}, this procedure returns $0$ if the function $f$ is constant on $S$. Hence, we focus on explaining the case of determining $\AI_S(f)$ for functions such that $\AI_S(f) \geq 1$. (The full algorithm, however, also addresses functions with null $\AI_S$.)
-
 We begin with definitions and remarks necessary to introduce the general idea of the algorithm.
-
-
-
-
 \begin{definition}[T-Vandermonde matrix]\label{def:tVandermonde}
     Let $Z = \{z_1, \cdots, z_{k_Z}\} \subseteq \mathbb{F}_2^n$ and $E = \{\alpha_1, \cdots, \alpha_{k_E}\}\subseteq \mathbb{F}_2^n$, we define the matrix $V_{E,Z}$ whose entries are
     \begin{align*}
         \left(V_{E,Z}\right)_{i,j} = z_j^{\alpha_i} \quad \forall i\in[1,k_E] \mbox{ and } j\in[1, k_Z].
     \end{align*}
-    
-    %\begin{align*}
-    %    V_{E,Z} = 
-    %    \begin{pmatrix}
-    %        z_1^{\alpha_1} & z_2^{\alpha_1} & \cdots & z_{k_Z}^{\alpha_1} \\
-    %        z_1^{\alpha_2} & z_2^{\alpha_2} & \cdots & z_{k_Z}^{\alpha_2} \\
-    %        \vdots & \vdots & \ddots & \vdots \\
-    %        z_1^{\alpha_{k_E}} & z_2^{\alpha_{k_E}} & \cdots & z_{k_Z}^{\alpha_{k_E}}
-    %    \end{pmatrix}
-    %\end{align*}
-  %  We call this matrix the \textit{T-Vandermonde} matrix the transpose of the matrix used in ~\cite{armknecht2006efficient}.\\
   We refer to this matrix as the \textit{T-Vandermonde} matrix, as it is the transpose of a Vandermonde matrix.
-  % the transpose of the matrix used in ~\cite{armknecht2006efficient}.\\
     Denoting by $Z_j = \{z_1, z_2, \cdots, z_j\}$ and $E_i = \{\alpha_1, \dots, \alpha_i\}$ for $j\in[1,z_{k_Z}]$ and $i\in[1,\alpha_{k_E}]$, the sub-matrix $V_{E_i, Z_j}$ of $V_{E,Z}$, is given by the elements:
     \begin{align*}
         \left(V_{E_i,Z_j}\right)_{m,l} = z_l^{\alpha_m} \quad \forall m\in[1,i] \mbox{ and } l\in[1, j].
     \end{align*}
-    %\begin{align*}
-    %    V_{E_i,Z_j} = 
-    %    \begin{pmatrix}
-    %        z_1^{\alpha_1} & z_2^{\alpha_1} & \cdots & z_j^{\alpha_{i}} \\
-    %        z_1^{\alpha_2} & z_2^{\alpha_2} & \cdots & z_j^{\alpha_{i}} \\
-    %        \vdots & \vdots & \ddots & \vdots \\
-    %        z_{1}^{\alpha_i} & z_{2}^{\alpha_i} & \cdots & z_{j}^{\alpha_i}
-    %    \end{pmatrix}
     Similarly, we define the matrices $S_{E,S}$ and $S_{E_i, S_j}$ as the T-Vandermonde sub-matrices corresponding to the elements of the set $S\subseteq \mathbb{F}_2^n$.
 \end{definition}
-
 \begin{remark}\label{rem:subsetOfReedMuller}
-Let $Z = supp(f)\cap S$ and $E = \{\alpha_2, \alpha_2, \cdots, \alpha_{D_d^n}\}$ be such that $x^E$ is the set of all monomials with degree at most $d$ ordered by the graded lex order. 
+Let $Z = supp(f)\cap S$ and $E = \{\alpha_2, \alpha_2, \cdots, \alpha_{D_d^n}\}$ be such that $x^E$ is the set of all monomials with degree at most $d$ ordered by the graded lex order.
     We remark the following:
-    %The following remarks are made
     \begin{itemize}
         \item $V_{E,Z} = G_{d,n}^{f_{Z},S}$.
         \item Let $E^{*}\subset E$, ordered by graded lex order. $V_{Z,E^{*}}$ is a sub-matrix of $G_{d,n}^{f_Z, S}$.
     \end{itemize}
 \end{remark}
-
 \begin{remark}\label{rem:squareConstruction}
- %   Let $i\geq 1$. We have that if $1< i+1 \leq \min{\left(|Z|, |E_{D_n^n}|\right)}$, $V_{Z_{i+1}, E_{i+1}}$ can be computed as
  Let $i\geq 1$. If $1< i+1 \leq \min{\left(|Z|, |E_{D_n^n}|\right)}$, then $V_{E_{i+1},Z_{i+1}}$ can be computed as
     \begin{align*}
-        V_{E_{i+1}, Z_{i+1}} = 
+        V_{E_{i+1}, Z_{i+1}} =
         \begin{pmatrix}
         \multicolumn{4}{c}{\multirow{4}{*}{$V_{E_{i}, Z_{i}}$}} & z_{i+1}^{\alpha_{1}}\\
         & & & & z_{i+1}^{\alpha_{2}}\\
@@ -649,11 +344,10 @@ Let $Z = supp(f)\cap S$ and $E = \{\alpha_2, \alpha_2, \cdots, \alpha_{D_d^n}\}$
     \end{align*}
     This can be seen by combining Definition~\ref{def:tVandermonde} and the fact that for all $i$ such that $1< i+1 \leq \min{\left(|Z|, |E|-1\right)}$, the matrix $V_{E_{i+1}, Z_{i+1}}$ is square.
 \end{remark}
-
 \begin{definition}[Sequence of $V_k$ matrices]\label{def:inductiveConstructionOfV}
     As a consequence of Remark~\ref{rem:squareConstruction}, we define the sequence of sub-matrices $\left(V_k\right)_{k\in [1,D_{\lceil{n/2}\rceil-1}^n]}$ by
     \begin{align*}
-        V_k = 
+        V_k =
         \begin{cases}
             \begin{pmatrix}
         \multicolumn{4}{c}{\multirow{4}{*}{$V_{k-1}$}} & z_k^{\alpha_{1}}\\
@@ -670,48 +364,25 @@ Let $Z = supp(f)\cap S$ and $E = \{\alpha_2, \alpha_2, \cdots, \alpha_{D_d^n}\}$
     \end{align*}
     with $V_1 = \begin{pmatrix} z_1^{\alpha_1}\end{pmatrix} = z_1^{0_n} = (1)$ .
 \end{definition}
-
-%With Definition~\ref{def:tVandermonde} and Remark~\ref{rem:subsetOfReedMuller} in mind, we state the algorithm's procedure as follows.
-%Let $Z = supp\left(f^{(o)}\right) \cap S$ and $1\leq i \leq |Z|$, if the function $f$ is not constant on $S$, the algorithm works by constructing the matrix $V_{E_i, Z_i}$ and seeks functions vanishing on the set $Z_i$ by taking vectors corresponding to the elements of the kernel of $V_{E_i, Z_i}$.\\
-%If such functions exist, the procedure checks if any of these are also annihilator restricted on $S$ of the full function $f^{(o)}$, by testing if they also vanish in all $Z$ but not in all $S$. If any of such annihilators is found, the algorithm returns the degree of the last monomial added, $x^{\alpha_i}$. Otherwise, it increments the index $i$, constructs the next matrix following Definition \ref{def:inductiveConstructionOfV} and continues until a desired solution is found or if all the square matrices up to $V_{E_i, |Z|}$ have been constructed and tested.\\
-%Suppose no annihilator is found after all the elements of $Z$ have been added. In that case, the algorithm iteratively adds new monomials, generates the matrices $V_{E_i, Z}$ and $S_{E_i, S_i}$ and returns the degree of the monomial $x^{\alpha_i}$ in the case in which $rank\left(V_{E_i, Z}\right) < rank\left(S_{E_i, S_i}\right)$. Following from point \ref{item:Item1RemOnAlg} of Remark \ref{rem:remarksOnAlg}, if such condition is not satisfied at the step $i$, the iteration continues until $rank\left(S_{E_i, S_i}\right) > |S| / 2$.
-
-
-
-With Definition~\ref{def:tVandermonde} and Remark~\ref{rem:subsetOfReedMuller} in mind, we describe the algorithm's procedure as follows. 
+With Definition~\ref{def:tVandermonde} and Remark~\ref{rem:subsetOfReedMuller} in mind, we describe the algorithm's procedure as follows.
 Let \( Z = \text{supp}\left(f^{(o)}\right) \cap S \), and let \( 1 \leq i \leq |Z| \). If the function \( f \) is not constant on \( S \), the algorithm begins by constructing the matrix \( V_{E_i, Z_i} \) and searches for functions vanishing on the set \( Z_i \) by identifying vectors corresponding to the elements of the kernel of \( V_{E_i, Z_i} \).
 If such functions exist, the procedure checks whether any of them are also annihilators restricted to \( S \) for the full function \( f^{(o)} \). This is done by verifying that they vanish on all elements of \( Z \) but not on all elements of \( S \). If such an annihilator is found, the algorithm returns the degree of the last monomial added, \( x^{\alpha_i} \). Otherwise, it increments the index \( i \), constructs the next matrix following Definition~\ref{def:inductiveConstructionOfV}, and continues until a solution is found or all square matrices up to \( V_{E_i, |Z|} \) have been constructed and tested.
 If no annihilator is found after all the elements of \( Z \) have been added, the algorithm iteratively adds new monomials and generates the matrices \( V_{E_i, Z} \) and \( S_{E_i, S_i} \). It then returns the degree of the monomial \( x^{\alpha_i} \) if \( \text{rank}\left(V_{E_i, Z}\right) < \text{rank}\left(S_{E_i, S_i}\right) \). Following point~\ref{item:Item1RemOnAlg} in Remark~\ref{rem:remarksOnAlg}, if this condition is not satisfied at step \( i \), the iteration continues until \( \text{rank}\left(S_{E_i, S_i}\right) > |S| / 2 \).
 Indeed, if for some \( i \), \( \text{rank}\left(V_{E_i, Z}\right) < \text{rank}\left(S_{E_i, S_i}\right) \), then there exists a non-null annihilator over \( S \) of degree at most \( \text{deg}(\alpha_i) \). Conversely, if the condition is not met before \( \text{rank}\left(S_{E_i, S_i}\right) > |S| / 2 \), Remark~\ref{rem:remarksOnAlg} guarantees that either \( f \) or \( f+1 \) admits a non-trivial annihilator on \( S \) of this degree.
-
-
-
 \subsection{Keeping the cardinality of the kernel of $V_k$ upper-bounded by $1$}
-
-%In the procedure described, we search for at least one element satisfying some required conditions from a vector space that is potentially too big for the algorithm to maintain the desired efficiency. To solve this issue, in the case we find an element $\hat{g}_k$ of the right kernel of $V_k$ which does not vanish on $Z$, we re-order the vector $Z$ by swapping the element $z_{k+1}$ with the element which is not vanishing in $\hat{g}_k$. This guarantees that such elements of the kernel of $V_k$ do not get propagated to the kernel of the subsequent matrices.\\
-%Moreover, in case an element of the kernel of $V_k$ vanishing on all $Z$ and all $S$ is found, we drop the monomial $\alpha_k$ by constructing the matrix $V_{k+1}$ by replacing the row corresponding to the monomial $\alpha_k$ with the one corresponding to the monomial $\alpha_{k+1}$.\\
-%This procedure ensures that the cardinality of the kernel of $V_k$ is upper-bounded by $1$ for all $k \leq |Z|$.\\
-%Propositions \ref{prop:swappingElementOfZToReduceKer}, \ref{prop:upperBoundOnRightKernel} and \ref{prop:constructionOfNextVRemovingAlphai} provide justifications for this claim.
-
-
-In the procedure described, we aim to identify at least one element from a vector space that satisfies certain required conditions (corresponding to an annihilator, not trivial on $S$), while maintaining the algorithm's desired efficiency. 
-Since this vector space can potentially be too large, we address this issue as follows: if we find an element \( \hat{g}_k \) in the kernel of \( V_k \) that does not vanish on \( Z \), we re-order the vector \( Z \) by swapping the element \( z_{k+1} \) with the element that does not vanish in \( \hat{g}_k \). 
+In the procedure described, we aim to identify at least one element from a vector space that satisfies certain required conditions (corresponding to an annihilator, not trivial on $S$), while maintaining the algorithm's desired efficiency.
+Since this vector space can potentially be too large, we address this issue as follows: if we find an element \( \hat{g}_k \) in the kernel of \( V_k \) that does not vanish on \( Z \), we re-order the vector \( Z \) by swapping the element \( z_{k+1} \) with the element that does not vanish in \( \hat{g}_k \).
 This ensures that such elements of the kernel of \( V_k \) do not propagate into the kernel of subsequent matrices.
-
-Furthermore, if an element of the kernel of \( V_k \) is found that vanishes on all of \( Z \) and \( S \), the monomial \( \alpha_k \) is dropped. 
+Furthermore, if an element of the kernel of \( V_k \) is found that vanishes on all of \( Z \) and \( S \), the monomial \( \alpha_k \) is dropped.
 The matrix \( V_{k+1} \) is then constructed by replacing the row corresponding to the monomial \( \alpha_k \) with one corresponding to the monomial \( \alpha_{k+1} \).
 This procedure guarantees that the cardinality of the kernel of \( V_k \) is upper-bounded by \( 1 \) for all \( k \leq |Z| \).
 Propositions~\ref{prop:swappingElementOfZToReduceKer}, ~\ref{prop:upperBoundOnRightKernel}, and ~\ref{prop:constructionOfNextVRemovingAlphai} provide formal justifications for these claims.
-
-
-
-
 \begin{proposition}\label{prop:swappingElementOfZToReduceKer}
-    Let $k < \min\{(|Z|, |E_{D_n^n}|\}$ and let $V_k$ constructed following Definition~\ref{def:inductiveConstructionOfV}. 
-    Suppose $\text{ker}(V_k) = \langle \hat{g}_k \rangle=\langle (\epsilon_1, \epsilon_2, \dots, \epsilon_k) \rangle $ and let $g_k\in \Bn{n}$ be the Boolean function having $\hat{g}_k$ as ANF. 
+    Let $k < \min\{(|Z|, |E_{D_n^n}|\}$ and let $V_k$ constructed following Definition~\ref{def:inductiveConstructionOfV}.
+    Suppose $\text{ker}(V_k) = \langle \hat{g}_k \rangle=\langle (\epsilon_1, \epsilon_2, \dots, \epsilon_k) \rangle $ and let $g_k\in \Bn{n}$ be the Boolean function having $\hat{g}_k$ as ANF.
     Furthermore, assume there exists a $z_{k+j}$, for $j\geq 1$ such that $g_k(z_{k+j}) = 1$. Then, the matrix $V^{'}_{k+1}$ constructed as:
     \begin{align*}
-        V^{'}_{k+1} = 
+        V^{'}_{k+1} =
         \begin{pmatrix}
         \multicolumn{4}{c}{\multirow{4}{*}{$V_{k}$}} & z_{k+j}^{\alpha_{1}}\\
         & & & & z_{k+j}^{\alpha_{2}}\\
@@ -722,22 +393,15 @@ Propositions~\ref{prop:swappingElementOfZToReduceKer}, ~\ref{prop:upperBoundOnRi
     \end{align*}
     is such that $(\epsilon_1, \epsilon_2, \dots, \epsilon_k, 0) \not\in \text{ker}(V^{'}_{k+1})$.
 \end{proposition}
-
 \begin{proof}
-	
 	    Suppose \( \text{ker}(V_k) = \langle \hat{g}_k \rangle = \langle (\epsilon_1, \epsilon_2, \dots, \epsilon_k) \rangle \), and that there exists \( j \geq 1 \) such that \( g_k(z_{k+j}) = 1 \), but it is also such that \( (\epsilon_1, \epsilon_2, \dots, \epsilon_k, 0) \in \text{ker}(V'_{k+1}) \).
-
-  
 If \( (\epsilon_1, \epsilon_2, \dots, \epsilon_k, 0) \in \text{ker}(V'_{k+1}) \), then \( (\epsilon_1, \epsilon_2, \dots, \epsilon_k, 0) \cdot V'_{k+1} = \hat{0} \). Specifically, the last equation in the system of equations described by \( (\epsilon_1, \epsilon_2, \dots, \epsilon_k, 0) \cdot V'_{k+1} = \hat{0} \) is:
    \[
 \epsilon_1 z_{k+j}^{\alpha_1} + \cdots + \epsilon_k z_{k+j}^{\alpha_k} + 0 \cdot z_{k+j}^{\alpha_{k+1}} = \epsilon_1 z_{k+j}^{\alpha_1} + \cdots + \epsilon_k z_{k+j}^{\alpha_k} = 0.
 \]
-%    \begin{align}
- %       \epsilon_1z_{k+j}^{\alpha_1} + \cdots +\epsilon_k z_{k+j}^{\alpha_k} + 0 \cdot z_{k+j}^{\alpha_{k+1}} =  \epsilon_1z_{k+j}^{\alpha_1} + \cdots + \epsilon_k z_{k+j}^{\alpha_k} = 0
- %   \end{align}
 However, from our hypothesis, we have:
 \[
-g_k(z_{k+j}) = 1 \iff g_k(z_{k+j}) = 
+g_k(z_{k+j}) = 1 \iff g_k(z_{k+j}) =
 (\epsilon_1, \epsilon_2, \dots, \epsilon_k)
 \begin{pmatrix}
 z_{k+j}^{\alpha_1} \\
@@ -747,21 +411,14 @@ z_{k+j}^{\alpha_k}
 \end{pmatrix}
 = \epsilon_1 z_{k+j}^{\alpha_1} + \cdots + \epsilon_k z_{k+j}^{\alpha_k} = 1.
 \]
-This contradiction shows that it cannot be the case that \( (\epsilon_1, \dots, \epsilon_k, 0) \) is in the kernel of \( V'_{k+1} \).   
-
+This contradiction shows that it cannot be the case that \( (\epsilon_1, \dots, \epsilon_k, 0) \) is in the kernel of \( V'_{k+1} \).
 \end{proof}
-
 \begin{proposition}\label{prop:upperBoundOnRightKernel}
-%    The sequences of matrices $(V_k)_k$ using the construction given in Proposition \ref{prop:swappingElementOfZToReduceKer}, ensure that
-%    \begin{align*}
-%        dim\left(ker\left(V_k\right)\right) \leq 1\quad \forall k \in [1, |Z|]
-%    \end{align*}   
-    The sequence of matrices \( (V_k)_k \), constructed as described in Proposition~\ref{prop:swappingElementOfZToReduceKer}, ensures that:    
+    The sequence of matrices \( (V_k)_k \), constructed as described in Proposition~\ref{prop:swappingElementOfZToReduceKer}, ensures that:
     \[
     \text{dim}\left(\text{ker}\left(V_k\right)\right) \leq 1, \quad \forall k \in [1, |Z|].
     \]
 \end{proposition}
-
 \begin{proof}
     We prove the result by induction:
     \begin{itemize}
@@ -769,52 +426,40 @@ This contradiction shows that it cannot be the case that \( (\epsilon_1, \dots, 
         \item Induction step. We suppose that $\text{dim}( \text{ker}(V_k))\le 1$. We show that $\text{dim}( \text{ker}(V_{k+1}))\le 1$.
         \begin{itemize}
             \item If $\text{dim}( \text{ker}(V_k))= 0$, adding a new row and column to form $V_{k+1}$ can increase the kernel by at most $1$. Hence, $\text{dim}( \text{ker}(V_{k+1}))\le 1$.
-            \item %If $\text{dim}( \text{ker}(V_k))= 1$, 
-            %let $\hat{x} = \left(\hat{\epsilon}, 0 \right)$ where $\hat{\epsilon}$ is in $\text{ker}(V_k)$.            
-            If $\text{dim}( \text{ker}(V_k))= 1$, let $\hat{z}$ be an element of $\text{ker}\left(V_{k+1}\right)$. 
+            \item
+            If $\text{dim}( \text{ker}(V_k))= 1$, let $\hat{z}$ be an element of $\text{ker}\left(V_{k+1}\right)$.
             Then either:
             \begin{itemize}
-            	\item  \( \hat{z} = (\hat{\epsilon}, 0) \):  
+            	\item  \( \hat{z} = (\hat{\epsilon}, 0) \):
 \[
 \hat{z} \cdot V_{k+1} = 0 \implies \hat{\epsilon} \cdot V_k = 0 \implies \hat{\epsilon} \in \text{ker}(V_k).
 \]
 By Proposition~\ref{prop:swappingElementOfZToReduceKer}, \( \hat{\epsilon} \) can only be a trivial solution.
-
-\item \( \hat{z} = (\hat{y}, 1) \), where \( \hat{y} \in \mathbb{F}_2^k \):          
+\item \( \hat{z} = (\hat{y}, 1) \), where \( \hat{y} \in \mathbb{F}_2^k \):
 In this case $\hat{z} \cdot V_{k+1} = 0$ implies:
 \begin{equation}\label{Eq:eq1}
  \hat{y}  \cdot V_{k} + (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}}) = 0 \iff \hat{y} \cdot V_{k} = (z_{1}^{\alpha_{k+1}}, \cdots, z_{k}^{\alpha_{k+1}}),
 \end{equation}
-and 
+and
 \begin{equation}\label{Eq:eq2}
 \hat{y} \cdot (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T + z_{k+1}^{\alpha_{k+1}} = 0 \iff \hat{y} \cdot (z_{k+1}^{\alpha_1}, \cdots, z_{k+1}^{\alpha_k})^T = z_{k+1}^{\alpha_{k+1}}.
-\end{equation}	
-
+\end{equation}
         \end{itemize}
-            
-Since $\text{dim}(\text{ker}(V_k)) = 1$, $\text{rank}(V_k) = k-1$. Hence, there exists at most one particular solution $\hat{y}_p$ for Equation~\ref{Eq:eq1}. 
+Since $\text{dim}(\text{ker}(V_k)) = 1$, $\text{rank}(V_k) = k-1$. Hence, there exists at most one particular solution $\hat{y}_p$ for Equation~\ref{Eq:eq1}.
 If \( \hat{y}_p \) also solves Equation~\ref{Eq:eq2}, then \( \hat{y}_p \) is in \( \ker(V_{k+1}) \).
- 
 \end{itemize}
 Since $(\hat{\epsilon}, 0)$  cannot be in \( \text{ker}(V_{k+1}) \), the only possible element in \( \text{ker}(V_{k+1}) \) is \( \hat{y}_p \), if it exists. Therefore, \( \text{dim}(\text{ker}(V_{k+1})) \leq 1 \).
         \end{itemize}
-
 \end{proof}
-
 \begin{remark}
-    Notice that the definition of $V^{'}_{k+1}$ in Proposition~\ref{prop:swappingElementOfZToReduceKer}, does not conflict with Definition~\ref{def:inductiveConstructionOfV}, as constructing the sequence $(V_{k})_k$ does not require a specific order of the elements in the support $Z$.   
+    Notice that the definition of $V^{'}_{k+1}$ in Proposition~\ref{prop:swappingElementOfZToReduceKer}, does not conflict with Definition~\ref{def:inductiveConstructionOfV}, as constructing the sequence $(V_{k})_k$ does not require a specific order of the elements in the support $Z$.
 \end{remark}
-
-
-
-
 \begin{proposition}\label{prop:constructionOfNextVRemovingAlphai}
     Let $\text{ker}(V_{E_k, Z_k}) =  \langle \hat{g}_k \rangle = \langle (\epsilon_1, \dots, \epsilon_k) \rangle$, where the corresponding Boolean function $g_k\in \Bn{n}$ satisfies $g_k(x) = 0,\ \forall x\in Z$.
-    
-    Define $E^{*} = (\alpha_1, \alpha_2, \dots, \alpha_{k-1}, \alpha_{k+1})$ , a vector constructed from $E_k$ by replacing the last element $\alpha_{k}$ with $\alpha_{k+1}$. 
-    Let $V_{k+1} = V_{E^{*}_{k+1}, Z_k}$ be the matrix defined by replacing the monomial $\alpha_k$ in $V_{E_k, Z_k}$, with the monomial $\alpha_{k+1}$: 
+    Define $E^{*} = (\alpha_1, \alpha_2, \dots, \alpha_{k-1}, \alpha_{k+1})$ , a vector constructed from $E_k$ by replacing the last element $\alpha_{k}$ with $\alpha_{k+1}$.
+    Let $V_{k+1} = V_{E^{*}_{k+1}, Z_k}$ be the matrix defined by replacing the monomial $\alpha_k$ in $V_{E_k, Z_k}$, with the monomial $\alpha_{k+1}$:
     \begin{align*}
-        V_{E^{*}_{k+1}, Z_{k}} = 
+        V_{E^{*}_{k+1}, Z_{k}} =
         \begin{pmatrix}
         \multicolumn{4}{c}{\multirow{4}{*}{$E_{k-1}, V_{Z_{k-1}}$}} & z_{k}^{\alpha_{1}}\\
         & & & & z_{k}^{\alpha_{2}}\\
@@ -825,43 +470,27 @@ Since $(\hat{\epsilon}, 0)$  cannot be in \( \text{ker}(V_{k+1}) \), the only po
     \end{align*}
     Then, either $\hat{g}_k \not\in \text{ker}(V_{E^{*}_{k+1}, Z_k})$, or $\hat{g}_k$ is the only element (aside from $\hat{0}$) in the kernel of $V_{E_{k+1}^{*}, Z_k}$. Hence:
     \begin{align*}
-        \text{dim}\left(\text{ker}(V_{E^{*}_{k+1}, Z_k})\right)\leq 1. 
+        \text{dim}\left(\text{ker}(V_{E^{*}_{k+1}, Z_k})\right)\leq 1.
     \end{align*}
-
 \end{proposition}
-
 \begin{proof}
-    Proposition~\ref{prop:swappingElementOfZToReduceKer} ensures that the kernel of $V_{E^{*}_{k+1}, Z_{k}}$ does not contain elements derived from the kernel of $V_{ E_{k-1}, Z_{k-1}}$. 
+    Proposition~\ref{prop:swappingElementOfZToReduceKer} ensures that the kernel of $V_{E^{*}_{k+1}, Z_{k}}$ does not contain elements derived from the kernel of $V_{ E_{k-1}, Z_{k-1}}$.
     Therefore, $V_{E_{k-1}, Z_{k-1}}$ can be treated as a full-rank matrix.
-    Modifying the last row of a matrix that contains a full-rank sub-matrix does not increase the size of the kernel. This is because the first $k$ entries of the elements in the kernel of $V_{E_k, Z_k }$ and $V_{E^{*}_{k+1}, Z_k}$ are the same, with the only difference arising from the last row. 
+    Modifying the last row of a matrix that contains a full-rank sub-matrix does not increase the size of the kernel. This is because the first $k$ entries of the elements in the kernel of $V_{E_k, Z_k }$ and $V_{E^{*}_{k+1}, Z_k}$ are the same, with the only difference arising from the last row.
     Since this row is the only one that can introduce linear dependence, the dimension of the kernel of $V_{ E^{*}_{k+1}, Z_k}$ is bounded by $1$.
 \end{proof}
-
-
 \subsection{Using column echelon form matrices of the previous steps}\label{subsubsection:optEchelonForm}
-
 At the iteration \(k\), the matrix  \(V_k\) already contains all the columns of the matrix from the previous step, \(V_{k-1}\). This means the column echelon form of \(V_{k-1}\) is already embedded within \(V_{k}\). Therefore, instead of recalculating the column echelon form for the entire matrix \(V_{k}\), we only need to update it for the newly added column. This approach saves computation because we are focusing only on the last column rather than reprocessing the whole matrix.
-
 \begin{definition}[Column Echelon form]
     Let $k_r,k_c\in \N^*$ and $M \in Mat_{k_r,k_c}$.
-    % be a matrix of $k_r$ rows and $k_c$ columns. 
-    We denote by $EF: Mat_{k_r,k_c} \rightarrow Mat_{k_r,k_c}$, the function transforming a matrix to its column echelon form.    
+    We denote by $EF: Mat_{k_r,k_c} \rightarrow Mat_{k_r,k_c}$, the function transforming a matrix to its column echelon form.
 \end{definition}
-
-%For each iteration $k$ of the algorithm, the matrix $V_k$ already contains the sub-matrix $V_{k-1}$. It is therefore possible to compute the column echelon form of $V_{k-1}$ and use it to compute the column echelon form of $V_{k}$. In such a way, the matrix $V_k$ would already contain the sub-matrix $EF(V_{k-1})$ which is already in column echelon form, allowing to reduce the number of steps needed to compute the rank of $V_k$.\\
-%To be able to apply such a method, however, we have to be careful when we are squarely constructing the matrix; at each step, we are appending rows to the matrix, therefore, to compute $EF\left(V_k\right)$ have to keep track of all the columns operation performed to compute $EF\left(V_j\right)$ for all $j<k$ and apply them before computing $EF\left(V_k\right)$.\\
-%Remark \ref{rem:rowEchelonForm} and Proposition \ref{prop:rowEchelonForm}, better justify the claim.
-
-
-
-For each iteration \( k \) of the algorithm, the matrix \( V_k \) already includes the sub-matrix \( V_{k-1} \). Thus, it is possible to compute the column echelon form of \( V_{k-1} \) and use it to derive the column echelon form of \( V_k \). 
+For each iteration \( k \) of the algorithm, the matrix \( V_k \) already includes the sub-matrix \( V_{k-1} \). Thus, it is possible to compute the column echelon form of \( V_{k-1} \) and use it to derive the column echelon form of \( V_k \).
 This approach allows \( V_k \) to inherently contain \( EF(V_{k-1}) \), which is already in column echelon form, thereby reducing the computational steps required to determine the rank of \( V_k \).
-However, to apply this method effectively, careful attention must be paid during the construction of the matrix. 
-Since rows are appended to the matrix at each step, computing \( EF(V_k) \) requires keeping track of all column operations performed while computing \( EF(V_j) \) for all \( j < k \). 
+However, to apply this method effectively, careful attention must be paid during the construction of the matrix.
+Since rows are appended to the matrix at each step, computing \( EF(V_k) \) requires keeping track of all column operations performed while computing \( EF(V_j) \) for all \( j < k \).
 These operations must be applied before computing \( EF(V_k) \).
 Remark~\ref{rem:rowEchelonForm} and Proposition~\ref{prop:rowEchelonForm} provide further justification for this claim.
-
-
 \begin{definition}[Equality up to row permutation]
    Two matrices $M_1$ and $M_2$ are \textit{equal up-to-permutation} if there exists a column permutation $\rho$ such that
     \begin{align*}
@@ -869,14 +498,9 @@ Remark~\ref{rem:rowEchelonForm} and Proposition~\ref{prop:rowEchelonForm} provid
     \end{align*}
     We denote it as $M_1 =_p M_2$
 \end{definition}
-
 \begin{remark}\label{rem:rowEchelonForm}
     Let $k_r, k_c \in \N$ and $M\in Mat_{k_r,k_c}(\mathbb{F}_2^n)$. Let $M = L\cdot U$ where $L$ a lower triangular matrix and $U$ is an upper triangular matrix, then: $EF(M) =_p L$.
-%    \begin{align*}
-  %      EF(M) =_p U
- %   \end{align*}
 \end{remark}
-
 \begin{proposition}\label{prop:rowEchelonForm}
     Let $k$ be such that $1<k< \min{\left(|Z|,|E_{D_n^n}|\right)}$ it holds that
     \begin{align*}
@@ -893,12 +517,9 @@ Remark~\ref{rem:rowEchelonForm} and Proposition~\ref{prop:rowEchelonForm} provid
     \end{align*}
     where $P_{k-1}$ is such that $U_{k-1}^{-1} = P_{k-1}$, where $V_{k-1} = L_{k-1}U_{k-1}$ with $EF(V_{k-1})=_p L_{k-1}$
 \end{proposition}
-
 \begin{proof}
-    Let $k$ be such that $1<k< \min{\left(|Z|,|E_{D_n^n}|\right)}$. The $LU$-decomposition of $V_{k-1}$ is  
-%    \begin{align*}
-        $V_{k-1} = L_{k-1} U_{k-1}$, %
-%    \end{align*}
+    Let $k$ be such that $1<k< \min{\left(|Z|,|E_{D_n^n}|\right)}$. The $LU$-decomposition of $V_{k-1}$ is
+        $V_{k-1} = L_{k-1} U_{k-1}$,
     where $U_{k-1}$ is an upper triangular matrix and $L_{k-1} = EF\left(V_{k-1}\right)$ is the lower triangular matrix.
     \iffalse
     \begin{align*}
@@ -910,7 +531,7 @@ Remark~\ref{rem:rowEchelonForm} and Proposition~\ref{prop:rowEchelonForm} provid
             & & & & z_{k}^{\alpha_{k-1}}\\
             z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}} & z_{k}^{\alpha_k}
         \end{pmatrix}\\
-        = &  
+        = &
         \begin{pmatrix}
             \multicolumn{4}{c}{\multirow{4}{*}{$U_{k-1}$}} & z_k^{\alpha_1}\\
             & & & & z_k^{\alpha_2}\\
@@ -928,7 +549,7 @@ Remark~\ref{rem:rowEchelonForm} and Proposition~\ref{prop:rowEchelonForm} provid
     \end{align*}
 \fi
 \[
-V_{k} = 
+V_{k} =
 \begin{pmatrix}
 \multicolumn{4}{c}{\multirow{4}{*}{$L_{k-1}U_{k-1}$}} & z_k^{\alpha_1}\\
 & & & & z_k^{\alpha_2}\\
@@ -936,7 +557,7 @@ V_{k} =
 & & & & z_{k}^{\alpha_{k-1}}\\
 z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}} & z_{k}^{\alpha_k}
 \end{pmatrix}
-= 
+=
 \begin{pmatrix}
 \multicolumn{4}{c}{\multirow{4}{*}{$L_{k-1}$}} & z_k^{\alpha_1}\\
 & & & & z_k^{\alpha_2}\\
@@ -952,8 +573,6 @@ z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}} & z_{k}^{\alp
 0 & 0& \cdots & 0 & 1
 \end{pmatrix}.
 \]
-    
-    
     Since $U_{k-1}$ is an upper triangular matrix, $ \begin{pmatrix}
             \multicolumn{4}{c}{\multirow{4}{*}{$U_{k-1}$}} & 0\\
             & & & & 0\\
@@ -988,13 +607,10 @@ z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}} & z_{k}^{\alp
         \end{pmatrix}.
     \end{align*}
 \end{proof}
-
 \begin{remark}\label{rem:historyOfOperations}
     $P_{k-1}$ is the matrix corresponding to the history of operations applied to the columns of $V_{k-1}$ to be able to obtain $EF\left(V_{k-1}\right)$.
 \end{remark}
-
 As a consequence of Remark~\ref{rem:historyOfOperations}, it can be seen that when calculating the column echelon form of the matrix $V_k$ using $P_{k-1}$, we construct the application $P_k$ which can be used to compute the column echelon form of $V_{k+1}$ in the next iteration. Remark~\ref{rem:echelonFormConstructingNextP} shows this more formally.
-
 \begin{remark}\label{rem:echelonFormConstructingNextP}
     \begin{align*}
         EF\left(V_{k}\right) =
@@ -1008,7 +624,7 @@ As a consequence of Remark~\ref{rem:historyOfOperations}, it can be seen that wh
             (z_1^{\alpha_{k}} & z_2^{\alpha_{k}}& \cdots & z_{k-1}^{\alpha_{k}})P_{k-1} & z_{k}^{\alpha_k}
         \end{pmatrix}
         \end{pmatrix}
-        =_p 
+        =_p
         \begin{pmatrix}
             \multicolumn{4}{c}{\multirow{4}{*}{$EF\left(V_{k-1}\right)$}} & 0\\
             & & & & 0\\
@@ -1018,16 +634,12 @@ As a consequence of Remark~\ref{rem:historyOfOperations}, it can be seen that wh
         \end{pmatrix}.
     \end{align*}
 \end{remark}
-
-Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} shows the procedure to calculate the degree of the minimal degree non-zero-annihilator 
-%with degree $\geq 1$ 
+Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} shows the procedure to calculate the degree of the minimal degree non-zero-annihilator
 restricted to $S\subseteq \mathbb{F}_2^n$ of a function $f^{(o)} \in \{f, f+ 1\}$, while Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt}, provided in Appendix~\ref{Appendix:algorithms}, shows the full procedure to determine the restricted algebraic immunity of $f$ in $S$, calling Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} for $f$ and $f+ 1$ in parallel.
-
 Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} which triggers the same process as Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative}, but applies it sequentially to $f$ and $f + 1$, to avoid waiting for both processes to complete simultaneously. This function is triggered only when $\supp(f) \cap S$ and $\supp(f + 1) \cap S$ differ significantly in cardinality, as in such cases, the probability of one of the two processes terminating quickly is high.
-
 \begin{remark}\label{rem:permutationClarification}
     To keep the pseudocode in line with the theory, the elements in the vector or sets are often parsed by name instead of by index, namely let $Z = (z_1, z_2, \cdots, z_k)$ we consider that $Z[i-1] = z_i$.\\
-    Therefore, we have to clarify our notation in the case in which two vector elements get swapped. In the case of Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative}, we consider that the swap generates a new vector with the name of the variables adapted with their index position in the vector to keep satisfying the condition $Z[i-1] = z_{i}$. Meaning that 
+    Therefore, we have to clarify our notation in the case in which two vector elements get swapped. In the case of Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative}, we consider that the swap generates a new vector with the name of the variables adapted with their index position in the vector to keep satisfying the condition $Z[i-1] = z_{i}$. Meaning that
     \begin{align*}
         \mbox{\textsc{swap}}(z_i, z_j) \rightarrow (z_{\sigma(1)}, \cdots, z_{\sigma(i)}, \cdots, z_{\sigma(j)}, \cdots, z_{\sigma(k)}) = Z^{'} = (z^{'}_1, \cdots, z^{'}_i, \cdots, z^{'}_j, \cdots, z^{'}_k)
     \end{align*}
@@ -1039,9 +651,7 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
         \end{pmatrix}.
     \end{align*}
 \end{remark}
-
-\setcounter{algorithm}{1} 
-
+\setcounter{algorithm}{1}
 \begin{algorithm}
 \small
     \caption{Algorithm to compute the algebraic immunity of a function $f\in \Bn{n}$ restricted to $S$}\label{alg:fullAlg3ForAIRestrictesSetOpt}
@@ -1054,7 +664,6 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
             \State \Return $0$;
         \EndIf
         \State
-
         \State $E_{D_n^n} \leftarrow \mbox{\textsc{construct\_monomials}}(n=n, d=n)$\footnotemark;
         \State $r\gets \frac{|Z|}{|Z_c|}$ \textbf{if} $|Z| < |Z_c|$ \textbf{else} $\frac{|Z_c|}{|Z|}$;
         \If{$r \geq \frac{1}{4}$}
@@ -1068,11 +677,8 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
         \EndIf
     \end{algorithmic}
 \end{algorithm}
-
-\footnotetext[2]{\textsc{construct\_monomials}: generates all monomials up to degree $d$ in $n$ vars. $E_{D_n^n}$ can be pre-computed to skip this step.}
-
-\setcounter{algorithm}{0} 
-
+\footnotetext[1]{\textsc{construct\_monomials}: generates all monomials up to degree $d$ in $n$ vars. $E_{D_n^n}$ can be pre-computed to skip this step.}
+\setcounter{algorithm}{0}
 \begin{algorithm}[H]
 \small
 	\caption{Algorithm to find the degree of the minimum-degree non-zero-annihilator restricted on $S$ of a function $f^{(o)}$.}\label{alg:MinDegreeSnonZeroAnnihilatorIterative}
@@ -1143,10 +749,9 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 \small
 	\begin{algorithmic}
 		\algrestore{algo}
-		
 		\While{$r\leq \lfloor|S| / 2\rfloor$}
 		\If{$r_V < k$}
-		\State $\left(v_1, \cdots, v_{k-1}\right) \gets \mbox{\textsc{apply\_operations}}\left(\left(z_1^{\alpha_k}, \cdots, z_{k-1}^{\alpha_k}\right), ops\right)$ 
+		\State $\left(v_1, \cdots, v_{k-1}\right) \gets \mbox{\textsc{apply\_operations}}\left(\left(z_1^{\alpha_k}, \cdots, z_{k-1}^{\alpha_k}\right), ops\right)$
 		\State $V \gets \begin{pmatrix}
 			\multicolumn{5}{c}{\multirow{1}{*}{$V$}} \\
 			v_1 & v_2 & \cdots & v_{k-1} & z_{k}^{\alpha_k}
@@ -1165,75 +770,39 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 		\EndWhile
 	\end{algorithmic}
 \end{algorithm}
-
-\footnotetext[3]{\textsc{find\_deg\_smallest\_S\_annihilator\_seq}: like Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} but finds degree sequentially, not in parallel.}
-\footnotetext[4]{\textsc{apply\_operations}: applies column ops from $P_{k-1}$ (Remark~\ref{rem:historyOfOperations}) to a vector.}
-\footnotetext[5]{\textsc{EF\_last\_col}: variant of \textsc{EF}, echelonizing only last added row/col, not full matrix.}
-\footnotetext[6]{\textsc{vanished\_on}: given ANF coeffs of $g \in \Bn{n}$ and point $z$, returns $True$ if $g(z)=0$, else $False$.}
-\footnotetext[7]{See Remark~\ref{rem:permutationClarification}.}
-
-
-%\footnotetext[1]{\textsc{construct\_monomials} generates all monomials up to the degree $d$ with $n$ variables. $E_{D_n^n}$ may also be pre-computed and the function \textsc{construct\_monomials} removed from the algorithm.}
-%\footnotetext[2]{The implementation of the function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} is similar to the function \textsc{find\_deg\_smallest\_S\_annihilator} described in Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} with the difference that the degree of the minimal-degree non-zero annihilator of $f$ or of $f+ 1$ restricted on $S$, is found sequentially instead of in parallel.}
-
-%\footnotetext[3]{\textsc{apply\_operations} is a function taking a vector and the list of column operations described by $P_{k-1}$ in Remark~\ref{rem:historyOfOperations}}
-%\footnotetext[4]{The implementation of \textsc{EF\_last\_col} is different from the implementation of \textsc{EF}, as it 
-	%uses the fact that it only needs to 
-	%column-echelons the last row and column added instead of the full matrix. }
-%\footnotetext[5]{\textsc{vanished\_on} is a function taking as input the vector of the $ANF$ coefficient of a Boolean function $g \in \Bn{n}$ and a point $z$ on which to evaluate the corresponding Boolean function $g$. If $g$ vanishes in $z$, it returns $True$ otherwise it returns $False$. }
-
-
+\footnotetext[2]{\textsc{find\_deg\_smallest\_S\_annihilator\_seq}: like Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} but finds degree sequentially, not in parallel.}
+\footnotetext[3]{\textsc{apply\_operations}: applies column ops from $P_{k-1}$ (Remark~\ref{rem:historyOfOperations}) to a vector.}
+\footnotetext[4]{\textsc{EF\_last\_col}: variant of \textsc{EF}, echelonizing only last added row/col, not full matrix.}
+\footnotetext[5]{\textsc{vanished\_on}: given ANF coeffs of $g \in \Bn{n}$ and point $z$, returns $True$ if $g(z)=0$, else $False$.}
+\footnotetext[6]{See Remark~\ref{rem:permutationClarification}.}
 \section{Experiments and applications to W(A)PB functions}
 In this section, we apply the algorithms to the weightwise perfectly balanced (WPB) Boolean functions with the intent to study their algebraic immunity restricted to subsets of constant Hamming weight. In particular, we determine the probability distributions of the $\AIk{k}$ of WPB functions and we compute the $\AIk{k}$ of some WPB Boolean functions already studied. In addition, in Appendix~\ref{appendix:algsComparison}, we compare the execution time of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt}.
-%In addition, in Appendix~\ref{appendix:algsComparison}, we provide a comparison of the time execution of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt}.
-%The source code for the implementation of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt}, along with the probability distributions and the values of $\AIk{k}$ for the published functions, can be found in the \href{https://anonymous.4open.science/r/restricted_algebraic_immunity_submission-F2C0}{anynonimus repository}.
-The source code implementing Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt}, along with the probability distributions and the values of $\AIk{k}$ for the published functions, is available in the % \href{https://anonymous.4open.science/r/restricted_algebraic_immunity_submission-F2C0}{anonymous repository}.
+The source code implementing Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt}, along with the probability distributions and the values of $\AIk{k}$ for the published functions, is available in the
 \href{https://github.com/LucaBonamino/restricted_algebraic_immunity}{public repository}.
-
 \FloatBarrier
 \subsection{Determination of $\AIk{k}$ distribution of WPB functions}\label{subsec:AIkWPB}
-%Similarly to what has been done in~\cite{Latin:GinMea23} for the weightwise non-linearity $NL_k$, we determine the discrete probability distribution of the $\AIk{k}$ of weightwise perfectly balanced Boolean functions, describing the probability of a function $f\in \WPB{m}$ of having a certain algebraic immunity restricted on the slice $\Ekn{k}{n}$. A more formal definition in given Definition~\ref{def:distAIk} below
-
-
-
-Similar to the approach in~\cite{Latin:GinMea23} for analyzing the weightwise nonlinearity $\NLk{k}$, we determine the discrete probability distribution of $\AIk{k}$ for weightwise perfectly balanced Boolean functions. 
-This distribution describes the probability that a function $f \in \WPB{m}$ has a specific algebraic immunity restricted to the slice $\Ekn{k}{n}$. 
+Similar to the approach in~\cite{Latin:GinMea23} for analyzing the weightwise nonlinearity $\NLk{k}$, we determine the discrete probability distribution of $\AIk{k}$ for weightwise perfectly balanced Boolean functions.
+This distribution describes the probability that a function $f \in \WPB{m}$ has a specific algebraic immunity restricted to the slice $\Ekn{k}{n}$.
 A formal definition is provided in Definition~\ref{def:distAIk}:
-
 \begin{definition}\label{def:distAIk}
     Let $m \in \N^*$, $n = 2^m$ and $k \in [1,n-1]$, we define the discrete probability distribution of $\AIk{k}$ as:
-%    \begin{align*}
-%        p_{\AIk{k}}(x) = \frac{\bigg|\{f\in \WPB{m}\  |\  \AIk{k}(f) = x\}\bigg|}{|\WPB{m}|}.
-%    \end{align*}
 \[p_{\AIk{k}}(x) = \bigg|\{f\in \WPB{m}\  |\  \AIk{k}(f) = x\}\bigg| \cdot |\WPB{m}|^{-1}\]
 \end{definition}
-
-We aim to determine this distribution for $m = 2, 3$, and $4$. 
+We aim to determine this distribution for $m = 2, 3$, and $4$.
 However, the number of WPB functions increases fast with the growth of $m$, making this computation infeasible for $m > 2$. In fact, as stated in ~\cite{Latin:GinMea23}, $|\WPB{2}| = 720$, while $|\WPB{3}| > 2^{243}$ and $|\WPB{4}| > 2^{65452}$.
-Therefore, we have to take a different approach for $m > 2$ by generating a certain number of samples from the set $\WPB{m}$ and calculating the probability over it. The larger the sample size we select, the better we approximate the distribution. 
+Therefore, we have to take a different approach for $m > 2$ by generating a certain number of samples from the set $\WPB{m}$ and calculating the probability over it. The larger the sample size we select, the better we approximate the distribution.
 Table~\ref{table:probability_distributions} presents the estimated probability distribution obtained.
-
 \begin{definition}
     We define the $\AIk{k}$ distribution over a sample $\Omega$ as:
-%    \begin{align*}
-%        p_{\Omega,\AIk{k} }(x) =  \frac{\bigg|\{f\in \Omega\ | \  \AIk{k}(f) = x\}\bigg|}{|\Omega|}.
-%    \end{align*}
 \[
  p_{\Omega,\AIk{k} }(x) =  \bigg|\{f\in \Omega\ | \  \AIk{k}(f) = x\}\bigg| \cdot |\Omega|^{-1}.\]
 \end{definition}
-
-
 \subsubsection{Determination of the full distribution for \texorpdfstring{m=2}{m=2}}
-For $m=2 \Rightarrow n = 4$, it is possible to determine the full probability distribution from Definition~\ref{def:distAIk} without using the random sampling strategy. 
-The resulting probability distribution table is presented in Table~\ref{table:probabilityDistributionn4}. 
-
-
+For $m=2 \Rightarrow n = 4$, it is possible to determine the full probability distribution from Definition~\ref{def:distAIk} without using the random sampling strategy.
+The resulting probability distribution table is presented in Table~\ref{table:probabilityDistributionn4}.
 \subsubsection{Random Sampling}
-In practice, random sampling is performed by generating a set $\Omega_k = \{\omega_1^{(k)}, \cdots, \omega_{|\Omega|}^{(k)}\}$ consisting of $|\Omega|$ random balanced sub-truth tables for each slice $\Ekn{k}{n}$. 
+In practice, random sampling is performed by generating a set $\Omega_k = \{\omega_1^{(k)}, \cdots, \omega_{|\Omega|}^{(k)}\}$ consisting of $|\Omega|$ random balanced sub-truth tables for each slice $\Ekn{k}{n}$.
 Then, for each slice $\Ekn{k}{n}$, the $\AIk{k}$ is computed for each restricted set in $\Omega_k$ the frequency of each particular $\AIk{k}$ value is recorded.
-%Depending on the value of $m$ and the chosen sample size, the number of sub-truth tables generated may be too large to fit in memory simultaneously. 
-%To address this, it is crucial to avoid storing all elements in memory at once. 
-%Instead, they should be processed one by one, either by computing sequentially or by using iterators. 
 The following procedure is done for each slice $\Ekn{k}{n}$:
 \begin{enumerate}
     \item Initialize a hash table of all possible values of $\AIk{k}$.
@@ -1244,38 +813,27 @@ The following procedure is done for each slice $\Ekn{k}{n}$:
     \end{enumerate}
     \item Divide each value in the hash table by $|\Omega|$.
 \end{enumerate}
-
 \noindent
 \textbf{Results for $n=8$ and sample size$=2^{15}$}.
 Table~\ref{table:probabilityDistributionn8} represents the $\AIk{k}$ distribution.
-We observe that for $n=4$ all WPB functions have the same values of $\AIk{k}$, for every $k$. 
+We observe that for $n=4$ all WPB functions have the same values of $\AIk{k}$, for every $k$.
 However, for $n=8$, there are WPB functions with different restricted $\AIk{k}$, for example with $k=4$ we observe functions reaching the lowest value ($2$, such as families exhibited in~\cite{Latin:GinMea23}) and some reaching $3$ which is optimal for this size.
-
-
 \textbf{Results for $n=16$ and sample size$=2^{10}$}.
 Table~\ref{table:probabilityDistributionn16} represents the $\AIk{k}$ distribution.
 We observe that there are WPB functions with different restricted $\AIk{k}$ for this value of $n$, and that for the central values of $k$, all functions we sampled reach the optimal value of $\AIk{k}$.
-
-%is already enough variability in the corpus of WPB functions to observe 
-
-\footnotetext[8]{Step $2$ may be executed in parallel on the $\omega_i^{(k)}$s if memory is not a constraint. In fact, depending on the value of $m$ and the chosen sample size, the number of sub-truth tables generated may be too large to fit in memory simultaneously.}
-
-%\pmnote{add some comment on the results in 4 and 8 variables.}
-
-
+\footnotetext[7 ]{Step $2$ may be executed in parallel on the $\omega_i^{(k)}$s if memory is not a constraint. In fact, depending on the value of $m$ and the chosen sample size, the number of sub-truth tables generated may be too large to fit in memory simultaneously.}
 \begin{table}[H]
     \centering
     \small
     \caption{$\AIk{k}$ probability distribution of $\WPB{2}$, $\WPB{3}$ and $\WPB{4}$.}
     \label{table:probability_distributions}
-    
     \begin{subtable}[t]{0.4\textwidth}
         \centering
         \caption{Probability distribution $p_{\AIk{k}}$ for $n=4$, $m=2$.}
         \label{table:probabilityDistributionn4}
-        \renewcommand{\arraystretch}{1.2} % Improve readability
+        \renewcommand{\arraystretch}{1.2}
     \resizebox{0.8\textwidth}{!}{
-    \renewcommand{\tabcolsep}{2pt}	
+    \renewcommand{\tabcolsep}{2pt}
     \begin{tabular}{r|rrrrr}
     	\toprule
     	$p(x)$, $k$ & 0 & 1 & 2 & 3 & 4 \\
@@ -1286,15 +844,14 @@ We observe that there are WPB functions with different restricted $\AIk{k}$ for 
     	\bottomrule
     \end{tabular}
     }
-    \end{subtable}%
+    \end{subtable}
     \hfill
     \begin{subtable}[t]{0.55\textwidth}
         \centering
         \caption{Probability distribution $p_{\Omega, \AIk{k}}$ for $n=8$, $m=3$, $\Omega = 2^{15}$.}
         \label{table:probabilityDistributionn8}
         \renewcommand{\arraystretch}{1.2}
-
-\renewcommand{\tabcolsep}{2pt}	
+\renewcommand{\tabcolsep}{2pt}
 \resizebox{0.8\textwidth}{!}{
 \begin{tabular}{r|rrrrrrrrr}
 	\toprule
@@ -1306,21 +863,17 @@ We observe that there are WPB functions with different restricted $\AIk{k}$ for 
 	3 & 0.00 & 0.00 & 0.00 & 0.02 & 0.13 & 0.02 & 0.00 & 0.00 & 0.00 \\
 	4 & 0.00 & 0.00 & 0.00 & 0.00 & 0.87 & 0.00 & 0.00 & 0.00 & 0.00 \\
 	\bottomrule
-\end{tabular}    
+\end{tabular}
 }
     \end{subtable}
-
-    \vspace{1em} % Add some space between rows of tables
-
+    \vspace{1em}
     \begin{subtable}[t]{1\textwidth}
         \centering
         \caption{Probability distribution $p_{\Omega, \AIk{k}}$ for $n=16$, $m=4$, $\Omega = 2^{10}$.}
         \label{table:probabilityDistributionn16}
         \renewcommand{\arraystretch}{1.2}
-
-
  \resizebox{\textwidth}{!}{
- \renewcommand{\tabcolsep}{2pt}	
+ \renewcommand{\tabcolsep}{2pt}
  \begin{tabular}{r|rrrrrrrrrrrrrrrrr}
  	\toprule
  	$p(x)$, $k$ & 0  & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9  & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
@@ -1335,50 +888,27 @@ We observe that there are WPB functions with different restricted $\AIk{k}$ for 
  	\bottomrule
  \end{tabular}
  }
- 
- 
     \end{subtable}
-
 \end{table}
-
 \FloatBarrier
 \subsection{Determination of $\AIk{k}$ of known WPB families}\label{subsec:AIkknownFam}
 In this part, we determine the $\AIk{k}$s of functions introduced in~\cite{Mat:ZJZQ23},~\cite{AMC:DalMal23},~\cite{CC:TangLiu19} and in~\cite{TOSC:CarMeaRot17} for $n=8$ and $16$ variables.
-
-The results are summarized in Table~\ref{table:publiedFunctions}. 
+The results are summarized in Table~\ref{table:publiedFunctions}.
 Of the four WPB calculations we performed, the one in ~\cite{CC:TangLiu19} is the one that would resist the best to algebraic attacks (with constant Hamming weight inputs), as it achieves higher $\AIk{k}$ values for both $n = 8$ and $ n = 16$. In contrast, the one in~\cite{Mat:ZJZQ23}, would be the least resistant, as it has the overall lower $\AIk{k}$ for both $n=8$ and $n=16$. Specifically:
 \begin{itemize}
-\item $n=8$. 
+\item $n=8$.
 The function in~\cite{Mat:ZJZQ23} has a constant $\AIk{k}$ of $2$ for $k \in [2, 6]$ and the functions in~\cite{TOSC:CarMeaRot17} a constant $\AIk{k}$ of $2$ for $k \in [3, 6]$, whereas the functions in~\cite{AMC:DalMal23} and in~\cite{CC:TangLiu19} achieve an $\AIk{4}$ of $3$.
-
-\item $n=16$. 
-The function in~\cite{Mat:ZJZQ23} again has a constant $\AIk{k}$ of $2$ for $k \in [2, 14]$. 
+\item $n=16$.
+The function in~\cite{Mat:ZJZQ23} again has a constant $\AIk{k}$ of $2$ for $k \in [2, 14]$.
 In contrast, the function in~\cite{CC:TangLiu19} achieves an $\AIk{k}$ of $3$ for $k = 4,5,11$ and $12$, an $\AIk{k}$ of $4$ for $k = 6,7,9$ and $10$ and an $\AIk{k}$ of $5$ for $k=8$. The functions~\cite{AMC:DalMal23} and in~\cite{TOSC:CarMeaRot17}, both reach an $\AIk{k}$ of $3$ but for $k\in [4,12]$ and $k\in [5,13]$ respectively.
 \end{itemize}
-
-%Table~\ref{table:publiedFunctions} shows these results. 
-%We see that~\cite{AMC:DalMal23} is more secure than~\cite{Mat:ZJZQ23} since it has a better $\AIk{k}$s for both $n=8$ and $n=16$. In particular
-%\begin{description}
-%	\item[n=8] ~\cite{Mat:ZJZQ23} has a constant $AI_k$ of $2$ for $k\in [2,7]$, while ~\cite{AMC:DalMal23} has a $AI_k$ of $3$ for $k=5$
-%	\item[n=16] ~\cite{Mat:ZJZQ23} has a constant $AI_k$ of $2$, $k\in [2,14]$, while ~\cite{AMC:DalMal23} has a $AI_k$ of $3$ for $k=5,7,9$ and $11$.
-%\end{description}
-
 The maximum execution times for~\cite{AMC:DalMal23}, ~\cite{Mat:ZJZQ23},~\cite{CC:TangLiu19} and~\cite{TOSC:CarMeaRot17} with $n=8$ occur with $k=4$ and are around $0.014$, $0.029$, $0.011$ and $0.012$ seconds, respectively.
-% LT19 k=8 time = 126.627561
-% ZS k=8 time = 5.898671
-% DM24 k = 9 time = 7.935819
-% CMR k = 8 time = 12.048051
 For $n=16$, the maximum execution times for~\cite{Mat:ZJZQ23},~\cite{CC:TangLiu19} and ~\cite{TOSC:CarMeaRot17} occur with $k=8$ and are $5.898671$, $126.627561$ and $12.048051$ seconds respectively. In contrast, for~\cite{AMC:DalMal23}, the maximum execution time occurs for $k=9$ and is $7.935819$ seconds.
-
-
-
 \begin{table}[H]
 \center
-%\renewcommand{\tabcolsep}{0.5pt}	
 \caption{$\AIk{k}$ of the construction from~\cite{AMC:DalMal23}, from~\cite{Mat:ZJZQ23}, from~\cite{CC:TangLiu19} and from~\cite{TOSC:CarMeaRot17} with $m=3$ ($n=8$) and $m=4$ ($n=16$).\label{table:publiedFunctions}}
-%\resizebox{\textwidth}{!}{
 \resizebox{0.6\textwidth}{!}{
-\renewcommand{\tabcolsep}{3pt}	
+\renewcommand{\tabcolsep}{3pt}
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 \hline
 \multicolumn{18}{|c|}{~\cite{AMC:DalMal23}} \\
@@ -1412,20 +942,16 @@ $n$, $k$ & $0$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$ & $1
 \end{tabular}
 }
 \end{table}
-
-
-In Table~\ref{tab:WPB8}, we summarize the results on $\AIk{k}$ for WPB functions with $8$ variables, including both our findings and those from the state of the art.  
-Similarly, Table~\ref{tab:WPB16} presents the corresponding results for functions with $16$ variables.  
+In Table~\ref{tab:WPB8}, we summarize the results on $\AIk{k}$ for WPB functions with $8$ variables, including both our findings and those from the state of the art.
+Similarly, Table~\ref{tab:WPB16} presents the corresponding results for functions with $16$ variables.
 We observe that most of the studied families exhibit lower weightwise algebraic immunity than a randomly chosen WPB function, with the exception of the field order construction~\cite{SAC:Meaux24} (usually a function is considered good if its parameters are the same or better than the ones of a random function).
-
-
 \begin{table}[H]
-	\center 
+	\center
     \resizebox{0.5\textwidth}{!}{
-	\renewcommand{\tabcolsep}{1.8pt}	
+	\renewcommand{\tabcolsep}{1.8pt}
 	\begin{tabular}{|c| c|c|c|c|c|}
 		\hline
-        Function &  $\AIk{2}$ & $\AIk{3}$ & $\AIk{4}$ &  $\AIk{5}$ & $\AIk{6}$  \\ \hline 
+        Function &  $\AIk{2}$ & $\AIk{3}$ & $\AIk{4}$ &  $\AIk{5}$ & $\AIk{6}$  \\ \hline
 		\cite{AMC:DalMal23} & $1$ &  $2$ & $3$  &  $2$ & $2$ \\ \hline
 		\cite{Mat:ZJZQ23} & $2$ &  $2$ & $2$  &  $2$ & $2$ \\ \hline
         \cite{CC:TangLiu19} & $2$ &  $2$ & $3$  &  $2$ & $2$ \\ \hline
@@ -1433,138 +959,90 @@ We observe that most of the studied families exhibit lower weightwise algebraic 
 		Estimated average & $1.95$ &  $2.02$ & $2.88$  &  $2.02$ & $1.95$ \\ \hline
 		Field order~\cite{SAC:Meaux24} &$ 1$& $2$& $3$& $2$ &$2$ \\	\hline
 		Upper bound & $2$ &  $3$ & $3$  &  $3$ & $2$ \\	\hline
-	
-		
 	\end{tabular}
     }
 	\caption{$\AIk{k}$ of WPB functions in $8$ variables.}
 	\label{tab:WPB8}
 \end{table}
-
-
 \begin{table}[H]
-	\centering 
+	\centering
     \resizebox{\textwidth}{!}{
-	\renewcommand{\tabcolsep}{1.8pt}	
+	\renewcommand{\tabcolsep}{1.8pt}
 	\begin{tabular}{|c| c|c|c|c|c| c|c|c|c|c| c|c|c| }
 		\hline
-		Function &  $\AIk{2}$ & $\AIk{3}$ & $\AIk{4}$ &  $\AIk{5}$ & $\AIk{6}$ &  $\AIk{7}$ & $\AIk{8}$ & $\AIk{9}$ &  $\AIk{10}$ & $\AIk{11}$ &  $\AIk{12}$ & $\AIk{13}$ & $\AIk{14}$ \\ \hline 
-		
+		Function &  $\AIk{2}$ & $\AIk{3}$ & $\AIk{4}$ &  $\AIk{5}$ & $\AIk{6}$ &  $\AIk{7}$ & $\AIk{8}$ & $\AIk{9}$ &  $\AIk{10}$ & $\AIk{11}$ &  $\AIk{12}$ & $\AIk{13}$ & $\AIk{14}$ \\ \hline
 \cite{AMC:DalMal23}		&$ 1$& $2$& $3$& $3$ &$3$ & $3$ &$3$ &$3$ &$3$ &$3$ &$3$ &$2$
 	 &$2$ \\ \hline
 \cite{Mat:ZJZQ23}		&$ 2$& $2$& $2$& $2$ &$2$ & $2$ &$2$ &$2$ &$2$ &$2$ &$2$ &$2$
 &$2$ \\ \hline
 \cite{CC:TangLiu19}		&$ 2$& $2$& $3$& $3$ &$4$ & $4$ &$5$ &$4$ &$4$ &$3$ &$3$ &$2$
-&$2$ \\ \hline	
+&$2$ \\ \hline
 \cite{TOSC:CarMeaRot17}		&$1$& $2$& $2$& $3$ &$3$ & $3$ &$3$ &$3$ &$3$ &$3$ &$3$ &$3$
-&$2$ \\ \hline	
+&$2$ \\ \hline
 		Estimated average &$2.00$& $2.99$& $3.89$& $4.37$ &$5.00$ & $6.00$ &$6.00$ &$6.00$ &5.00 &$4.40$ &$3.87$ &$2.99$ &$2.00$ \\ \hline
-%2 3 4 4 5 6 6 6 5 4 3 2 2		
 		Field order~\cite{SAC:Meaux24} &$ 2$& $3$& $4$& $4$ &$5$ & $6$ &$6$ &$6$ &$5$ &$4$ &$3$ &$2$ &$2$ \\	\hline
 		Upper bound &$ 2$& $3$& $4$& $5$ &$5$ & $6$ &$6$ &$6$ &$5$ &$5$ &$4$ &$3$ &$2$  \\	\hline
-		
-		
 	\end{tabular}
     }
 	\caption{$\AIk{k}$ of WPB functions in $16$ variables.}
 	\label{tab:WPB16}
 \end{table}
-
-%\section{Conclusion and open questions}
 \section{Conclusion}
-
-
-%In this article we formalized the main theoretical arguments and provided the algorithms to compute the restricted algebraic immunity over any set $S \subset \F_2^n$, using the Reed-Muller and the iterative approach.
-%We compared the complexity of our algorithms in practice, and showed the iterative approach is more performant. Then, we used our results to compute or estimate for the first time the distribution of the $\AI_k$ of WPB functions in $4$, $8$ and $16$ variables. 
-%Moreover we determined the $\AI_k$ of various family of WPB functions exhibited in former works, and show that most of them perform worse than a random WPB function relatively to this parameter.
-
-%We hope formalizing the theoretical background and providing algorithms and implementations for the computation of the restricted algebraic immunity will be useful for further research and implementation of variants of the algebraic attack. 
-
-
-In this article, we formalized the main theoretical foundations and provided algorithms for computing restricted algebraic immunity over any set $S \subseteq \F_2^n$, using both the Reed-Muller and iterative approaches. 
-We compared the practical complexity of these algorithms and showed that the iterative approach is more efficient. 
-Additionally, we applied our methods to compute or estimate, for the first time, the distribution of $\AI_k$ for WPB functions with $4$, $8$, and $16$ variables. 
-Furthermore, we determined the values of $\AI_k$ for various families of WPB functions introduced in previous works and showed that, in most cases, these functions exhibit lower weightwise algebraic immunity than a randomly chosen WPB function.  
-
-By formalizing the theoretical background and providing both algorithms and implementations for computing restricted algebraic immunity, we hope this work will contribute to further research and the practical implementation of algebraic attack variants. 
-
+In this article, we formalized the main theoretical foundations and provided algorithms for computing restricted algebraic immunity over any set $S \subseteq \F_2^n$, using both the Reed-Muller and iterative approaches.
+We compared the practical complexity of these algorithms and showed that the iterative approach is more efficient.
+Additionally, we applied our methods to compute or estimate, for the first time, the distribution of $\AI_k$ for WPB functions with $4$, $8$, and $16$ variables.
+Furthermore, we determined the values of $\AI_k$ for various families of WPB functions introduced in previous works and showed that, in most cases, these functions exhibit lower weightwise algebraic immunity than a randomly chosen WPB function.
+By formalizing the theoretical background and providing both algorithms and implementations for computing restricted algebraic immunity, we hope this work will contribute to further research and the practical implementation of algebraic attack variants.
 \section{Acknowledgments}
 Pierrick Méaux was supported by the ERC Advanced Grant no. 787390.
-
-%\newpage
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%~
-
-
 \ifnum\full=0
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{splncs04}
 \bibliography{add}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \else
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{alpha}
 \bibliography{add}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \fi
-
 \appendix
-
 \section{Comparison between Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} on WAPB functions}\label{appendix:algsComparison}
-
-In this part, we compare the execution times of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} by running both algorithms on multiple WAPB functions restricted to the largest set $\Ekn{\lceil{n/2}\rceil}{n}$, with different numbers of variables. 
+In this part, we compare the execution times of Algorithm~\ref{alg:RMApproach} and Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} by running both algorithms on multiple WAPB functions restricted to the largest set $\Ekn{\lceil{n/2}\rceil}{n}$, with different numbers of variables.
 Specifically, the experiment is done by running the algorithms with the number of variables $n$ going from $1$ to $12$. For both algorithms, if $n \leq 4$, we calculate the average over the $\AIk{\lceil{n/2}\rceil}$ of all functions in $\WAPB{n}$, whereas for $n > 4$, we calculate the average over the $\AIk{\lceil{n/2}\rceil}$ of a random sample of $10^4$ $\WAPB{n}$ functions.
-
 Figure~\ref{fig:compTimePlot} shows the mean execution time per value of $n$ of the two algorithms.
-We denote by $T\left(G^{\leq n_{max}}\right) = T\left(G^{\leq 12} \right)$ the necessary time to pre-compute all the necessary Reed-Muller codes's generator matrices following Equation~\eqref{eq:matricesHashTable}: we recall that it is the necessary time to compute the sequence $\left(G_{n,n}\right)_{n\in [1,12=n_{max}]}$, not only the generator matrix $G_{n,n}$ for the current iteration $n$. 
-In fact, $T\left(G^{\leq 12}\right)$ is constant, that is because the computation occurs before beginning the experiment since it is expected that Algorithm~\ref{alg:RMApproach} is able to run for any number of variable $n$ up to an upper bound $n_{max}$, without having to compute the Reed-Muller code for it. 
-
+We denote by $T\left(G^{\leq n_{max}}\right) = T\left(G^{\leq 12} \right)$ the necessary time to pre-compute all the necessary Reed-Muller codes's generator matrices following Equation~\eqref{eq:matricesHashTable}: we recall that it is the necessary time to compute the sequence $\left(G_{n,n}\right)_{n\in [1,12=n_{max}]}$, not only the generator matrix $G_{n,n}$ for the current iteration $n$.
+In fact, $T\left(G^{\leq 12}\right)$ is constant, that is because the computation occurs before beginning the experiment since it is expected that Algorithm~\ref{alg:RMApproach} is able to run for any number of variable $n$ up to an upper bound $n_{max}$, without having to compute the Reed-Muller code for it.
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{images/plot_n_12_sample_10000.png}
-    \caption{Average time execution per number of variables of Algorithms~\ref{alg:RMApproach} and \ref{alg:fullAlg3ForAIRestrictesSetOpt} over $10^4$ random $\WAPB{n}$ functions on the set $E_{\lceil{n/2}\rceil,n}$. 
+    \caption{Average time execution per number of variables of Algorithms~\ref{alg:RMApproach} and \ref{alg:fullAlg3ForAIRestrictesSetOpt} over $10^4$ random $\WAPB{n}$ functions on the set $E_{\lceil{n/2}\rceil,n}$.
     $T\left(G^{\leq 12}\right)$ gives the time of the pre-computation of the sequence of all Reed-Muller matrices up to $G_{12,12}$.}\label{fig:compTimePlot}
 \end{figure}
-
-The pre-computation times of $G^{\leq n_{max}}$ for Algorithm~\ref{alg:RMApproach} are given in the Table~\ref{table:preComputationTimes}. From Figure~\ref{fig:compTimePlot}, we observe that Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} outperforms Algorithm~\ref{alg:RMApproach} for $n \leq 12$, even without considering the pre-computation time required for $G^{\leq n_{max}}$ and $D^{\leq n_{max}}$ in Algorithm~\ref{alg:RMApproach}. Furthermore, Algorithm~\ref{alg:RMApproach} becomes impractical for $n > 12$ due to the excessive complexity of pre-computation. In contrast, Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} remains feasible for larger values of $n$. 
-
+The pre-computation times of $G^{\leq n_{max}}$ for Algorithm~\ref{alg:RMApproach} are given in the Table~\ref{table:preComputationTimes}. From Figure~\ref{fig:compTimePlot}, we observe that Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} outperforms Algorithm~\ref{alg:RMApproach} for $n \leq 12$, even without considering the pre-computation time required for $G^{\leq n_{max}}$ and $D^{\leq n_{max}}$ in Algorithm~\ref{alg:RMApproach}. Furthermore, Algorithm~\ref{alg:RMApproach} becomes impractical for $n > 12$ due to the excessive complexity of pre-computation. In contrast, Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} remains feasible for larger values of $n$.
 \begin{table}[H]
 \centering
 \resizebox{\textwidth}{!}{
-\renewcommand{\tabcolsep}{2pt}	
+\renewcommand{\tabcolsep}{2pt}
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
-%\toprule
 \hline
     $G^{\leq 1}$  & $G^{\leq 2}$  &$G^{\leq 3}$  & $G^{\leq 4}$  & $G^{\leq 5}$  & $G^{\leq 6}$  & $G^{\leq 7}$  &$G^{\leq 8}$ & $G^{\leq 9}$ & $G^{\leq 10}$ & $G^{\leq 11}$  & $G^{\leq 12}$ \\
- %   \midrule
  \hline
      0.0126 & 0.0042 & 0.0017 & 0.004 & 0.0149 & 0.0470 & 0.1938 & 0.806& 3.5456& 14.9168& 65.5014 & 276.2263\\
-%     \bottomrule
 \hline
 \end{tabular}
 }
 \caption{Pre-computation time (in seconds) for $G^{\leq n_{max}}$ for $n_{max}$ from $1$ to $12$.}\label{table:preComputationTimes}
 \end{table}
-
 Both implementations of the algorithms used to generate the plot in Figure~\ref{fig:compTimePlot} have been developed in \textit{Python}, with the following enhancements:
 \begin{itemize}
 \item The linear algebra operations in Algorithm~\ref{alg:RMApproach} are performed using the \textit{SageMath} library, while those in Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} are executed using an ad-hoc custom \textit{Python} package implemented in \textit{Rust}. This setup ensures comparability between the two implementations, as the \textit{SageMath} library is highly optimized for linear algebra operations.
 \item The computation of $G^{\leq n_{max}}$ for Algorithm~\ref{alg:RMApproach} is performed using the \textit{generator\_matrix} method of the \textit{SageMath} object \textit{BinaryReedMullerCodes}. While this computation could be more efficient if implemented in \textit{Rust}, the current overall implementation still faces scalability issues. Specifically, for $n \geq 16$, the algorithm becomes impractical because $G_{16,16}$ cannot be stored in a native \textit{Python} list or a \textit{SageMath} matrix object. However, if the entire algorithm were implemented in \textit{Rust}, it could potentially be feasible. Consequently, for larger values of $n$, Algorithm~\ref{alg:RMApproach} is not usable, while Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} remains viable.
 \end{itemize}
-
-\setcounter{algorithm}{2} 
-
-%\newpage
+\setcounter{algorithm}{2}
 \section{Algorithms}\label{Appendix:algorithms}
-
 \begin{algorithm}[H]
 \small
-%	\caption{Algorithm to find the algebraic immunity of a function $f$ on the restricted set $S\subseteq \mathbb{F}_2^n$.}
 	\caption{Algebraic immunity of $f$ restricted to the set $S$, Reed-Muller method.}\label{alg:RMApproach}
 	\begin{algorithmic}[1]
 		\Require $x\in \mathbb{F}_2^{2^n}$ evaluation of the truth table of $f\in \Bn{n}$ and the restricted set $S\subseteq \mathbb{F}_2^n$.
 		\Ensure $\AI_S(f)$
-		
 		\Function{find\_deg\_smallest\_S\_annihilator}{$G_{n,n}^{f_Z^{(o)},S}, G_{d,n}^{S}, D^n$}
 		\State $r,i, previousIndex\gets 0,0,0$;
 		\State $ef_f, ef_S \gets null, null$;
@@ -1597,10 +1075,7 @@ Both implementations of the algorithms used to generate the plot in Figure~\ref{
 		\State \Return $\mbox{\textsc{min}}(immunity_f, immunity_{f+1})$\footnotemark;
 	\end{algorithmic}
 \end{algorithm}
-\footnotetext[9]{The symbol $||$ is used as row-concatenation of matrices, meaning that $C = A||B$ is the matrix constructed by appending all the row of the matrix $B$ to the matrix $A$.}
-\footnotetext[10]{\textsc{construct\_restricted\_generator\_matrices} is a function extracting $G_{n,n}^{f_{supp(f)\cap S},S}$, $G_{n,n}^{f_{supp(f+1)\cap S},S}$ and $G_{n,n}^{S}$ from the full Reed-Muller code generator matrix $G_{n,n}$ following Definition \ref{def:generatorsS}.}
-\footnotetext[11]{The function \textsc{min} takes care of $null$ values: $\mbox{\textsc{min}}(immunity_f, null) = immunity_f$ and $\mbox{\textsc{min}}(null, immunity_{f+1}) = immunity_{f+1}$.}
-
-
+\footnotetext[8]{The symbol $||$ is used as row-concatenation of matrices, meaning that $C = A||B$ is the matrix constructed by appending all the row of the matrix $B$ to the matrix $A$.}
+\footnotetext[9]{\textsc{construct\_restricted\_generator\_matrices} is a function extracting $G_{n,n}^{f_{supp(f)\cap S},S}$, $G_{n,n}^{f_{supp(f+1)\cap S},S}$ and $G_{n,n}^{S}$ from the full Reed-Muller code generator matrix $G_{n,n}$ following Definition \ref{def:generatorsS}.}
+\footnotetext[10]{The function \textsc{min} takes care of $null$ values: $\mbox{\textsc{min}}(immunity_f, null) = immunity_f$ and $\mbox{\textsc{min}}(null, immunity_{f+1}) = immunity_{f+1}$.}
 \end{document}
-x
