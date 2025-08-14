@@ -937,11 +937,13 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 	\end{algorithmic}
 \end{algorithm}
 
-\footnotetext[3]{\textsc{find\_deg\_smallest\_S\_annihilator\_seq}: like Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} but finds degree sequentially, not in parallel.}
-\footnotetext[4]{\textsc{apply\_operations}: applies column ops from $P_{k-1}$ (Remark~\ref{rem:historyOfOperations}) to a vector.}
-\footnotetext[5]{\textsc{EF\_last\_col}: variant of \textsc{EF}, echelonizing only last added row/col, not full matrix.}
-\footnotetext[6]{\textsc{vanished\_on}: given ANF coeffs of $g \in \Bn{n}$ and point $z$, returns $True$ if $g(z)=0$, else $False$.}
-\footnotetext[7]{See Remark~\ref{rem:permutationClarification}.}
+\footnotetext[2]{\textsc{apply\_operations}: applies column ops from $P_{k-1}$ (Remark~\ref{rem:historyOfOperations}) to a vector.}
+\footnotetext[3]{\textsc{EF\_last\_col}: variant of \textsc{EF}, echelonizing only last added row/col, not full matrix.}
+\footnotetext[4]{\textsc{vanished\_on}: given ANF coeffs of $g \in \Bn{n}$ and point $z$, returns $True$ if $g(z)=0$, else $False$.}
+\footnotetext[5]{See Remark~\ref{rem:permutationClarification}.}
+\footnotetext[6]{\textsc{construct\_monomials}: generates all monomials up to degree $d$ in $n$ vars. $E_{D_n^n}$ can be pre-computed to skip this step.}
+\footnotetext[7]{\textsc{find\_deg\_smallest\_S\_annihilator\_seq}: like Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} but finds degree sequentially, not in parallel.}
+
 
 
 
@@ -970,19 +972,6 @@ Algorithm~\ref{alg:fullAlg3ForAIRestrictesSetOpt} includes the additional functi
 		\EndIf
 	\end{algorithmic}
 \end{algorithm}
-
-\footnotetext[2]{\textsc{construct\_monomials}: generates all monomials up to degree $d$ in $n$ vars. $E_{D_n^n}$ can be pre-computed to skip this step.}
-
-%\footnotetext[1]{\textsc{construct\_monomials} generates all monomials up to the degree $d$ with $n$ variables. $E_{D_n^n}$ may also be pre-computed and the function \textsc{construct\_monomials} removed from the algorithm.}
-%\footnotetext[2]{The implementation of the function \textsc{find\_deg\_smallest\_S\_annihilator\_seq} is similar to the function \textsc{find\_deg\_smallest\_S\_annihilator} described in Algorithm~\ref{alg:MinDegreeSnonZeroAnnihilatorIterative} with the difference that the degree of the minimal-degree non-zero annihilator of $f$ or of $f+ 1$ restricted on $S$, is found sequentially instead of in parallel.}
-
-%\footnotetext[3]{\textsc{apply\_operations} is a function taking a vector and the list of column operations described by $P_{k-1}$ in Remark~\ref{rem:historyOfOperations}}
-%\footnotetext[4]{The implementation of \textsc{EF\_last\_col} is different from the implementation of \textsc{EF}, as it 
-	%uses the fact that it only needs to 
-	%column-echelons the last row and column added instead of the full matrix. }
-%\footnotetext[5]{\textsc{vanished\_on} is a function taking as input the vector of the $ANF$ coefficient of a Boolean function $g \in \Bn{n}$ and a point $z$ on which to evaluate the corresponding Boolean function $g$. If $g$ vanishes in $z$, it returns $True$ otherwise it returns $False$. }
-
-
 
 
 \section{Experiments and applications to W(A)PB functions}
